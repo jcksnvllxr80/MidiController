@@ -1,0 +1,156 @@
+<?xml version="1.0"?>
+<song name="Victory-Lead">
+    <tempo>110</tempo>
+    <part name="Intro">
+        <position>1</position>
+        <pedal name="RCBooster">
+            <engaged>True</engaged>
+        </pedal>
+        <pedal name="DeepSix">
+            <engaged>True</engaged>
+        </pedal>
+        <pedal name="AngryCharlie">
+            <engaged />
+        </pedal>
+        <pedal name="ScarlettLove">
+            <engaged>True</engaged>
+            <setting>Plexi</setting>
+        </pedal>
+        <pedal name="POG">
+            <engaged />
+        </pedal>
+        <pedal name="ElCapistan">
+            <engaged />
+        </pedal>
+        <pedal name="SuperPulsar">
+            <engaged />
+            <setting>1</setting>
+        </pedal>
+        <pedal name="TimeLine">
+            <engaged />
+            <setting>2</setting>
+        </pedal>
+        <pedal name="BigSky">
+            <engaged>True</engaged>
+            <setting>1</setting>
+        </pedal>
+		<pedal name="QuartzV2">
+			<engaged>True</engaged>
+            <setting>0</setting>
+        </pedal>
+    </part>
+    <part name="Verse">
+        <position>2</position>
+                <pedal name="RCBooster">
+            <engaged>True</engaged>
+        </pedal>
+        <pedal name="DeepSix">
+            <engaged>True</engaged>
+        </pedal>
+        <pedal name="AngryCharlie">
+            <engaged />
+        </pedal>
+        <pedal name="ScarlettLove">
+            <engaged>True</engaged>
+            <setting>Plexi</setting>
+        </pedal>
+        <pedal name="POG">
+            <engaged />
+        </pedal>
+        <pedal name="ElCapistan">
+            <engaged />
+        </pedal>
+        <pedal name="SuperPulsar">
+            <engaged />
+            <setting>1</setting>
+        </pedal>
+        <pedal name="TimeLine">
+            <engaged />
+            <setting>2</setting>
+        </pedal>
+        <pedal name="BigSky">
+            <engaged>True</engaged>
+            <setting>1</setting>
+        </pedal>
+		<pedal name="QuartzV2">
+			<engaged>True</engaged>
+            <setting>0</setting>
+        </pedal>
+    </part>
+    <part name="Chorus">
+        <position>3</position>
+                <pedal name="RCBooster">
+            <engaged>True</engaged>
+        </pedal>
+        <pedal name="DeepSix">
+            <engaged>True</engaged>
+        </pedal>
+        <pedal name="AngryCharlie">
+            <engaged>True</engaged>
+        </pedal>
+        <pedal name="ScarlettLove">
+            <engaged>True</engaged>
+            <setting>Plexi</setting>
+        </pedal>
+        <pedal name="POG">
+            <engaged />
+        </pedal>
+        <pedal name="ElCapistan">
+            <engaged />
+        </pedal>
+        <pedal name="SuperPulsar">
+            <engaged />
+            <setting>1</setting>
+        </pedal>
+        <pedal name="TimeLine">
+            <engaged />
+            <setting>2</setting>
+        </pedal>
+        <pedal name="BigSky">
+            <engaged>True</engaged>
+            <setting>1</setting>
+        </pedal>
+		<pedal name="QuartzV2">
+			<engaged>True</engaged>
+            <setting>0</setting>
+        </pedal>
+    </part>
+    <part name="Bridge">
+        <position>4</position>
+                <pedal name="RCBooster">
+            <engaged>True</engaged>
+        </pedal>
+        <pedal name="DeepSix">
+            <engaged>True</engaged>
+        </pedal>
+        <pedal name="AngryCharlie">
+            <engaged>True</engaged>
+        </pedal>
+        <pedal name="ScarlettLove">
+            <engaged>True</engaged>
+            <setting>Plexi</setting>
+        </pedal>
+        <pedal name="POG">
+            <engaged>True</engaged>
+        </pedal>
+        <pedal name="ElCapistan">
+            <engaged />
+        </pedal>
+        <pedal name="SuperPulsar">
+            <engaged />
+            <setting>1</setting>
+        </pedal>
+        <pedal name="TimeLine">
+            <engaged />
+            <setting>2</setting>
+        </pedal>
+        <pedal name="BigSky">
+            <engaged>True</engaged>
+            <setting>1</setting>
+        </pedal>
+		<pedal name="QuartzV2">
+			<engaged>True</engaged>
+            <setting>0</setting>
+        </pedal>
+    </part>
+</song>

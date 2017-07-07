@@ -1,0 +1,86 @@
+<?xml version='1.0' encoding='us-ascii'?>
+<PedalGroup name="Default">
+	<knobColor>Green</knobColor>
+	<knobBrightness>100</knobBrightness>
+	<tempo>106</tempo>
+	<setList>2016-09-16 Set</setList>
+	<song>Victory - Lead</song>
+	<part>Intro</part>
+	<mode>Song</mode>
+	<fontType>verminVibes</fontType>
+	<fontSize>38</fontSize>
+	<op1>Switch Mode</op1>
+	<op2>Song Down</op2>
+	<op3>Part Down</op3>
+	<op4>Part Up</op4>
+	<op5>Song Up</op5>
+    <pedal brand="Strymon" name="TimeLine" type="TimeLine">
+        <engaged>True</engaged>
+        <preset>1</preset>
+        <midiChannel>2</midiChannel>
+    </pedal>
+    <pedal brand="Strymon" name="BigSky" type="MidiNonLoopPedal">
+        <engaged>True</engaged>
+        <preset>2</preset>
+        <midiChannel>3</midiChannel>
+    </pedal>
+	<pedal brand="Selah" name="QuartzV2" type="MidiNonLoopPedal">
+        <engaged>True</engaged>
+		<preset>2</preset>
+        <midiChannel>1</midiChannel>
+    </pedal>
+    <pedal name="RCBooster" type="LoopPedal">
+        <engaged>True</engaged>
+        <button>1</button>
+        <funcTwoType>None</funcTwoType>
+        <funcTwoPort>None</funcTwoPort>
+    </pedal>
+    <pedal name="DeepSix" type="LoopPedal">
+        <engaged>True</engaged>
+        <button>2</button>
+        <funcTwoType>None</funcTwoType>
+        <funcTwoPort>None</funcTwoPort>
+    </pedal>
+    <pedal name="Empty" type="Empty">
+        <button>3</button>
+    </pedal>
+    <pedal name="AngryCharlie" type="LoopPedal">
+        <engaged />
+        <button>4</button>
+        <funcTwoType>None</funcTwoType>
+        <funcTwoPort>None</funcTwoPort>
+    </pedal>
+    <pedal brand="Selah" name="ScarlettLove" type="MidiLoopPedal">
+        <engaged>True</engaged>
+        <midiChannel>16</midiChannel>
+        <preset>Plexi</preset>
+        <button>5</button>
+        <funcTwoType>MIDI</funcTwoType>
+        <funcTwoPort>CYCLE_CLIP_CC</funcTwoPort>
+    </pedal>
+    <pedal name="POG" type="LoopPedal">
+        <engaged />
+        <button>6</button>
+        <funcTwoType>None</funcTwoType>
+        <funcTwoPort>None</funcTwoPort>
+    </pedal>
+    <pedal name="ElCapistan" type="LoopPedal">
+        <engaged />
+        <button>7</button>
+        <funcTwoType>Latching</funcTwoType>
+        <funcTwoPort>EXP_TIP_1</funcTwoPort>
+    </pedal>
+    <pedal name="SuperPulsar" type="LoopPedal">
+        <engaged />
+        <preset>0</preset>
+        <button>8</button>
+        <funcTwoType>Momentary</funcTwoType>
+        <funcTwoPort>TAP_RING_2</funcTwoPort>
+    </pedal>
+    <pedal name="Empty" type="Empty">
+        <button>9</button>
+    </pedal>
+	<pedal name="Empty" type="Empty">
+        <button>10</button>
+    </pedal>
+</PedalGroup>
