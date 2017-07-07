@@ -185,8 +185,8 @@ def myButtonCallback(interruptPin):
 		
 		
 #define the interrupt for the MCP23017 bank A and B for the footswitches
-GPIO.add_event_detect(BANKA_INTPIN, GPIO.RISING, callback=myButtonCallback, bouncetime=1)
-GPIO.add_event_detect(BANKB_INTPIN, GPIO.RISING, callback=myButtonCallback, bouncetime=1)
+GPIO.add_event_detect(BANKA_INTPIN, GPIO.RISING, callback=myButtonCallback, bouncetime=5)
+GPIO.add_event_detect(BANKB_INTPIN, GPIO.RISING, callback=myButtonCallback, bouncetime=5)
 #define the interrupt for the MCP23017 encode pin A and B for the rotary encoder
 GPIO.add_event_detect(ENCODE_A, GPIO.FALLING, callback=myEncoderCallback, bouncetime=15)
 GPIO.add_event_detect(ENCODE_B, GPIO.FALLING, callback=myEncoderCallback, bouncetime=15)
