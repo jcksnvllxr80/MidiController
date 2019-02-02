@@ -74,4 +74,3 @@ class Looper_LEDs(MCP23017_R1.MCP23017, object):
 
 	def set_output(self, pin, value):
 		self.output(pin, value)
-
