@@ -62,7 +62,7 @@ class Looper_LEDs(MCP23017_R1.MCP23017, object):
 		#set the list of pin numbers as outputs
 		piGPIO.setup(self.PWM_PIN, piGPIO.OUT)
 		#set freq and pin number to a PWM object
-		self._pwm = piGPIO.PWM(self.PWM_PIN, self.FREQ).start(50)
+		self._pwm = piGPIO.PWM(self.PWM_PIN, self.PWM_PIN_FREQ).start(50)
 
 	def setAllPinsOutput(self):
 		for pin in self.allPins:
