@@ -3,26 +3,26 @@
     <tempo>110</tempo>
     <part name="Chorus">
         <position>3</position>
-        <pedal name="RCBooster">
+        <pedal name="RC Booster">
             <engaged>True</engaged>
         </pedal>
-        <pedal name="DeepSix">
+        <pedal name="Deep Six">
             <engaged>True</engaged>
         </pedal>
-        <pedal name="AngryCharlie">
+        <pedal name="Angry Charlie">
             <engaged>True</engaged>
         </pedal>
-        <pedal name="ScarlettLove">
+        <pedal name="Scarlett Love">
             <engaged>True</engaged>
             <setting>Plexi</setting>
         </pedal>
         <pedal name="POG">
             <engaged />
         </pedal>
-        <pedal name="ElCapistan">
+        <pedal name="El Capistan">
             <engaged />
         </pedal>
-        <pedal name="SuperPulsar">
+        <pedal name="Super Pulsar">
             <engaged />
             <setting>1</setting>
         </pedal>
@@ -41,26 +41,26 @@
     </part>
     <part name="Bridge">
         <position>4</position>
-        <pedal name="RCBooster">
+        <pedal name="RC Booster">
             <engaged>True</engaged>
         </pedal>
-        <pedal name="DeepSix">
+        <pedal name="Deep Six">
             <engaged>True</engaged>
         </pedal>
-        <pedal name="AngryCharlie">
+        <pedal name="Angry Charlie">
             <engaged>True</engaged>
         </pedal>
-        <pedal name="ScarlettLove">
+        <pedal name="Scarlett Love">
             <engaged>True</engaged>
             <setting>Plexi</setting>
         </pedal>
         <pedal name="POG">
             <engaged />
         </pedal>
-        <pedal name="ElCapistan">
+        <pedal name="El Capistan">
             <engaged />
         </pedal>
-        <pedal name="SuperPulsar">
+        <pedal name="Super Pulsar">
             <engaged />
             <setting>1</setting>
         </pedal>

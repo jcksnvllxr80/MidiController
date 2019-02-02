@@ -26,7 +26,7 @@ Routing = Routes.Looper_Routes()
 Leds = LEDs.Looper_LEDs()
 
 class Pedal(object):
-    
+
 	def __init__(self, name, state, type):
 		self.name = name
 		self.type = type
@@ -62,11 +62,11 @@ class ButtonDisplay(object):
 			spi_disp.clear()
 			spi_disp.display()
 			self.spiDisable()
+			self.pedalImage = None
 		else:
 			ButtonDisplay.font_type = ft
 			ButtonDisplay.font_size = fs
-			
-			
+
 	def setButtonDisplayMessage(self, msg, mode):
 		self.message = msg
 		backgroundColor = 0
@@ -78,15 +78,18 @@ class ButtonDisplay(object):
 		if self.invertDisplayColors and mode == "Song":
 			backgroundColor = 255
 			textColor = 0
-		draw.rectangle((0,0,self.width,self.height), outline=backgroundColor, fill=backgroundColor)
-
-		for str in msg.split():
-			xMax, yMax = draw.textsize(str, font=font)
-			x = (self.width - xMax)/2
-			y = 0
-			draw.text((x, y), str, font=font, fill=textColor) 
-			y += yMax + 2	
 			
+		draw.rectangle((0,0,self.width,self.height), outline=backgroundColor, fill=backgroundColor)
+		y = 0
+		if self.pedalImage is not None:
+			image = Image.open('/home/pi/Looper/SSD1306/images/' + self.pedalImage + '.ppm').convert('1') #for testing. comment when not testing
+		else:
+			for str in msg.split(" "):
+				xMax, yMax = draw.textsize(str, font=font)
+				x = (self.width - xMax)/2
+				draw.text((x, y), str, font=font, fill=textColor) 
+				y += yMax + 2
+
 		self.spiEnable()
 		spi_disp.image(image)
 		spi_disp.display()
@@ -98,11 +101,14 @@ class ButtonDisplay(object):
 		if fontSize is not None:
 			ButtonDisplay.font_size = int(fontSize)	
 		
-	def spiEnable(self):	
+	def spiEnable(self):
 		slave_select.set_output(self.button,GPIO.LOW)
 	
 	def spiDisable(self):
 		slave_select.set_output(self.button,GPIO.HIGH)
+		
+	def setPedalImage(self, filename):
+		self.pedalImage = filename
 			
 			
 class MidiPedal(object):
@@ -203,78 +209,168 @@ class ButtonOnPedalBoard(Pedal, ButtonDisplay):
 			
 
 class TapTempoButton(ButtonOnPedalBoard):
-    
-    MIDITempoPedal = None
- 
-    def __init__(self, name, button, tempo, midiTempoPed):
-	self.MIDITempoPedal = midiTempoPed
-	type = "TapTempoButton"
-	state = True
-	FuncTwoType = "None"
-	FuncTwoPort = "None"
-	super(TapTempoButton, self).__init__(name, state, button, type, FuncTwoType, FuncTwoPort)
-	self.lastTap = time.time() - 2.5 #because the last tap being more than 2.5s ago means "start over"
-	self.avgTapTime = 0 #only to start with
-	self.TapNum = 0
-	#self.setTempo(tempo)
 
-    def setTempo(self, tempo):
-	if tempo > 99.9:
-	    self.tempo = int(tempo)
-	else:
-            self.tempo = tempo
-	sleepTime = 60.0/self.tempo #seconds/beat
-        for num in range(4):
-	    self.start = time.time()
-	    self.turnOff()
-	    time.sleep(0.05)
-	    self.turnOn()
-	    time.sleep(sleepTime - (time.time() - self.start)) 
+	MIDITempoPedal = None
+	#GPIO pin on rpi
+	TAP_PIN1 = 5
+	TAP_PIN2 = 6
+	TAP_PIN3 = 26
+	TAP_PIN4 = 27
 
-    def getTempo(self):
-	return self.tempo	
+	def __init__(self, name, button, tempo, midiTempoPed):
+		self.MIDITempoPedal = midiTempoPed
+		type = "TapTempoButton"
+		state = True
+		FuncTwoType = "None"
+		FuncTwoPort = "None"
+		super(TapTempoButton, self).__init__(name, state, button, type, FuncTwoType, FuncTwoPort)
+		self.lastTap = time.time() - 2.5 #because the last tap being more than 2.5s ago means "start over"
+		self.avgTapTime = 0 #only to start with
+		self.TapNum = 0
+		self.PWM_OnTime = 0
+		self.tapStartTime = 0
+		self.tappingInProgress = False
+		self.initPWM(tempo) #initalize GPIO for PWM
+		#self.setTempo(tempo)
 
-    def buttonState(self, intCapturePinVal):
-        if not intCapturePinVal:
-	    self.turnOff()
-	    self.MIDITempoPedal.tapTempo()
-            self.isPressed = True
-	    self.start = time.time()
-	    self.calculateTempo()
-        else:
-	    self.turnOn()
-   	    if self.TapNum > 4:
-		time.sleep(self.avgTapTime)
-		self.setTempo(int(10 * (60 / self.avgTapTime)) / 10.0 )	    
-		if self.MIDITempoPedal is not None:
-		    self.MIDITempoPedal.setTempo(self.tempo)
-            self.isPressed = False
+	def setTempo(self, tempo):
+		if tempo > 99.9:
+			self.tempo = int(tempo)
+		else:
+			self.tempo = tempo
+		self.startPWM(self.tempo/60) #start the PWM with BPM/60 so BPS
+		self.PWM_OnTime = 4*60/self.tempo #4 beats
 
-    def calculateTempo(self):
-	if (time.time() - self.lastTap) > 2.5: #no need to go less than 24 BPM
-	    self.TapNum = 0
-	elif self.TapNum == 1:
-	    self.TapTime1 = time.time() - self.lastTap
-	elif self.TapNum == 2:
-            self.TapTime2 = time.time() - self.lastTap
-	elif self.TapNum == 3:
-            self.TapTime3 = time.time() - self.lastTap
-	else:
-	    self.TapTime1 = self.TapTime2
-	    self.TapTime2 = self.TapTime3
-	    self.TapTime3 = time.time() - self.lastTap
-	    self.avgTapTime = (self.TapTime1 + self.TapTime2 + self.TapTime3) / 3.0	    	
-	self.TapNum += 1    
-	self.lastTap = time.time()
+	def initPWM(self,tempo):
+		#set the mode for how the GPIO pins will be numbered
+		GPIO.setmode(GPIO.BCM)
+		#set the list of pin numbers as outputs
+		GPIO.setup([self.TAP_PIN1, self.TAP_PIN2, self.TAP_PIN3, self.TAP_PIN4], GPIO.OUT)
+		#set freq and pin number to a PWM object for each of the 3 RGB components
+		self._tap1 = GPIO.PWM(self.TAP_PIN1, tempo/60)
+		self._tap2 = GPIO.PWM(self.TAP_PIN2, tempo/60)
+		self._tap3 = GPIO.PWM(self.TAP_PIN3, tempo/60)
+		self._tap4 = GPIO.PWM(self.TAP_PIN4, tempo/60)
+		self.DC1 = 75
+		self.DC2 = 75
+		self.DC3 = 75
+		self.DC4 = 75
+
+	def startPWM(self, tempoBPS):
+		'''start PWM with beats per second frequency and (100 - x) dutyCycle
+		'''
+		self._tap1.ChangeFrequency(tempoBPS)
+		self._tap2.ChangeFrequency(tempoBPS)
+		self._tap3.ChangeFrequency(tempoBPS)
+		self._tap4.ChangeFrequency(tempoBPS)
+		#GPIO.output(self.TAP_PIN1, 0)
+		self._tap1.start(100 - self.DC1)
+		#GPIO.output(self.TAP_PIN2, 0)
+		self._tap2.start(100 - self.DC2)
+		#GPIO.output(self.TAP_PIN3, 0)
+		self._tap3.start(100 - self.DC3)
+		#GPIO.output(self.TAP_PIN4, 0)
+		self._tap4.start(100 - self.DC4)
+		self.tapStartTime = time.time()
+		self.tappingInProgress = True
+
+	def pausePWM(self):
+		'''pause the PWM
+		'''
+		self._tap1.stop()
+		#GPIO.output(self.TAP_PIN1, 1)
+		self._tap2.stop()
+		#GPIO.output(self.TAP_PIN2, 1)
+		self._tap3.stop()
+		#GPIO.output(self.TAP_PIN3, 1)
+		self._tap4.stop()
+		#GPIO.output(self.TAP_PIN4, 1)
+		self.tappingInProgress = False
+
+	def stopPWM(self):
+		'''stop the PWM
+		'''
+		self.pausePWM()
+		GPIO.cleanup()
+
+	def turnOn(self):
+		Leds.set_output(self.pin, False)
+		self.isEngaged = True
+		#print self
+
+	def turnOff(self):
+		Leds.set_output(self.pin, True)
+		self.isEngaged = False
+		#print self
+		
+	def setDutyCycle1(self, DC):
+		self.DC1 = DC
+
+	def setDutyCycle2(self, DC):
+		self.DC2 = DC
+
+	def setDutyCycle3(self, DC):
+		self.DC3 = DC
+
+	def setDutyCycle4(self, DC):
+		self.DC4 = DC
+
+	def getDutyCycle1(self):
+		return self.DC1
+
+	def getDutyCycle2(self):
+		return self.DC2
+
+	def getDutyCycle3(self):
+		return self.DC3
+
+	def getDutyCycle4(self):
+		return self.DC4
+
+	def getTempo(self):
+		return self.tempo
+
+	def buttonState(self, intCapturePinVal, mode):
+		if not intCapturePinVal:
+			self.turnOff()
+			self.MIDITempoPedal.tapTempo()
+			self.isPressed = True
+			self.start = time.time()
+			self.calculateTempo()
+		else:
+			self.turnOn()
+			if self.TapNum > 4:
+				time.sleep(self.avgTapTime)
+				self.setTempo(int(10 * (60 / self.avgTapTime)) / 10.0 )
+				if self.MIDITempoPedal is not None:
+					self.MIDITempoPedal.setTempo(self.tempo)
+			self.isPressed = False
+
+	def calculateTempo(self):
+		if (time.time() - self.lastTap) > 2.5: #no need to go less than 24 BPM
+			self.TapNum = 0
+		elif self.TapNum == 1:
+			self.TapTime1 = time.time() - self.lastTap
+		elif self.TapNum == 2:
+			self.TapTime2 = time.time() - self.lastTap
+		elif self.TapNum == 3:
+			self.TapTime3 = time.time() - self.lastTap
+		else:
+			self.TapTime1 = self.TapTime2
+			self.TapTime2 = self.TapTime3
+			self.TapTime3 = time.time() - self.lastTap
+			self.avgTapTime = (self.TapTime1 + self.TapTime2 + self.TapTime3) / 3.0
+		self.TapNum += 1
+		self.lastTap = time.time()
 
 
 class LoopPedal(ButtonOnPedalBoard):
 
-    def __init__(self, name, button, state, FuncTwoType, FuncTwoPort):
-	type = "LoopPedal"
-	super(LoopPedal, self).__init__(name, state, button, type, FuncTwoType, FuncTwoPort)
-	    	
-    def buttonState(self, intCapturePinVal, mode):
+	def __init__(self, name, button, state, FuncTwoType, FuncTwoPort):
+		type = "LoopPedal"
+		super(LoopPedal, self).__init__(name, state, button, type, FuncTwoType, FuncTwoPort)
+
+	def buttonState(self, intCapturePinVal, mode):
 		if not intCapturePinVal:
 			self.isPressed = True
 			self.start = time.time()
@@ -292,12 +388,7 @@ class LoopPedal(ButtonOnPedalBoard):
 							else:
 								self.secondaryFunction()
 					else:
-						if deltaT < 0.5:
-							#ButtonDisplay.currentButton_SongMode.invertDisplayColors = False
-							#ButtonDisplay.currentButton_SongMode = self
-							#self.invertDisplayColors = True
-							pass
-						else:
+						if deltaT > 0.5:
 							if not self.isEngaged:
 								self.turnOn()
 							else:
@@ -442,10 +533,6 @@ class Empty(ButtonOnPedalBoard):
 			self.turnOn()
 			self.isPressed = True
 		else:
-			#if mode == "Song":
-				#ButtonDisplay.currentButton_SongMode.invertDisplayColors = False
-				#ButtonDisplay.currentButton_SongMode = self
-				#self.invertDisplayColors = True
 			self.turnOff()
 			self.isPressed = False
 			

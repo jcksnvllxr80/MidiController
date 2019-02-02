@@ -1,5 +1,6 @@
 #!/usr/bin/python
 import time
+from time import strftime
 import math
 import RPi.GPIO as GPIO #for interfacing with raspberrypi GPIO
 import xml.etree.ElementTree as ET # for reading and writing to XML files
@@ -10,6 +11,7 @@ import RotaryEncoder #package for the rotary encoder inputs
 
 switchPins = Footswitches.Looper_Switches() #class for dealing with footswitch presses
 previousButtonPress = None
+TapTempo = None
 
 #read the default pedal arrangement file
 DefaultPedals = ET.parse('/home/pi/Looper/Main/PedalGroup.xml') 
@@ -87,7 +89,8 @@ for current in DefaultPedalsRoot.iter('pedal'):
 	elif type == "TapTempo": #initialize the TapTempoButton object
 		currentPedal = EffectLoops.TapTempoButton("TapTempo", int(current.find("./button").text),
 			Tempo, PedalDict["MIDITempoPedal"]) 
-		PedalDict[str(TapTempo.getPin())] = currentPedal #assign this pedal to the dictionary
+		PedalDict[str(currentPedal.getPin())] = currentPedal #assign this pedal to the dictionary
+		TapTempo = currentPedal
 		
 RotaryPB = RotaryEncoder.RotaryPushButton(ROTARY_PUSHBUTTON_PINNUMBER, True, mode, ft=fontType, 
 	fs=fontSize, kc=knobColor, kb=knobBrightness, sl=setList, s=song, p=part) #initialize the rotaryencoder object
@@ -163,12 +166,12 @@ def myButtonCallback(interruptPin):
 						RotaryPB.changePedalConfiguration(option_five)
 					intPedal.PedalConfigChanged == True
 					#intPedal.partner.PedalConfigChanged == True  
-					print "double footswitch function"
+					#print "double footswitch function"
 			else:
 				#button state determines which function of the pedal whose footswitch was pressed to use
 				intPedal.buttonState(interruptValue, RotaryPB.mode)
 				if interruptValue:
-					if RotaryPB.mode == "Song":
+					if RotaryPB.mode == "Song" and time.time() - intPedal.lastActionTime <= 0.5:
 						RotaryPB.changeToFootswitchItem(intPedal.button)
 					RotaryPB.updateButtonDisplays(None, None)
 			intPedal.lastActionTime = time.time()
@@ -181,22 +184,26 @@ def myButtonCallback(interruptPin):
 		#print "bank: " + str(interruptBank) + "; pin: " + str(ThePinThatCausedTheInt) + "; DIDNT GO IN 'IF' STATEMENT"
 	#print "interrupt exit"
 
-
-		
 		
 #define the interrupt for the MCP23017 bank A and B for the footswitches
 GPIO.add_event_detect(BANKA_INTPIN, GPIO.RISING, callback=myButtonCallback, bouncetime=5)
 GPIO.add_event_detect(BANKB_INTPIN, GPIO.RISING, callback=myButtonCallback, bouncetime=5)
 #define the interrupt for the MCP23017 encode pin A and B for the rotary encoder
-GPIO.add_event_detect(ENCODE_A, GPIO.FALLING, callback=myEncoderCallback, bouncetime=15)
-GPIO.add_event_detect(ENCODE_B, GPIO.FALLING, callback=myEncoderCallback, bouncetime=15)
+GPIO.add_event_detect(ENCODE_A, GPIO.FALLING, callback=myEncoderCallback, bouncetime=1)
+GPIO.add_event_detect(ENCODE_B, GPIO.FALLING, callback=myEncoderCallback, bouncetime=1)
 
 
 try:
-    while 1:
+	while 1:
 		#pass
-        time.sleep(0.1)
+		time.sleep(0.1)
+		if TapTempo is not None:
+			if TapTempo.tappingInProgress and (time.time() - TapTempo.tapStartTime) > TapTempo.PWM_OnTime:
+				TapTempo.pausePWM()
+		#PedalDict['12'].setButtonDisplayMessage(strftime("%I:%M"),"")
 except KeyboardInterrupt:
-    pass
+	pass
 
-RotaryPB._encoder.stopPWM #this will cause the PWM to stop if anything causes the program to stop
+RotaryPB.stopPWM #this will cause the PWM to stop if anything causes the program to stop
+if TapTempo is not None:
+	TapTempo.stopPWM()

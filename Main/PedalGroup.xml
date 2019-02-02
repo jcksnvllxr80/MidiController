@@ -1,14 +1,14 @@
 <?xml version='1.0' encoding='us-ascii'?>
 <PedalGroup name="Default">
-	<knobColor>Green</knobColor>
+	<knobColor>Blue</knobColor>
 	<knobBrightness>100</knobBrightness>
 	<tempo>106</tempo>
-	<setList>2016-09-16 Set</setList>
+	<setList>2017-05-22 Set</setList>
 	<song>Here As In Heaven - Lead</song>
 	<part>Intro</part>
 	<mode>Pedal</mode>
-	<fontType>verminVibes</fontType>
-	<fontSize>38</fontSize>
+	<fontType>unispaceReg</fontType>
+	<fontSize>28</fontSize>
 	<op1>Switch Mode</op1>
 	<op2>Song Down</op2>
 	<op3>Part Down</op3>
@@ -29,13 +29,13 @@
 		<preset>2</preset>
         <midiChannel>1</midiChannel>
     </pedal>
-    <pedal name="RCBooster" type="LoopPedal">
+    <pedal name="RC Booster" type="LoopPedal">
         <engaged>True</engaged>
         <button>1</button>
         <funcTwoType>None</funcTwoType>
         <funcTwoPort>None</funcTwoPort>
     </pedal>
-    <pedal name="DeepSix" type="LoopPedal">
+    <pedal name="Deep Six" type="LoopPedal">
         <engaged>True</engaged>
         <button>2</button>
         <funcTwoType>None</funcTwoType>
@@ -44,13 +44,13 @@
     <pedal name="Empty" type="Empty">
         <button>3</button>
     </pedal>
-    <pedal name="AngryCharlie" type="LoopPedal">
+    <pedal name="Angry Charlie" type="LoopPedal">
         <engaged />
         <button>4</button>
         <funcTwoType>None</funcTwoType>
         <funcTwoPort>None</funcTwoPort>
     </pedal>
-    <pedal brand="Selah" name="ScarlettLove" type="MidiLoopPedal">
+    <pedal brand="Selah" name="Scarlett Love" type="MidiLoopPedal">
         <engaged>True</engaged>
         <midiChannel>16</midiChannel>
         <preset>Plexi</preset>
@@ -64,13 +64,13 @@
         <funcTwoType>None</funcTwoType>
         <funcTwoPort>None</funcTwoPort>
     </pedal>
-    <pedal name="ElCapistan" type="LoopPedal">
+    <pedal name="El Capistan" type="LoopPedal">
         <engaged />
         <button>7</button>
         <funcTwoType>Latching</funcTwoType>
         <funcTwoPort>EXP_TIP_1</funcTwoPort>
     </pedal>
-    <pedal name="SuperPulsar" type="LoopPedal">
+    <pedal name="Super Pulsar" type="LoopPedal">
         <engaged />
         <preset>0</preset>
         <button>8</button>
@@ -80,7 +80,7 @@
     <pedal name="Empty" type="Empty">
         <button>9</button>
     </pedal>
-	<pedal name="Empty" type="Empty">
+    <pedal type="TapTempo">
         <button>10</button>
     </pedal>
 </PedalGroup>

@@ -53,7 +53,7 @@ class SlaveSelect(MCP23017_R1.MCP23017, object):
 	def setAllPinsOutput(self):
 		for pin in self.allPins:
 			self.setup(pin, GPIO.OUT)
-	
+
 	def setAllPinsHigh(self):
 		for pin in self.allPins:
 			self.set_output(pin, GPIO.HIGH)
@@ -64,4 +64,10 @@ class SlaveSelect(MCP23017_R1.MCP23017, object):
 
 	def set_output(self, pin, value):
 		self.output(pin, value)
+
+	def getGpio(self, bank):
+		return self.readGpioByte(bank)
+
+	def setGpio(self, data, bank):
+		self.writeGpioByte(data, bank)
 

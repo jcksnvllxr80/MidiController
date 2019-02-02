@@ -194,6 +194,10 @@ class Rotary_Encoder(RgbKnob):
 		if tempoObj is not None:
 			tempoObj.setTempo(float(self.currentSong.data.bpm))
 		self.savePartToDefault()
+		self.handleDisplayColors()
+		
+		
+	def handleDisplayColors(self):
 		EffectLoops.ButtonDisplay.currentButton_SongMode.invertDisplayColors = False
 		#print EffectLoops.ButtonDisplay.currentButton_SongMode.name + " footswitch display to no longer be inverted" #testing
 		
@@ -548,7 +552,7 @@ class Rotary_Encoder(RgbKnob):
 	def updateButtonDisplays(self, ft=None, fs=None):
 		if self.mode == "Song":
 			songpart = self.currentSong.data.parts.head
-			for i in range(1,10):
+			for i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]:
 				if ft is not None:
 					self.pedalButtonDict[i].setFont(fontType=ft)
 				if fs is not None:
@@ -574,15 +578,10 @@ class Rotary_Encoder(RgbKnob):
 	
 	def changeToFootswitchItem(self, button=None):
 		if button is not None:
-			if button <= self.currentSong.data.parts.getLength():
+			if button <= self.currentSong.data.parts.getLength() and not self.currentPart == self.currentSong.data.parts.indexToNode(button):
 				self.currentPart = self.currentSong.data.parts.indexToNode(button)
-				#print "\r\ncurrent part is now set to " + self.currentPart.data.partName #testing
-
-				# EffectLoops.ButtonDisplay.currentButton_SongMode = self.pedalButtonDict[
-				#	self.currentSong.data.parts.nodeToIndex(self.currentPart)]
 				self.loadPart()
-		#else:
-			#self.pedalButtonDict[self.currentSong.data.parts.nodeToIndex(self.currentPart)].invertDisplayColors = True
+
 
 
 class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
@@ -617,6 +616,7 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 			else:
 				self.turnOn()
 				self.mode = "Song"
+		self.handleDisplayColors()
 		self.updateButtonDisplays(None, None)
 		self.saveModeToDefault()
 			
