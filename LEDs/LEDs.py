@@ -13,7 +13,7 @@ class Looper_LEDs(MCP23017_R1.MCP23017, object):
 
 	#global variables
 	PWM_PIN = 13
-	PWM_PIN_FREQ = 1000
+	PWM_PIN_FREQ = 200
 
 	LOOP_LED_10     = 10
 	LOOP_LED_9      = 9
@@ -66,7 +66,7 @@ class Looper_LEDs(MCP23017_R1.MCP23017, object):
 		self._pwm = piGPIO.PWM(self.PWM_PIN, self.PWM_PIN_FREQ)	
 
 	def startPWM(self):
-		self._pwm.start(50)
+		self._pwm.start(25)
 	
 	def stopPWM(self):
 		self._pwm.stop()
