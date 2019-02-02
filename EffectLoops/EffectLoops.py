@@ -25,6 +25,9 @@ spi_disp = SSD1306.SSD1306_128_64(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_D
 Routing = Routes.Looper_Routes()
 Leds = LEDs.Looper_LEDs()
 
+def unload():
+	Leds.stopPWM()
+
 class Pedal(object):
 
 	def __init__(self, name, state, type):
@@ -536,6 +539,3 @@ class Empty(ButtonOnPedalBoard):
 			self.turnOff()
 			self.isPressed = False
 			
-
-
-
