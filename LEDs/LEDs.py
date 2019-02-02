@@ -9,6 +9,11 @@ import MCP23017_R1
 class Looper_LEDs(MCP23017_R1.MCP23017, object):
 	"""Class to represent each pedals on or off state with an LED
 	"""
+
+	#global variables
+	PWM_PIN = 13
+	PWM_PIN_FREQ = 1000
+
 	LOOP_LED_10     = 10
 	LOOP_LED_9      = 9
 	LOOP_LED_8      = 8
@@ -48,6 +53,15 @@ class Looper_LEDs(MCP23017_R1.MCP23017, object):
 		# Configure MCP23017 device.
 		super(Looper_LEDs, self).__init__(address=address, busnum=busnum)
 		self.setAllPinsOutput()
+		self.initPWM() #initalize GPIO for PWM
+	
+	def initPWM(self):
+		#set the mode for how the GPIO pins will be numbered
+		GPIO.setmode(GPIO.BCM)
+		#set the list of pin numbers as outputs
+		GPIO.setup(self.PWM_PIN, GPIO.OUT)
+		#set freq and pin number to a PWM object
+		self._pwm = GPIO.PWM(self.PWM_PIN, self.FREQ).start(50)
 
 	def setAllPinsOutput(self):
 		for pin in self.allPins:
