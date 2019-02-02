@@ -200,3 +200,4 @@ except KeyboardInterrupt:
     pass
 
 RotaryPB._encoder.stopPWM #this will cause the PWM to stop if anything causes the program to stop
+EffectLoops.unload
