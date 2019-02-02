@@ -69,7 +69,7 @@ class Looper_LEDs(MCP23017_R1.MCP23017, object):
 		self._pwm.start(50)
 	
 	def stopPWM(self):
-		self._pwm.stop())
+		self._pwm.stop()
 
 	def setAllPinsOutput(self):
 		for pin in self.allPins:
