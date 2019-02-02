@@ -207,4 +207,4 @@ except KeyboardInterrupt:
 RotaryPB.stopPWM #this will cause the PWM to stop if anything causes the program to stop
 if TapTempo is not None:
 	TapTempo.stopPWM()
-EffectLoops.unload
+EffectLoops.unload()
