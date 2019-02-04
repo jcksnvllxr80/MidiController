@@ -96,8 +96,8 @@ RotaryPB = RotaryEncoder.RotaryPushButton(ROTARY_PUSHBUTTON_PINNUMBER, True, mod
 	fs=fontSize, kc=knobColor, kb=knobBrightness, sl=setList, s=song, p=part) #initialize the rotaryencoder object
 PedalDict[str(RotaryPB.getPin())] = RotaryPB #assign this pedal to the dictionary
 #set the current footswitch display associated with the loaded part to inverted colors
-#EffectLoops.ButtonDisplay.currentButton_SongMode = PedalDict[str(RotaryPB.fromButtonToPin(
-	RotaryPB.currentSong.data.parts.nodeToIndex(RotaryPB.currentPart)))]
+# EffectLoops.ButtonDisplay.currentButton_SongMode = PedalDict[str(RotaryPB.fromButtonToPin(
+# 	RotaryPB.currentSong.data.parts.nodeToIndex(RotaryPB.currentPart)))]
 
 #print "footswitch display #" + str(RotaryPB.currentSong.data.parts.nodeToIndex(RotaryPB.currentPart)) + " set as initial highlighted part." #testing
 
