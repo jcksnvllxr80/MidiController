@@ -95,8 +95,8 @@ for current in DefaultPedalsRoot.iter('pedal'):
 RotaryPB = RotaryEncoder.RotaryPushButton(ROTARY_PUSHBUTTON_PINNUMBER, True, mode, ft=fontType, 
 	fs=fontSize, kc=knobColor, kb=knobBrightness, sl=setList, s=song, p=part) #initialize the rotaryencoder object
 PedalDict[str(RotaryPB.getPin())] = RotaryPB #assign this pedal to the dictionary
-#set the current footswitch display associated with tht eloaded part to inverted colors
-EffectLoops.ButtonDisplay.currentButton_SongMode = PedalDict[str(RotaryPB.fromButtonToPin(
+#set the current footswitch display associated with the loaded part to inverted colors
+#EffectLoops.ButtonDisplay.currentButton_SongMode = PedalDict[str(RotaryPB.fromButtonToPin(
 	RotaryPB.currentSong.data.parts.nodeToIndex(RotaryPB.currentPart)))]
 
 #print "footswitch display #" + str(RotaryPB.currentSong.data.parts.nodeToIndex(RotaryPB.currentPart)) + " set as initial highlighted part." #testing
@@ -173,7 +173,7 @@ def myButtonCallback(interruptPin):
 				if interruptValue:
 					if RotaryPB.mode == "Song" and time.time() - intPedal.lastActionTime <= 0.5:
 						RotaryPB.changeToFootswitchItem(intPedal.button)
-					RotaryPB.updateButtonDisplays(None, None)
+					# RotaryPB.updateButtonDisplays(None, None)
 			intPedal.lastActionTime = time.time()
 		else:
 			#button state determines which function of the pedal whose footswitch was pressed to use
