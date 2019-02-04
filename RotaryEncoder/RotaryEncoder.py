@@ -194,21 +194,21 @@ class Rotary_Encoder(RgbKnob):
 		if tempoObj is not None:
 			tempoObj.setTempo(float(self.currentSong.data.bpm))
 		self.savePartToDefault()
-		self.handleDisplayColors()
+		# self.handleDisplayColors()
 		
 		
-	def handleDisplayColors(self):
-		EffectLoops.ButtonDisplay.currentButton_SongMode.invertDisplayColors = False
-		#print EffectLoops.ButtonDisplay.currentButton_SongMode.name + " footswitch display to no longer be inverted" #testing
+	# def handleDisplayColors(self):
+	# 	EffectLoops.ButtonDisplay.currentButton_SongMode.invertDisplayColors = False
+	# 	#print EffectLoops.ButtonDisplay.currentButton_SongMode.name + " footswitch display to no longer be inverted" #testing
 		
-		EffectLoops.ButtonDisplay.currentButton_SongMode = self.pedalButtonDict[
-					self.currentSong.data.parts.nodeToIndex(self.currentPart)]
-		#print "footswitch display #" + str(self.currentSong.data.parts.nodeToIndex(
-		#	self.currentPart)) + ": " + self.currentPart.data.partName + " set as new highlighted part." #testing
+	# 	EffectLoops.ButtonDisplay.currentButton_SongMode = self.pedalButtonDict[
+	# 				self.currentSong.data.parts.nodeToIndex(self.currentPart)]
+	# 	#print "footswitch display #" + str(self.currentSong.data.parts.nodeToIndex(
+	# 	#	self.currentPart)) + ": " + self.currentPart.data.partName + " set as new highlighted part." #testing
 
-		#find the footswitch display associated with the part just loaded and invert its colors
-		EffectLoops.ButtonDisplay.currentButton_SongMode.invertDisplayColors = True
-		#print EffectLoops.ButtonDisplay.currentButton_SongMode.name + " footswitch display to now be inverted" #testing
+	# 	#find the footswitch display associated with the part just loaded and invert its colors
+	# 	EffectLoops.ButtonDisplay.currentButton_SongMode.invertDisplayColors = True
+	# 	#print EffectLoops.ButtonDisplay.currentButton_SongMode.name + " footswitch display to now be inverted" #testing
 
 
 	def rotaryMovement(self, a, b): 
@@ -336,17 +336,17 @@ class Rotary_Encoder(RgbKnob):
 			self.currentSong = self.setlist.songs.head
 			self.currentPart = self.currentSong.data.parts.head
 			self.loadPart()
-			self.updateButtonDisplays()
+			# self.updateButtonDisplays()
 			self.changeToMenu("MainMenu")
 		elif self.currentMenu == "LoadFontMenu":
-			self.updateButtonDisplays(func, None)
+			# self.updateButtonDisplays(func, None)
 			self.changeToMenu("GlobalMenu")
 		elif self.currentMenu == "FontSizeMenu":
-			self.updateButtonDisplays(None, func)
+			# self.updateButtonDisplays(None, func)
 			self.changeToMenu("GlobalMenu")
 		elif self.currentMenu == "PartMenu":
 			self.loadPart()
-			self.updateButtonDisplays()
+			# self.updateButtonDisplays()
 			self.changeToMenu("MainMenu")
 		elif self.currentMenu == "SongMenu":
 			self.loadSong()
@@ -361,10 +361,10 @@ class Rotary_Encoder(RgbKnob):
 			
 	def loadSong(self):
 		self.currentPart = self.currentSong.data.parts.head
-		for pedal in self.pedalButtonDict.values():
-			pedal.invertDisplayColors = False
+		# for pedal in self.pedalButtonDict.values():
+		# 	pedal.invertDisplayColors = False
 		self.loadPart()
-		self.updateButtonDisplays()
+		# self.updateButtonDisplays()
 
 		
 	def changeMenuPos(self, direction):
@@ -549,31 +549,31 @@ class Rotary_Encoder(RgbKnob):
 		Defaults.write(DEFAULT_FILE,encoding="us-ascii", xml_declaration=True)
 	
 	
-	def updateButtonDisplays(self, ft=None, fs=None):
-		if self.mode == "Song":
-			songpart = self.currentSong.data.parts.head
-			for i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]:
-				if ft is not None:
-					self.pedalButtonDict[i].setFont(fontType=ft)
-				if fs is not None:
-					self.pedalButtonDict[i].setFont(fontSize=fs)
-				if songpart is not None:
-					self.pedalButtonDict[i].setButtonDisplayMessage(songpart.data.partName, self.mode)
-					songpart = songpart.next
-				else:
-					self.pedalButtonDict[i].setButtonDisplayMessage("", self.mode)
-		else:
-			for i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]:
-				#if self.pedalButtonDict[i].name != "RotaryPB":
-				if ft is not None:
-					self.pedalButtonDict[i].setFont(fontType=ft)
-				if fs is not None:
-					self.pedalButtonDict[i].setFont(fontSize=fs)
-				self.pedalButtonDict[i].setButtonDisplayMessage(self.pedalButtonDict[i].name, self.mode)
-		if ft is not None:
-			self.saveFontTypeToDefault(ft)
-		if fs is not None:
-			self.saveFontSizeToDefault(fs)
+	# def updateButtonDisplays(self, ft=None, fs=None):
+	# 	if self.mode == "Song":
+	# 		songpart = self.currentSong.data.parts.head
+	# 		for i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]:
+	# 			if ft is not None:
+	# 				self.pedalButtonDict[i].setFont(fontType=ft)
+	# 			if fs is not None:
+	# 				self.pedalButtonDict[i].setFont(fontSize=fs)
+	# 			if songpart is not None:
+	# 				self.pedalButtonDict[i].setButtonDisplayMessage(songpart.data.partName, self.mode)
+	# 				songpart = songpart.next
+	# 			else:
+	# 				self.pedalButtonDict[i].setButtonDisplayMessage("", self.mode)
+	# 	else:
+	# 		for i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]:
+	# 			#if self.pedalButtonDict[i].name != "RotaryPB":
+	# 			if ft is not None:
+	# 				self.pedalButtonDict[i].setFont(fontType=ft)
+	# 			if fs is not None:
+	# 				self.pedalButtonDict[i].setFont(fontSize=fs)
+	# 			self.pedalButtonDict[i].setButtonDisplayMessage(self.pedalButtonDict[i].name, self.mode)
+	# 	if ft is not None:
+	# 		self.saveFontTypeToDefault(ft)
+	# 	if fs is not None:
+	# 		self.saveFontSizeToDefault(fs)
 
 	
 	def changeToFootswitchItem(self, button=None):
@@ -616,8 +616,8 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 			else:
 				self.turnOn()
 				self.mode = "Song"
-		self.handleDisplayColors()
-		self.updateButtonDisplays(None, None)
+		# self.handleDisplayColors()
+		# self.updateButtonDisplays(None, None)
 		self.saveModeToDefault()
 			
 			
