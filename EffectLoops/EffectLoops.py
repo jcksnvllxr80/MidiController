@@ -137,7 +137,7 @@ class ButtonOnPedalBoard(Pedal):
 		self.partner = None
 		self.lastActionTime = time.time()
 		self.PedalConfigChanged = False
-		# super(ButtonOnPedalBoard, self).__init__(name, state, type)
+		super(ButtonOnPedalBoard, self).__init__(name, state, type)
 		# if name == "RotaryPB":
 		# 	ButtonDisplay.__init__(self, **kwargs)
 		# else:
