@@ -610,8 +610,8 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 				elif self.menu.current_node is self.menu.root:
 					pass # TODO: implement something when singlke click from main is executed
 				elif self.menu.current_node.children:
+					self.menu.current_node = self.menu.current_node.children[self.child_num]
 					self.child_num = 0
-					self.menu.current_node.children = self.menu.current_node.children[self.child_num]
 				# if self.currentMenu == "GoodbyeMenu" and menuItemStr == "Power down? \nNO yes":
 				# 	self.changeToMenu("MainMenu")
 			elif deltaT < 2: #longer than half a second but shorter than 2 seconds
