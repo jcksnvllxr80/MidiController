@@ -127,21 +127,17 @@ class ButtonOnPedalBoard(Pedal):
 	EXP_TIP_1 = 6
 	TAP_RING_2 = 7
 
-	def __init__(self, name, state, button, type, FuncTwoType, FuncTwoPort, **kwargs):
+	def __init__(self, name, state, button, type, func_two_type, func_two_port, **kwargs):
 		self.button = button
 		self.start = time.time()
 		self.pin = self.fromButtonToPin(self.button)
-		self.FuncTwoPort = FuncTwoPort
-		self.FuncTwoType = FuncTwoType
-		self.isPressed = False
+		self.func_two_port = func_two_port
+		self.func_two_type = func_two_type
+		self.is_pressed = False
 		self.partner = None
 		self.lastActionTime = time.time()
 		self.PedalConfigChanged = False
 		super(ButtonOnPedalBoard, self).__init__(name, state, type)
-		# if name == "RotaryPB":
-		# 	ButtonDisplay.__init__(self, **kwargs)
-		# else:
-		# 	ButtonDisplay.__init__(self)
 
 			
 	def fromButtonToPin(self, button):
@@ -163,27 +159,27 @@ class ButtonOnPedalBoard(Pedal):
 
 	def secondaryFunction(self):
 		portPin = self.getPortPin()
-		if self.FuncTwoType == "Momentary":
+		if self.func_two_type == "Momentary":
 			Routing.changeOutputPinState(portPin)
 			time.sleep(0.1)
 			Routing.changeOutputPinState(portPin)
-		elif self.FuncTwoType == "Latching":
+		elif self.func_two_type == "Latching":
 			Routing.changeOutputPinState(portPin)
-		elif self.FuncTwoType == "Settings":
+		elif self.func_two_type == "Settings":
 			print "Settings"
 		else:	
 			print "None " + str(self.button)
 			
 
 	def getPortPin(self):
-		if self.FuncTwoPort == "EXP_TIP_1":
+		if self.func_two_port == "EXP_TIP_1":
 			return self.EXP_TIP_1
-		elif self.FuncTwoPort == "TAP_RING_2":
+		elif self.func_two_port == "TAP_RING_2":
 			return self.TAP_RING_2
 
-	def setSecondaryFunction(self, FuncTwoType, FuncTwoPort):
-		self.FuncTwoPort = FuncTwoPort
-		self.FuncTwoType = FuncTwoType
+	def setSecondaryFunction(self, func_two_type, func_two_port):
+		self.func_two_port = func_two_port
+		self.func_two_type = func_two_type
 
 	def turnOn(self):
 		Routing.set_output(self.pin, False)
@@ -225,9 +221,9 @@ class TapTempoButton(ButtonOnPedalBoard):
 		self.MIDITempoPedal = midiTempoPed
 		type = "TapTempoButton"
 		state = True
-		FuncTwoType = "None"
-		FuncTwoPort = "None"
-		super(TapTempoButton, self).__init__(name, state, button, type, FuncTwoType, FuncTwoPort)
+		func_two_type = "None"
+		func_two_port = "None"
+		super(TapTempoButton, self).__init__(name, state, button, type, func_two_type, func_two_port)
 		self.lastTap = time.time() - 2.5 #because the last tap being more than 2.5s ago means "start over"
 		self.avgTapTime = 0 #only to start with
 		self.TapNum = 0
@@ -338,9 +334,9 @@ class TapTempoButton(ButtonOnPedalBoard):
 		if not intCapturePinVal:
 			self.turnOff()
 			self.MIDITempoPedal.tapTempo()
-			self.isPressed = True
+			self.is_pressed = True
 			self.start = time.time()
-			self.calculateTempo()
+			self.calculate_tempo()
 		else:
 			self.turnOn()
 			if self.TapNum > 4:
@@ -348,9 +344,9 @@ class TapTempoButton(ButtonOnPedalBoard):
 				self.setTempo(int(10 * (60 / self.avgTapTime)) / 10.0 )
 				if self.MIDITempoPedal is not None:
 					self.MIDITempoPedal.setTempo(self.tempo)
-			self.isPressed = False
+			self.is_pressed = False
 
-	def calculateTempo(self):
+	def calculate_tempo(self):
 		if (time.time() - self.lastTap) > 2.5: #no need to go less than 24 BPM
 			self.TapNum = 0
 		elif self.TapNum == 1:
@@ -370,13 +366,13 @@ class TapTempoButton(ButtonOnPedalBoard):
 
 class LoopPedal(ButtonOnPedalBoard):
 
-	def __init__(self, name, button, state, FuncTwoType, FuncTwoPort):
+	def __init__(self, name, button, state, func_two_type, func_two_port):
 		type = "LoopPedal"
-		super(LoopPedal, self).__init__(name, state, button, type, FuncTwoType, FuncTwoPort)
+		super(LoopPedal, self).__init__(name, state, button, type, func_two_type, func_two_port)
 
 	def buttonState(self, intCapturePinVal, mode):
 		if not intCapturePinVal:
-			self.isPressed = True
+			self.is_pressed = True
 			self.start = time.time()
 		else:
 			self.end = time.time()
@@ -400,7 +396,7 @@ class LoopPedal(ButtonOnPedalBoard):
 			else:
 				#self.PedalConfigChanged == False
 				self.partner.PedalConfigChanged == False
-			self.isPressed = False
+			self.is_pressed = False
 
 
 class MidiLoopPedal(LoopPedal, MidiPedal):
@@ -409,7 +405,7 @@ class MidiLoopPedal(LoopPedal, MidiPedal):
 		"KLONE_CLIP_CC":"\x52", "ENGAGE_CC":"\x64", "BYPASS_CC":"\x65", "CYCLE_CLIP_CC":"\x5D", 
 		"TOGGLEBYPASS_CC":"\x67"}
 
-	def __init__(self, name, pin, state, preset, MIDIchannel, FuncTwoType, FuncTwoPort, brand):
+	def __init__(self, name, pin, state, preset, MIDIchannel, func_two_type, func_two_port, brand):
 		self.type = "MidiLoopPedal"
 		self.brand = brand
 		self.preset = preset
@@ -417,7 +413,7 @@ class MidiLoopPedal(LoopPedal, MidiPedal):
 		if self.brand == "Selah":
 			self.MidiCommandDict = self.SelahCommands
 			self.setSelahPreset(self.preset)
-		LoopPedal.__init__(self, name, pin, state, FuncTwoType, FuncTwoPort)
+		LoopPedal.__init__(self, name, pin, state, func_two_type, func_two_port)
 
 	def turnOn(self):
 		#turn on via MIDI
@@ -441,8 +437,8 @@ class MidiLoopPedal(LoopPedal, MidiPedal):
 			self.midi.SelahPresetChange(self.MidiCommandDict["KLONE_CLIP_CC"], self.MidiCommandDict["DATA_BYTE"])		
 
 	def secondaryFunction(self):
-		if self.FuncTwoType == "MIDI":
-			self.midi.MIDI_CC_TX(self.MidiCommandDict[self.FuncTwoPort], self.MidiCommandDict["DATA_BYTE"])
+		if self.func_two_type == "MIDI":
+			self.midi.MIDI_CC_TX(self.MidiCommandDict[self.func_two_port], self.MidiCommandDict["DATA_BYTE"])
 		else:
 			super(MidiLoopPedal, self).secondaryFunction()
 	
@@ -527,16 +523,16 @@ class Empty(ButtonOnPedalBoard):
 
 	def __init__(self, name, button, state):
 		type = "Empty"
-		FuncTwoType = "None"
-		FuncTwoPort = "None"
-		super(Empty, self).__init__(name, state, button, type, FuncTwoType, FuncTwoPort)
+		func_two_type = "None"
+		func_two_port = "None"
+		super(Empty, self).__init__(name, state, button, type, func_two_type, func_two_port)
 
 	def buttonState(self, intCapturePinVal, mode):
 		
 		if not intCapturePinVal:
 			self.turnOn()
-			self.isPressed = True
+			self.is_pressed = True
 		else:
 			self.turnOff()
-			self.isPressed = False
+			self.is_pressed = False
 			

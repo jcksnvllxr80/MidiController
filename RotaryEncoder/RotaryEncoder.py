@@ -3,10 +3,11 @@ import time
 import RPi.GPIO as GPIO
 import os
 import xml.etree.ElementTree as ET # for reading and writing to XML files
-#import user packages
+#import custom packages
 import EffectLoops
 import Adafruit_CharLCD
 import PartSongSet
+import N_Tree
 
 SET_FOLDER = "/home/pi/Looper/PartSongSet/Sets/"
 DEFAULT_FILE = "/home/pi/Looper/Main/PedalGroup.xml"
@@ -21,6 +22,7 @@ class RgbKnob(object):
 	BLUE_PIN = 21
 	#global variables
 	FREQ = 1000
+	COLORS = ["Off", "Blue", "Green", "Cyan", "Red", "Magenta", "Yellow", "White"]
 	
 	def __init__(self, knob_color):
 		col, val = knob_color
@@ -69,21 +71,21 @@ class RgbKnob(object):
 		else:
 			v = self.brightness
 		#depending on the color string set the individual components r, g, and b
-		if newColor == "Off":
+		if newColor == self.COLORS[0]:
 			self.r, self.g, self.b = (0, 0, 0)
-		elif newColor == "Blue":
+		elif newColor == self.COLORS[1]:
 			self.r, self.g, self.b = (0, 0, v)
-		elif newColor == "Green":
+		elif newColor == self.COLORS[2]:
 			self.r, self.g, self.b = (0, v, 0)
-		elif newColor == "Cyan":
+		elif newColor == self.COLORS[3]:
 			self.r, self.g, self.b = (0, v, v)
-		elif newColor == "Red":
+		elif newColor == self.COLORS[4]:
 			self.r, self.g, self.b = (v, 0, 0)
-		elif newColor == "Magenta":
+		elif newColor == self.COLORS[5]:
 			self.r, self.g, self.b = (v, 0, v)
-		elif newColor == "Yellow":
+		elif newColor == self.COLORS[6]:
 			self.r, self.g, self.b = (v, v, 0)
-		elif newColor == "White":
+		elif newColor == self.COLORS[7]:
 			self.r, self.g, self.b = (v, v, v)	
 		#update the duty cycle since duty cycle is how brightness is realized
 		self.setRGBDutyCycle()
@@ -100,115 +102,179 @@ class RgbKnob(object):
 class Rotary_Encoder(RgbKnob):
 	'''class for everything to do with the rotary encoder. its parent is RgbKnob
 	'''
-	#menu list definitions
-	brightnessMenu = ["0", "1", "7", "15", "30", "50", "100"]
-	fontSizeMenu = ["12", "14", "16", "18", "20", "24", "28", "32", "38", "48"]
-	colorMenu = ["Off", "Blue", "Green", "Cyan", "Red", "Magenta", "Yellow", "White"]
-	#menu definitions
-	menuDictionary = {"MainMenu":["SongInfo", "Set", "Song", "Part", "BPM", "Pedals"], 
-		"GlobalMenu":["Knob Color", "Knob Brightness", "Font Type", "Font Size"],
-		"BrightnessMenu":brightnessMenu, "FontSizeMenu":fontSizeMenu,
-		"GoodbyeMenu":["Power down? \nNO yes", "Power down? \nno YES"],
-		"KnobMenu":colorMenu, "LoadSetMenu":[], "LoadSongMenu":[], "SongMenu":[],
-		"LoadFontMenu":[], "PartMenu":[], "PedalMenu":[]}
 
-	#DefaultPedals = ET.parse(DEFAULT_FILE) 
-	#DefaultPedalsRoot = DefaultPedals.getroot() #assign the root of the file to a variable
+	# NOTE: Need to always display song info (main menu / root of menu tree)
+	# on 1 short click go to song/set/part/bpm/pedal menun
+	# on 2 second click got to global menu
+	# on 5 second click go to power off menu
+
+	# build menu with N_Tree
+	menu = N_Tree.N_Tree("root")
+	setup_menu = menu.root.add_child("Setup")
+	global_menu = menu.root.add_child("Global")
+	goodbye_menu = menu.root.add_child("Goodbye", power_off_prompt)
 	
-	def __init__(self, **kwargs):
+	def __init__(self, **kwargs):		
 		knobCol = kwargs["kc"]
 		knobBright = kwargs["kb"]
 		knob_color = (knobCol, knobBright)
-		set = kwargs["sl"]
-		song = kwargs["s"]
-		part = kwargs["p"]
+		previously_loaded_set = kwargs["sl"]
+		previously_loaded_song = kwargs["s"]
+		previously_loaded_part = kwargs["p"]
 		#initialize parent class
 		super(Rotary_Encoder, self).__init__(knob_color)
 		self.lcd = Adafruit_CharLCD.Adafruit_CharLCDPlate() #Rotary_Encoder "has-a" lcd
 		self.setlist = PartSongSet.Setlist() #Rotary_Encoder "has-a" Setlist
 		self.displayed_msg = ""
-		self.setlistName = set
+		self.setlist_name = previously_loaded_set
 		#load the set, song, and part that was last used that was saved to the default file
-		self.setlist.loadSetlist(SET_FOLDER + set)
-		self.currentSong = self.setlist.songs.head
-		while self.currentSong.next is not None and song <> self.currentSong.data.name:
-			self.currentSong = self.currentSong.next
-		self.currentPart = self.currentSong.data.parts.head
-		while self.currentPart.next is not None and part <> self.currentPart.data.partName:
-			self.currentPart = self.currentPart.next
-		self.changeToMenu("MainMenu") #starting menu
+		self.setlist.loadSetlist(SET_FOLDER + previously_loaded_set)
+		self.current_song = self.setlist.songs.head
+		while self.current_song.next is not None and previously_loaded_song <> self.current_song.data.name:
+			self.current_song = self.current_song.next
+		self.current_part = self.current_song.data.parts.head
+		while self.current_part.next is not None and previously_loaded_part <> self.current_part.data.part_name:
+			self.current_part = self.current_part.next
+
+		self.rebuild_menu()
+
+		# build global menu
+		self.knobcolor_menu = self.global_menu.add_child("Knob Color", self.show_knob_colors)
+		self.knobbrightness_menu = self.global_menu.add_child("Knob Brightness", self.show_brightness)
+
+		# self.changeToMenu("MainMenu") #starting menu
 		#variables for the rotary movement interpretation loop
 		self.lastGoodSeq = 0
 		self.lastSeq = 0
 		self.rotaryTimer = 0
 		#keeps time for last rotary turn in seconds
 		self.lastRotaryTurn = 0
-		self.fontSize = 28
-		self.fontType = 'upheavtt.ttf'
+		self.child_num = 0
 
-		
+
+	def rebuild_menu(self):
+		# build setup menu
+		self.songs_menu = self.setup_menu.add_child("Songs", self.show_songs)
+		self.parts_menu = self.setup_menu.add_child("Parts", self.show_parts_of_song)
+		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm_for_song)
+		self.pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedal_states)
+		self.setlist_menu = self.setup_menu.add_child("Sets", self.show_available_setlists)
+
+
+	# def update_menu_properties(self, newMenu):
+	# 	'''change to a new menu based on the argument passed 'newMenu', redefine menuitems with the
+	# 	items associated with the new menu, set the menu  position to 0, and display the menu item 
+	# 	at the current postion.
+	# 	'''
+	# 	self.menu_items = self.menuDictionary[newMenu]
+	# 	self.menu_items_position = 0
+	# 	if newMenu == "MainMenu":
+	# 		self.getMainMenuMessage(self.menu_items[self.menu_items_position])
+	# 	else:
+	# 		self.set_message(self.menu_items[self.menu_items_position])
+
+
+	def power_off_prompt(self):
+		self.menu_items = ["NO yes", "no YES"]
+		self.menu_items_position = 0
+		self.set_message("Power Off?")
+
+
+	def show_knob_colors(self):
+		self.menu_items = RgbKnob.COLORS
+		self.menu_items_position = 0
+		self.set_message("Knob color")
+
+
+	def show_brightness(self):
+		# brightness_range = range(0, 100)
+		self.set_message(str(self.brightness))
+
+
+	def show_pedal_states(self):
+		self.current_part.PedalDictionary
+
+
+	def show_bpm_for_song(self):
+		self.current_song.bpm
+		# dont let the tempo go below 40 or above 500
+		# if tap tempo button is pressed, 
+		# 	change the tempo by 5
+		# else
+		# 	change the tempo by 0.5 
+
+
+	def show_parts_of_song(self):
+		self.current_song.parts
+
+
+	def show_songs(self):
+		self.setlist.songs
+
+
+	def show_available_setlists(self):
+		# read setlist files from folder where they belong
+		# display the first item in the list
+		setListFiles = os.listdir(SET_FOLDER)
+		setlists = []
+		for setListFile in setListFiles:
+			if setListFile[-4:] == ".xml":
+				newSetName = setListFile[:-4]
+			setlists.append(newSetName)
+		if setlists:
+			return setlists
+		else:
+			return "No setlists"
+
+
 	def changePedalConfiguration(self, option):
 		if option == "Song Down":
-			if self.currentSong.prev is not None: 
-				self.currentSong = self.currentSong.prev
+			if self.current_song.prev is not None: 
+				self.current_song = self.current_song.prev
 				self.loadSong()
 		elif option == "Part Down":
-			if self.currentPart.prev is not None: 
-				self.currentPart = self.currentPart.prev
-				self.loadPart()
+			if self.current_part.prev is not None: 
+				self.current_part = self.current_part.prev
+				self.load_part()
 		elif option == "Part Up":
-			if self.currentPart.next is not None: 
-				self.currentPart = self.currentPart.next
-				self.loadPart()
+			if self.current_part.next is not None: 
+				self.current_part = self.current_part.next
+				self.load_part()
 		elif option == "Song Up":
-			if self.currentSong.next is not None: 
-				self.currentSong = self.currentSong.next
+			if self.current_song.next is not None: 
+				self.current_song = self.current_song.next
 				self.loadSong()
-		elif option == "Main Menu":
-			self.changeToMenu("MainMenu")
+		# elif option == "Main Menu":
+		# 	self.changeToMenu("MainMenu")
 		elif option == "Switch Mode":
-			for pedalObj in self.allPedals:
-				if pedalObj.name == "RotaryPB":
-					pedalObj.switchModes()
+			for pedal_obj in self.all_pedals:
+				if pedal_obj.name == "RotaryPB":
+					pedal_obj.switch_modes()
 		
 
 			
-	def loadPart(self):
+	def load_part(self):
 		tempoObj = None
-		for pedalObj in self.allPedals:
-			if pedalObj.name not in ["Empty", "RotaryPB", "TapTempo"]:
-				state, setting = self.currentPart.data.PedalDictionary[pedalObj.name]
+		for pedal_obj in self.all_pedals:
+			if pedal_obj.name not in ["Empty", "RotaryPB", "TapTempo"]:
+				state, setting = self.current_part.data.PedalDictionary[pedal_obj.name]
 				if state:
-					pedalObj.turnOn()
+					pedal_obj.turnOn()
 				else:
-					pedalObj.turnOff()
+					pedal_obj.turnOff()
 				if setting is not None:
-					pedalObj.setSetting(setting)
-				if pedalObj.name == "TimeLine":
-					pedalObj.setTempo(float(self.currentSong.data.bpm))
-			elif pedalObj.name == "TapTempo":
-				tempoObj = pedalObj #store this object for later use. 
+					pedal_obj.setSetting(setting)
+				if pedal_obj.name == "TimeLine":
+					pedal_obj.setTempo(float(self.current_song.data.bpm))
+			elif pedal_obj.name == "TapTempo":
+				tempoObj = pedal_obj #store this object for later use. 
 				#need to get all the pedals to their correct state before messsing with tempo
 		#now that we are out of the for loop, set the tempo
-		self.setSongInfoMessage()
+		self.rebuild_menu()
+		self.set_song_info_message()
 		if tempoObj is not None:
-			tempoObj.setTempo(float(self.currentSong.data.bpm))
+			tempoObj.setTempo(float(self.current_song.data.bpm))
 		self.savePartToDefault()
-		# self.handleDisplayColors()
-		
-		
-	# def handleDisplayColors(self):
-	# 	EffectLoops.ButtonDisplay.currentButton_SongMode.invertDisplayColors = False
-	# 	#print EffectLoops.ButtonDisplay.currentButton_SongMode.name + " footswitch display to no longer be inverted" #testing
-		
-	# 	EffectLoops.ButtonDisplay.currentButton_SongMode = self.pedalButtonDict[
-	# 				self.currentSong.data.parts.nodeToIndex(self.currentPart)]
-	# 	#print "footswitch display #" + str(self.currentSong.data.parts.nodeToIndex(
-	# 	#	self.currentPart)) + ": " + self.currentPart.data.partName + " set as new highlighted part." #testing
-
-	# 	#find the footswitch display associated with the part just loaded and invert its colors
-	# 	EffectLoops.ButtonDisplay.currentButton_SongMode.invertDisplayColors = True
-	# 	#print EffectLoops.ButtonDisplay.currentButton_SongMode.name + " footswitch display to now be inverted" #testing
 
 
 	def rotaryMovement(self, a, b): 
@@ -260,188 +326,138 @@ class Rotary_Encoder(RgbKnob):
 		else:
 			return None
 
-			
-	def menuFunction(self,func):
-		'''do methods needed based on menu option chosen with rotary encoder and push button
-		'''
-		if func == "Set":
-			#change menu list to a list of all sets in the sets folder set the menuposition to 0
-			#and display the first item in the list
-			self.currentMenu = "LoadSetMenu"
-			setListFiles = os.listdir(SET_FOLDER)
-			setlists = []
-			for setListFile in setListFiles:
-				if setListFile[-4:] == ".xml":
-					newSetName = setListFile[:-4]
-				setlists.append(newSetName)
-			self.menuDictionary[self.currentMenu] = setlists
-			self.changeToMenu("LoadSetMenu")
-		elif func == "Song":
-			#change menu list to a list of all songs in the current setlist, add the list to the menuDict
-			#for the SongMenu item and change to the 'SongMenu' menu
-			self.currentMenu = "SongMenu"
-			self.menuDictionary[self.currentMenu] = self.setlist.songs
-			self.currentSong = self.menuDictionary[self.currentMenu].head
-			self.setMessage(self.currentSong.data.name)
-		elif func == "Part":
-			self.currentMenu = "PartMenu"
-			self.menuDictionary[self.currentMenu] = self.currentSong.data.parts
-			self.currentPart = self.menuDictionary[self.currentMenu].head
-			self.setMessage(self.currentPart.data.partName)
-		elif func == "Pedals":
-			#display a list of pedals
-			self.currentMenu = "PedalMenu"
-			self.menuDictionary[self.currentMenu] = self.allPedals
-			self.menuItems = self.menuDictionary[self.currentMenu]
-			self.menuPos = 0
-			self.setMessage(self.menuItems[self.menuPos].name + "\n" + str(self.menuItems[self.menuPos].getState()))
-		elif func == "BPM":
-			self.setMessage(self.currentSong.data.bpm)
-		elif func == "Knob Color":
-			self.changeToMenu("KnobMenu")
-		elif func == "Knob Brightness":
-			self.changeToMenu("BrightnessMenu")
-		elif func == "Font Size":
-			self.changeToMenu("FontSizeMenu")
-		elif func == "Font Type":
-			self.currentMenu = "LoadFontMenu"
-			rawFontList = os.listdir(FONT_FOLDER)
-			fontlist = []
-			for rawfont in rawFontList:
-				if rawfont[-4:] == ".ttf":
-					newFontName = rawfont[:-4]
-				fontlist.append(newFontName)
-			self.menuDictionary[self.currentMenu] = fontlist
-			self.changeToMenu("LoadFontMenu")
-			#self.changeToMenu("fontTypeMenu")
-		elif func in self.colorMenu:
-			self.setColor(func)
-			self.saveColorToDefault()
-			self.changeToMenu("GlobalMenu")
-		elif func in self.brightnessMenu:
-			self.setBrightness(int(func))
-			self.saveColorToDefault()
-			self.changeToMenu("GlobalMenu")
-		elif func == "Power down? \nno YES":
-			self.setMessage("Goodbye.")
-			self.lcd._delay_microseconds(1000000)
-			self.lcd.set_backlight(0)
-			os.system('shutdown now -h')
-		elif func == "Power down? \nNO yes":
-			self.changeToMenu("MainMenu")
-		elif self.currentMenu == "LoadSetMenu":
-			self.setMessage("Loading set...")
-			self.setlistName = func
-			self.setlist.loadSetlist(SET_FOLDER + func)
-			self.currentSong = self.setlist.songs.head
-			self.currentPart = self.currentSong.data.parts.head
-			self.loadPart()
-			# self.updateButtonDisplays()
-			self.changeToMenu("MainMenu")
-		elif self.currentMenu == "LoadFontMenu":
-			# self.updateButtonDisplays(func, None)
-			self.changeToMenu("GlobalMenu")
-		elif self.currentMenu == "FontSizeMenu":
-			# self.updateButtonDisplays(None, func)
-			self.changeToMenu("GlobalMenu")
-		elif self.currentMenu == "PartMenu":
-			self.loadPart()
-			# self.updateButtonDisplays()
-			self.changeToMenu("MainMenu")
-		elif self.currentMenu == "SongMenu":
-			self.loadSong()
-			self.changeToMenu("MainMenu")
-		elif self.currentMenu == "PedalMenu":
-			if self.menuItems[self.menuPos].isEngaged:
-				self.menuItems[self.menuPos].turnOff()
-			else:
-				self.menuItems[self.menuPos].turnOn()
-			self.setMessage(self.menuItems[self.menuPos].name + "\n" + str(self.menuItems[self.menuPos].getState()))
 
-			
+	# def menuFunction(self,func):
+	# 	'''do methods needed based on menu option chosen with rotary encoder and push button
+	# 	'''
+	# 	if func == "Set":
+	# 		#change menu list to a list of all sets in the sets folder set the menuposition to 0
+	# 		#and display the first item in the list
+	# 		# self.currentMenu = "LoadSetMenu"
+	# 		# setListFiles = os.listdir(SET_FOLDER)
+	# 		# setlists = []
+	# 		# for setListFile in setListFiles:
+	# 		# 	if setListFile[-4:] == ".xml":
+	# 		# 		newSetName = setListFile[:-4]
+	# 		# 	setlists.append(newSetName)
+	# 		# self.menuDictionary[self.currentMenu] = setlists
+	# 		# self.changeToMenu("LoadSetMenu")
+	# 	elif func == "Song":
+	# 		#change menu list to a list of all songs in the current setlist, add the list to the menuDict
+	# 		#for the SongMenu item and change to the 'SongMenu' menu
+	# 		self.currentMenu = "SongMenu"
+	# 		self.menuDictionary[self.currentMenu] = self.setlist.songs
+	# 		self.current_song = self.menuDictionary[self.currentMenu].head
+	# 		self.set_message(self.current_song.data.name)
+	# 	elif func == "Part":
+	# 		self.currentMenu = "PartMenu"
+	# 		self.menuDictionary[self.currentMenu] = self.current_song.data.parts
+	# 		self.current_part = self.menuDictionary[self.currentMenu].head
+	# 		self.set_message(self.current_part.data.part_name)
+	# 	elif func == "Pedals":
+	# 		#display a list of pedals
+	# 		self.currentMenu = "PedalMenu"
+	# 		self.menuDictionary[self.currentMenu] = self.all_pedals
+	# 		self.menu_items = self.menuDictionary[self.currentMenu]
+	# 		self.menu_items_position = 0
+	# 		self.set_message(self.menu_items[self.menu_items_position].name + "\n" + str(self.menu_items[self.menu_items_position].getState()))
+	# 	elif func == "BPM":
+	# 		self.set_message(self.current_song.data.bpm)
+	# 	elif func == "Knob Color":
+	# 		self.changeToMenu("KnobMenu")
+	# 	elif func == "Knob Brightness":
+	# 		self.changeToMenu("BrightnessMenu")
+	# 	elif func in self.colorMenu:
+	# 		self.setColor(func)
+	# 		self.save_color_as_default()
+	# 		self.changeToMenu("GlobalMenu")
+	# 	elif func in self.brightnessMenu:
+	# 		self.setBrightness(int(func))
+	# 		self.save_color_as_default()
+	# 		self.changeToMenu("GlobalMenu")
+	# 	elif func == "Power down? \nno YES":
+	# 		self.set_message("Goodbye.")
+	# 		self.lcd._delay_microseconds(1000000)
+	# 		self.lcd.set_backlight(0)
+	# 		os.system('shutdown now -h')
+	# 	elif func == "Power down? \nNO yes":
+	# 		self.changeToMenu("MainMenu")
+	# 	elif self.currentMenu == "LoadSetMenu":
+	# 		self.set_message("Loading set...")
+	# 		self.setlist_name = func
+	# 		self.setlist.loadSetlist(SET_FOLDER + func)
+	# 		self.current_song = self.setlist.songs.head
+	# 		self.current_part = self.current_song.data.parts.head
+	# 		self.load_part()
+	# 		self.changeToMenu("MainMenu")
+	# 	elif self.currentMenu == "LoadFontMenu":
+	# 		self.changeToMenu("GlobalMenu")
+	# 	elif self.currentMenu == "FontSizeMenu":
+	# 		self.changeToMenu("GlobalMenu")
+	# 	elif self.currentMenu == "PartMenu":
+	# 		self.load_part()
+	# 		self.changeToMenu("MainMenu")
+	# 	elif self.currentMenu == "SongMenu":
+	# 		self.loadSong()
+	# 		self.changeToMenu("MainMenu")
+	# 	elif self.currentMenu == "PedalMenu":
+	# 		if self.menu_items[self.menu_items_position].isEngaged:
+	# 			self.menu_items[self.menu_items_position].turnOff()
+	# 		else:
+	# 			self.menu_items[self.menu_items_position].turnOn()
+	# 		self.set_message(self.menu_items[self.menu_items_position].name + "\n" + str(self.menu_items[self.menu_items_position].getState()))
+
+
 	def loadSong(self):
-		self.currentPart = self.currentSong.data.parts.head
-		# for pedal in self.pedalButtonDict.values():
-		# 	pedal.invertDisplayColors = False
-		self.loadPart()
-		# self.updateButtonDisplays()
+		self.current_part = self.current_song.data.parts.head
+		self.load_part()
 
-		
+
 	def changeMenuPos(self, direction):
 		'''change the current position of the menu and display the new menu item
 		unless the end or the beginning of the list has been reached
 		'''
-		if self.currentMenu == "PartMenu": #handle partmenu different; its a doublylinkedlist
+		if self.menu.current_node.children:
 			if direction == "CW":
-				if self.currentPart.next is not None: 
-					self.currentPart = self.currentPart.next
-					self.setMessage(self.currentPart.data.partName)
+				if self.child_num < len(self.menu.current_node.children) - 1:
+					self.child_num += 1
+					self.set_message(self.menu.current_node.name + "\n" + self.menu.current_node.children[self.child_num].name)
 			elif direction == "CCW":
-				if self.currentPart.prev is not None:
-					self.currentPart = self.currentPart.prev
-					self.setMessage(self.currentPart.data.partName)
-		elif self.currentMenu == "SongMenu":
-			if direction == "CW":
-				if self.currentSong.next is not None: 
-					self.currentSong = self.currentSong.next
-					self.displayWordWrap(self.currentSong.data.name)
-			elif direction == "CCW":
-				if self.currentSong.prev is not None:
-					self.currentSong = self.currentSong.prev
-					self.displayWordWrap(self.currentSong.data.name)
-		elif self.currentMenu == "PedalMenu":
-			if direction == "CW":
-				if self.menuPos < len(self.menuItems) - 1:
-					self.menuPos += 1
-					self.setMessage(self.menuItems[self.menuPos].name + "\n" + str(self.menuItems[self.menuPos].getState()))
-			elif direction == "CCW":
-				if self.menuPos > 0:
-					self.menuPos -= 1
-					self.setMessage(self.menuItems[self.menuPos].name + "\n" + str(self.menuItems[self.menuPos].getState()))
+				if self.child_num > 0:
+					self.child_num -= 1
+					self.set_message(self.menu.current_node.name + "\n" + self.menu.current_node.children[self.child_num].name)
 		else:
 			if direction == "CW":
-				if self.menuPos < len(self.menuItems) - 1:
-					self.menuPos += 1
-					menuStr = self.menuItems[self.menuPos]
-					if menuStr in ["SongInfo", "Set", "Song", "Part", "BPM"]:
-						self.getMainMenuMessage(menuStr)
-					else:
-						self.setMessage(menuStr)
+				pass
 			elif direction == "CCW":
-				if self.menuPos > 0:
-					self.menuPos -= 1
-					menuStr = self.menuItems[self.menuPos]
-					if menuStr in ["SongInfo", "Set", "Song", "Part", "BPM"]:
-						self.getMainMenuMessage(menuStr)
-					else:
-						self.setMessage(menuStr)
+				pass
 
 						
 	def getMainMenuMessage(self, menuStr):
 		if menuStr == "Set":
-			self.setMessage(self.setlist.getSetlistName())
+			self.set_message(self.setlist.getSetlistName())
 		elif menuStr == "SongInfo":
-			self.setSongInfoMessage()
+			self.set_song_info_message()
 		elif menuStr == "Song":
-			self.displayWordWrap(self.currentSong.data.name)
+			self.display_word_wrap(self.current_song.data.name)
 		elif menuStr == "Part":
-			self.setMessage(self.currentPart.data.partName)
+			self.set_message(self.current_part.data.part_name)
 		else:
-			self.setMessage(self.currentSong.data.bpm + "BPM")
+			self.set_message(self.current_song.data.bpm + "BPM")
 
 			
-	def getMenuItemString(self):
-		'''get the current menu item from the menulist associated with the currentmenu
-		'''
-		if self.currentMenu == "PartMenu":
-			return self.currentPart.data.partName
-		if self.currentMenu == "SongMenu":
-			return self.currentSong.data.name
-		else:
-			return self.menuDictionary[self.currentMenu][self.menuPos]
+	# def getMenuItemString(self):
+	# 	'''get the current menu item from the menulist associated with the currentmenu
+	# 	'''
+	# 	if self.currentMenu == "PartMenu":
+	# 		return self.current_part.data.part_name
+	# 	if self.currentMenu == "SongMenu":
+	# 		return self.current_song.data.name
+	# 	else:
+	# 		return self.menuDictionary[self.currentMenu][self.menu_items_position]
 
 			
-	def setMessage(self, msg):
+	def set_message(self, msg):
 		'''display a message on the lcd screen
 		'''
 		self.lcd.clear()
@@ -449,77 +465,63 @@ class Rotary_Encoder(RgbKnob):
 		self.displayed_msg = msg
 
 		
-	def displayWordWrap(self, text):
+	def display_word_wrap(self, text):
 		if len(text) > 16:
 			overflow = len(text) - 16
-			self.setMessage(text[:-overflow] + "\n" + text[-overflow:])
+			self.set_message(text[:-overflow] + "\n" + text[-overflow:])
 		else:
-			self.setMessage(text)
+			self.set_message(text)
 
 			
-	def setSongInfoMessage(self):
-		self.setMessage(self.currentSong.data.name + "\n"
-			+ self.currentSong.data.bpm + "BPM - " + self.currentPart.data.partName)
+	def set_song_info_message(self):
+		self.set_message(self.current_song.data.name + "\n"
+			+ self.current_song.data.bpm + "BPM - " + self.current_part.data.part_name)
 
 			
-	def getMessage(self):
+	def get_message(self):
 		'''return the message on the lcd screen
 		'''
 		return self.displayed_msg
 
 		
-	def changeToMenu(self, newMenu):
-		'''change to a new menu based on the argument passed 'newMenu', redefine menuitems with the
-		items associated with the new menu, set the menu  position to 0, and display the menu item 
-		at the current postion.
-		'''
-		self.currentMenu = newMenu
-		self.menuItems = self.menuDictionary[newMenu]
-		self.menuPos = 0
-		if newMenu == "MainMenu":
-			self.getMainMenuMessage(self.menuItems[self.menuPos])
-		else:
-			self.setMessage(self.menuItems[self.menuPos])
-
-		
-	def getCurrentMenu(self):
+	def get_current_menu(self):
 		'''return the current menu 
 		'''
-		return self.currentMenu
+		return self.menu.current_node.name
 
 		
-	def setPedalsList(self, pedals, mode):
+	def set_pedals_list(self, pedals, mode):
 		'''sets the pedal list for the current pedal layout.
-		pedals come in as a dictionary. "allPedals" is a list 
+		pedals come in as a dictionary. "all_pedals" is a list 
 		of the objects from the pedals dictionary but stripped 
 		of their respective button numbers.
 		'''
-		self.pedalButtonDict = {}
-		self.pedalPinDict = pedals
-		self.allPedals = self.pedalPinDict.values()
-		for pedalObj in self.allPedals:
-			if isinstance(pedalObj, EffectLoops.ButtonOnPedalBoard) and pedalObj.name != "RotaryPB":
-				self.pedalButtonDict[pedalObj.button] = pedalObj
+		self.pedal_button_dict = {}
+		self.pedal_pin_dict = pedals
+		self.all_pedals = self.pedal_pin_dict.values()
+		for pedal_obj in self.all_pedals:
+			if isinstance(pedal_obj, EffectLoops.ButtonOnPedalBoard) and pedal_obj.name != "RotaryPB":
+				self.pedal_button_dict[pedal_obj.button] = pedal_obj
 		if mode == "Song":
-			self.changeToFootswitchItem()
-			self.loadPart()
-		self.switchModes(mode)
+			self.change_to_footswitch_item()
+			self.load_part()
+		self.switch_modes(mode)
 
 		
-	def getPedalsList(self):
+	def get_pedals_list(self):
 		'''returns the pedal list for the current pedal layout
 		'''
-		return self.allPedals
+		return self.all_pedals
 
 		
-	def setTempMessage(self, tempMessage):
-		savedMessage = self.getMessage()
-		self.setMessage(tempMessage)
+	def set_temp_message(self, temp_message):
+		saved_message = self.get_message()
+		self.set_message(temp_message)
 		self.lcd._delay_microseconds(1000000)
-		self.setMessage(savedMessage)
+		self.set_message(saved_message)
 
 		
-	def saveColorToDefault(self):
+	def save_color_as_default(self):
 		Defaults = ET.parse(DEFAULT_FILE)
 		Root = Defaults.getroot()
 		Root.find('knobColor').text = self.color 
@@ -530,57 +532,17 @@ class Rotary_Encoder(RgbKnob):
 	def savePartToDefault(self):
 		Defaults = ET.parse(DEFAULT_FILE)
 		Root = Defaults.getroot()
-		Root.find('setList').text = self.setlistName
-		Root.find('song').text = self.currentSong.data.name
-		Root.find('part').text = self.currentPart.data.partName
+		Root.find('setList').text = self.setlist_name
+		Root.find('song').text = self.current_song.data.name
+		Root.find('part').text = self.current_part.data.part_name
 		Defaults.write(DEFAULT_FILE,encoding="us-ascii", xml_declaration=True)
-		
-	
-	def saveFontTypeToDefault(self, font_type):
-		Defaults = ET.parse(DEFAULT_FILE)
-		Root = Defaults.getroot()
-		Root.find('fontType').text = font_type
-		Defaults.write(DEFAULT_FILE,encoding="us-ascii", xml_declaration=True)
-		
-	def saveFontSizeToDefault(self, font_size):
-		Defaults = ET.parse(DEFAULT_FILE)
-		Root = Defaults.getroot()
-		Root.find('fontSize').text = font_size
-		Defaults.write(DEFAULT_FILE,encoding="us-ascii", xml_declaration=True)
-	
-	
-	# def updateButtonDisplays(self, ft=None, fs=None):
-	# 	if self.mode == "Song":
-	# 		songpart = self.currentSong.data.parts.head
-	# 		for i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]:
-	# 			if ft is not None:
-	# 				self.pedalButtonDict[i].setFont(fontType=ft)
-	# 			if fs is not None:
-	# 				self.pedalButtonDict[i].setFont(fontSize=fs)
-	# 			if songpart is not None:
-	# 				self.pedalButtonDict[i].setButtonDisplayMessage(songpart.data.partName, self.mode)
-	# 				songpart = songpart.next
-	# 			else:
-	# 				self.pedalButtonDict[i].setButtonDisplayMessage("", self.mode)
-	# 	else:
-	# 		for i in [1, 2, 3, 4, 5, 6, 7, 8, 9, 10]:
-	# 			#if self.pedalButtonDict[i].name != "RotaryPB":
-	# 			if ft is not None:
-	# 				self.pedalButtonDict[i].setFont(fontType=ft)
-	# 			if fs is not None:
-	# 				self.pedalButtonDict[i].setFont(fontSize=fs)
-	# 			self.pedalButtonDict[i].setButtonDisplayMessage(self.pedalButtonDict[i].name, self.mode)
-	# 	if ft is not None:
-	# 		self.saveFontTypeToDefault(ft)
-	# 	if fs is not None:
-	# 		self.saveFontSizeToDefault(fs)
 
 	
-	def changeToFootswitchItem(self, button=None):
+	def change_to_footswitch_item(self, button=None):
 		if button is not None:
-			if button <= self.currentSong.data.parts.getLength() and not self.currentPart == self.currentSong.data.parts.indexToNode(button):
-				self.currentPart = self.currentSong.data.parts.indexToNode(button)
-				self.loadPart()
+			if button <= self.current_song.data.parts.getLength() and not self.current_part == self.current_song.data.parts.indexToNode(button):
+				self.current_part = self.current_song.data.parts.indexToNode(button)
+				self.load_part()
 
 
 
@@ -590,18 +552,15 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 	'''
 	def __init__(self, button, state, mode, **kwargs):
 		type = "RotaryPushButton"
-		FuncTwoType = "Settings"
-		FuncTwoPort = "None"
+		func_two_type = "Settings"
+		func_two_port = "None"
 		name = "RotaryPB"
-		fontType = kwargs["ft"]
-		fontSize = kwargs["fs"]
 		Rotary_Encoder.__init__(self, **kwargs) #initialize parent class rotary encoder
 		#initialize parent class buttonOnPedalboard
-		super(RotaryPushButton, self).__init__(name, state, button, type, FuncTwoType, FuncTwoPort, ft=fontType, fs=fontSize)
-		#self.switchModes(mode)
+		super(RotaryPushButton, self).__init__(name, state, button, type, func_two_type, func_two_port)
 		
 		
-	def switchModes(self, mode=None):
+	def switch_modes(self, mode=None):
 		if mode is None:
 			if self.isEngaged:
 				self.turnOff()
@@ -616,8 +575,6 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 			else:
 				self.turnOn()
 				self.mode = "Song"
-		# self.handleDisplayColors()
-		# self.updateButtonDisplays(None, None)
 		self.saveModeToDefault()
 			
 			
@@ -626,8 +583,8 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 		Root = Defaults.getroot()
 		Root.find('mode').text = self.mode 
 		Defaults.write(DEFAULT_FILE,encoding="us-ascii", xml_declaration=True)
-	
-	
+
+
 	def buttonState(self, intCapturePinVal):
 		'''sets the state (isPressed) of the rotaryPushButton and captures the time of the press
 		so that when it is released, the difference can be calculated
@@ -640,17 +597,25 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 			deltaT = self.end - self.start 
 			
 			if deltaT < 0.5: #if the press was shorter than half a second
-				menuItemStr = self.getMenuItemString()
-				self.menuFunction(menuItemStr)
-				if self.currentMenu == "GoodbyeMenu" and menuItemStr == "Power down? \nNO yes":
-					self.changeToMenu("MainMenu")
+				# select the item or go into the menu currently on the display
+				if self.menu.current_node.func: 
+					self.menu.current_node.func()
+				elif self.menu.current_node is self.menu.root:
+					pass # TODO: implement something when singlke click from main is executed
+				elif self.menu.current_node.children:
+					self.child_num = 0
+					self.menu.current_node.children = self.menu.current_node.children[self.child_num]
+				# if self.currentMenu == "GoodbyeMenu" and menuItemStr == "Power down? \nNO yes":
+				# 	self.changeToMenu("MainMenu")
 			elif deltaT < 2: #longer than half a second but shorter than 2 seconds
-				self.secondaryFunction()
+				if self.menu.current_node.parent:
+					self.menu.current_node = self.menu.current_node.parent
 			else: 
-				if deltaT > 5: #if button held for more than 5 seconds
-					self.changeToMenu("GoodbyeMenu")			
-				elif self.currentMenu == "MainMenu": #otherwise if the button was pressed btwn 2 and 5 secs
-					self.changeToMenu("GlobalMenu")	 #if the currentmenu is mainmenu swap to 'Global'
+				if deltaT > 5: # if button held for more than 5 seconds
+					if not self.menu.current_node is self.goodbye_menu:
+						self.menu.current_node = self.goodbye_menu		
+				elif self.menu.current_node is self.menu.root: #  if the button was pressed btwn 2 and 5 secs
+					self.menu.current_node = self.global_menu	 # if the currentmenu is mainmenu swap to 'Global'
 				else:
-					self.changeToMenu("MainMenu")
+					self.menu.current_node = self.menu.root
 			self.isPressed = False #was released

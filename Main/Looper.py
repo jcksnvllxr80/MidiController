@@ -102,7 +102,7 @@ PedalDict[str(RotaryPB.getPin())] = RotaryPB #assign this pedal to the dictionar
 #print "footswitch display #" + str(RotaryPB.currentSong.data.parts.nodeToIndex(RotaryPB.currentPart)) + " set as initial highlighted part." #testing
 
 #passes a list of pedal objects to the rotary encoder
-RotaryPB.setPedalsList(PedalDict, mode)
+RotaryPB.set_pedals_list(PedalDict, mode)
 #RotaryPB.switchModes(mode)
 
 #define the input pin on the rpi for the MCP23017 bank A and B footswitch interrupt
@@ -150,7 +150,7 @@ def myButtonCallback(interruptPin):
 			#print interruptBank, intFlagPin #TESTING PURPOSES
 			#check to see if the footswitch was pressed in combination with its partner for the 2-button function
 			#like bank up, bank down, next song, etc.
-			if intPedal.partner.isPressed:
+			if intPedal.partner.is_pressed:
 				if interruptValue: 
 					#do the 2-button function for the pedal that called it
 					f = intPedal.partner.getPartnerFunction()

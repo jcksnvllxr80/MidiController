@@ -7,7 +7,7 @@ class Setlist(object):
 	def __init__(self):
 		self.songs = DoublyLinkedList.DoublyLinkedList()  #create an empty list for keeping multiple Song objects
 		self.songList = [] #create an empty list for keeping song names that correspond to the setlist songs
-		
+
 	def setSetlistName(self, setlistName):
 		'''method for stetting the setlist name according to "name" attribute"
 		inside the XML file that describes the particular list
