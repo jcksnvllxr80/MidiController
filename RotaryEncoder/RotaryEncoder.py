@@ -193,7 +193,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def show_pedal_states(self):
-		self.current_part.PedalDictionary
+		self.current_part.pedal_dictionary
 
 
 	def show_bpm_for_song(self):
@@ -258,7 +258,7 @@ class Rotary_Encoder(RgbKnob):
 		tempoObj = None
 		for pedal_obj in self.all_pedals:
 			if pedal_obj.name not in ["Empty", "RotaryPB", "TapTempo"]:
-				state, setting = self.current_part.data.PedalDictionary[pedal_obj.name]
+				state, setting = self.current_part.data.pedal_dictionary[pedal_obj.name]
 				if state:
 					pedal_obj.turnOn()
 				else:
