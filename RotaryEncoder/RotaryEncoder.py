@@ -127,7 +127,7 @@ class Rotary_Encoder(RgbKnob):
 		self.displayed_msg = ""
 		self.setlist_name = previously_loaded_set
 		#load the set, song, and part that was last used that was saved to the default file
-		self.setlist.loadSetlist(SET_FOLDER + previously_loaded_set)
+		self.setlist.load_setlist(SET_FOLDER + previously_loaded_set)
 		self.current_song = self.setlist.songs.head
 		while self.current_song.next is not None and previously_loaded_song <> self.current_song.data.name:
 			self.current_song = self.current_song.next
@@ -386,7 +386,7 @@ class Rotary_Encoder(RgbKnob):
 	# 	elif self.currentMenu == "LoadSetMenu":
 	# 		self.set_message("Loading set...")
 	# 		self.setlist_name = func
-	# 		self.setlist.loadSetlist(SET_FOLDER + func)
+	# 		self.setlist.load_setlist(SET_FOLDER + func)
 	# 		self.current_song = self.setlist.songs.head
 	# 		self.current_part = self.current_song.data.parts.head
 	# 		self.load_part()
@@ -436,7 +436,7 @@ class Rotary_Encoder(RgbKnob):
 						
 	def getMainMenuMessage(self, menuStr):
 		if menuStr == "Set":
-			self.set_message(self.setlist.getSetlistName())
+			self.set_message(self.setlist.setlist_name())
 		elif menuStr == "SongInfo":
 			self.set_song_info_message()
 		elif menuStr == "Song":
