@@ -23,4 +23,4 @@ class N_Tree(object):
 
     def __init__(self, root):
         self.root = Node(root)
-        self.current_node = root
+        self.current_node = self.root
