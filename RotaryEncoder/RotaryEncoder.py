@@ -110,7 +110,7 @@ class Rotary_Encoder(RgbKnob):
 	# on 5 second click go to power off menu
 
 	# build menu with N_Tree
-	menu = N_Tree.N_Tree("root")
+	menu = N_Tree.N_Tree("Looper")
 	setup_menu = menu.root.add_child("Setup")
 	global_menu = menu.root.add_child("Global")
 	
@@ -419,25 +419,31 @@ class Rotary_Encoder(RgbKnob):
 		'''change the current position of the menu and display the new menu item
 		unless the end or the beginning of the list has been reached
 		'''
-		if self.menu.current_node.children:
-			try:
-				print("direction: " + direction + ",\ntype: " + str(type(self.menu.current_node.children)) + ",\ncurrent node name: " + self.menu.current_node.name + ",\nnumber of children in node: " + str(len(self.menu.current_node.children)) + ",\ncurrent child in node: " + str(self.child_num))
-			except:
-				print(sys.exc_info()[0])
-				print("direction: " + direction + ",\ntype: " + str(type(self.menu.current_node.children)) + ",\ncurrent node name: " + self.menu.current_node.name + ",\ncurrent child in node: " + str(self.child_num))
-			if direction == "CW":
-				if self.child_num < len(self.menu.current_node.children) - 1:
-					self.child_num += 1
-					self.set_message(self.menu.current_node.name + "\n" + self.menu.current_node.children[self.child_num].name)
-			elif direction == "CCW":
-				if self.child_num > 0:
-					self.child_num -= 1
-					self.set_message(self.menu.current_node.name + "\n" + self.menu.current_node.children[self.child_num].name)
+		if not self.menu.current_node is self.menu.root:
+			if self.menu.current_node.children:
+				try:
+					print("direction: " + direction + ",\ntype: " + str(type(self.menu.current_node.children)) + ",\ncurrent node name: " + self.menu.current_node.name + ",\nnumber of children in node: " + str(len(self.menu.current_node.children)) + ",\ncurrent child in node: " + str(self.child_num))
+				except:
+					print(sys.exc_info()[0])
+					print("direction: " + direction + ",\ntype: " + str(type(self.menu.current_node.children)) + ",\ncurrent node name: " + self.menu.current_node.name + ",\ncurrent child in node: " + str(self.child_num))
+				if direction == "CW":
+					if self.child_num < len(self.menu.current_node.children) - 1:
+						self.child_num += 1
+						self.set_message(self.menu.current_node.name + "\n" + self.menu.current_node.children[self.child_num].name)
+				elif direction == "CCW":
+					if self.child_num > 0:
+						self.child_num -= 1
+						self.set_message(self.menu.current_node.name + "\n" + self.menu.current_node.children[self.child_num].name)
+			else:
+				if direction == "CW":
+					pass # TODO: somthing here
+				elif direction == "CCW":
+					pass # TODO: somthing here
 		else:
 			if direction == "CW":
-				pass
+				pass # TODO: somthing here
 			elif direction == "CCW":
-				pass
+				pass # TODO: somthing here
 
 						
 	def getMainMenuMessage(self, menuStr):
