@@ -112,7 +112,6 @@ class Rotary_Encoder(RgbKnob):
 	menu = N_Tree.N_Tree("root")
 	setup_menu = menu.root.add_child("Setup")
 	global_menu = menu.root.add_child("Global")
-	goodbye_menu = menu.root.add_child("Goodbye", self.power_off_prompt)
 	
 	def __init__(self, **kwargs):		
 		knobCol = kwargs["kc"]
@@ -137,6 +136,8 @@ class Rotary_Encoder(RgbKnob):
 			self.current_part = self.current_part.next
 
 		self.rebuild_menu()
+
+		self.goodbye_menu = self.menu.root.add_child("Goodbye", self.power_off_prompt)
 
 		# build global menu
 		self.knobcolor_menu = self.global_menu.add_child("Knob Color", self.show_knob_colors)
