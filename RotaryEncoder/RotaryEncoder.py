@@ -608,7 +608,7 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 				if self.menu.current_node.func: 
 					self.menu.current_node.func()
 				elif self.menu.current_node is self.menu.root:
-					pass # TODO: implement something when singlke click from main is executed
+					self.menu.current_node = self.setup_menu
 				elif self.menu.current_node.children:
 					self.menu.current_node = self.menu.current_node.children[self.child_num]
 					self.child_num = 0
