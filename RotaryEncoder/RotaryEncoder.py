@@ -421,7 +421,8 @@ class Rotary_Encoder(RgbKnob):
 		if self.menu.current_node.children:
 			try:
 				print("direction: " + direction + ",\ntype: " + str(type(self.menu.current_node.children)) + ",\ncurrent node name: " + self.menu.current_node.name + ",\nnumber of children in node: " + str(len(self.menu.current_node.children)) + ",\ncurrent child in node: " + str(self.child_num))
-			except TypeError as e:
+			except:
+				print(sys.exc_info()[0])
 				print("direction: " + direction + ",\ntype: " + str(type(self.menu.current_node.children)) + ",\ncurrent node name: " + self.menu.current_node.name + ",\ncurrent child in node: " + str(self.child_num))
 			if direction == "CW":
 				if self.child_num < len(self.menu.current_node.children) - 1:
