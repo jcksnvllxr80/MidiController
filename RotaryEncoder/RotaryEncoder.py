@@ -177,8 +177,10 @@ class Rotary_Encoder(RgbKnob):
 			self.set_song_info_message()
 		elif self.menu.current_node.children:
 			self.set_children_message()
-		elif self.menu.current_node.menu_data_items or self.menu.current_node.menu_data_func:
+		elif self.menu.current_node.menu_data_items:
 			self.set_menu_data_message()
+		elif self.menu.current_node.menu_data_func:
+			self.menu.current_node.menu_data_func()
 		else:
 			print("Error!!")
 			self.set_message("Error!!")
@@ -205,7 +207,7 @@ class Rotary_Encoder(RgbKnob):
 
 	def set_menu_data_message(self):
 		self.set_message(self.menu.current_node.menu_data_prompt + "\n" 
-				+ self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position])
+			+ self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position])
 
 
 	def power_off(self):
