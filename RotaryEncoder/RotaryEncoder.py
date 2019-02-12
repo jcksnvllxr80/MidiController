@@ -264,10 +264,9 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def show_songs(self):
-		self.setup_menu.menu_data_prompt = "Songs..."
+		self.songs_menu.menu_data_prompt = "Songs..."
 		for song in self.setlist.songs.to_list():
-			print(song.name)
-			self.setup_menu.menu_data_items.append(song.name)
+			self.songs_menu.menu_data_items.append(song.name)
 
 
 	def show_available_setlists(self):
