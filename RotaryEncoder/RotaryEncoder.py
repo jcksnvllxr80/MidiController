@@ -456,8 +456,8 @@ class Rotary_Encoder(RgbKnob):
 			else:
 				try:
 					print("current node name: " + self.menu.current_node.name + ",\nnumber of elems in list: " + 
-						str(len(self.menu.current_node.children)) + ",\ncurrent child in node: " + 
-						str(self.menu.current_node.current_child))
+						str(len(self.menu.current_node.menu_data_items)) + ",\ncurrent child in node: " + 
+						str(self.menu.current_node.menu_data_position))
 				except:
 					print(sys.exc_info()[0])
 					print("current node name: " + self.menu.current_node.name + ",\ncurrent elem in list: " + 
