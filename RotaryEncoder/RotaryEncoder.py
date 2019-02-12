@@ -137,7 +137,7 @@ class Rotary_Encoder(RgbKnob):
 			self.current_part = self.current_part.next
 
 		self.rebuild_menu()
-
+		self.set_song_info_message()
 		self.goodbye_menu = self.menu.root.add_child("Goodbye", self.power_off_prompt)
 
 		# build global menu
@@ -146,11 +146,11 @@ class Rotary_Encoder(RgbKnob):
 
 		# self.changeToMenu("MainMenu") #starting menu
 		#variables for the rotary movement interpretation loop
-		self.lastGoodSeq = 0
+		self.last_good_seq = 0
 		self.lastSeq = 0
-		self.rotaryTimer = 0
+		self.rotary_timer = 0
 		#keeps time for last rotary turn in seconds
-		self.lastRotaryTurn = 0
+		self.last_rotary_turn = 0
 		self.child_num = 0
 
 
@@ -171,7 +171,7 @@ class Rotary_Encoder(RgbKnob):
 	# 	self.menu_items = self.menuDictionary[newMenu]
 	# 	self.menu_items_position = 0
 	# 	if newMenu == "MainMenu":
-	# 		self.getMainMenuMessage(self.menu_items[self.menu_items_position])
+	# 		self.get_main_menu_message(self.menu_items[self.menu_items_position])
 	# 	else:
 	# 		self.set_message(self.menu_items[self.menu_items_position])
 
@@ -229,7 +229,7 @@ class Rotary_Encoder(RgbKnob):
 			return "No setlists"
 
 
-	def changePedalConfiguration(self, option):
+	def change_pedal_configuration(self, option):
 		if option == "Song Down":
 			if self.current_song.prev is not None: 
 				self.current_song = self.current_song.prev
@@ -276,10 +276,10 @@ class Rotary_Encoder(RgbKnob):
 		self.set_song_info_message()
 		if tempoObj is not None:
 			tempoObj.setTempo(float(self.current_song.data.bpm))
-		self.savePartToDefault()
+		self.save_part_to_default()
 
 
-	def rotaryMovement(self, a, b): 
+	def rotary_movement(self, a, b): 
 		''' accepts pins a and b from rpi gpio, determines the direction of the movement, and returns
 		CW or CCW
 		'''
@@ -291,39 +291,39 @@ class Rotary_Encoder(RgbKnob):
 			seq =2
 		else:
 			seq = newState
-		deltaTime = time.time() - self.rotaryTimer
+		delta_time = time.time() - self.rotary_timer
 		delta = abs(seq - self.lastSeq)
 		if delta > 0:
 			if seq == 1:
-				if deltaTime < 0.05 and self.lastGoodSeq == 3:
+				if delta_time < 0.05 and self.last_good_seq == 3:
 					move = "CCW"
 				else:
 					move = "CW"
-					self.lastGoodSeq = 1
-					self.rotaryTimer = time.time()
+					self.last_good_seq = 1
+					self.rotary_timer = time.time()
 			elif seq == 3:
-				if deltaTime < 0.05 and self.lastGoodSeq == 1:
+				if delta_time < 0.05 and self.last_good_seq == 1:
 					move = "CW"
 				else:    
 					move = "CCW"
-					self.lastGoodSeq = 3
-					self.rotaryTimer = time.time()
+					self.last_good_seq = 3
+					self.rotary_timer = time.time()
 			elif seq == 2:
-				if self.lastGoodSeq == 1:
+				if self.last_good_seq == 1:
 					move = "CW"
-				elif self.lastGoodSeq == 3:
+				elif self.last_good_seq == 3:
 					move = "CCW"
 		self.lastSeq = seq
 		return move
 
 		
-	def getRotaryMovement(self, a, b):
+	def get_rotary_movement(self, a, b):
 		'''gets direction from rotary knob after making sure that the interrupts arent 
 		happening too fast which might indicate false readings
 		'''
-		direction = self.rotaryMovement(a, b)
-		if time.time() - self.lastRotaryTurn > 0.16: #0.08:
-			self.lastRotaryTurn = time.time()
+		direction = self.rotary_movement(a, b)
+		if time.time() - self.last_rotary_turn > 0.16: #0.08:
+			self.last_rotary_turn = time.time()
 			return direction
 		else:
 			return None
@@ -415,7 +415,7 @@ class Rotary_Encoder(RgbKnob):
 		self.load_part()
 
 
-	def changeMenuPos(self, direction):
+	def change_menu_pos(self, direction):
 		'''change the current position of the menu and display the new menu item
 		unless the end or the beginning of the list has been reached
 		'''
@@ -446,7 +446,7 @@ class Rotary_Encoder(RgbKnob):
 				pass # TODO: somthing here
 
 						
-	def getMainMenuMessage(self, menuStr):
+	def get_main_menu_message(self, menuStr):
 		if menuStr == "Set":
 			self.set_message(self.setlist.setlist_name())
 		elif menuStr == "SongInfo":
@@ -542,7 +542,7 @@ class Rotary_Encoder(RgbKnob):
 		Defaults.write(DEFAULT_FILE,encoding="us-ascii", xml_declaration=True)
 
 		
-	def savePartToDefault(self):
+	def save_part_to_default(self):
 		Defaults = ET.parse(DEFAULT_FILE)
 		Root = Defaults.getroot()
 		Root.find('setList').text = self.setlist_name
@@ -588,10 +588,10 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 			else:
 				self.turnOn()
 				self.mode = "Song"
-		self.saveModeToDefault()
+		self.save_mode_to_default()
 			
 			
-	def saveModeToDefault(self):
+	def save_mode_to_default(self):
 		Defaults = ET.parse(DEFAULT_FILE)
 		Root = Defaults.getroot()
 		Root.find('mode').text = self.mode 
@@ -627,8 +627,8 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 				if deltaT > 5: # if button held for more than 5 seconds
 					if not self.menu.current_node is self.goodbye_menu:
 						self.menu.current_node = self.goodbye_menu		
-				elif self.menu.current_node is self.menu.root: #  if the button was pressed btwn 2 and 5 secs
-					self.menu.current_node = self.global_menu	 # if the currentmenu is mainmenu swap to 'Global'
+				elif self.menu.current_node is self.menu.root: # if the button was pressed btwn 2 and 5 secs
+					self.menu.current_node = self.global_menu # if the currentmenu is mainmenu swap to 'Global'
 				else:
 					self.menu.current_node = self.menu.root
 			self.isPressed = False #was released

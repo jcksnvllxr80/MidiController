@@ -119,9 +119,9 @@ for pin in PedalDict:
 		
 #funtion called when rotary knob is turned
 def myEncoderCallback(EncoderInterruptPin):
-	direction = RotaryPB.getRotaryMovement(GPIO.input(ENCODE_A), GPIO.input(ENCODE_B))
+	direction = RotaryPB.get_rotary_movement(GPIO.input(ENCODE_A), GPIO.input(ENCODE_B))
 	if direction is not None:
-		RotaryPB.changeMenuPos(direction)
+		RotaryPB.change_menu_pos(direction)
 
 #function called when any footswitch is pressed
 def myButtonCallback(interruptPin):
@@ -155,15 +155,15 @@ def myButtonCallback(interruptPin):
 					#do the 2-button function for the pedal that called it
 					f = intPedal.partner.getPartnerFunction()
 					if f == 1:
-						RotaryPB.changePedalConfiguration(option_one)
+						RotaryPB.change_pedal_configuration(option_one)
 					elif f == 2:
-						RotaryPB.changePedalConfiguration(option_two)
+						RotaryPB.change_pedal_configuration(option_two)
 					elif f == 3:
-						RotaryPB.changePedalConfiguration(option_three)
+						RotaryPB.change_pedal_configuration(option_three)
 					elif f == 4:
-						RotaryPB.changePedalConfiguration(option_four)
+						RotaryPB.change_pedal_configuration(option_four)
 					elif f == 5:
-						RotaryPB.changePedalConfiguration(option_five)
+						RotaryPB.change_pedal_configuration(option_five)
 					intPedal.PedalConfigChanged == True
 					#intPedal.partner.PedalConfigChanged == True  
 					#print "double footswitch function"
