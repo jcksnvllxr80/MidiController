@@ -4,12 +4,13 @@ class Node(object):
         self.name = name
         self.parent = parent
         self.current_child = None
+        self.children = []
         self.func = func
         self.menu_data_prompt = None
         self.menu_data_items = []
         self.menu_data_dict = {}
         self.menu_data_position = 0
-        self.children = []
+        self.menu_data_func = None
  
 
     def add_child(self, name, func=None):

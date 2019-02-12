@@ -144,7 +144,7 @@ class Rotary_Encoder(RgbKnob):
 		self.setlist_menu = self.setup_menu.add_child("Sets", self.show_available_setlists)
 		self.set_song_info_message()
 		# define power menu
-		self.power_menu = self.menu.root.add_child("Power", self.power_off_prompt)
+		self.power_menu = self.menu.root.add_child("Power", self.set_menu_data_message)
 		self.power_menu.menu_data_prompt = "Power Off?"
 		self.power_menu.menu_data_items = ["NO yes", "no YES"]
 		self.power_menu.menu_data_dict = {"NO yes": self.change_menu_nodes, "no YES": self.power_off}
@@ -181,11 +181,6 @@ class Rotary_Encoder(RgbKnob):
 			self.set_menu_data_message()
 		else:
 			self.set_message("Error!!")
-			
-
-	def power_off_prompt(self):
-		self.set_message(self.menu.current_node.menu_data_prompt + "\n" 
-			+ self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position])
 
 
 	def next_menu_list_item(self):
@@ -265,11 +260,10 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def show_songs(self):
-		self.setlist.songs
-# 		self.currentMenu = "SongMenu"
-# 		self.menuDictionary[self.currentMenu] = self.setlist.songs
-# 		self.current_song = self.menuDictionary[self.currentMenu].head
-# 		self.set_message(self.current_song.data.name)
+		self.setup_menu.menu_data_prompt = "Songs..."
+		for song in self.setlist.songs.to_list():
+			self.setup_menu.menu_data_items.append(song.name)
+		self.setup_menu.menu_data_func = self.load_song_func
 
 
 	def show_available_setlists(self):
@@ -313,9 +307,8 @@ class Rotary_Encoder(RgbKnob):
 # 		self.changeToMenu("MainMenu")
 
 	def load_song_func(self):
-		pass
-# 		self.loadSong()
-# 		self.changeToMenu("MainMenu")
+		self.load_song()
+		self.change_menu_nodes()
 
 	def load_pedals_func(self):
 		pass
@@ -331,7 +324,7 @@ class Rotary_Encoder(RgbKnob):
 		if option == "Song Down":
 			if self.current_song.prev is not None: 
 				self.current_song = self.current_song.prev
-				self.loadSong()
+				self.load_song()
 		elif option == "Part Down":
 			if self.current_part.prev is not None: 
 				self.current_part = self.current_part.prev
@@ -343,7 +336,7 @@ class Rotary_Encoder(RgbKnob):
 		elif option == "Song Up":
 			if self.current_song.next is not None: 
 				self.current_song = self.current_song.next
-				self.loadSong()
+				self.load_song()
 		# elif option == "Main Menu":
 		# 	self.changeToMenu("MainMenu")
 		elif option == "Switch Mode":
@@ -427,7 +420,7 @@ class Rotary_Encoder(RgbKnob):
 			return None
 
 
-	def loadSong(self):
+	def load_song(self):
 		self.current_part = self.current_song.data.parts.head
 		self.load_part()
 
