@@ -176,9 +176,11 @@ class Rotary_Encoder(RgbKnob):
 	# 		self.set_message(self.menu_items[self.menu_items_position])
 
 
-	def go_to_root_menu():
-		self.menu.current_node = self.menu.root
-		self.set_song_info_message()
+	def change_menu_nodes(self, menu_node):
+		self.menu.current_node = menu_node
+		if menu_node is self.menu.root:
+			self.set_song_info_message()
+			
 
 
 	def power_off_prompt(self):
@@ -619,22 +621,22 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 				if self.menu.current_node.func: 
 					self.menu.current_node.func()
 				elif self.menu.current_node is self.menu.root:
-					self.menu.current_node = self.setup_menu
+					self.change_menu_nodes(self.setup_menu)
 				elif self.menu.current_node.children:
-					self.menu.current_node = self.menu.current_node.children[self.child_num]
+					self.change_menu_nodes(self.menu.current_node.children[self.child_num])
 					self.child_num = 0
 				# if self.currentMenu == "GoodbyeMenu" and menuItemStr == "Power down? \nNO yes":
 				# 	self.changeToMenu("MainMenu")
 			elif deltaT < 2: #longer than half a second but shorter than 2 seconds
 				if self.menu.current_node.parent:
-					self.menu.current_node = self.menu.current_node.parent
+					self.change_menu_nodes(self.menu.current_node.parent)
 			else: 
 				if deltaT > 5: # if button held for more than 5 seconds
 					if not self.menu.current_node is self.goodbye_menu:
-						self.menu.current_node = self.goodbye_menu		
+						self.change_menu_nodes(self.goodbye_menu)	
 				elif self.menu.current_node is self.menu.root: # if the button was pressed btwn 2 and 5 secs
-					self.menu.current_node = self.global_menu # if the currentmenu is mainmenu swap to 'Global'
+					self.change_menu_nodes(self.global_menu) # if the currentmenu is mainmenu swap to 'Global'
 				else:
-					self.go_to_root_menu()
+					self.change_menu_nodes(self.menu.root)
 
 			self.isPressed = False #was released
