@@ -176,6 +176,11 @@ class Rotary_Encoder(RgbKnob):
 	# 		self.set_message(self.menu_items[self.menu_items_position])
 
 
+	def go_to_root_menu():
+		self.menu.current_node = self.menu.root
+		self.set_song_info_message()
+
+
 	def power_off_prompt(self):
 		self.menu_items = ["NO yes", "no YES"]
 		self.menu_items_position = 0
@@ -630,5 +635,6 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 				elif self.menu.current_node is self.menu.root: # if the button was pressed btwn 2 and 5 secs
 					self.menu.current_node = self.global_menu # if the currentmenu is mainmenu swap to 'Global'
 				else:
-					self.menu.current_node = self.menu.root
+					self.go_to_root_menu()
+
 			self.isPressed = False #was released
