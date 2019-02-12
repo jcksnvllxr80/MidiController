@@ -143,7 +143,7 @@ class Rotary_Encoder(RgbKnob):
 		self.pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedal_states)
 		self.setlist_menu = self.setup_menu.add_child("Sets", self.show_available_setlists)
 		self.set_song_info_message()
-		self.goodbye_menu = self.menu.root.add_child("Goodbye", self.power_off_prompt)
+		self.goodbye_menu = self.menu.root.add_child("Power", self.power_off_prompt)
 
 		# build global menu
 		self.knobcolor_menu = self.global_menu.add_child("Knob Color", self.show_knob_colors)
@@ -165,19 +165,6 @@ class Rotary_Encoder(RgbKnob):
 		pass
 
 
-	# def update_menu_properties(self, newMenu):
-	# 	'''change to a new menu based on the argument passed 'newMenu', redefine menuitems with the
-	# 	items associated with the new menu, set the menu  position to 0, and display the menu item 
-	# 	at the current postion.
-	# 	'''
-	# 	self.menu_items = self.menuDictionary[newMenu]
-	# 	self.menu_items_position = 0
-	# 	if newMenu == "MainMenu":
-	# 		self.get_main_menu_message(self.menu_items[self.menu_items_position])
-	# 	else:
-	# 		self.set_message(self.menu_items[self.menu_items_position])
-
-
 	def change_menu_nodes(self, menu_node):
 		self.menu.current_node = menu_node
 		if menu_node is self.menu.root:
@@ -186,24 +173,45 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def power_off_prompt(self):
-		self.menu_items = ["NO yes", "no YES"]
-		self.menu_items_position = 0
-		self.set_message("Power Off?")
+		self.menu_data_prompt = "Power Off?"
+		self.menu_data_items = ["NO yes", "no YES"]
+		self.menu_data_dict = {"NO yes":change_menu_nodes, "no YES":power_off}
+		self.menu_data_position = 0
+		self.set_message(self.menu_data_prompt + "\n" + menu_data_items[menu_data_position])
+
+
+	def power_off(self):
+		self.set_message("Goodbye.")
+		self.lcd._delay_microseconds(1000000)
+		self.lcd.set_backlight(0)
+		os.system('shutdown now -h')
 
 
 	def show_knob_colors(self):
-		self.menu_items = RgbKnob.COLORS
-		self.menu_items_position = 0
+		self.menu_data_items = RgbKnob.COLORS
+		self.menu_data_position = 0
 		self.set_message("Knob color")
+# 		self.setColor(func)
+# 		self.save_color_as_default()
+# 		self.changeToMenu("GlobalMenu")
 
 
 	def show_brightness(self):
 		# brightness_range = range(0, 100)
 		self.set_message(str(self.brightness))
+# 		self.setBrightness(int(func))
+# 		self.save_color_as_default()
+# 		self.changeToMenu("GlobalMenu")
 
 
 	def show_pedal_states(self):
 		self.current_part.pedal_dictionary
+# 		self.currentMenu = "PedalMenu"
+# 		self.menuDictionary[self.currentMenu] = self.all_pedals
+# 		self.menu_data_items = self.menuDictionary[self.currentMenu]
+# 		self.menu_data_position = 0
+# 		self.set_message(self.menu_data_items[self.menu_data_position].name + "\n" + 
+# 			str(self.menu_data_items[self.menu_data_position].getState()))
 
 
 	def show_bpm_for_song(self):
@@ -213,14 +221,23 @@ class Rotary_Encoder(RgbKnob):
 		# 	change the tempo by 5
 		# else
 		# 	change the tempo by 0.5 
+# 		self.set_message(self.current_song.data.bpm)
 
 
 	def show_parts_of_song(self):
 		self.current_song.parts
+# 		self.currentMenu = "PartMenu"
+# 		self.menuDictionary[self.currentMenu] = self.current_song.data.parts
+# 		self.current_part = self.menuDictionary[self.currentMenu].head
+# 		self.set_message(self.current_part.data.part_name)
 
 
 	def show_songs(self):
 		self.setlist.songs
+# 		self.currentMenu = "SongMenu"
+# 		self.menuDictionary[self.currentMenu] = self.setlist.songs
+# 		self.current_song = self.menuDictionary[self.currentMenu].head
+# 		self.set_message(self.current_song.data.name)
 
 
 	def show_available_setlists(self):
@@ -236,6 +253,59 @@ class Rotary_Encoder(RgbKnob):
 			return setlists
 		else:
 			return "No setlists"
+		# self.currentMenu = "LoadSetMenu"
+		# setListFiles = os.listdir(SET_FOLDER)
+		# setlists = []
+		# for setListFile in setListFiles:
+		# 	if setListFile[-4:] == ".xml":
+		# 		newSetName = setListFile[:-4]
+		# 	setlists.append(newSetName)
+		# self.menuDictionary[self.currentMenu] = setlists
+		# self.changeToMenu("LoadSetMenu")
+
+
+
+	def load_set_func(self):
+		pass
+# 		self.set_message("Loading set...")
+# 		self.setlist_name = func
+# 		self.setlist.load_setlist(SET_FOLDER + func)
+# 		self.current_song = self.setlist.songs.head
+# 		self.current_part = self.current_song.data.parts.head
+# 		self.load_part()
+# 		self.changeToMenu("MainMenu")
+
+	def load_part_func(self):
+		pass
+# 		self.load_part()
+# 		self.changeToMenu("MainMenu")
+
+	def load_song_func(self):
+		pass
+# 		self.loadSong()
+# 		self.changeToMenu("MainMenu")
+
+	def load_pedals_func(self):
+		pass
+# 		if self.menu_data_items[self.menu_data_position].isEngaged:
+# 			self.menu_data_items[self.menu_data_position].turnOff()
+# 		else:
+# 			self.menu_data_items[self.menu_data_position].turnOn()
+# 		self.set_message(self.menu_data_items[self.menu_data_position].name + 
+# 			"\n" + str(self.menu_data_items[self.menu_data_position].getState()))
+
+
+	def next_menu_list_item(self):
+		if self.menu_data_position < len(self.menu_data_items) - 1:
+			self.menu_data_position += 1
+			self.menu_data_items[self.menu_data_position]
+			set_message(self.menu_data_prompt + "\n" + menu_data_items[menu_data_position])
+
+	def prev_menu_list_item(self):
+		if self.menu_data_position > 0:
+			self.menu_data_position -= 1
+			self.menu_data_items[self.menu_data_position]
+			set_message(self.menu_data_prompt + "\n" + menu_data_items[menu_data_position])
 
 
 	def change_pedal_configuration(self, option):
@@ -338,89 +408,6 @@ class Rotary_Encoder(RgbKnob):
 			return None
 
 
-	# def menuFunction(self,func):
-	# 	'''do methods needed based on menu option chosen with rotary encoder and push button
-	# 	'''
-	# 	if func == "Set":
-	# 		#change menu list to a list of all sets in the sets folder set the menuposition to 0
-	# 		#and display the first item in the list
-	# 		# self.currentMenu = "LoadSetMenu"
-	# 		# setListFiles = os.listdir(SET_FOLDER)
-	# 		# setlists = []
-	# 		# for setListFile in setListFiles:
-	# 		# 	if setListFile[-4:] == ".xml":
-	# 		# 		newSetName = setListFile[:-4]
-	# 		# 	setlists.append(newSetName)
-	# 		# self.menuDictionary[self.currentMenu] = setlists
-	# 		# self.changeToMenu("LoadSetMenu")
-	# 	elif func == "Song":
-	# 		#change menu list to a list of all songs in the current setlist, add the list to the menuDict
-	# 		#for the SongMenu item and change to the 'SongMenu' menu
-	# 		self.currentMenu = "SongMenu"
-	# 		self.menuDictionary[self.currentMenu] = self.setlist.songs
-	# 		self.current_song = self.menuDictionary[self.currentMenu].head
-	# 		self.set_message(self.current_song.data.name)
-	# 	elif func == "Part":
-	# 		self.currentMenu = "PartMenu"
-	# 		self.menuDictionary[self.currentMenu] = self.current_song.data.parts
-	# 		self.current_part = self.menuDictionary[self.currentMenu].head
-	# 		self.set_message(self.current_part.data.part_name)
-	# 	elif func == "Pedals":
-	# 		#display a list of pedals
-	# 		self.currentMenu = "PedalMenu"
-	# 		self.menuDictionary[self.currentMenu] = self.all_pedals
-	# 		self.menu_items = self.menuDictionary[self.currentMenu]
-	# 		self.menu_items_position = 0
-	# 		self.set_message(self.menu_items[self.menu_items_position].name + "\n" + 
-	# 			str(self.menu_items[self.menu_items_position].getState()))
-	# 	elif func == "BPM":
-	# 		self.set_message(self.current_song.data.bpm)
-	# 	elif func == "Knob Color":
-	# 		self.changeToMenu("KnobMenu")
-	# 	elif func == "Knob Brightness":
-	# 		self.changeToMenu("BrightnessMenu")
-	# 	elif func in self.colorMenu:
-	# 		self.setColor(func)
-	# 		self.save_color_as_default()
-	# 		self.changeToMenu("GlobalMenu")
-	# 	elif func in self.brightnessMenu:
-	# 		self.setBrightness(int(func))
-	# 		self.save_color_as_default()
-	# 		self.changeToMenu("GlobalMenu")
-	# 	elif func == "Power down? \nno YES":
-	# 		self.set_message("Goodbye.")
-	# 		self.lcd._delay_microseconds(1000000)
-	# 		self.lcd.set_backlight(0)
-	# 		os.system('shutdown now -h')
-	# 	elif func == "Power down? \nNO yes":
-	# 		self.changeToMenu("MainMenu")
-	# 	elif self.currentMenu == "LoadSetMenu":
-	# 		self.set_message("Loading set...")
-	# 		self.setlist_name = func
-	# 		self.setlist.load_setlist(SET_FOLDER + func)
-	# 		self.current_song = self.setlist.songs.head
-	# 		self.current_part = self.current_song.data.parts.head
-	# 		self.load_part()
-	# 		self.changeToMenu("MainMenu")
-	# 	elif self.currentMenu == "LoadFontMenu":
-	# 		self.changeToMenu("GlobalMenu")
-	# 	elif self.currentMenu == "FontSizeMenu":
-	# 		self.changeToMenu("GlobalMenu")
-	# 	elif self.currentMenu == "PartMenu":
-	# 		self.load_part()
-	# 		self.changeToMenu("MainMenu")
-	# 	elif self.currentMenu == "SongMenu":
-	# 		self.loadSong()
-	# 		self.changeToMenu("MainMenu")
-	# 	elif self.currentMenu == "PedalMenu":
-	# 		if self.menu_items[self.menu_items_position].isEngaged:
-	# 			self.menu_items[self.menu_items_position].turnOff()
-	# 		else:
-	# 			self.menu_items[self.menu_items_position].turnOn()
-	# 		self.set_message(self.menu_items[self.menu_items_position].name + 
-	# 			"\n" + str(self.menu_items[self.menu_items_position].getState()))
-
-
 	def loadSong(self):
 		self.current_part = self.current_song.data.parts.head
 		self.load_part()
@@ -454,9 +441,9 @@ class Rotary_Encoder(RgbKnob):
 							self.menu.current_node.children[self.menu.current_node.current_child].name)
 			else:
 				if direction == "CW":
-					pass # TODO: somthing here
+					self.next_menu_list_item()
 				elif direction == "CCW":
-					pass # TODO: somthing here
+					self.prev_menu_list_item()
 		else:
 			if direction == "CW":
 				pass # TODO: somthing here
@@ -485,7 +472,7 @@ class Rotary_Encoder(RgbKnob):
 	# 	if self.currentMenu == "SongMenu":
 	# 		return self.current_song.data.name
 	# 	else:
-	# 		return self.menuDictionary[self.currentMenu][self.menu_items_position]
+	# 		return self.menuDictionary[self.currentMenu][self.menu_data_position]
 
 			
 	def set_message(self, msg):
@@ -636,8 +623,6 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 				elif self.menu.current_node.children:
 					self.change_menu_nodes(self.menu.current_node.children[self.menu.current_node.current_child])
 					self.menu.current_node.current_child = 0
-				# if self.currentMenu == "GoodbyeMenu" and menuItemStr == "Power down? \nNO yes":
-				# 	self.changeToMenu("MainMenu")
 			elif deltaT < 2: #longer than half a second but shorter than 2 seconds
 				if self.menu.current_node.parent:
 					self.change_menu_nodes(self.menu.current_node.parent)
