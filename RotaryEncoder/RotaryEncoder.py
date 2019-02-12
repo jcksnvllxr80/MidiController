@@ -638,7 +638,10 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 			
 			if deltaT < 0.5: #if the press was shorter than half a second
 				# select the item or go into the menu currently on the display
-				if self.menu.current_node.func: 
+				if self.menu.current_node.menu_data_items:
+					print("data_items")
+					self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_position]
+				elif self.menu.current_node.func: 
 					print("function")
 					self.menu.current_node.func()
 				elif self.menu.current_node is self.menu.root:
@@ -648,9 +651,6 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 					print("deeper menu")
 					self.change_menu_nodes(self.menu.current_node.children[self.menu.current_node.current_child])
 					self.menu.current_node.current_child = 0
-				elif self.menu.current_node.menu_data_items:
-					print("data_items")
-					self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_position]
 			elif deltaT < 2: #longer than half a second but shorter than 2 seconds
 				if self.menu.current_node.parent:
 					self.change_menu_nodes(self.menu.current_node.parent)
