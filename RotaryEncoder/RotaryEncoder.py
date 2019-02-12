@@ -113,11 +113,6 @@ class Rotary_Encoder(RgbKnob):
 	menu = N_Tree.N_Tree("Looper")
 	setup_menu = menu.root.add_child("Setup")
 	global_menu = menu.root.add_child("Global")
-	songs_menu = self.setup_menu.add_child("Songs", self.show_songs)
-	parts_menu = self.setup_menu.add_child("Parts", self.show_parts_of_song)
-	bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm_for_song)
-	pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedal_states)
-	setlist_menu = self.setup_menu.add_child("Sets", self.show_available_setlists)
 	
 	def __init__(self, **kwargs):		
 		knobCol = kwargs["kc"]
@@ -142,6 +137,11 @@ class Rotary_Encoder(RgbKnob):
 			self.current_part = self.current_part.next
 
 
+		self.songs_menu = self.setup_menu.add_child("Songs", self.show_songs)
+		self.parts_menu = self.setup_menu.add_child("Parts", self.show_parts_of_song)
+		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm_for_song)
+		self.pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedal_states)
+		self.setlist_menu = self.setup_menu.add_child("Sets", self.show_available_setlists)
 		self.set_song_info_message()
 		self.goodbye_menu = self.menu.root.add_child("Goodbye", self.power_off_prompt)
 
