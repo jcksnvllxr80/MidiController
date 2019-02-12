@@ -640,7 +640,7 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 				# select the item or go into the menu currently on the display
 				if self.menu.current_node.menu_data_items:
 					print("data_items")
-					self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_position]
+					self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]]
 				elif self.menu.current_node.func: 
 					print("function")
 					self.menu.current_node.func()
