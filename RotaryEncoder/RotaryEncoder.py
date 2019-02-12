@@ -187,16 +187,16 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def next_menu_list_item(self):
-		if self.menu_data_position < len(self.menu_data_items) - 1:
-			self.menu_data_position += 1
-			self.menu_data_items[self.menu_data_position]
+		if self.menu.current_node.menu_data_position < len(self.menu.current_node.menu_data_items) - 1:
+			self.menu.current_node.menu_data_position += 1
+			self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]
 			self.set_menu_data_message()
 
 
 	def prev_menu_list_item(self):
-		if self.menu_data_position > 0:
-			self.menu_data_position -= 1
-			self.menu_data_items[self.menu_data_position]
+		if self.menu.current_node.menu_data_position > 0:
+			self.menu.current_node.menu_data_position -= 1
+			self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]
 			self.set_menu_data_message()
 
 
