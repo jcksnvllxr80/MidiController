@@ -138,6 +138,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 		self.songs_menu = self.setup_menu.add_child("Songs", self.show_songs, self.load_song_func)
+		self.songs_menu.func()
 		self.parts_menu = self.setup_menu.add_child("Parts", self.show_parts_of_song)
 		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm_for_song)
 		self.pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedal_states)
