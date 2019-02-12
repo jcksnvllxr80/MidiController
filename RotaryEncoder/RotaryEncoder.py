@@ -147,7 +147,7 @@ class Rotary_Encoder(RgbKnob):
 		self.power_menu = self.menu.root.add_child("Power", self.power_off_prompt)
 		self.power_menu.menu_data_prompt = "Power Off?"
 		self.power_menu.menu_data_items = ["NO yes", "no YES"]
-		self.power_menu.menu_data_dict = {"NO yes": self.change_menu_nodes(self.menu.root), "no YES": self.power_off}
+		self.power_menu.menu_data_dict = {"NO yes": self.change_menu_nodes(), "no YES": self.power_off()}
 
 		# build global menu
 		self.knobcolor_menu = self.global_menu.add_child("Knob Color", self.show_knob_colors)
@@ -169,7 +169,9 @@ class Rotary_Encoder(RgbKnob):
 		pass
 
 
-	def change_menu_nodes(self, menu_node):
+	def change_menu_nodes(self, menu_node=None):
+		if menu_node is None:
+			menu_node = self.menu.root
 		self.menu.current_node = menu_node
 		if menu_node is self.menu.root:
 			self.set_song_info_message()
@@ -640,7 +642,7 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 				# select the item or go into the menu currently on the display
 				if self.menu.current_node.menu_data_items:
 					print("data_items")
-					self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]]
+					self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]]()
 				elif self.menu.current_node.func: 
 					print("function")
 					self.menu.current_node.func()
