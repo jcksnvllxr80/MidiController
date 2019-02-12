@@ -154,11 +154,11 @@ class Rotary_Encoder(RgbKnob):
 		self.knobcolor_menu = self.global_menu.add_child("Knob Color", self.show_knob_colors)
 		self.knobbrightness_menu = self.global_menu.add_child("Knob Brightness", self.show_brightness)
 
-		# self.changeToMenu("MainMenu") #starting menu
 		#variables for the rotary movement interpretation loop
 		self.last_good_seq = 0
 		self.lastSeq = 0
 		self.rotary_timer = 0
+		
 		#keeps time for last rotary turn in seconds
 		self.last_rotary_turn = 0
 		self.menu.current_node.current_child = 0
