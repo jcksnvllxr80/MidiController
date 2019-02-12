@@ -113,6 +113,11 @@ class Rotary_Encoder(RgbKnob):
 	menu = N_Tree.N_Tree("Looper")
 	setup_menu = menu.root.add_child("Setup")
 	global_menu = menu.root.add_child("Global")
+	songs_menu = self.setup_menu.add_child("Songs", self.show_songs)
+	parts_menu = self.setup_menu.add_child("Parts", self.show_parts_of_song)
+	bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm_for_song)
+	pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedal_states)
+	setlist_menu = self.setup_menu.add_child("Sets", self.show_available_setlists)
 	
 	def __init__(self, **kwargs):		
 		knobCol = kwargs["kc"]
@@ -136,7 +141,7 @@ class Rotary_Encoder(RgbKnob):
 		while self.current_part.next is not None and previously_loaded_part <> self.current_part.data.part_name:
 			self.current_part = self.current_part.next
 
-		self.rebuild_menu()
+
 		self.set_song_info_message()
 		self.goodbye_menu = self.menu.root.add_child("Goodbye", self.power_off_prompt)
 
@@ -151,16 +156,13 @@ class Rotary_Encoder(RgbKnob):
 		self.rotary_timer = 0
 		#keeps time for last rotary turn in seconds
 		self.last_rotary_turn = 0
-		self.child_num = 0
+		self.menu.current_node.current_child = 0
 
 
+	# TODO: this is broken. it should be a way to set the contents of the menu. 
 	def rebuild_menu(self):
-		# build setup menu
-		self.songs_menu = self.setup_menu.add_child("Songs", self.show_songs)
-		self.parts_menu = self.setup_menu.add_child("Parts", self.show_parts_of_song)
-		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm_for_song)
-		self.pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedal_states)
-		self.setlist_menu = self.setup_menu.add_child("Sets", self.show_available_setlists)
+		# build setup menu based on current files stored in filesystem
+		pass
 
 
 	# def update_menu_properties(self, newMenu):
@@ -369,7 +371,8 @@ class Rotary_Encoder(RgbKnob):
 	# 		self.menuDictionary[self.currentMenu] = self.all_pedals
 	# 		self.menu_items = self.menuDictionary[self.currentMenu]
 	# 		self.menu_items_position = 0
-	# 		self.set_message(self.menu_items[self.menu_items_position].name + "\n" + str(self.menu_items[self.menu_items_position].getState()))
+	# 		self.set_message(self.menu_items[self.menu_items_position].name + "\n" + 
+	# 			str(self.menu_items[self.menu_items_position].getState()))
 	# 	elif func == "BPM":
 	# 		self.set_message(self.current_song.data.bpm)
 	# 	elif func == "Knob Color":
@@ -414,7 +417,8 @@ class Rotary_Encoder(RgbKnob):
 	# 			self.menu_items[self.menu_items_position].turnOff()
 	# 		else:
 	# 			self.menu_items[self.menu_items_position].turnOn()
-	# 		self.set_message(self.menu_items[self.menu_items_position].name + "\n" + str(self.menu_items[self.menu_items_position].getState()))
+	# 		self.set_message(self.menu_items[self.menu_items_position].name + 
+	# 			"\n" + str(self.menu_items[self.menu_items_position].getState()))
 
 
 	def loadSong(self):
@@ -429,18 +433,25 @@ class Rotary_Encoder(RgbKnob):
 		if not self.menu.current_node is self.menu.root:
 			if self.menu.current_node.children:
 				try:
-					print("direction: " + direction + ",\ntype: " + str(type(self.menu.current_node.children)) + ",\ncurrent node name: " + self.menu.current_node.name + ",\nnumber of children in node: " + str(len(self.menu.current_node.children)) + ",\ncurrent child in node: " + str(self.child_num))
+					print("direction: " + direction + ",\ntype: " + str(type(self.menu.current_node.children)) + 
+						",\ncurrent node name: " + self.menu.current_node.name + ",\nnumber of children in node: " + 
+						str(len(self.menu.current_node.children)) + ",\ncurrent child in node: " + 
+						str(self.menu.current_node.current_child))
 				except:
 					print(sys.exc_info()[0])
-					print("direction: " + direction + ",\ntype: " + str(type(self.menu.current_node.children)) + ",\ncurrent node name: " + self.menu.current_node.name + ",\ncurrent child in node: " + str(self.child_num))
+					print("direction: " + direction + ",\ntype: " + str(type(self.menu.current_node.children)) + 
+						",\ncurrent node name: " + self.menu.current_node.name + ",\ncurrent child in node: " + 
+						str(self.menu.current_node.current_child))
 				if direction == "CW":
-					if self.child_num < len(self.menu.current_node.children) - 1:
-						self.child_num += 1
-						self.set_message(self.menu.current_node.name + "\n" + self.menu.current_node.children[self.child_num].name)
+					if self.menu.current_node.current_child < len(self.menu.current_node.children) - 1:
+						self.menu.current_node.current_child += 1
+						self.set_message(self.menu.current_node.name + "\n" + 
+							self.menu.current_node.children[self.menu.current_node.current_child].name)
 				elif direction == "CCW":
-					if self.child_num > 0:
-						self.child_num -= 1
-						self.set_message(self.menu.current_node.name + "\n" + self.menu.current_node.children[self.child_num].name)
+					if self.menu.current_node.current_child > 0:
+						self.menu.current_node.current_child -= 1
+						self.set_message(self.menu.current_node.name + "\n" + 
+							self.menu.current_node.children[self.menu.current_node.current_child].name)
 			else:
 				if direction == "CW":
 					pass # TODO: somthing here
@@ -567,8 +578,8 @@ class Rotary_Encoder(RgbKnob):
 
 
 class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
-	'''class to handle button pushes on the rotary encoder knob. its parents are 'ButtonOnPedalBoard' from the 'EffectLoops' package
-	and 'Rotary_Encoder' 
+	'''class to handle button pushes on the rotary encoder knob. its parents are 'ButtonOnPedalBoard' 
+	from the 'EffectLoops' package and 'Rotary_Encoder' 
 	'''
 	def __init__(self, button, state, mode, **kwargs):
 		type = "RotaryPushButton"
@@ -623,8 +634,8 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 				elif self.menu.current_node is self.menu.root:
 					self.change_menu_nodes(self.setup_menu)
 				elif self.menu.current_node.children:
-					self.change_menu_nodes(self.menu.current_node.children[self.child_num])
-					self.child_num = 0
+					self.change_menu_nodes(self.menu.current_node.children[self.menu.current_node.current_child])
+					self.menu.current_node.current_child = 0
 				# if self.currentMenu == "GoodbyeMenu" and menuItemStr == "Power down? \nNO yes":
 				# 	self.changeToMenu("MainMenu")
 			elif deltaT < 2: #longer than half a second but shorter than 2 seconds

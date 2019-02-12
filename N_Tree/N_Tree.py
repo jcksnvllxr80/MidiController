@@ -3,12 +3,15 @@ class Node(object):
     def __init__(self, name=None, func=None, parent=None):
         self.name = name
         self.parent = parent
+        self.current_child = None
         self.func = func
         self.children = []
  
 
     def add_child(self, name, func=None):
         # adds a child to the list of children for a given Node
+        if self.current_child is None:
+            self.current_child = 0
         child = Node(name, func, self)
         self.children.append(child)
         return child
