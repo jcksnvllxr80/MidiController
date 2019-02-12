@@ -172,7 +172,7 @@ def myButtonCallback(interruptPin):
 				intPedal.buttonState(interruptValue, RotaryPB.mode)
 				if interruptValue:
 					if RotaryPB.mode == "Song" and time.time() - intPedal.lastActionTime <= 0.5:
-						RotaryPB.changeToFootswitchItem(intPedal.button)
+						RotaryPB.change_to_footswitch_item(intPedal.button)
 					# RotaryPB.updateButtonDisplays(None, None)
 			intPedal.lastActionTime = time.time()
 		else:
