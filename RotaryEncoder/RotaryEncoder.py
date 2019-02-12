@@ -434,17 +434,16 @@ class Rotary_Encoder(RgbKnob):
 		'''change the current position of the menu and display the new menu item
 		unless the end or the beginning of the list has been reached
 		'''
+		print("direction: " + direction)
 		if not self.menu.current_node is self.menu.root:
 			if self.menu.current_node.children:
 				try:
-					print("direction: " + direction + ",\ntype: " + str(type(self.menu.current_node.children)) + 
-						",\ncurrent node name: " + self.menu.current_node.name + ",\nnumber of children in node: " + 
+					print("current node name: " + self.menu.current_node.name + ",\nnumber of children in node: " + 
 						str(len(self.menu.current_node.children)) + ",\ncurrent child in node: " + 
 						str(self.menu.current_node.current_child))
 				except:
 					print(sys.exc_info()[0])
-					print("direction: " + direction + ",\ntype: " + str(type(self.menu.current_node.children)) + 
-						",\ncurrent node name: " + self.menu.current_node.name + ",\ncurrent child in node: " + 
+					print("current node name: " + self.menu.current_node.name + ",\ncurrent child in node: " + 
 						str(self.menu.current_node.current_child))
 				if direction == "CW":
 					if self.menu.current_node.current_child < len(self.menu.current_node.children) - 1:
@@ -455,6 +454,14 @@ class Rotary_Encoder(RgbKnob):
 						self.menu.current_node.current_child -= 1
 						self.set_children_message()
 			else:
+				try:
+					print("current node name: " + self.menu.current_node.name + ",\nnumber of elems in list: " + 
+						str(len(self.menu.current_node.children)) + ",\ncurrent child in node: " + 
+						str(self.menu.current_node.current_child))
+				except:
+					print(sys.exc_info()[0])
+					print("current node name: " + self.menu.current_node.name + ",\ncurrent elem in list: " + 
+						str(self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]))
 				if direction == "CW":
 					self.next_menu_list_item()
 				elif direction == "CCW":
