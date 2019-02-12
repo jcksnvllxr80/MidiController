@@ -636,9 +636,9 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 			
 			if deltaT < 0.5: #if the press was shorter than half a second
 				# select the item or go into the menu currently on the display
-				elif self.menu.current_node.menu_data_func:
+				if self.menu.current_node.menu_data_func:
 					self.menu.current_node.menu_data_func()
-				if self.menu.current_node.menu_data_items:
+				elif self.menu.current_node.menu_data_items:
 					print("data_items")
 					self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]]()
 				elif self.menu.current_node.func: 
