@@ -143,7 +143,11 @@ class Rotary_Encoder(RgbKnob):
 		self.pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedal_states)
 		self.setlist_menu = self.setup_menu.add_child("Sets", self.show_available_setlists)
 		self.set_song_info_message()
-		self.goodbye_menu = self.menu.root.add_child("Power", self.power_off_prompt)
+		# define power menu
+		self.power_menu = self.menu.root.add_child("Power", self.power_off_prompt)
+		self.power_menu.menu_data_prompt = "Power Off?"
+		self.power_menu.menu_data_items = ["NO yes", "no YES"]
+		self.power_menu.menu_data_dict = {"NO yes":self.change_menu_nodes(self.menu.root), "no YES":self.power_off}
 
 		# build global menu
 		self.knobcolor_menu = self.global_menu.add_child("Knob Color", self.show_knob_colors)
@@ -169,15 +173,41 @@ class Rotary_Encoder(RgbKnob):
 		self.menu.current_node = menu_node
 		if menu_node is self.menu.root:
 			self.set_song_info_message()
+		elif self.menu.current_node.children:
+			self.set_children_message()
+		elif self.menu.current_node.menu_data_items:
+			self.set_menu_data_message()
+		else:
+			self.set_message("Error!!")
 			
 
-
 	def power_off_prompt(self):
-		self.menu_data_prompt = "Power Off?"
-		self.menu_data_items = ["NO yes", "no YES"]
-		self.menu_data_dict = {"NO yes":change_menu_nodes, "no YES":power_off}
-		self.menu_data_position = 0
-		self.set_message(self.menu_data_prompt + "\n" + menu_data_items[menu_data_position])
+		self.set_message(self.menu.current_node.menu_data_prompt + "\n" 
+			+ self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position])
+
+
+	def next_menu_list_item(self):
+		if self.menu_data_position < len(self.menu_data_items) - 1:
+			self.menu_data_position += 1
+			self.menu_data_items[self.menu_data_position]
+			self.set_menu_data_message()
+
+
+	def prev_menu_list_item(self):
+		if self.menu_data_position > 0:
+			self.menu_data_position -= 1
+			self.menu_data_items[self.menu_data_position]
+			self.set_menu_data_message()
+
+
+	def set_children_message(self):
+		self.set_message(self.menu.current_node.name + "\n" + 
+			self.menu.current_node.children[self.menu.current_node.current_child].name)
+
+
+	def set_menu_data_message(self):
+		self.set_message(self.menu.current_node.menu_data_prompt + "\n" 
+				+ self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position])
 
 
 	def power_off(self):
@@ -293,19 +323,6 @@ class Rotary_Encoder(RgbKnob):
 # 			self.menu_data_items[self.menu_data_position].turnOn()
 # 		self.set_message(self.menu_data_items[self.menu_data_position].name + 
 # 			"\n" + str(self.menu_data_items[self.menu_data_position].getState()))
-
-
-	def next_menu_list_item(self):
-		if self.menu_data_position < len(self.menu_data_items) - 1:
-			self.menu_data_position += 1
-			self.menu_data_items[self.menu_data_position]
-			set_message(self.menu_data_prompt + "\n" + menu_data_items[menu_data_position])
-
-	def prev_menu_list_item(self):
-		if self.menu_data_position > 0:
-			self.menu_data_position -= 1
-			self.menu_data_items[self.menu_data_position]
-			set_message(self.menu_data_prompt + "\n" + menu_data_items[menu_data_position])
 
 
 	def change_pedal_configuration(self, option):
@@ -432,13 +449,11 @@ class Rotary_Encoder(RgbKnob):
 				if direction == "CW":
 					if self.menu.current_node.current_child < len(self.menu.current_node.children) - 1:
 						self.menu.current_node.current_child += 1
-						self.set_message(self.menu.current_node.name + "\n" + 
-							self.menu.current_node.children[self.menu.current_node.current_child].name)
+						self.set_children_message()
 				elif direction == "CCW":
 					if self.menu.current_node.current_child > 0:
 						self.menu.current_node.current_child -= 1
-						self.set_message(self.menu.current_node.name + "\n" + 
-							self.menu.current_node.children[self.menu.current_node.current_child].name)
+						self.set_children_message()
 			else:
 				if direction == "CW":
 					self.next_menu_list_item()
@@ -628,8 +643,8 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 					self.change_menu_nodes(self.menu.current_node.parent)
 			else: 
 				if deltaT > 5: # if button held for more than 5 seconds
-					if not self.menu.current_node is self.goodbye_menu:
-						self.change_menu_nodes(self.goodbye_menu)	
+					if not self.menu.current_node is self.power_menu:
+						self.change_menu_nodes(self.power_menu)	
 				elif self.menu.current_node is self.menu.root: # if the button was pressed btwn 2 and 5 secs
 					self.change_menu_nodes(self.global_menu) # if the currentmenu is mainmenu swap to 'Global'
 				else:
