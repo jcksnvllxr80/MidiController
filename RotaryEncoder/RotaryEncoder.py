@@ -147,7 +147,7 @@ class Rotary_Encoder(RgbKnob):
 		self.power_menu = self.menu.root.add_child("Power", self.power_off_prompt)
 		self.power_menu.menu_data_prompt = "Power Off?"
 		self.power_menu.menu_data_items = ["NO yes", "no YES"]
-		self.power_menu.menu_data_dict = {"NO yes": self.change_menu_nodes(), "no YES": self.power_off()}
+		self.power_menu.menu_data_dict = {"NO yes": self.change_menu_nodes, "no YES": self.power_off}
 
 		# build global menu
 		self.knobcolor_menu = self.global_menu.add_child("Knob Color", self.show_knob_colors)
