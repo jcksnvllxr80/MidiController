@@ -137,7 +137,7 @@ class Rotary_Encoder(RgbKnob):
 			self.current_part = self.current_part.next
 
 
-		self.songs_menu = self.setup_menu.add_child("Songs", self.show_songs)
+		self.songs_menu = self.setup_menu.add_child("Songs", self.show_songs, self.load_song_func)
 		self.parts_menu = self.setup_menu.add_child("Parts", self.show_parts_of_song)
 		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm_for_song)
 		self.pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedal_states)
@@ -264,7 +264,6 @@ class Rotary_Encoder(RgbKnob):
 		self.setup_menu.menu_data_prompt = "Songs..."
 		for song in self.setlist.songs.to_list():
 			self.setup_menu.menu_data_items.append(song.name)
-		self.setup_menu.menu_data_func = self.load_song_func
 
 
 	def show_available_setlists(self):

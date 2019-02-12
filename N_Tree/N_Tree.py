@@ -1,6 +1,6 @@
 class Node(object):
     
-    def __init__(self, name=None, func=None, parent=None):
+    def __init__(self, name=None, func=None, menu_data_func=None, parent=None):
         self.name = name
         self.parent = parent
         self.current_child = None
@@ -10,14 +10,14 @@ class Node(object):
         self.menu_data_items = []
         self.menu_data_dict = {}
         self.menu_data_position = 0
-        self.menu_data_func = None
+        self.menu_data_func = menu_data_func
  
 
-    def add_child(self, name, func=None):
+    def add_child(self, name, func=None, menu_data_func=None):
         # adds a child to the list of children for a given Node
         if self.current_child is None:
             self.current_child = 0
-        child = Node(name, func, self)
+        child = Node(name, func, menu_data_func, self)
         self.children.append(child)
         return child
 
