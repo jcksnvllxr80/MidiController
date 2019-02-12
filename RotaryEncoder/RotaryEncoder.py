@@ -638,6 +638,8 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 				elif self.menu.current_node.children:
 					self.change_menu_nodes(self.menu.current_node.children[self.menu.current_node.current_child])
 					self.menu.current_node.current_child = 0
+				elif self.menu.current_node.menu_data_items:
+					self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_position]
 			elif deltaT < 2: #longer than half a second but shorter than 2 seconds
 				if self.menu.current_node.parent:
 					self.change_menu_nodes(self.menu.current_node.parent)
