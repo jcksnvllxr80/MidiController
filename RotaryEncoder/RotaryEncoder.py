@@ -180,45 +180,6 @@ class Rotary_Encoder(RgbKnob):
 		pass
 
 
-	def change_menu_nodes(self, menu_node=None):
-		if menu_node is None:
-			menu_node = self.menu.root
-		self.menu.current_node = menu_node
-		if menu_node is self.menu.root:
-			self.set_song_info_message()
-		elif self.menu.current_node.children:
-			self.set_children_message()
-		elif self.menu.current_node.menu_data_items:
-			self.set_menu_data_message()
-		else:
-			print("Error!!")
-			self.set_message("Error!!")
-
-
-	def next_menu_list_item(self):
-		if self.menu.current_node.menu_data_position < len(self.menu.current_node.menu_data_items) - 1:
-			self.menu.current_node.menu_data_position += 1
-			self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]
-			self.set_menu_data_message()
-
-
-	def prev_menu_list_item(self):
-		if self.menu.current_node.menu_data_position > 0:
-			self.menu.current_node.menu_data_position -= 1
-			self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]
-			self.set_menu_data_message()
-
-
-	def set_children_message(self):
-		self.set_message(self.menu.current_node.name + "\n" + 
-			self.menu.current_node.children[self.menu.current_node.current_child].name)
-
-
-	def set_menu_data_message(self):
-		self.set_message(self.menu.current_node.menu_data_prompt + "\n" 
-			+ self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position])
-
-
 	def power_off(self):
 		self.set_message("Goodbye.")
 		self.lcd._delay_microseconds(1000000)
@@ -622,6 +583,58 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 		Defaults.write(DEFAULT_FILE,encoding="us-ascii", xml_declaration=True)
 
 
+	def next_menu_list_item(self):
+		if self.menu.current_node.menu_data_position < len(self.menu.current_node.menu_data_items) - 1:
+			self.menu.current_node.menu_data_position += 1
+			self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]
+			self.set_menu_data_message()
+
+
+	def prev_menu_list_item(self):
+		if self.menu.current_node.menu_data_position > 0:
+			self.menu.current_node.menu_data_position -= 1
+			self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]
+			self.set_menu_data_message()
+
+
+	def set_children_message(self):
+		self.set_message(self.menu.current_node.name + "\n" + 
+			self.menu.current_node.children[self.menu.current_node.current_child].name)
+
+
+	def set_menu_data_message(self):
+		self.set_message(self.menu.current_node.menu_data_prompt + "\n" 
+			+ self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position])
+
+
+	def change_menu_nodes(self, menu_node=None):
+		if menu_node is None:
+			menu_node = self.menu.root
+
+		self.menu.current_node = menu_node
+		
+		if menu_node is self.menu.root:
+			self.set_song_info_message()
+		elif self.menu.current_node.children:
+			self.set_children_message()
+		elif self.menu.current_node.menu_data_loaded:
+			if self.menu.current_node.menu_data_func:
+				print(self.menu.current_node.name + ": data_func")
+				self.menu.current_node.menu_data_func()
+				self.menu.current_node.menu_data_loaded = False
+			elif self.menu.current_node.menu_data_items:
+				print(self.menu.current_node.name + ": data_items")
+				self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]]()
+			self.set_menu_data_message()
+		elif self.menu.current_node.func: 
+			print(self.menu.current_node.name + ": menu_func")
+			self.menu.current_node.func()
+			self.menu.current_node.menu_data_loaded = True
+		else:
+			print("Error!!")
+			self.set_message("Error!!")
+
+
 	def button_state(self, int_capture_pin_val):
 		'''sets the state (is_pressed) of the rotaryPushButton and captures the time of the press
 		so that when it is released, the difference can be calculated
@@ -635,19 +648,7 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 			
 			if delta_t < 0.5: #if the press was shorter than half a second
 				# select the item or go into the menu currently on the display
-				if self.menu.current_node.menu_data_loaded:
-					if self.menu.current_node.menu_data_func:
-						print(self.menu.current_node.name + ": data_func")
-						self.menu.current_node.menu_data_func()
-						self.menu.current_node.menu_data_loaded = False
-					elif self.menu.current_node.menu_data_items:
-						print(self.menu.current_node.name + ": data_items")
-						self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]]()
-				elif self.menu.current_node.func: 
-					print(self.menu.current_node.name + ": menu_func")
-					self.menu.current_node.func()
-					self.menu.current_node.menu_data_loaded = True
-				elif self.menu.current_node is self.menu.root:
+				if self.menu.current_node is self.menu.root:
 					print(self.menu.current_node.name + ": main -> setup")
 					self.change_menu_nodes(self.setup_menu)
 				elif self.menu.current_node.children:
