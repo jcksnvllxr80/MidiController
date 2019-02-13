@@ -637,37 +637,37 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 				# select the item or go into the menu currently on the display
 				if self.menu.current_node.menu_data_loaded:
 					if self.menu.current_node.menu_data_func:
-						print("data_func")
+						print(self.menu.current_node.name + ": data_func")
 						self.menu.current_node.menu_data_func()
 						self.menu.current_node.menu_data_loaded = False
 					elif self.menu.current_node.menu_data_items:
-						print("data_items")
+						print(self.menu.current_node.name + ": data_items")
 						self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]]()
-				elif self.menu.current_node.func is not None: 
-					print("menu_func")
+				elif self.menu.current_node.func: 
+					print(self.menu.current_node.name + ": menu_func")
 					self.menu.current_node.func()
 					self.menu.current_node.menu_data_loaded = True
 				elif self.menu.current_node is self.menu.root:
-					print("main -> setup")
+					print(self.menu.current_node.name + ": main -> setup")
 					self.change_menu_nodes(self.setup_menu)
 				elif self.menu.current_node.children:
-					print("deeper menu")
+					print(self.menu.current_node.name + ": deeper menu")
 					self.change_menu_nodes(self.menu.current_node.children[self.menu.current_node.current_child])
 					self.menu.current_node.current_child = 0
 			elif delta_t < 2: #longer than half a second but shorter than 2 seconds
 				if self.menu.current_node.parent:
-					print("child menu -> parent")
+					print(self.menu.current_node.name + ": child menu -> parent")
 					self.change_menu_nodes(self.menu.current_node.parent)
 			else: 
 				if delta_t > 5: # if button held for more than 5 seconds
 					if not self.menu.current_node is self.power_menu:
-						print("? -> power menu")
+						print(self.menu.current_node.name + ": ? -> power menu")
 						self.change_menu_nodes(self.power_menu)	
 				elif self.menu.current_node is self.menu.root: # if the button was pressed btwn 2 and 5 secs
-					print("? -> global menu")
+					print(self.menu.current_node.name + ": ? -> global menu")
 					self.change_menu_nodes(self.global_menu) # if the currentmenu is mainmenu swap to 'Global'
 				else:
-					print("? -> Looper main menu")
+					print(self.menu.current_node.name + ": ? -> Looper main menu")
 					self.change_menu_nodes(self.menu.root)
 
 			self.is_pressed = False #was released
