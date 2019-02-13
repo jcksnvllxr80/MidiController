@@ -138,20 +138,10 @@ class Rotary_Encoder(RgbKnob):
 
 		# set up the Looper setup menus (set, seong, part, pedal, bpm)
 		self.setlist_menu = self.setup_menu.add_child("Sets", self.show_setlists, self.load_set_func)
-		# self.setlist_menu.func()
-		# self.setlist_menu.menu_data_loaded = True
 		self.songs_menu = self.setup_menu.add_child("Songs", self.show_songs, self.load_song_func)
-		# self.songs_menu.func()
-		# self.songs_menu.menu_data_loaded = True
 		self.parts_menu = self.setup_menu.add_child("Parts", self.show_parts, self.load_part_func)
-		# self.parts_menu.func()
-		# self.parts_menu.menu_data_loaded = True
 		self.pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedals)
-		# self.pedal_menu.func()
-		# self.pedal_menu.menu_data_loaded = True
 		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm)
-		# self.bpm_menu.func()
-		# self.bpm_menu.menu_data_loaded = True
 		self.set_song_info_message()
 
 		# define power menu
@@ -543,46 +533,6 @@ class Rotary_Encoder(RgbKnob):
 				self.load_part()
 
 
-
-class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
-	'''class to handle button pushes on the rotary encoder knob. its parents are 'ButtonOnPedalBoard' 
-	from the 'EffectLoops' package and 'Rotary_Encoder' 
-	'''
-	def __init__(self, button, state, mode, **kwargs):
-		type = "RotaryPushButton"
-		func_two_type = "Settings"
-		func_two_port = "None"
-		name = "RotaryPB"
-		Rotary_Encoder.__init__(self, **kwargs) #initialize parent class rotary encoder
-		#initialize parent class buttonOnPedalboard
-		super(RotaryPushButton, self).__init__(name, state, button, type, func_two_type, func_two_port)
-		
-		
-	def switch_modes(self, mode=None):
-		if mode is None:
-			if self.is_engaged:
-				self.turn_off()
-				self.mode = "Pedal"
-			else:
-				self.turn_on()
-				self.mode = "Song"
-		else:
-			if mode == "Pedal":
-				self.turn_off()
-				self.mode = "Pedal"
-			else:
-				self.turn_on()
-				self.mode = "Song"
-		self.save_mode_to_default()
-			
-			
-	def save_mode_to_default(self):
-		Defaults = ET.parse(DEFAULT_FILE)
-		Root = Defaults.getroot()
-		Root.find('mode').text = self.mode 
-		Defaults.write(DEFAULT_FILE,encoding="us-ascii", xml_declaration=True)
-
-
 	def next_menu_list_item(self):
 		if self.menu.current_node.menu_data_position < len(self.menu.current_node.menu_data_items) - 1:
 			self.menu.current_node.menu_data_position += 1
@@ -633,6 +583,45 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 		else:
 			print("Error!!")
 			self.set_message("Error!!")
+
+
+class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
+	'''class to handle button pushes on the rotary encoder knob. its parents are 'ButtonOnPedalBoard' 
+	from the 'EffectLoops' package and 'Rotary_Encoder' 
+	'''
+	def __init__(self, button, state, mode, **kwargs):
+		type = "RotaryPushButton"
+		func_two_type = "Settings"
+		func_two_port = "None"
+		name = "RotaryPB"
+		Rotary_Encoder.__init__(self, **kwargs) #initialize parent class rotary encoder
+		#initialize parent class buttonOnPedalboard
+		super(RotaryPushButton, self).__init__(name, state, button, type, func_two_type, func_two_port)
+		
+		
+	def switch_modes(self, mode=None):
+		if mode is None:
+			if self.is_engaged:
+				self.turn_off()
+				self.mode = "Pedal"
+			else:
+				self.turn_on()
+				self.mode = "Song"
+		else:
+			if mode == "Pedal":
+				self.turn_off()
+				self.mode = "Pedal"
+			else:
+				self.turn_on()
+				self.mode = "Song"
+		self.save_mode_to_default()
+			
+			
+	def save_mode_to_default(self):
+		Defaults = ET.parse(DEFAULT_FILE)
+		Root = Defaults.getroot()
+		Root.find('mode').text = self.mode 
+		Defaults.write(DEFAULT_FILE,encoding="us-ascii", xml_declaration=True)
 
 
 	def button_state(self, int_capture_pin_val):
