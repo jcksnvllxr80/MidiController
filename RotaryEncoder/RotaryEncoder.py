@@ -427,14 +427,6 @@ class Rotary_Encoder(RgbKnob):
 		print("direction: " + direction)
 		if not self.menu.current_node is self.menu.root:
 			if self.menu.current_node.children:
-				try:
-					print("current node name: " + self.menu.current_node.name + ",\nnumber of children in node: " + 
-						str(len(self.menu.current_node.children)) + ",\ncurrent child in node: " + 
-						str(self.menu.current_node.current_child))
-				except:
-					print(sys.exc_info()[0])
-					print("current node name: " + self.menu.current_node.name + ",\ncurrent child in node: " + 
-						str(self.menu.current_node.current_child))
 				if direction == "CW":
 					if self.menu.current_node.current_child < len(self.menu.current_node.children) - 1:
 						self.menu.current_node.current_child += 1
@@ -443,7 +435,21 @@ class Rotary_Encoder(RgbKnob):
 					if self.menu.current_node.current_child > 0:
 						self.menu.current_node.current_child -= 1
 						self.set_children_message()
+
+				try:
+					print("current node name: " + self.menu.current_node.name + ",\nnumber of children in node: " + 
+						str(len(self.menu.current_node.children)) + ",\ncurrent child in node: " + 
+						str(self.menu.current_node.current_child))
+				except:
+					print(sys.exc_info()[0])
+					print("current node name: " + self.menu.current_node.name + ",\ncurrent child in node: " + 
+						str(self.menu.current_node.current_child))
 			else:
+				if direction == "CW":
+					self.next_menu_list_item()
+				elif direction == "CCW":
+					self.prev_menu_list_item()
+					
 				try:
 					print("current node name: " + self.menu.current_node.name + ",\nnumber of elems in list: " + 
 						str(len(self.menu.current_node.menu_data_items)) + ",\ncurrent elem in list: " + 
@@ -452,10 +458,6 @@ class Rotary_Encoder(RgbKnob):
 					print(sys.exc_info()[0])
 					print("current node name: " + self.menu.current_node.name + ",\ncurrent elem in list: " + 
 						str(self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]))
-				if direction == "CW":
-					self.next_menu_list_item()
-				elif direction == "CCW":
-					self.prev_menu_list_item()
 		else:
 			if direction == "CW":
 				pass # TODO: somthing here
