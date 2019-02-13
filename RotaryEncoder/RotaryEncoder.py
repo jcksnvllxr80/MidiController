@@ -643,7 +643,7 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 					elif self.menu.current_node.menu_data_items:
 						print("data_items")
 						self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]]()
-				elif self.menu.current_node.func: 
+				elif self.menu.current_node.func is not None: 
 					print("menu_func")
 					self.menu.current_node.func()
 					self.menu.current_node.menu_data_loaded = True
