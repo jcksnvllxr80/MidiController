@@ -26,24 +26,24 @@ Routing = Routes.Looper_Routes()
 Leds = LEDs.Looper_LEDs()
 
 def unload():
-	Leds.stopPWM()
+	Leds.stop_pwm()
 
 class Pedal(object):
 
 	def __init__(self, name, state, type):
 		self.name = name
 		self.type = type
-		self.isEngaged = state
-		if self.isEngaged:
-			self.turnOn()
+		self.is_engaged = state
+		if self.is_engaged:
+			self.turn_on()
 		else:
-			self.turnOff()	
+			self.turn_off()	
 	
 	def __str__(self):
 		return self.name + " " + self.getState()
 	
 	def getState(self):
-		if self.isEngaged:
+		if self.is_engaged:
 			return "Engaged"
 		else:
 			return "Bypassed"
@@ -130,17 +130,17 @@ class ButtonOnPedalBoard(Pedal):
 	def __init__(self, name, state, button, type, func_two_type, func_two_port, **kwargs):
 		self.button = button
 		self.start = time.time()
-		self.pin = self.fromButtonToPin(self.button)
+		self.pin = self.from_button_to_pin(self.button)
 		self.func_two_port = func_two_port
 		self.func_two_type = func_two_type
 		self.is_pressed = False
 		self.partner = None
-		self.lastActionTime = time.time()
+		self.last_action_time = time.time()
 		self.PedalConfigChanged = False
 		super(ButtonOnPedalBoard, self).__init__(name, state, type)
 
 			
-	def fromButtonToPin(self, button):
+	def from_button_to_pin(self, button):
 		if button < 6:
 			return button - 1
 		elif button < 11:
@@ -148,10 +148,10 @@ class ButtonOnPedalBoard(Pedal):
 		else:
 			return button
 
-	def setPartner(self, partner):
+	def set_partner(self, partner):
 		self.partner = partner
 
-	def getPartnerButton(self):
+	def get_partner_button(self):
 		if self.button < 6:
 			return self.button + 5
 		elif self.button < 11:
@@ -181,27 +181,27 @@ class ButtonOnPedalBoard(Pedal):
 		self.func_two_port = func_two_port
 		self.func_two_type = func_two_type
 
-	def turnOn(self):
+	def turn_on(self):
 		Routing.set_output(self.pin, False)
 		Leds.set_output(self.pin, True)
-		self.isEngaged = True
+		self.is_engaged = True
 		#print self
 
-	def turnOff(self):
+	def turn_off(self):
 		if self.name <> "Empty":
 			Routing.set_output(self.pin, True)
 		Leds.set_output(self.pin, False)
-		self.isEngaged = False
+		self.is_engaged = False
 		#print self
 	
 	def getPin(self):
 		return self.pin
 		
-	def setSetting(self, setting):
+	def set_setting(self, setting):
 		pass
 		#print "setting " + str(setting)
 
-	def getPartnerFunction(self):
+	def get_partner_function(self):
 		if self.pin > 5:
 			return self.partner.button
 		else:
@@ -227,10 +227,10 @@ class TapTempoButton(ButtonOnPedalBoard):
 		self.lastTap = time.time() - 2.5 #because the last tap being more than 2.5s ago means "start over"
 		self.avgTapTime = 0 #only to start with
 		self.TapNum = 0
-		self.PWM_OnTime = 0
-		self.tapStartTime = 0
-		self.tappingInProgress = False
-		self.initPWM(tempo) #initalize GPIO for PWM
+		self.pwm_on_time = 0
+		self.tap_start_time = 0
+		self.tapping_in_progress = False
+		self.init_pwm(tempo) #initalize GPIO for PWM
 		#self.setTempo(tempo)
 
 	def setTempo(self, tempo):
@@ -238,10 +238,10 @@ class TapTempoButton(ButtonOnPedalBoard):
 			self.tempo = int(tempo)
 		else:
 			self.tempo = tempo
-		self.startPWM(self.tempo/60) #start the PWM with BPM/60 so BPS
-		self.PWM_OnTime = 4*60/self.tempo #4 beats
+		self.start_pwm(self.tempo/60) #start the PWM with BPM/60 so BPS
+		self.pwm_on_time = 4*60/self.tempo #4 beats
 
-	def initPWM(self,tempo):
+	def init_pwm(self,tempo):
 		#set the mode for how the GPIO pins will be numbered
 		GPIO.setmode(GPIO.BCM)
 		#set the list of pin numbers as outputs
@@ -256,7 +256,7 @@ class TapTempoButton(ButtonOnPedalBoard):
 		self.DC3 = 75
 		self.DC4 = 75
 
-	def startPWM(self, tempoBPS):
+	def start_pwm(self, tempoBPS):
 		'''start PWM with beats per second frequency and (100 - x) dutyCycle
 		'''
 		self._tap1.ChangeFrequency(tempoBPS)
@@ -271,10 +271,10 @@ class TapTempoButton(ButtonOnPedalBoard):
 		self._tap3.start(100 - self.DC3)
 		#GPIO.output(self.TAP_PIN4, 0)
 		self._tap4.start(100 - self.DC4)
-		self.tapStartTime = time.time()
-		self.tappingInProgress = True
+		self.tap_start_time = time.time()
+		self.tapping_in_progress = True
 
-	def pausePWM(self):
+	def pause_pwm(self):
 		'''pause the PWM
 		'''
 		self._tap1.stop()
@@ -285,22 +285,22 @@ class TapTempoButton(ButtonOnPedalBoard):
 		#GPIO.output(self.TAP_PIN3, 1)
 		self._tap4.stop()
 		#GPIO.output(self.TAP_PIN4, 1)
-		self.tappingInProgress = False
+		self.tapping_in_progress = False
 
-	def stopPWM(self):
+	def stop_pwm(self):
 		'''stop the PWM
 		'''
-		self.pausePWM()
+		self.pause_pwm()
 		GPIO.cleanup()
 
-	def turnOn(self):
+	def turn_on(self):
 		Leds.set_output(self.pin, False)
-		self.isEngaged = True
+		self.is_engaged = True
 		#print self
 
-	def turnOff(self):
+	def turn_off(self):
 		Leds.set_output(self.pin, True)
-		self.isEngaged = False
+		self.is_engaged = False
 		#print self
 		
 	def setDutyCycle1(self, DC):
@@ -330,15 +330,15 @@ class TapTempoButton(ButtonOnPedalBoard):
 	def getTempo(self):
 		return self.tempo
 
-	def buttonState(self, intCapturePinVal, mode):
-		if not intCapturePinVal:
-			self.turnOff()
+	def button_state(self, int_capture_pin_val, mode):
+		if not int_capture_pin_val:
+			self.turn_off()
 			self.MIDITempoPedal.tapTempo()
 			self.is_pressed = True
 			self.start = time.time()
 			self.calculate_tempo()
 		else:
-			self.turnOn()
+			self.turn_on()
 			if self.TapNum > 4:
 				time.sleep(self.avgTapTime)
 				self.setTempo(int(10 * (60 / self.avgTapTime)) / 10.0 )
@@ -370,29 +370,29 @@ class LoopPedal(ButtonOnPedalBoard):
 		type = "LoopPedal"
 		super(LoopPedal, self).__init__(name, state, button, type, func_two_type, func_two_port)
 
-	def buttonState(self, intCapturePinVal, mode):
-		if not intCapturePinVal:
+	def button_state(self, int_capture_pin_val, mode):
+		if not int_capture_pin_val:
 			self.is_pressed = True
 			self.start = time.time()
 		else:
 			self.end = time.time()
-			deltaT = self.end - self.start
+			delta_t = self.end - self.start
 			if not self.partner.PedalConfigChanged:
-				if time.time() - self.partner.lastActionTime > 0.25:
+				if time.time() - self.partner.last_action_time > 0.25:
 					if mode == "Pedal":
-						if not self.isEngaged:
-							self.turnOn()
+						if not self.is_engaged:
+							self.turn_on()
 						else:
-							if deltaT < 0.5:
-								self.turnOff()
+							if delta_t < 0.5:
+								self.turn_off()
 							else:
 								self.secondaryFunction()
 					else:
-						if deltaT > 0.5:
-							if not self.isEngaged:
-								self.turnOn()
+						if delta_t > 0.5:
+							if not self.is_engaged:
+								self.turn_on()
 							else:
-								self.turnOff()
+								self.turn_off()
 			else:
 				#self.PedalConfigChanged == False
 				self.partner.PedalConfigChanged == False
@@ -415,16 +415,16 @@ class MidiLoopPedal(LoopPedal, MidiPedal):
 			self.setSelahPreset(self.preset)
 		LoopPedal.__init__(self, name, pin, state, func_two_type, func_two_port)
 
-	def turnOn(self):
+	def turn_on(self):
 		#turn on via MIDI
 		self.midi.MIDI_CC_TX(self.MidiCommandDict["ENGAGE_CC"], self.MidiCommandDict["DATA_BYTE"])
-		LoopPedal.turnOn(self)
+		LoopPedal.turn_on(self)
 		#print self.name + " on."
 
-	def turnOff(self):
+	def turn_off(self):
 		#turn off via MIDI
 		self.midi.MIDI_CC_TX(self.MidiCommandDict["BYPASS_CC"], self.MidiCommandDict["DATA_BYTE"])
-		LoopPedal.turnOff(self)
+		LoopPedal.turn_off(self)
 		#print self.name + " off."
 
 	def setSelahPreset(self, preset):
@@ -442,7 +442,7 @@ class MidiLoopPedal(LoopPedal, MidiPedal):
 		else:
 			super(MidiLoopPedal, self).secondaryFunction()
 	
-	def setSetting(self, setting):
+	def set_setting(self, setting):
 		if self.brand == "Selah":
 			self.setSelahPreset(setting)
 
@@ -467,18 +467,18 @@ class MidiNonLoopPedal(MidiPedal, Pedal):
 			self.setSelahPreset(self.preset)
 		Pedal.__init__(self, name, state, type) 
 
-	def turnOn(self):
+	def turn_on(self):
 		if not self.brand == "Selah":
 			#turn on via MIDI
 			self.midi.MIDI_CC_TX(self.MidiCommandDict["ENGAGE_CC"], self.MidiCommandDict["DATA_BYTE_ON"])
-			self.isEngaged = True
+			self.is_engaged = True
 			#print self.name + " on."
 
-	def turnOff(self):
+	def turn_off(self):
 		if not self.brand == "Selah":
 			#turn off via MIDI
 			self.midi.MIDI_CC_TX(self.MidiCommandDict["BYPASS_CC"], self.MidiCommandDict["DATA_BYTE_OFF"])
-			self.isEngaged = False
+			self.is_engaged = False
 			#print self.name + " off."
 
 	def setStrymonPreset(self, preset):
@@ -491,7 +491,7 @@ class MidiNonLoopPedal(MidiPedal, Pedal):
 		self.preset = preset
 		self.midi.SelahPresetTempoChange(chr(preset))
 	    	
-	def setSetting(self, setting):
+	def set_setting(self, setting):
 		if self.brand == "Strymon":
 			self.setStrymonPreset(int(setting))
 		elif self.brand == "Selah":
@@ -527,12 +527,12 @@ class Empty(ButtonOnPedalBoard):
 		func_two_port = "None"
 		super(Empty, self).__init__(name, state, button, type, func_two_type, func_two_port)
 
-	def buttonState(self, intCapturePinVal, mode):
+	def button_state(self, int_capture_pin_val, mode):
 		
-		if not intCapturePinVal:
-			self.turnOn()
+		if not int_capture_pin_val:
+			self.turn_on()
 			self.is_pressed = True
 		else:
-			self.turnOff()
+			self.turn_off()
 			self.is_pressed = False
 			

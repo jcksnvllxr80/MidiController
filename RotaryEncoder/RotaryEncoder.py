@@ -27,11 +27,11 @@ class RgbKnob(object):
 	
 	def __init__(self, knob_color):
 		col, val = knob_color
-		self.initPWM() #initalize GPIO for PWM
-		self.setColor(col, val) #starting color
-		self.startPWM() #start the PWM
+		self.init_pwm() #initalize GPIO for PWM
+		self.set_color(col, val) #starting color
+		self.start_pwm() #start the PWM
 		
-	def initPWM(self):
+	def init_pwm(self):
 		#set the mode for how the GPIO pins will be numbered
 		GPIO.setmode(GPIO.BCM)
 		#set the list of pin numbers as outputs
@@ -41,14 +41,14 @@ class RgbKnob(object):
 		self._green = GPIO.PWM(self.GREEN_PIN, self.FREQ)
 		self._blue = GPIO.PWM(self.BLUE_PIN, self.FREQ)
 		
-	def startPWM(self):
+	def start_pwm(self):
 		'''start PWM with (100 - x) dutyCycle
 		'''
 		self._red.start(100 - self.r)
 		self._green.start(100 - self.g)
 		self._blue.start(100 - self.b)
 	
-	def stopPWM(self):
+	def stop_pwm(self):
 		'''stop the PWM
 		'''
 		self._red.stop()
@@ -56,47 +56,47 @@ class RgbKnob(object):
 		self._blue.stop()
 		GPIO.cleanup()
 	
-	def setBrightness(self, v):
+	def set_brightness(self, v):
 		''' change the global brightness variable and apply to the current color
 		'''
 		self.brightness = v
-		self.setColor(self.color)
+		self.set_color(self.color)
 		
-	def setColor(self, color, v=None):
+	def set_color(self, color, v=None):
 		''' changes the color of the rotary encoder knob
 		'''
-		newColor = color
-		self.color = newColor
+		new_color = color
+		self.color = new_color
 		if v is not None:
 			self.brightness = v
 		else:
 			v = self.brightness
 		#depending on the color string set the individual components r, g, and b
-		if newColor == self.COLORS[0]:
+		if new_color == self.COLORS[0]:
 			self.r, self.g, self.b = (0, 0, 0)
-		elif newColor == self.COLORS[1]:
+		elif new_color == self.COLORS[1]:
 			self.r, self.g, self.b = (0, 0, v)
-		elif newColor == self.COLORS[2]:
+		elif new_color == self.COLORS[2]:
 			self.r, self.g, self.b = (0, v, 0)
-		elif newColor == self.COLORS[3]:
+		elif new_color == self.COLORS[3]:
 			self.r, self.g, self.b = (0, v, v)
-		elif newColor == self.COLORS[4]:
+		elif new_color == self.COLORS[4]:
 			self.r, self.g, self.b = (v, 0, 0)
-		elif newColor == self.COLORS[5]:
+		elif new_color == self.COLORS[5]:
 			self.r, self.g, self.b = (v, 0, v)
-		elif newColor == self.COLORS[6]:
+		elif new_color == self.COLORS[6]:
 			self.r, self.g, self.b = (v, v, 0)
-		elif newColor == self.COLORS[7]:
+		elif new_color == self.COLORS[7]:
 			self.r, self.g, self.b = (v, v, v)	
 		#update the duty cycle since duty cycle is how brightness is realized
-		self.setRGBDutyCycle()
+		self.set_rgb_duty_cycle()
 		
-	def setRGBDutyCycle(self):
+	def set_rgb_duty_cycle(self):
 		''' update the duty cycle for each component of RGB
 		'''
-		self._red.ChangeDutyCycle(100 - self.r)
-		self._green.ChangeDutyCycle(100 - self.g)
-		self._blue.ChangeDutyCycle(100 - self.b)
+		self._red.change_duty_cycle(100 - self.r)
+		self._green.change_duty_cycle(100 - self.g)
+		self._blue.change_duty_cycle(100 - self.b)
 	
 
 
@@ -115,9 +115,9 @@ class Rotary_Encoder(RgbKnob):
 	global_menu = menu.root.add_child("Global")
 	
 	def __init__(self, **kwargs):		
-		knobCol = kwargs["kc"]
-		knobBright = kwargs["kb"]
-		knob_color = (knobCol, knobBright)
+		knob_col = kwargs["kc"]
+		knob_bright = kwargs["kb"]
+		knob_color = (knob_col, knob_bright)
 		previously_loaded_set = kwargs["sl"]
 		previously_loaded_song = kwargs["s"]
 		previously_loaded_part = kwargs["p"]
@@ -156,7 +156,7 @@ class Rotary_Encoder(RgbKnob):
 
 		#variables for the rotary movement interpretation loop
 		self.last_good_seq = 0
-		self.lastSeq = 0
+		self.last_seq = 0
 		self.rotary_timer = 0
 		
 		#keeps time for last rotary turn in seconds
@@ -220,7 +220,7 @@ class Rotary_Encoder(RgbKnob):
 		self.menu_data_items = RgbKnob.COLORS
 		self.menu_data_position = 0
 		self.set_message("Knob color")
-# 		self.setColor(func)
+# 		self.set_color(func)
 # 		self.save_color_as_default()
 # 		self.changeToMenu("GlobalMenu")
 
@@ -228,7 +228,7 @@ class Rotary_Encoder(RgbKnob):
 	def show_brightness(self):
 		# brightness_range = range(0, 100)
 		self.set_message(str(self.brightness))
-# 		self.setBrightness(int(func))
+# 		self.set_brightness(int(func))
 # 		self.save_color_as_default()
 # 		self.changeToMenu("GlobalMenu")
 
@@ -272,23 +272,23 @@ class Rotary_Encoder(RgbKnob):
 	def show_available_setlists(self):
 		# read setlist files from folder where they belong
 		# display the first item in the list
-		setListFiles = os.listdir(SET_FOLDER)
+		setlist_files = os.listdir(SET_FOLDER)
 		setlists = []
-		for setListFile in setListFiles:
-			if setListFile[-4:] == ".xml":
-				newSetName = setListFile[:-4]
-			setlists.append(newSetName)
+		for setlist_file in setlist_files:
+			if setlist_file[-4:] == ".xml":
+				new_set_name = setlist_file[:-4]
+			setlists.append(new_set_name)
 		if setlists:
 			return setlists
 		else:
 			return "No setlists"
 		# self.currentMenu = "LoadSetMenu"
-		# setListFiles = os.listdir(SET_FOLDER)
+		# setlist_files = os.listdir(SET_FOLDER)
 		# setlists = []
-		# for setListFile in setListFiles:
-		# 	if setListFile[-4:] == ".xml":
-		# 		newSetName = setListFile[:-4]
-		# 	setlists.append(newSetName)
+		# for setlist_file in setlist_files:
+		# 	if setlist_file[-4:] == ".xml":
+		# 		new_set_name = setlist_file[:-4]
+		# 	setlists.append(new_set_name)
 		# self.menuDictionary[self.currentMenu] = setlists
 		# self.changeToMenu("LoadSetMenu")
 
@@ -315,10 +315,10 @@ class Rotary_Encoder(RgbKnob):
 
 	def load_pedals_func(self):
 		pass
-# 		if self.menu_data_items[self.menu_data_position].isEngaged:
-# 			self.menu_data_items[self.menu_data_position].turnOff()
+# 		if self.menu_data_items[self.menu_data_position].is_engaged:
+# 			self.menu_data_items[self.menu_data_position].turn_off()
 # 		else:
-# 			self.menu_data_items[self.menu_data_position].turnOn()
+# 			self.menu_data_items[self.menu_data_position].turn_on()
 # 		self.set_message(self.menu_data_items[self.menu_data_position].name + 
 # 			"\n" + str(self.menu_data_items[self.menu_data_position].getState()))
 
@@ -350,26 +350,26 @@ class Rotary_Encoder(RgbKnob):
 
 			
 	def load_part(self):
-		tempoObj = None
+		tempo_obj = None
 		for pedal_obj in self.all_pedals:
 			if pedal_obj.name not in ["Empty", "RotaryPB", "TapTempo"]:
 				state, setting = self.current_part.data.pedal_dictionary[pedal_obj.name]
 				if state:
-					pedal_obj.turnOn()
+					pedal_obj.turn_on()
 				else:
-					pedal_obj.turnOff()
+					pedal_obj.turn_off()
 				if setting is not None:
 					pedal_obj.setSetting(setting)
 				if pedal_obj.name == "TimeLine":
 					pedal_obj.setTempo(float(self.current_song.data.bpm))
 			elif pedal_obj.name == "TapTempo":
-				tempoObj = pedal_obj #store this object for later use. 
+				tempo_obj = pedal_obj #store this object for later use. 
 				#need to get all the pedals to their correct state before messsing with tempo
 		#now that we are out of the for loop, set the tempo
 		self.rebuild_menu()
 		self.set_song_info_message()
-		if tempoObj is not None:
-			tempoObj.setTempo(float(self.current_song.data.bpm))
+		if tempo_obj is not None:
+			tempo_obj.setTempo(float(self.current_song.data.bpm))
 		self.save_part_to_default()
 
 
@@ -378,15 +378,15 @@ class Rotary_Encoder(RgbKnob):
 		CW or CCW
 		'''
 		move = None #initialize move to None
-		newState = b*2 +  a*1 | b << 1
-		if newState == 2:
+		new_state = b*2 +  a*1 | b << 1
+		if new_state == 2:
 			seq = 3
-		elif newState == 3:
+		elif new_state == 3:
 			seq =2
 		else:
-			seq = newState
+			seq = new_state
 		delta_time = time.time() - self.rotary_timer
-		delta = abs(seq - self.lastSeq)
+		delta = abs(seq - self.last_seq)
 		if delta > 0:
 			if seq == 1:
 				if delta_time < 0.05 and self.last_good_seq == 3:
@@ -407,7 +407,7 @@ class Rotary_Encoder(RgbKnob):
 					move = "CW"
 				elif self.last_good_seq == 3:
 					move = "CCW"
-		self.lastSeq = seq
+		self.last_seq = seq
 		return move
 
 		
@@ -471,14 +471,14 @@ class Rotary_Encoder(RgbKnob):
 				pass # TODO: somthing here
 
 						
-	def get_main_menu_message(self, menuStr):
-		if menuStr == "Set":
+	def get_main_menu_message(self, menu_str):
+		if menu_str == "Set":
 			self.set_message(self.setlist.setlist_name())
-		elif menuStr == "SongInfo":
+		elif menu_str == "SongInfo":
 			self.set_song_info_message()
-		elif menuStr == "Song":
+		elif menu_str == "Song":
 			self.display_word_wrap(self.current_song.data.name)
-		elif menuStr == "Part":
+		elif menu_str == "Part":
 			self.set_message(self.current_part.data.part_name)
 		else:
 			self.set_message(self.current_song.data.bpm + "BPM")
@@ -562,8 +562,8 @@ class Rotary_Encoder(RgbKnob):
 	def save_color_as_default(self):
 		Defaults = ET.parse(DEFAULT_FILE)
 		Root = Defaults.getroot()
-		Root.find('knobColor').text = self.color 
-		Root.find('knobBrightness').text = str(self.brightness) 
+		Root.find('knob_color').text = self.color 
+		Root.find('knob_brightness').text = str(self.brightness) 
 		Defaults.write(DEFAULT_FILE,encoding="us-ascii", xml_declaration=True)
 
 		
@@ -578,8 +578,8 @@ class Rotary_Encoder(RgbKnob):
 	
 	def change_to_footswitch_item(self, button=None):
 		if button is not None:
-			if button <= self.current_song.data.parts.getLength() and not self.current_part == self.current_song.data.parts.indexToNode(button):
-				self.current_part = self.current_song.data.parts.indexToNode(button)
+			if button <= self.current_song.data.parts.getLength() and not self.current_part == self.current_song.data.parts.index_to_node(button):
+				self.current_part = self.current_song.data.parts.index_to_node(button)
 				self.load_part()
 
 
@@ -600,18 +600,18 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 		
 	def switch_modes(self, mode=None):
 		if mode is None:
-			if self.isEngaged:
-				self.turnOff()
+			if self.is_engaged:
+				self.turn_off()
 				self.mode = "Pedal"
 			else:
-				self.turnOn()
+				self.turn_on()
 				self.mode = "Song"
 		else:
 			if mode == "Pedal":
-				self.turnOff()
+				self.turn_off()
 				self.mode = "Pedal"
 			else:
-				self.turnOn()
+				self.turn_on()
 				self.mode = "Song"
 		self.save_mode_to_default()
 			
@@ -623,18 +623,18 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 		Defaults.write(DEFAULT_FILE,encoding="us-ascii", xml_declaration=True)
 
 
-	def buttonState(self, intCapturePinVal):
-		'''sets the state (isPressed) of the rotaryPushButton and captures the time of the press
+	def button_state(self, int_capture_pin_val):
+		'''sets the state (is_pressed) of the rotaryPushButton and captures the time of the press
 		so that when it is released, the difference can be calculated
 		'''
-		if not intCapturePinVal: #when the button was pressed
-			self.isPressed = True
+		if not int_capture_pin_val: #when the button was pressed
+			self.is_pressed = True
 			self.start = time.time()
 		else: #on button release
 			self.end = time.time()
-			deltaT = self.end - self.start 
+			delta_t = self.end - self.start 
 			
-			if deltaT < 0.5: #if the press was shorter than half a second
+			if delta_t < 0.5: #if the press was shorter than half a second
 				# select the item or go into the menu currently on the display
 				if self.menu.current_node.menu_data_func:
 					self.menu.current_node.menu_data_func()
@@ -651,11 +651,11 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 					print("deeper menu")
 					self.change_menu_nodes(self.menu.current_node.children[self.menu.current_node.current_child])
 					self.menu.current_node.current_child = 0
-			elif deltaT < 2: #longer than half a second but shorter than 2 seconds
+			elif delta_t < 2: #longer than half a second but shorter than 2 seconds
 				if self.menu.current_node.parent:
 					self.change_menu_nodes(self.menu.current_node.parent)
 			else: 
-				if deltaT > 5: # if button held for more than 5 seconds
+				if delta_t > 5: # if button held for more than 5 seconds
 					if not self.menu.current_node is self.power_menu:
 						self.change_menu_nodes(self.power_menu)	
 				elif self.menu.current_node is self.menu.root: # if the button was pressed btwn 2 and 5 secs
@@ -663,4 +663,4 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 				else:
 					self.change_menu_nodes(self.menu.root)
 
-			self.isPressed = False #was released
+			self.is_pressed = False #was released

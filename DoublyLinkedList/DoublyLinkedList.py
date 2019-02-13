@@ -80,7 +80,7 @@ class DoublyLinkedList(object):
 		return data_list
 
 
-	def indexToNode(self, index):
+	def index_to_node(self, index):
 		node = self.head
 		for i in range(1, index):
 			if node.next is not None:
