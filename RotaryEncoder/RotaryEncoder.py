@@ -223,6 +223,8 @@ class Rotary_Encoder(RgbKnob):
 		for part in self.current_song.data.parts.to_list():
 			print(part)
 			self.parts_menu.menu_data_items.append(part.part_name)
+		print("prompt: " + self.parts_menu.menu_data_prompt + "\n" + "node: " + str(self.parts_menu) + "\n" + 
+			"items: " + str(self.parts_menu.menu_data_items) + "\n" + "position: " + str(self.parts_menu.menu_data_position))
 
 
 	def show_songs(self):
@@ -231,6 +233,8 @@ class Rotary_Encoder(RgbKnob):
 		for song in self.setlist.songs.to_list():
 			print(song)
 			self.songs_menu.menu_data_items.append(song.name)
+		print("prompt: " + self.songs_menu.menu_data_prompt + "\n" + "node: " + str(self.songs_menu) + "\n" + 
+			"items: " + str(self.songs_menu.menu_data_items) + "\n" + "position: " + str(self.songs_menu.menu_data_position))
 
 
 	def show_setlists(self):
@@ -241,6 +245,8 @@ class Rotary_Encoder(RgbKnob):
 		for setlist_file in setlist_files:
 			if setlist_file[-4:] == ".xml":
 				self.setlist_menu.menu_data_items.append(setlist_file[:-4])
+		print("prompt: " + self.setlist_menu.menu_data_prompt + "\n" + "node: " + str(self.setlist_menu) + "\n" + 
+			"items: " + str(self.setlist_menu.menu_data_items) + "\n" + "position: " + str(self.setlist_menu.menu_data_position))
 
 
 	def load_set_func(self):
