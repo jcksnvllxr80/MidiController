@@ -94,9 +94,9 @@ class RgbKnob(object):
 	def set_rgb_duty_cycle(self):
 		''' update the duty cycle for each component of RGB
 		'''
-		self._red.change_duty_cycle(100 - self.r)
-		self._green.change_duty_cycle(100 - self.g)
-		self._blue.change_duty_cycle(100 - self.b)
+		self._red.ChangeDutyCycle(100 - self.r)
+		self._green.ChangeDutyCycle(100 - self.g)
+		self._blue.ChangeDutyCycle(100 - self.b)
 	
 
 
