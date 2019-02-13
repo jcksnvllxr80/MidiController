@@ -11,6 +11,7 @@ class Node(object):
         self.menu_data_dict = {}
         self.menu_data_position = 0
         self.menu_data_func = menu_data_func
+        self.menu_data_loaded = False
  
 
     def add_child(self, name, func=None, menu_data_func=None):
