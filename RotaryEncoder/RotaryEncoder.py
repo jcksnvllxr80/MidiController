@@ -252,7 +252,7 @@ class Rotary_Encoder(RgbKnob):
 
 	def show_bpm(self):
 		# self.current_song.bpm
-
+		pass
 		# dont let the tempo go below 40 or above 500
 		# if tap tempo button is pressed, 
 		# 	change the tempo by 5
