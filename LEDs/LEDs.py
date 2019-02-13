@@ -68,7 +68,7 @@ class Looper_LEDs(MCP23017_R1.MCP23017, object):
 	def startPWM(self):
 		self._pwm.start(25)
 	
-	def stopPWM(self):
+	def stop_pwm(self):
 		self._pwm.stop()
 		piGPIO.cleanup()
 
