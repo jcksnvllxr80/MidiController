@@ -185,6 +185,9 @@ class Rotary_Encoder(RgbKnob):
 			self.set_children_message()
 		elif self.menu.current_node.menu_data_items:
 			self.set_menu_data_message()
+		elif not self.menu.current_node.menu_data_loaded:
+			self.menu.current_node.menu_data_func()
+			self.set_menu_data_message()
 		else:
 			print("Error!!")
 			self.set_message("Error!!")
