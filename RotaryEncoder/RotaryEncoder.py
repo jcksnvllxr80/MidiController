@@ -228,7 +228,7 @@ class Rotary_Encoder(RgbKnob):
 		for part in self.current_song.data.parts.to_list():
 			print(part)
 			self.parts_menu.menu_data_items.append(part.part_name)
-		self.test_point_node_printer(parts_menu)
+		self.test_point_node_printer(self.parts_menu)
 
 
 	def show_songs(self):
@@ -237,7 +237,7 @@ class Rotary_Encoder(RgbKnob):
 		for song in self.setlist.songs.to_list():
 			print(song)
 			self.songs_menu.menu_data_items.append(song.name)
-		self.test_point_node_printer(songs_menu)
+		self.test_point_node_printer(self.songs_menu)
 
 
 	def show_setlists(self):
@@ -248,7 +248,7 @@ class Rotary_Encoder(RgbKnob):
 		for setlist_file in setlist_files:
 			if setlist_file[-4:] == ".xml":
 				self.setlist_menu.menu_data_items.append(setlist_file[:-4])
-		self.test_point_node_printer(setlist_menu)
+		self.test_point_node_printer(self.setlist_menu)
 
 
 	def load_set_func(self):
@@ -561,7 +561,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def set_menu_data_message(self):
-		self.test_point_node_printer(current_node)
+		self.test_point_node_printer(self.menu.current_node)
 		self.set_message(self.menu.current_node.menu_data_prompt + "\n" 
 			+ self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position])
 
