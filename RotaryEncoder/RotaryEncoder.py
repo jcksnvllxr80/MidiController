@@ -185,9 +185,6 @@ class Rotary_Encoder(RgbKnob):
 			self.set_children_message()
 		elif self.menu.current_node.menu_data_items:
 			self.set_menu_data_message()
-		elif not self.menu.current_node.menu_data_loaded:
-			self.menu.current_node.menu_data_func()
-			self.set_menu_data_message()
 		else:
 			print("Error!!")
 			self.set_message("Error!!")
@@ -631,14 +628,14 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 			
 			if delta_t < 0.5: #if the press was shorter than half a second
 				# select the item or go into the menu currently on the display
-				if not self.menu.current_node.menu_data_loaded and self.menu.current_node.menu_data_items:
-					print("data_items")
-					self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]]()
-					self.menu.current_node.menu_data_loaded = True
-				elif self.menu.current_node.menu_data_func:
+				if self.menu.current_node.menu_data_func:
 					print("data_func")
 					self.menu.current_node.menu_data_func()
 					self.menu.current_node.menu_data_loaded = False
+				elif self.menu.current_node.menu_data_items:
+					print("data_items")
+					self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]]()
+					self.menu.current_node.menu_data_loaded = True
 				elif self.menu.current_node.func: 
 					print("menu_func")
 					self.menu.current_node.func()
