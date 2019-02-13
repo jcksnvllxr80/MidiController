@@ -263,7 +263,7 @@ class Rotary_Encoder(RgbKnob):
 		print(self.current_song.data.parts.show())
 		for part in self.current_song.data.parts.to_list():
 			print(part)
-			self.parts_menu.menu_data_items.append(part.name)
+			self.parts_menu.menu_data_items.append(part.part_name)
 
 
 	def show_songs(self):
