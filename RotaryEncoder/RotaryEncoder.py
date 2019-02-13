@@ -231,15 +231,17 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def show_brightness(self):
+		pass
 		# brightness_range = range(0, 100)
-		self.set_message(str(self.brightness))
+
 # 		self.set_brightness(int(func))
 # 		self.save_color_as_default()
 # 		self.changeToMenu("GlobalMenu")
 
 
 	def show_pedals(self):
-		self.current_part.pedal_dictionary
+		# self.current_part.pedal_dictionary
+		pass
 # 		self.currentMenu = "PedalMenu"
 # 		self.menuDictionary[self.currentMenu] = self.all_pedals
 # 		self.menu_data_items = self.menuDictionary[self.currentMenu]
@@ -249,7 +251,8 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def show_bpm(self):
-		self.current_song.bpm
+		# self.current_song.bpm
+
 		# dont let the tempo go below 40 or above 500
 		# if tap tempo button is pressed, 
 		# 	change the tempo by 5
