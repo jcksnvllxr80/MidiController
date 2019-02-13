@@ -217,14 +217,18 @@ class Rotary_Encoder(RgbKnob):
 # 		self.set_message(self.current_song.data.bpm)
 
 
+	def test_point_node_printer(self, the_node):
+		print("prompt: " + the_node.menu_data_prompt + "\n" + "node: " + str(the_node) + "\n" + 
+			"items: " + str(the_node.menu_data_items) + "\n" + "position: " + str(the_node.menu_data_position))
+
+
 	def show_parts(self):
 		self.parts_menu.menu_data_prompt = self.parts_menu.name + ":"
 		print(self.current_song.data.parts.show())
 		for part in self.current_song.data.parts.to_list():
 			print(part)
 			self.parts_menu.menu_data_items.append(part.part_name)
-		print("prompt: " + self.parts_menu.menu_data_prompt + "\n" + "node: " + str(self.parts_menu) + "\n" + 
-			"items: " + str(self.parts_menu.menu_data_items) + "\n" + "position: " + str(self.parts_menu.menu_data_position))
+		self.test_point_node_printer(parts_menu)
 
 
 	def show_songs(self):
@@ -233,8 +237,7 @@ class Rotary_Encoder(RgbKnob):
 		for song in self.setlist.songs.to_list():
 			print(song)
 			self.songs_menu.menu_data_items.append(song.name)
-		print("prompt: " + self.songs_menu.menu_data_prompt + "\n" + "node: " + str(self.songs_menu) + "\n" + 
-			"items: " + str(self.songs_menu.menu_data_items) + "\n" + "position: " + str(self.songs_menu.menu_data_position))
+		self.test_point_node_printer(songs_menu)
 
 
 	def show_setlists(self):
@@ -245,8 +248,7 @@ class Rotary_Encoder(RgbKnob):
 		for setlist_file in setlist_files:
 			if setlist_file[-4:] == ".xml":
 				self.setlist_menu.menu_data_items.append(setlist_file[:-4])
-		print("prompt: " + self.setlist_menu.menu_data_prompt + "\n" + "node: " + str(self.setlist_menu) + "\n" + 
-			"items: " + str(self.setlist_menu.menu_data_items) + "\n" + "position: " + str(self.setlist_menu.menu_data_position))
+		self.test_point_node_printer(setlist_menu)
 
 
 	def load_set_func(self):
@@ -559,6 +561,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def set_menu_data_message(self):
+		self.test_point_node_printer(current_node)
 		self.set_message(self.menu.current_node.menu_data_prompt + "\n" 
 			+ self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position])
 
