@@ -218,8 +218,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def test_point_node_printer(self, the_node):
-		print("prompt: " + the_node.menu_data_prompt + "\n" + "node: " + str(the_node) + "\n" + 
-			"\n" + "position: " + str(the_node.menu_data_position))
+		print("prompt: " + the_node.menu_data_prompt + "\nitems: " + str(the_node.menu_data_items) + "\nposition: " + str(the_node.menu_data_position))
 
 
 	def show_parts(self):
