@@ -218,7 +218,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def test_point_node_printer(self, the_node):
-		print("prompt: " + the_node.menu_data_prompt + "\nitems: " + str(the_node.menu_data_items) + "\nposition: " + str(the_node.menu_data_position))
+		print("\nnode: " + str(the_node) + "prompt: " + the_node.menu_data_prompt + "\nitems: " + str(the_node.menu_data_items) + "\nposition: " + str(the_node.menu_data_position))
 
 
 	def show_parts(self):
@@ -569,7 +569,8 @@ class Rotary_Encoder(RgbKnob):
 		if menu_node is None:
 			menu_node = self.menu.root
 
-		self.menu.current_node = menu_node
+		if not self.menu.current_node is menu_node:
+			self.menu.current_node = menu_node
 		
 		if menu_node is self.menu.root:
 			self.set_song_info_message()
@@ -578,12 +579,13 @@ class Rotary_Encoder(RgbKnob):
 		elif self.menu.current_node.menu_data_loaded:
 			if self.menu.current_node.menu_data_func:
 				print(self.menu.current_node.name + ": data_func")
+				self.set_menu_data_message()
 				self.menu.current_node.menu_data_func()
 				self.menu.current_node.menu_data_loaded = False
 			elif self.menu.current_node.menu_data_items:
 				print(self.menu.current_node.name + ": data_items")
+				self.set_menu_data_message()
 				self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]]()
-			self.set_menu_data_message()
 		elif self.menu.current_node.func: 
 			print(self.menu.current_node.name + ": menu_func")
 			self.menu.current_node.func()
