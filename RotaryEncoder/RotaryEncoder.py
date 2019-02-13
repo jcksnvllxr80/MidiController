@@ -111,8 +111,8 @@ class Rotary_Encoder(RgbKnob):
 
 	# build menu with N_Tree
 	menu = N_Tree.N_Tree("Looper")
-	setup_menu = menu.root.add_child("Setup")
-	global_menu = menu.root.add_child("Global")
+	setup_menu = menu.root.add_child("Setup:")
+	global_menu = menu.root.add_child("Global:")
 	
 	def __init__(self, **kwargs):		
 		knob_col = kwargs["kc"]
@@ -262,7 +262,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def show_parts(self):
-		self.parts_menu.menu_data_prompt = "Parts:"
+		self.parts_menu.menu_data_prompt = self.parts_menu.name + ":"
 		print(self.current_song.data.parts.show())
 		for part in self.current_song.data.parts.to_list():
 			print(part)
@@ -270,7 +270,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def show_songs(self):
-		self.songs_menu.menu_data_prompt = "Songs:"
+		self.songs_menu.menu_data_prompt = self.songs_menu.name + ":"
 		print(self.setlist.songs.show())
 		for song in self.setlist.songs.to_list():
 			print(song)
@@ -280,7 +280,7 @@ class Rotary_Encoder(RgbKnob):
 	def show_setlists(self):
 		# read setlist files from folder where they belong
 		# display the first item in the list
-		self.setlist_menu.menu_data_prompt = "Sets:"
+		self.setlist_menu.menu_data_prompt = self.setlist_menu.name + ":"
 		setlist_files = os.listdir(SET_FOLDER)
 		for setlist_file in setlist_files:
 			if setlist_file[-4:] == ".xml":
