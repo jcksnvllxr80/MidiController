@@ -139,10 +139,10 @@ class Rotary_Encoder(RgbKnob):
 
 		self.songs_menu = self.setup_menu.add_child("Songs", self.show_songs, self.load_song_func)
 		self.songs_menu.func()
-		self.parts_menu = self.setup_menu.add_child("Parts", self.show_parts_of_song)
-		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm_for_song)
-		self.pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedal_states)
-		self.setlist_menu = self.setup_menu.add_child("Sets", self.show_available_setlists)
+		self.parts_menu = self.setup_menu.add_child("Parts", self.show_parts, self.load_part_func)
+		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm)
+		self.pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedals)
+		self.setlist_menu = self.setup_menu.add_child("Sets", self.show_setlists)
 		self.set_song_info_message()
 		# define power menu
 		self.power_menu = self.menu.root.add_child("Power", self.set_menu_data_message)
@@ -233,7 +233,7 @@ class Rotary_Encoder(RgbKnob):
 # 		self.changeToMenu("GlobalMenu")
 
 
-	def show_pedal_states(self):
+	def show_pedals(self):
 		self.current_part.pedal_dictionary
 # 		self.currentMenu = "PedalMenu"
 # 		self.menuDictionary[self.currentMenu] = self.all_pedals
@@ -243,7 +243,7 @@ class Rotary_Encoder(RgbKnob):
 # 			str(self.menu_data_items[self.menu_data_position].getState()))
 
 
-	def show_bpm_for_song(self):
+	def show_bpm(self):
 		self.current_song.bpm
 		# dont let the tempo go below 40 or above 500
 		# if tap tempo button is pressed, 
@@ -253,23 +253,23 @@ class Rotary_Encoder(RgbKnob):
 # 		self.set_message(self.current_song.data.bpm)
 
 
-	def show_parts_of_song(self):
-		self.current_song.parts
-# 		self.currentMenu = "PartMenu"
-# 		self.menuDictionary[self.currentMenu] = self.current_song.data.parts
-# 		self.current_part = self.menuDictionary[self.currentMenu].head
-# 		self.set_message(self.current_part.data.part_name)
+	def show_parts(self):
+		self.parts_menu.menu_data_prompt = "Parts:"
+		print(self.current_song.parts.show())
+		for part in self.current_song.parts.to_list():
+			print(part)
+			self.parts_menu.menu_data_items.append(part.name)
 
 
 	def show_songs(self):
-		self.songs_menu.menu_data_prompt = "Songs..."
+		self.songs_menu.menu_data_prompt = "Songs:"
 		print(self.setlist.songs.show())
 		for song in self.setlist.songs.to_list():
 			print(song)
 			self.songs_menu.menu_data_items.append(song.name)
 
 
-	def show_available_setlists(self):
+	def show_setlists(self):
 		# read setlist files from folder where they belong
 		# display the first item in the list
 		setlist_files = os.listdir(SET_FOLDER)
@@ -306,8 +306,8 @@ class Rotary_Encoder(RgbKnob):
 
 	def load_part_func(self):
 		pass
-# 		self.load_part()
-# 		self.changeToMenu("MainMenu")
+		self.load_part()
+		self.change_menu_nodes()
 
 	def load_song_func(self):
 		self.load_song()
