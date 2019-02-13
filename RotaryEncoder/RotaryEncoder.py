@@ -138,15 +138,15 @@ class Rotary_Encoder(RgbKnob):
 
 		# set up the Looper setup menus (set, seong, part, pedal, bpm)
 		self.setlist_menu = self.setup_menu.add_child("Sets", self.show_setlists, self.load_set_func)
-		# self.setlist_menu.func()
+		self.setlist_menu.func()
 		self.songs_menu = self.setup_menu.add_child("Songs", self.show_songs, self.load_song_func)
-		# self.songs_menu.func()
+		self.songs_menu.func()
 		self.parts_menu = self.setup_menu.add_child("Parts", self.show_parts, self.load_part_func)
-		# self.parts_menu.func()
+		self.parts_menu.func()
 		self.pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedals)
-		# self.pedal_menu.func()
+		self.pedal_menu.func()
 		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm)
-		# self.bpm_menu.func()
+		self.bpm_menu.func()
 		self.set_song_info_message()
 
 		# define power menu
