@@ -359,7 +359,7 @@ class Rotary_Encoder(RgbKnob):
 				else:
 					pedal_obj.turn_off()
 				if setting is not None:
-					pedal_obj.setSetting(setting)
+					pedal_obj.set_setting(setting)
 				if pedal_obj.name == "TimeLine":
 					pedal_obj.setTempo(float(self.current_song.data.bpm))
 			elif pedal_obj.name == "TapTempo":
