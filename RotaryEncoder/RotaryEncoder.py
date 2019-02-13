@@ -570,27 +570,17 @@ class Rotary_Encoder(RgbKnob):
 	def change_menu_nodes(self, menu_node=None):
 		if menu_node is None:
 			menu_node = self.menu.root
-
-		if not self.menu.current_node is menu_node:
-			self.menu.current_node = menu_node
+		
+		self.menu.current_node = menu_node
 		
 		if menu_node is self.menu.root:
 			self.set_song_info_message()
 		elif self.menu.current_node.children:
 			self.set_children_message()
-		elif self.menu.current_node.menu_data_loaded:
-			if self.menu.current_node.menu_data_func:
-				print(self.menu.current_node.name + ": data_func")
-				self.set_menu_data_message()
-				self.menu.current_node.menu_data_func()
-				self.menu.current_node.menu_data_loaded = False
-			elif self.menu.current_node.menu_data_items:
-				print(self.menu.current_node.name + ": data_items")
-				self.set_menu_data_message()
-				self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]]()
 		elif self.menu.current_node.func: 
 			print(self.menu.current_node.name + ": menu_func")
 			self.menu.current_node.func()
+			self.set_menu_data_message()
 			self.menu.current_node.menu_data_loaded = True
 		else:
 			print("Error!!")
@@ -656,8 +646,14 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 					print(self.menu.current_node.name + ": deeper menu")
 					self.change_menu_nodes(self.menu.current_node.children[self.menu.current_node.current_child])
 					self.menu.current_node.current_child = 0
-				else:
-					self.change_menu_nodes(self.menu.current_node)
+				elif self.menu.current_node.menu_data_items:
+					if self.menu.current_node.menu_data_func:
+						print(self.menu.current_node.name + ": data_func")
+						self.menu.current_node.menu_data_func()
+						self.menu.current_node.menu_data_loaded = False
+					else:	
+						print(self.menu.current_node.name + ": data_items")
+						self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]]()
 			elif delta_t < 2: #longer than half a second but shorter than 2 seconds
 				if self.menu.current_node.parent:
 					print(self.menu.current_node.name + ": child menu -> parent")
