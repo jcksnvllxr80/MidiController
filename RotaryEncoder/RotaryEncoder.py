@@ -195,28 +195,6 @@ class Rotary_Encoder(RgbKnob):
 # 		self.changeToMenu("GlobalMenu")
 
 
-	def show_pedals(self):
-		# self.current_part.pedal_dictionary
-		pass
-# 		self.currentMenu = "PedalMenu"
-# 		self.menuDictionary[self.currentMenu] = self.all_pedals
-# 		self.menu_data_items = self.menuDictionary[self.currentMenu]
-# 		self.menu_data_position = 0
-# 		self.set_message(self.menu_data_items[self.menu_data_position].name + "\n" + 
-# 			str(self.menu_data_items[self.menu_data_position].getState()))
-
-
-	def show_bpm(self):
-		# self.current_song.bpm
-		pass
-		# dont let the tempo go below 40 or above 500
-		# if tap tempo button is pressed, 
-		# 	change the tempo by 5
-		# else
-		# 	change the tempo by 0.5 
-# 		self.set_message(self.current_song.data.bpm)
-
-
 	def test_point_node_printer(self, the_node):
 		print("\nnode: " + str(the_node) + "prompt: " + the_node.menu_data_prompt + 
 			"\nitems: " + str(the_node.menu_data_items) + "\ncurrent item: " + str(the_node.menu_data_items[the_node.menu_data_position]) + 
@@ -255,6 +233,25 @@ class Rotary_Encoder(RgbKnob):
 		self.test_point_node_printer(self.parts_menu)
 
 
+	def show_pedals(self):
+		self.pedal_menu.menu_data_prompt = self.pedal_menu.name + ":"
+		self.pedal_menu.menu_data_items = self.all_pedals
+		self.pedal_menu.menu_data_position = 0
+		self.test_point_node_printer(self.pedal_menu)
+
+
+
+	def show_bpm(self):
+		# self.current_song.bpm
+		pass
+		# dont let the tempo go below 40 or above 500
+		# if tap tempo button is pressed, 
+		# 	change the tempo by 5
+		# else
+		# 	change the tempo by 0.5 
+# 		self.set_message(self.current_song.data.bpm)
+
+
 	def load_set_func(self):
 		self.set_message("Loading set...")
 		self.setlist_name = self.setlist_menu.menu_data_items[self.setlist_menu.menu_data_position]
@@ -283,13 +280,12 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def load_pedals_func(self):
-		pass
-# 		if self.menu_data_items[self.menu_data_position].is_engaged:
-# 			self.menu_data_items[self.menu_data_position].turn_off()
-# 		else:
-# 			self.menu_data_items[self.menu_data_position].turn_on()
-# 		self.set_message(self.menu_data_items[self.menu_data_position].name + 
-# 			"\n" + str(self.menu_data_items[self.menu_data_position].getState()))
+		pedal = self.pedal_menu.menu_data_items[self.menu_data_position]
+		if pedal.is_engaged:
+			pedal.turn_off()
+		else:
+			pedal.turn_on()
+		self.set_message(pedal.name + "\n" + str(pedal.getState()))
 
 
 	def change_pedal_configuration(self, option):
