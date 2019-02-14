@@ -280,7 +280,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def load_pedal_func(self):
-		pedal = self.pedal_menu.menu_data_items[self.menu_data_position]
+		pedal = self.pedal_menu.menu_data_items[self.pedal_menu.menu_data_position]
 		if pedal.is_engaged:
 			pedal.turn_off()
 		else:
