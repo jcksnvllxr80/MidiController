@@ -88,7 +88,7 @@ class DoublyLinkedList(object):
 		return node
 
 
-	def nodeToIndex(self, node):
+	def node_to_index(self, node):
 		tempNode = self.head
 		for index in range(1, self.length + 1):
 			if node is not tempNode:	

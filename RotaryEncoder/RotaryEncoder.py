@@ -223,13 +223,15 @@ class Rotary_Encoder(RgbKnob):
 			"\nposition: " + str(the_node.menu_data_position))
 
 
-	def show_parts(self):
-		self.parts_menu.menu_data_prompt = self.parts_menu.name + ":"
-		print(self.current_song.data.parts.show())
-		for part in self.current_song.data.parts.to_list():
-			print(part)
-			self.parts_menu.menu_data_items.append(part.part_name)
-		self.test_point_node_printer(self.parts_menu)
+	def show_setlists(self):
+		# read setlist files from folder where they belong
+		# display the first item in the list
+		self.setlist_menu.menu_data_prompt = self.setlist_menu.name + ":"
+		setlist_files = os.listdir(SET_FOLDER)
+		for setlist_file in setlist_files:
+			if setlist_file[-4:] == ".xml":
+				self.setlist_menu.menu_data_items.append(setlist_file[:-4])
+		self.test_point_node_printer(self.setlist_menu)
 
 
 	def show_songs(self):
@@ -241,15 +243,13 @@ class Rotary_Encoder(RgbKnob):
 		self.test_point_node_printer(self.songs_menu)
 
 
-	def show_setlists(self):
-		# read setlist files from folder where they belong
-		# display the first item in the list
-		self.setlist_menu.menu_data_prompt = self.setlist_menu.name + ":"
-		setlist_files = os.listdir(SET_FOLDER)
-		for setlist_file in setlist_files:
-			if setlist_file[-4:] == ".xml":
-				self.setlist_menu.menu_data_items.append(setlist_file[:-4])
-		self.test_point_node_printer(self.setlist_menu)
+	def show_parts(self):
+		self.parts_menu.menu_data_prompt = self.parts_menu.name + ":"
+		print(self.current_song.data.parts.show())
+		for part in self.current_song.data.parts.to_list():
+			print(part)
+			self.parts_menu.menu_data_items.append(part.part_name)
+		self.test_point_node_printer(self.parts_menu)
 
 
 	def load_set_func(self):
@@ -262,13 +262,17 @@ class Rotary_Encoder(RgbKnob):
 		self.change_menu_nodes()
 
 
+	def load_song_func(self):
+		self.current_song = self.songs.index_to_node(self.setlist_menu.menu_data_position + 1)
+		self.load_song()
+		self.change_menu_nodes()
+
+
 	def load_part_func(self):
+		self.current_part = self.current_song.data.parts.index_to_node(self.songs_menu.menu_data_position + 1)
 		self.load_part()
 		self.change_menu_nodes()
 
-	def load_song_func(self):
-		self.load_song()
-		self.change_menu_nodes()
 
 	def load_pedals_func(self):
 		pass
