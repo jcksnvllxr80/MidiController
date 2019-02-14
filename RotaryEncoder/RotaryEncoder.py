@@ -572,7 +572,7 @@ class Rotary_Encoder(RgbKnob):
 	def set_menu_data_message(self):
 		self.test_point_node_printer(self.menu.current_node)
 		self.set_message(self.menu.current_node.menu_data_prompt + "\n" 
-			+ self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position])
+			+ str(self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]))
 
 
 	def change_menu_nodes(self, menu_node=None):
