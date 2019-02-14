@@ -140,7 +140,7 @@ class Rotary_Encoder(RgbKnob):
 		self.setlist_menu = self.setup_menu.add_child("Sets", self.show_setlists, self.load_set_func)
 		self.songs_menu = self.setup_menu.add_child("Songs", self.show_songs, self.load_song_func)
 		self.parts_menu = self.setup_menu.add_child("Parts", self.show_parts, self.load_part_func)
-		self.pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedals)
+		self.pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedals, self.load_pedal_func)
 		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm)
 		self.set_song_info_message()
 
@@ -279,7 +279,7 @@ class Rotary_Encoder(RgbKnob):
 		self.change_menu_nodes()
 
 
-	def load_pedals_func(self):
+	def load_pedal_func(self):
 		pedal = self.pedal_menu.menu_data_items[self.menu_data_position]
 		if pedal.is_engaged:
 			pedal.turn_off()
