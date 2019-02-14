@@ -235,6 +235,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def show_songs(self):
+		self.songs_menu.menu_data_items = []
 		self.songs_menu.menu_data_prompt = self.songs_menu.name + ":"
 		print(self.setlist.songs.show())
 		for song in self.setlist.songs.to_list():
@@ -244,6 +245,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def show_parts(self):
+		self.parts_menu.menu_data_items = []
 		self.parts_menu.menu_data_prompt = self.parts_menu.name + ":"
 		print(self.current_song.data.parts.show())
 		for part in self.current_song.data.parts.to_list():
@@ -266,14 +268,14 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def load_song_func(self):
-		# self.current_song = self.setlist.songs.index_to_node(self.setlist_menu.menu_data_position + 1)
+		self.current_song = self.setlist.songs.index_to_node(self.setlist_menu.menu_data_position + 1)
 		print("switched current song to: " + str(self.current_song.data.name) + str(self.current_song))
 		self.load_song()
 		self.change_menu_nodes()
 
 
 	def load_part_func(self):
-		# self.current_part = self.current_song.data.parts.index_to_node(self.songs_menu.menu_data_position + 1)
+		self.current_part = self.current_song.data.parts.index_to_node(self.songs_menu.menu_data_position + 1)
 		print("switched current part to: " + str(self.current_part.data.part_name) + str(self.current_part))
 		self.load_part()
 		self.change_menu_nodes()
