@@ -257,8 +257,8 @@ class Rotary_Encoder(RgbKnob):
 		self.setlist_name = self.setlist_menu.menu_data_items[self.setlist_menu.menu_data_position]
 		self.setlist.load_setlist(SET_FOLDER + self.setlist_name)
 		print("switched current setlist to: " + self.setlist_name + "\n" +
-			  "switched current song to: " + str(self.current_song) + "\n" +
-			  "switched current part to: " + str(self.current_part))
+			  "switched current song to: " + str(self.current_song.data.name) + str(self.current_song) + "\n" +
+			  "switched current part to: " + str(self.current_part.data.name) + str(self.current_part))
 		self.current_song = self.setlist.songs.head
 		self.current_part = self.current_song.data.parts.head
 		self.load_part()
@@ -267,14 +267,14 @@ class Rotary_Encoder(RgbKnob):
 
 	def load_song_func(self):
 		self.current_song = self.setlist.songs.index_to_node(self.setlist_menu.menu_data_position + 1)
-		print("switched current song to: " + str(self.current_song))
+		print("switched current song to: " + str(self.current_song.data.name) + str(self.current_song))
 		self.load_song()
 		self.change_menu_nodes()
 
 
 	def load_part_func(self):
 		self.current_part = self.current_song.data.parts.index_to_node(self.songs_menu.menu_data_position + 1)
-		print("switched current part to: " + str(self.current_part))
+		print("switched current part to: " + str(self.current_part.data.name) + str(self.current_part))
 		self.load_part()
 		self.change_menu_nodes()
 
