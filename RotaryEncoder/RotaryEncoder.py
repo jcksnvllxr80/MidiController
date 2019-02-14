@@ -263,7 +263,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def load_song_func(self):
-		self.current_song = self.songs.index_to_node(self.setlist_menu.menu_data_position + 1)
+		self.current_song = self.setlist.songs.index_to_node(self.setlist_menu.menu_data_position + 1)
 		self.load_song()
 		self.change_menu_nodes()
 
