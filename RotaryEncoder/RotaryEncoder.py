@@ -258,7 +258,7 @@ class Rotary_Encoder(RgbKnob):
 		self.setlist.load_setlist(SET_FOLDER + self.setlist_name)
 		print("switched current setlist to: " + self.setlist_name + "\n" +
 			  "switched current song to: " + str(self.current_song) + "\n" +
-			  "switched current part to: " + str(self.current_part) + "\n" +)
+			  "switched current part to: " + str(self.current_part))
 		self.current_song = self.setlist.songs.head
 		self.current_part = self.current_song.data.parts.head
 		self.load_part()
