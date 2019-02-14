@@ -226,6 +226,7 @@ class Rotary_Encoder(RgbKnob):
 	def show_setlists(self):
 		# read setlist files from folder where they belong
 		# display the first item in the list
+		self.setlist_menu.menu_data_items = []
 		self.setlist_menu.menu_data_prompt = self.setlist_menu.name + ":"
 		setlist_files = os.listdir(SET_FOLDER)
 		for setlist_file in setlist_files:
