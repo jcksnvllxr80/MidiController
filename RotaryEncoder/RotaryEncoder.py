@@ -151,7 +151,7 @@ class Rotary_Encoder(RgbKnob):
 		self.power_menu.menu_data_dict = {"NO yes": self.change_menu_nodes, "no YES": self.power_off}
 
 		# build global menu
-		self.knobcolor_menu = self.global_menu.add_child("Knob Color", self.show_knob_colors)
+		self.knobcolor_menu = self.global_menu.add_child("Knob Color", self.show_knob_colors, self.load_color_func)
 		self.knobbrightness_menu = self.global_menu.add_child("Knob Brightness", self.show_brightness)
 
 		#variables for the rotary movement interpretation loop
@@ -174,15 +174,19 @@ class Rotary_Encoder(RgbKnob):
 		self.set_message("Goodbye.")
 		self.lcd._delay_microseconds(1000000)
 		self.lcd.set_backlight(0)
-		os.system('shutdown now -h')
+		os.system('sudo shutdown now -h')
 
 
 	def show_knob_colors(self):
-		self.menu_data_items = RgbKnob.COLORS
-		self.menu_data_position = 0
-		self.set_message("Knob color")
-# 		self.set_color(func)
-# 		self.save_color_as_default()
+		self.knobcolor_menu.menu_data_items = RgbKnob.COLORS
+		self.knobcolor_menu.menu_data_prompt = self.knobcolor_menu.name + ":"
+		self.knobcolor_menu.menu_data_position = RgbKnob.COLORS.index(self.color)
+		self.test_point_node_printer(self.knobcolor_menu)
+
+
+	def load_color_func():
+		self.set_color(self.knobcolor_menu.menu_data_items[self.knobcolor_menu.menu_data_position])
+		self.save_color_as_default()
 # 		self.changeToMenu("GlobalMenu")
 
 
@@ -193,6 +197,10 @@ class Rotary_Encoder(RgbKnob):
 # 		self.set_brightness(int(func))
 # 		self.save_color_as_default()
 # 		self.changeToMenu("GlobalMenu")
+
+
+	def load_brightness_func(self):
+		pass
 
 
 	def test_point_node_printer(self, the_node):
