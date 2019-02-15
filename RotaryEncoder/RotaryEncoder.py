@@ -194,13 +194,13 @@ class Rotary_Encoder(RgbKnob):
 	def load_color_func(self):
 		self.set_color(self.knobcolor_menu.menu_data_items[self.knobcolor_menu.menu_data_position])
 		self.save_color_as_default()
-# 		self.changeToMenu("GlobalMenu")
+		self.change_menu_nodes(knobcolor_menu.parent)
 
 
 	def load_brightness_func(self):
 		self.set_brightness(self.knobbrightness_menu.menu_data_items[self.knobbrightness_menu.menu_data_position])
 		self.save_color_as_default()
-# 		self.changeToMenu("GlobalMenu")
+		self.change_menu_nodes(knobbrightness_menu.parent)
 
 
 	def test_point_node_printer(self, the_node):
