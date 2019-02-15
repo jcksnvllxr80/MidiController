@@ -537,8 +537,8 @@ class Rotary_Encoder(RgbKnob):
 	def save_color_as_default(self):
 		Defaults = ET.parse(DEFAULT_FILE)
 		Root = Defaults.getroot()
-		Root.find('knob_color').text = self.color 
-		Root.find('knob_brightness').text = str(self.brightness) 
+		Root.find('knobColor').text = self.color 
+		Root.find('knobBrightness').text = str(self.brightness) 
 		Defaults.write(DEFAULT_FILE,encoding="us-ascii", xml_declaration=True)
 
 		
