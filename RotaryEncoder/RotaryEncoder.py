@@ -152,7 +152,7 @@ class Rotary_Encoder(RgbKnob):
 
 		# build global menu
 		self.knobcolor_menu = self.global_menu.add_child("Knob Color", self.show_knob_colors, self.load_color_func)
-		self.knobbrightness_menu = self.global_menu.add_child("Knob Brightness", self.show_brightness)
+		self.knobbrightness_menu = self.global_menu.add_child("Knob Brightness", self.show_brightness, self.load_brightness_func)
 
 		#variables for the rotary movement interpretation loop
 		self.last_good_seq = 0
@@ -184,23 +184,23 @@ class Rotary_Encoder(RgbKnob):
 		self.test_point_node_printer(self.knobcolor_menu)
 
 
+	def show_brightness(self):
+		self.knobbrightness_menu.menu_data_items = range(0, 101, 10)
+		self.knobbrightness_menu.menu_data_prompt = self.knobbrightness_menu.name + ":"
+		self.knobbrightness_menu.menu_data_position = self.knobbrightness_menu.menu_data_items.index(self.brightness)
+		self.test_point_node_printer(self.knobbrightness_menu)
+
+
 	def load_color_func(self):
 		self.set_color(self.knobcolor_menu.menu_data_items[self.knobcolor_menu.menu_data_position])
 		self.save_color_as_default()
 # 		self.changeToMenu("GlobalMenu")
 
 
-	def show_brightness(self):
-		pass
-		# brightness_range = range(0, 100)
-
-# 		self.set_brightness(int(func))
-# 		self.save_color_as_default()
-# 		self.changeToMenu("GlobalMenu")
-
-
 	def load_brightness_func(self):
-		pass
+		self.set_brightness(self.knobbrightness_menu.menu_data_items[self.knobbrightness_menu.menu_data_position])
+		self.save_color_as_default()
+# 		self.changeToMenu("GlobalMenu")
 
 
 	def test_point_node_printer(self, the_node):
