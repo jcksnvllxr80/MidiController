@@ -184,7 +184,7 @@ class Rotary_Encoder(RgbKnob):
 		self.test_point_node_printer(self.knobcolor_menu)
 
 
-	def load_color_func():
+	def load_color_func(self):
 		self.set_color(self.knobcolor_menu.menu_data_items[self.knobcolor_menu.menu_data_position])
 		self.save_color_as_default()
 # 		self.changeToMenu("GlobalMenu")
