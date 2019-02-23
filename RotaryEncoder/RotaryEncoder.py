@@ -141,7 +141,9 @@ class Rotary_Encoder(RgbKnob):
 		self.songs_menu = self.setup_menu.add_child("Songs", self.show_songs, self.load_song_func)
 		self.parts_menu = self.setup_menu.add_child("Parts", self.show_parts, self.load_part_func)
 		self.pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedals, self.load_pedal_func)
-		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm)
+		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm, self.load_bpm_func)
+		# dont let the tempo go below 40 or above 500
+		self.tempo_range = range(40,500)
 		self.set_song_info_message()
 
 		# define power menu
@@ -250,9 +252,11 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def show_bpm(self):
-		# self.current_song.bpm
-		pass
-		# dont let the tempo go below 40 or above 500
+		self.bpm_menu.menu_data_prompt = self.bpm_menu.name + ":"
+		self.bpm_menu.menu_data_items = self.tempo_range
+		# tempo range starts at 40 and is 0-based so subtract 41 from tempo to get position
+		self.bpm_menu.menu_data_position = self.current_song.bpm - 41
+		self.test_point_node_printer(self.bpm_menu)
 		# if tap tempo button is pressed, 
 		# 	change the tempo by 5
 		# else
@@ -294,6 +298,17 @@ class Rotary_Encoder(RgbKnob):
 		else:
 			pedal.turn_on()
 		self.set_message(pedal.name + "\n" + str(pedal.getState()))
+
+
+	def load_bpm_func(self):
+		# self.current_song.bpm
+		pass
+		# dont let the tempo go below 40 or above 500
+		# if tap tempo button is pressed, 
+		# 	change the tempo by 5
+		# else
+		# 	change the tempo by 0.5 
+# 		self.set_message(self.current_song.data.bpm)
 
 
 	def change_pedal_configuration(self, option):
