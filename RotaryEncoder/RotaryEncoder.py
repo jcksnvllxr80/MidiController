@@ -251,7 +251,6 @@ class Rotary_Encoder(RgbKnob):
 		self.test_point_node_printer(self.pedal_menu)
 
 
-
 	def show_bpm(self):
 		self.bpm_menu.menu_data_prompt = self.bpm_menu.name + ":"
 		self.bpm_menu.menu_data_items = self.tempo_range
@@ -361,6 +360,7 @@ class Rotary_Encoder(RgbKnob):
 		''' accepts pins a and b from rpi gpio, determines the direction of the movement, and returns
 		CW or CCW
 		'''
+		#TODO: make this work more smoothly / might use separate microcontroller to handle things better
 		move = None #initialize move to None
 		new_state = b*2 +  a*1 | b << 1
 		if new_state == 2:
