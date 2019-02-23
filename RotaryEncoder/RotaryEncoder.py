@@ -299,7 +299,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def load_bpm_func(self):
-		self.current_song.data.bpm = self.bpm_menu.menu_data_items[self.bpm_menu.menu_data_position]
+		self.current_song.data.bpm = str(self.bpm_menu.menu_data_items[self.bpm_menu.menu_data_position])
 		for pedal_obj in self.all_pedals:
 			if pedal_obj.name is "TapTempo":
 				pedal_obj.setTempo(float(self.current_song.data.bpm))
