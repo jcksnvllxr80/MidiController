@@ -9,6 +9,7 @@ import EffectLoops
 import Adafruit_CharLCD
 import PartSongSet
 import N_Tree
+from numpy import linspace
 
 SET_FOLDER = "/home/pi/Looper/PartSongSet/Sets/"
 DEFAULT_FILE = "/home/pi/Looper/Main/PedalGroup.xml"
@@ -143,7 +144,7 @@ class Rotary_Encoder(RgbKnob):
 		self.pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedals, self.load_pedal_func)
 		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm, self.load_bpm_func)
 		# dont let the tempo go below 40 or above 500
-		self.tempo_range = range(40,500,0.5)
+		self.tempo_range = linspace(40,0.5,500).tolist()
 		self.set_song_info_message()
 
 		# define power menu
