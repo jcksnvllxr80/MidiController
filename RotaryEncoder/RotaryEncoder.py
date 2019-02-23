@@ -255,6 +255,8 @@ class Rotary_Encoder(RgbKnob):
 		self.bpm_menu.menu_data_prompt = self.bpm_menu.name + ":"
 		self.bpm_menu.menu_data_items = self.tempo_range
 		# tempo range starts at 40 and is 0-based so subtract 41 from tempo to get position
+		print("bpm: " + self.bpm_menu)
+		print("position in list: " + self.bpm_menu.menu_data_position)
 		self.bpm_menu.menu_data_position = self.current_song.bpm - 41
 		self.test_point_node_printer(self.bpm_menu)
 		# if tap tempo button is pressed, 
