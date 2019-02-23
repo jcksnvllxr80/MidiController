@@ -302,6 +302,7 @@ class Rotary_Encoder(RgbKnob):
 		self.current_song.data.bpm = self.bpm_menu.menu_data_items[self.bpm_menu.menu_data_position]
 		if tempo_obj is not None:
 			tempo_obj.setTempo(float(self.current_song.data.bpm))
+			self.change_menu_nodes(self.menu.current_node.parent)
 
 
 	def change_pedal_configuration(self, option):
@@ -447,6 +448,11 @@ class Rotary_Encoder(RgbKnob):
 					print(sys.exc_info()[0])
 					print("current node name: " + self.menu.current_node.name + ",\ncurrent elem in list: " + 
 						str(self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]))
+			# TODO: dont let the tempo go below 40 or above 500
+			# if tap tempo button is pressed, 
+			# 	change the tempo by 5
+			# else
+			# 	change the tempo by 0.5 
 		else:
 			if direction == "CW":
 				pass # TODO: somthing here
