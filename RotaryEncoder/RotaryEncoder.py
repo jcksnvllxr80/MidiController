@@ -364,7 +364,7 @@ class Rotary_Encoder(RgbKnob):
 		#TODO: make this work more smoothly / might use separate microcontroller to handle things better
 		move = None #initialize move to None
 		new_state = b*2 +  a*1 | b << 1
-		print("sequence: " + new_state)
+		print("sequence: " + str(new_state))
 		if new_state == 2:
 			seq = 3
 		elif new_state == 3:
