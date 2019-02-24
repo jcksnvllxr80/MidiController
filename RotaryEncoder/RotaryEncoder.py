@@ -207,9 +207,10 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def test_point_node_printer(self, the_node):
-		print("\nnode: " + str(the_node) + "prompt: " + the_node.menu_data_prompt + 
-			"\nitems: " + str(the_node.menu_data_items) + "\ncurrent item: " + str(the_node.menu_data_items[the_node.menu_data_position]) + 
-			"\nposition: " + str(the_node.menu_data_position))
+		pass
+		# print("\nnode: " + str(the_node) + "prompt: " + the_node.menu_data_prompt + 
+		# 	"\nitems: " + str(the_node.menu_data_items) + "\ncurrent item: " + str(the_node.menu_data_items[the_node.menu_data_position]) + 
+		# 	"\nposition: " + str(the_node.menu_data_position))
 
 
 	def show_setlists(self):
@@ -363,6 +364,7 @@ class Rotary_Encoder(RgbKnob):
 		#TODO: make this work more smoothly / might use separate microcontroller to handle things better
 		move = None #initialize move to None
 		new_state = b*2 +  a*1 | b << 1
+		print("sequence: " + new_state)
 		if new_state == 2:
 			seq = 3
 		elif new_state == 3:
