@@ -400,11 +400,10 @@ class Rotary_Encoder(RgbKnob):
 		happening too fast which might indicate false readings
 		'''
 		direction = self.rotary_movement(a, b)
-		if time.time() - self.last_rotary_turn > 0.05: #0.08:
-			self.last_rotary_turn = time.time()
-			return direction
-		else:
-			return None
+
+		self.last_rotary_turn = time.time()
+		return direction
+
 
 
 	def load_song(self):
