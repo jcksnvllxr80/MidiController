@@ -376,14 +376,14 @@ class Rotary_Encoder(RgbKnob):
 		delta = abs(seq - self.last_seq)
 		if delta > 0:
 			if seq == 1:
-				if delta_time < 0.05 and self.last_good_seq == 3:
+				if delta_time < 0.15 and self.last_good_seq == 3:
 					move = "CCW"
 				else:
 					move = "CW"
 					self.last_good_seq = 1
 					self.rotary_timer = time.time()
 			elif seq == 3:
-				if delta_time < 0.05 and self.last_good_seq == 1:
+				if delta_time < 0.15 and self.last_good_seq == 1:
 					move = "CW"
 				else:    
 					move = "CCW"
