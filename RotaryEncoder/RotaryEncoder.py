@@ -372,12 +372,12 @@ class Rotary_Encoder(RgbKnob):
 				move = "CW"
 				if self.last_move is not move:
 					self.last_move = move
-						move = "CCW"
+					move = "CCW"
 			elif self.last_good_seq == 3:
 				move = "CCW"
 				if self.last_move is not move:
 					self.last_move = move
-						move = "CW"
+					move = "CW"
 		return move
 
 		
