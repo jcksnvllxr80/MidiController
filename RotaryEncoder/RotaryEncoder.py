@@ -159,7 +159,7 @@ class Rotary_Encoder(RgbKnob):
 
 		#variables for the rotary movement interpretation loop
 		self.last_good_seq = 0
-		self.last_seq = 0
+		self.last_move = None
 		self.rotary_timer = 0
 		
 		#keeps time for last rotary turn in seconds
@@ -365,20 +365,10 @@ class Rotary_Encoder(RgbKnob):
 		move = None #initialize move to None
 		new_state = b*2 +  a*1 | b << 1
 		print("sequence: " + str(new_state))
-		# if new_state == 2:
-		# 	seq = 3
-		# elif new_state == 3:
-		# 	seq =2
-		# else:
 		seq = new_state
-		# delta_time = time.time() - self.rotary_timer
-		# print("delta_t: " + str(delta_time))
-		# delta = abs(seq - self.last_seq)
-		# if delta > 0:
+		delta_time = time.time() - self.rotary_timer
+		print("delta_t: " + str(delta_time))
 		if seq == 1:
-			# if delta_time < 0.15 and self.last_good_seq == 3:
-			# 	move = "CCW"
-			# else:
 			move = None
 			self.last_good_seq = 1
 		elif seq == 3:
@@ -389,11 +379,17 @@ class Rotary_Encoder(RgbKnob):
 			self.last_good_seq = 3
 		elif seq == 2:
 			if self.last_good_seq == 1:
-				move = "CW"
+				if self.last_move is "CCW" and delta_time > 0.7:
+					move = "CW"
+				else
+					move = "CCW"
 			elif self.last_good_seq == 3:
-				move = "CCW"
-		# self.rotary_timer = time.time()
-		self.last_seq = seq
+				if self.last_move is "CW" and delta_time > 0.7:
+					move = "CCW"
+				else
+					move = "CW"
+		self.rotary_timer = time.time()
+		self.last_move = move
 		return move
 
 		
