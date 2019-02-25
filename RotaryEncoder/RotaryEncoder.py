@@ -372,7 +372,7 @@ class Rotary_Encoder(RgbKnob):
 		else:
 			seq = new_state
 		delta_time = time.time() - self.rotary_timer
-		print("delta_t: " + delta_time)
+		print("delta_t: " + str(delta_time))
 		delta = abs(seq - self.last_seq)
 		if delta > 0:
 			if seq == 1:
