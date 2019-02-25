@@ -361,33 +361,20 @@ class Rotary_Encoder(RgbKnob):
 		''' accepts pins a and b from rpi gpio, determines the direction of the movement, and returns
 		CW or CCW
 		'''
-		#TODO: make this work more smoothly / might use separate microcontroller to handle things better
 		move = None #initialize move to None
-		new_state = b*2 +  a*1 | b << 1
-		print("sequence: " + str(new_state))
-		seq = new_state
+		seq = b*2 +  a*1 | b << 1
+		print("sequence: " + str(seq))
 		delta_time = time.time() - self.rotary_timer
 		print("delta_t: " + str(delta_time))
-		if seq == 1:
-			move = None
-			self.last_good_seq = 1
-		elif seq == 3:
-			# if delta_time < 0.15 and self.last_good_seq == 1:
-			# 	move = "CW"
-			# else:    
-			move = None
-			self.last_good_seq = 3
+		if seq in [1, 3]:
+			self.last_good_seq = seq
 		elif seq == 2:
-			if self.last_good_seq == 1:
-				if self.last_move is "CCW" and delta_time > 0.7:
-					move = "CW"
-				else:
-					move = "CCW"
+			if delta_time < 0.7:
+				move = self.last_move
+			elif self.last_good_seq == 1:
+				move = "CW"
 			elif self.last_good_seq == 3:
-				if self.last_move is "CW" and delta_time > 0.7:
-					move = "CCW"
-				else:
-					move = "CW"
+				move = "CCW"
 		self.rotary_timer = time.time()
 		self.last_move = move
 		return move
