@@ -363,8 +363,6 @@ class Rotary_Encoder(RgbKnob):
 		move = None #initialize move to None
 		seq = b*2 +  a*1 | b << 1
 		print("sequence: " + str(seq))
-		delta_time = time.time() - self.rotary_timer
-		print("delta_t: " + str(delta_time))
 		if seq in [1, 3]:
 			self.last_good_seq = seq
 		elif seq == 2:
