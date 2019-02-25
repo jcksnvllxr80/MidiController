@@ -369,8 +369,8 @@ class Rotary_Encoder(RgbKnob):
 		if seq in [1, 3]:
 			self.last_good_seq = seq
 		elif seq == 2:
-			if delta_time < 0.25:
-				pass # move = self.last_move
+			if delta_time < 0.1:
+				move = self.last_move
 			elif self.last_good_seq == 1:
 				move = "CW"
 			elif self.last_good_seq == 3:
@@ -411,27 +411,28 @@ class Rotary_Encoder(RgbKnob):
 					if self.menu.current_node.current_child > 0:
 						self.menu.current_node.current_child -= 1
 						self.set_children_message()
-				# try:
-				# 	print("current node name: " + self.menu.current_node.name + ",\nnumber of children in node: " + 
-				# 		str(len(self.menu.current_node.children)) + ",\ncurrent child in node: " + 
-				# 		str(self.menu.current_node.current_child))
-				# except:
-				# 	print(sys.exc_info()[0])
-				# 	print("current node name: " + self.menu.current_node.name + ",\ncurrent child in node: " + 
-				# 		str(self.menu.current_node.current_child))
+				try:
+					print("current node name: " + self.menu.current_node.name + ",\nnumber of children in node: " + 
+						str(len(self.menu.current_node.children)) + ",\ncurrent child in node: " + 
+						str(self.menu.current_node.current_child))
+				except:
+					print(sys.exc_info()[0])
+					print("current node name: " + self.menu.current_node.name + ",\ncurrent child in node: " + 
+						str(self.menu.current_node.current_child))
 			else:
 				if direction == "CW":
 					self.next_menu_list_item()
 				elif direction == "CCW":
 					self.prev_menu_list_item()
-				# try:
-				# 	print("current node name: " + self.menu.current_node.name + ",\nnumber of elems in list: " + 
-				# 		str(len(self.menu.current_node.menu_data_items)) + ",\ncurrent elem in list: " + 
-				# 		str(self.menu.current_node.menu_data_position))
-				# except:
-				# 	print(sys.exc_info()[0])
-				# 	print("current node name: " + self.menu.current_node.name + ",\ncurrent elem in list: " + 
-				# 		str(self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]))
+				try:
+					print("current node name: " + self.menu.current_node.name + ",\nnumber of elems in list: " + 
+						str(len(self.menu.current_node.menu_data_items)) + ",\ncurrent elem in list: " + 
+						str(self.menu.current_node.menu_data_position))
+				except:
+					print(sys.exc_info()[0])
+					print("current node name: " + self.menu.current_node.name + ",\ncurrent elem in list: " + 
+						str(self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]))
+		
 			# TODO: dont let the tempo go below 40 or above 500
 			# if tap tempo button is pressed, 
 			# 	change the tempo by 5
