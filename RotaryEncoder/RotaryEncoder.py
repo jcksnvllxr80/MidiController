@@ -365,35 +365,34 @@ class Rotary_Encoder(RgbKnob):
 		move = None #initialize move to None
 		new_state = b*2 +  a*1 | b << 1
 		print("sequence: " + str(new_state))
-		if new_state == 2:
-			seq = 3
-		elif new_state == 3:
-			seq =2
-		else:
-			seq = new_state
-		delta_time = time.time() - self.rotary_timer
-		print("delta_t: " + str(delta_time))
-		delta = abs(seq - self.last_seq)
-		if delta > 0:
-			if seq == 1:
-				if delta_time < 0.15 and self.last_good_seq == 3:
-					move = "CCW"
-				else:
-					move = "CW"
-					self.last_good_seq = 1
-					self.rotary_timer = time.time()
-			elif seq == 3:
-				if delta_time < 0.15 and self.last_good_seq == 1:
-					move = "CW"
-				else:    
-					move = "CCW"
-					self.last_good_seq = 3
-					self.rotary_timer = time.time()
-			elif seq == 2:
-				if self.last_good_seq == 1:
-					move = "CW"
-				elif self.last_good_seq == 3:
-					move = "CCW"
+		# if new_state == 2:
+		# 	seq = 3
+		# elif new_state == 3:
+		# 	seq =2
+		# else:
+		seq = new_state
+		# delta_time = time.time() - self.rotary_timer
+		# print("delta_t: " + str(delta_time))
+		# delta = abs(seq - self.last_seq)
+		# if delta > 0:
+		if seq == 1:
+			# if delta_time < 0.15 and self.last_good_seq == 3:
+			# 	move = "CCW"
+			# else:
+			move = "CW"
+			self.last_good_seq = 1
+		elif seq == 3:
+			# if delta_time < 0.15 and self.last_good_seq == 1:
+			# 	move = "CW"
+			# else:    
+			move = "CCW"
+			self.last_good_seq = 3
+		elif seq == 2:
+			if self.last_good_seq == 1:
+				move = "CW"
+			elif self.last_good_seq == 3:
+				move = "CCW"
+		# self.rotary_timer = time.time()
 		self.last_seq = seq
 		return move
 
