@@ -182,8 +182,8 @@ def my_button_callback(interrupt_pin):
 GPIO.add_event_detect(BANKA_INTPIN, GPIO.RISING, callback=my_button_callback, bouncetime=5)
 GPIO.add_event_detect(BANKB_INTPIN, GPIO.RISING, callback=my_button_callback, bouncetime=5)
 #define the interrupt for the MCP23017 encode pin A and B for the rotary encoder
-GPIO.add_event_detect(ENCODE_A, GPIO.FALLING, callback=my_encoder_callback, bouncetime=3)
-GPIO.add_event_detect(ENCODE_B, GPIO.FALLING, callback=my_encoder_callback, bouncetime=3)
+GPIO.add_event_detect(ENCODE_A, GPIO.FALLING, callback=my_encoder_callback)
+GPIO.add_event_detect(ENCODE_B, GPIO.FALLING, callback=my_encoder_callback)
 
 
 try:
