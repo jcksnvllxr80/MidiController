@@ -375,8 +375,8 @@ class Rotary_Encoder(RgbKnob):
 				move = "CW"
 			elif self.last_good_seq == 3:
 				move = "CCW"
-		self.rotary_timer = time.time()
-		self.last_move = move
+			self.rotary_timer = time.time()
+			self.last_move = move
 		return move
 
 		
