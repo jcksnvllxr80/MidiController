@@ -369,8 +369,8 @@ class Rotary_Encoder(RgbKnob):
 		if seq in [1, 3]:
 			self.last_good_seq = seq
 		elif seq == 2:
-			if delta_time < 0.4:
-				move = self.last_move
+			if delta_time < 0.25:
+				pass # move = self.last_move
 			elif self.last_good_seq == 1:
 				move = "CW"
 			elif self.last_good_seq == 3:
