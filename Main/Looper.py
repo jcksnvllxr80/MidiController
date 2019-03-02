@@ -117,24 +117,24 @@ for pin in pedal_dict:
 		
 #funtion called when rotary knob is turned
 def my_encoder_callback(EncoderInterruptPin):
-		a = GPIO.input(ENCODE_A)
-		b = GPIO.input(ENCODE_B)
-		move = None #initialize move to None
-		seq = b*2 +  a*1 | b << 1
-		print("sequence: " + str(seq))
-		if seq in [1, 3]:
-			last_good_seq = seq
-		elif seq == 2:
-			if last_good_seq == 1:
-				move = "CW"
-				if last_move is not move:
-					last_move = move
-					move = "CCW"
-			elif last_good_seq == 3:
+	a = GPIO.input(ENCODE_A)
+	b = GPIO.input(ENCODE_B)
+	move = None #initialize move to None
+	seq = b*2 +  a*1 | b << 1
+	print("sequence: " + str(seq))
+	if seq in [1, 3]:
+		last_good_seq = seq
+	elif seq == 2:
+		if last_good_seq == 1:
+			move = "CW"
+			if last_move is not move:
+				last_move = move
 				move = "CCW"
-				if last_move is not move:
-					last_move = move
-					move = "CW"
+		elif last_good_seq == 3:
+			move = "CCW"
+			if last_move is not move:
+				last_move = move
+				move = "CW"
 
 	if move:
 		rotary_push_button.change_menu_pos(move)
