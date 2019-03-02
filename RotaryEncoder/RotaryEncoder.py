@@ -156,13 +156,7 @@ class Rotary_Encoder(RgbKnob):
 		# build global menu
 		self.knobcolor_menu = self.global_menu.add_child("Knob Color", self.show_knob_colors, self.load_color_func)
 		self.knobbrightness_menu = self.global_menu.add_child("Knob Brightness", self.show_brightness, self.load_brightness_func)
-
-		#variables for the rotary movement interpretation loop
-		self.last_good_seq = 0
-		self.last_move = None
 		
-		#keeps time for last rotary turn in seconds
-		self.last_rotary_turn = 0
 		self.menu.current_node.current_child = 0
 
 
@@ -323,8 +317,6 @@ class Rotary_Encoder(RgbKnob):
 			if self.current_song.next is not None: 
 				self.current_song = self.current_song.next
 				self.load_song()
-		# elif option == "Main Menu":
-		# 	self.changeToMenu("MainMenu")
 		elif option == "Switch Mode":
 			for pedal_obj in self.all_pedals:
 				if pedal_obj.name == "RotaryPB":
@@ -356,37 +348,27 @@ class Rotary_Encoder(RgbKnob):
 		self.save_part_to_default()
 
 
-	def rotary_movement(self, a, b): 
-		''' accepts pins a and b from rpi gpio, determines the direction of the movement, and returns
-		CW or CCW
-		'''
-		move = None #initialize move to None
-		seq = b*2 +  a*1 | b << 1
-		print("sequence: " + str(seq))
-		if seq in [1, 3]:
-			self.last_good_seq = seq
-		elif seq == 2:
-			if self.last_good_seq == 1:
-				move = "CW"
-				if self.last_move is not move:
-					self.last_move = move
-					move = "CCW"
-			elif self.last_good_seq == 3:
-				move = "CCW"
-				if self.last_move is not move:
-					self.last_move = move
-					move = "CW"
-		return move
-
-		
-	def get_rotary_movement(self, a, b):
-		'''gets direction from rotary knob after making sure that the interrupts arent 
-		happening too fast which might indicate false readings
-		'''
-		direction = self.rotary_movement(a, b)
-
-		# self.last_rotary_turn = time.time()
-		return direction
+	# def get_rotary_movement(self, a, b):
+	# 	''' accepts pins a and b from rpi gpio, determines the direction of the movement, and returns
+	# 	CW or CCW
+	# 	'''
+	# 	move = None #initialize move to None
+	# 	seq = b*2 +  a*1 | b << 1
+	# 	print("sequence: " + str(seq))
+	# 	if seq in [1, 3]:
+	# 		self.last_good_seq = seq
+	# 	elif seq == 2:
+	# 		if self.last_good_seq == 1:
+	# 			move = "CW"
+	# 			if self.last_move is not move:
+	# 				self.last_move = move
+	# 				move = "CCW"
+	# 		elif self.last_good_seq == 3:
+	# 			move = "CCW"
+	# 			if self.last_move is not move:
+	# 				self.last_move = move
+	# 				move = "CW"
+	# 	return move
 
 
 

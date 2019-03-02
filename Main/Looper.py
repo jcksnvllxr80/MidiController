@@ -13,6 +13,10 @@ switch_pins = Footswitches.Looper_Switches() #class for dealing with footswitch 
 # previous_button_press = None
 TapTempo = None
 
+#variables for the rotary movement interpretation loop
+last_good_seq = 0
+last_move = None
+
 #read the default pedal arrangement file
 default_pedals = ET.parse('/home/pi/Looper/Main/PedalGroup.xml') 
 default_pedals_root = default_pedals.getroot() #assign the root of the file to a variable
@@ -107,15 +111,33 @@ GPIO.setup([ENCODE_B, ENCODE_A], GPIO.IN, pull_up_down=GPIO.PUD_UP)
 #assign each footswitch (aside from rotary push button) a partner footswitch for double 
 #footswitch press 'special functions'
 for pin in pedal_dict:
-    pedal = pedal_dict[pin]
-    if isinstance(pedal, EffectLoops.ButtonOnPedalBoard) and pedal.name != "RotaryPB":    
+	pedal = pedal_dict[pin]
+	if isinstance(pedal, EffectLoops.ButtonOnPedalBoard) and pedal.name != "RotaryPB":
 		pedal.set_partner(pedal_dict[str(pedal.from_button_to_pin(pedal.get_partner_button()))])
 		
 #funtion called when rotary knob is turned
 def my_encoder_callback(EncoderInterruptPin):
-	direction = rotary_push_button.get_rotary_movement(GPIO.input(ENCODE_A), GPIO.input(ENCODE_B))
-	if direction is not None:
-		rotary_push_button.change_menu_pos(direction)
+		a = GPIO.input(ENCODE_A)
+		b = GPIO.input(ENCODE_B)
+		move = None #initialize move to None
+		seq = b*2 +  a*1 | b << 1
+		print("sequence: " + str(seq))
+		if seq in [1, 3]:
+			last_good_seq = seq
+		elif seq == 2:
+			if last_good_seq == 1:
+				move = "CW"
+				if last_move is not move:
+					last_move = move
+					move = "CCW"
+			elif last_good_seq == 3:
+				move = "CCW"
+				if last_move is not move:
+					last_move = move
+					move = "CW"
+
+	if move:
+		rotary_push_button.change_menu_pos(move)
 
 #function called when any footswitch is pressed
 def my_button_callback(interrupt_pin):
