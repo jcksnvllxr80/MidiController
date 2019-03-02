@@ -117,6 +117,7 @@ for pin in pedal_dict:
 		
 #funtion called when rotary knob is turned
 def my_encoder_callback(EncoderInterruptPin):
+	global last_good_seq, last_move
 	a = GPIO.input(ENCODE_A)
 	b = GPIO.input(ENCODE_B)
 	move = None #initialize move to None
