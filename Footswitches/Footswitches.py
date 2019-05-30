@@ -51,7 +51,7 @@ class Looper_Switches(MCP23017_R1.MCP23017, object):
 		#self.setAllPinsInput()
 		for pin in self.footswitch_pins:
 			self.setup(pin, GPIO.IN)
-			self.pullup(pin, GPIO.LOW)
+			self.pullup(pin, GPIO.HIGH)
 		for pin in self.footswitch_pins:
 			self.gpinten_pin(pin, True)
 			self.intcon_pin(pin, False) # interrupt compared to last state
