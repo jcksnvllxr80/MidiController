@@ -124,8 +124,10 @@ class MidiPedal(object):
 #class ButtonOnPedalBoard(Pedal, ButtonDisplay):
 class ButtonOnPedalBoard(Pedal):
 
-	EXP_TIP_1 = 6
-	TAP_RING_2 = 7
+	FUNC_1 = 6
+	FUNC_2 = 7
+	FUNC_3 = 13
+	FUNC_4 = 14
 
 	def __init__(self, name, state, button, type, func_two_type, func_two_port, **kwargs):
 		self.button = button
@@ -172,10 +174,14 @@ class ButtonOnPedalBoard(Pedal):
 			
 
 	def getPortPin(self):
-		if self.func_two_port == "EXP_TIP_1":
-			return self.EXP_TIP_1
-		elif self.func_two_port == "TAP_RING_2":
-			return self.TAP_RING_2
+		func_dict = {
+			"FUNC_1": self.FUNC_1, 
+			"FUNC_2": self.FUNC_2,
+			"FUNC_3": self.FUNC_3, 
+			"FUNC_4": self.FUNC_4
+		}
+		return func_dict.get(self.func_two_port, None)
+
 
 	def setSecondaryFunction(self, func_two_type, func_two_port):
 		self.func_two_port = func_two_port

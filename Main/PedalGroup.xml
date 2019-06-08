@@ -68,14 +68,14 @@
         <engaged />
         <button>7</button>
         <funcTwoType>Latching</funcTwoType>
-        <funcTwoPort>EXP_TIP_1</funcTwoPort>
+        <funcTwoPort>FUNC_1</funcTwoPort>
     </pedal>
     <pedal name="Super Pulsar" type="LoopPedal">
         <engaged />
         <preset>0</preset>
         <button>8</button>
         <funcTwoType>Momentary</funcTwoType>
-        <funcTwoPort>TAP_RING_2</funcTwoPort>
+        <funcTwoPort>FUNC_2</funcTwoPort>
     </pedal>
     <pedal name="Empty" type="Empty">
         <button>9</button>
