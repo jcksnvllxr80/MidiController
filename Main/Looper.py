@@ -158,7 +158,7 @@ def my_button_callback(interrupt_pin):
 						rotary_push_button.change_pedal_configuration(option_four)
 					elif f == 5:
 						rotary_push_button.change_pedal_configuration(option_five)
-					int_pedal.PedalConfigChanged == True
+					int_pedal.PedalConfigChanged = True
 					#int_pedal.partner.PedalConfigChanged == True  
 					#print "double footswitch function"
 			else:

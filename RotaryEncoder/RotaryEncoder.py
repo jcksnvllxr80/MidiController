@@ -327,6 +327,7 @@ class Rotary_Encoder(RgbKnob):
 			for pedal_obj in self.all_pedals:
 				if pedal_obj.name == "RotaryPB":
 					pedal_obj.switch_modes()
+					break
 		
 
 			

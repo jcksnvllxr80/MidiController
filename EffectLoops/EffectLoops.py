@@ -401,7 +401,7 @@ class LoopPedal(ButtonOnPedalBoard):
 								self.turn_off()
 			else:
 				#self.PedalConfigChanged == False
-				self.partner.PedalConfigChanged == False
+				self.partner.PedalConfigChanged = False
 			self.is_pressed = False
 
 
