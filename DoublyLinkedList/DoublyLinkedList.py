@@ -10,7 +10,7 @@ class DoublyLinkedList(object):
 
 	def __init__(self) : 
 		self.length = 0 
-		self.head   = None
+		self.head = None
 		self.tail = None
 
 
@@ -71,7 +71,16 @@ class DoublyLinkedList(object):
 		print("*"*50)
 
 
-	def indexToNode(self, index):
+	def to_list(self):
+		data_list = []
+		current_node = self.head
+		while current_node is not None:
+			data_list.append(current_node.data)
+			current_node = current_node.next
+		return data_list
+
+
+	def index_to_node(self, index):
 		node = self.head
 		for i in range(1, index):
 			if node.next is not None:
@@ -79,7 +88,7 @@ class DoublyLinkedList(object):
 		return node
 
 
-	def nodeToIndex(self, node):
+	def node_to_index(self, node):
 		tempNode = self.head
 		for index in range(1, self.length + 1):
 			if node is not tempNode:	
