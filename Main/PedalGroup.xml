@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='us-ascii'?>
 <PedalGroup name="Default">
-	<knobColor>Blue</knobColor>
+	<knobColor>Magenta</knobColor>
 	<knobBrightness>100</knobBrightness>
 	<tempo>106</tempo>
-	<setList>2017-05-22 Set</setList>
+	<setList>2016-09-16 Set</setList>
 	<song>Here As In Heaven - Lead</song>
-	<part>Verse</part>
-	<mode>Song</mode>
+	<part>Intro</part>
+	<mode>Pedal</mode>
 	<fontType>unispaceReg</fontType>
 	<fontSize>28</fontSize>
 	<op1>Switch Mode</op1>
