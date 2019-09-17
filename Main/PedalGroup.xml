@@ -7,8 +7,6 @@
 	<song>Here As In Heaven - Lead</song>
 	<part>Intro</part>
 	<mode>Pedal</mode>
-	<fontType>unispaceReg</fontType>
-	<fontSize>28</fontSize>
 	<op1>Switch Mode</op1>
 	<op2>Song Down</op2>
 	<op3>Part Down</op3>
@@ -29,7 +27,7 @@
 		<preset>2</preset>
         <midiChannel>1</midiChannel>
     </pedal>
-    <pedal name="RC Booster" type="LoopPedal">
+    <!-- <pedal name="RC Booster" type="LoopPedal">
         <engaged>True</engaged>
         <button>1</button>
         <funcTwoType>None</funcTwoType>
@@ -40,6 +38,12 @@
         <button>2</button>
         <funcTwoType>None</funcTwoType>
         <funcTwoPort>None</funcTwoPort>
+    </pedal> -->
+    <pedal name="Empty" type="Empty">
+        <button>1</button>
+    </pedal>
+    <pedal name="Empty" type="Empty">
+        <button>2</button>
     </pedal>
     <pedal name="Empty" type="Empty">
         <button>3</button>
@@ -58,29 +62,35 @@
         <funcTwoType>MIDI</funcTwoType>
         <funcTwoPort>CYCLE_CLIP_CC</funcTwoPort>
     </pedal>
-    <pedal name="POG" type="LoopPedal">
+    <!-- <pedal name="POG" type="LoopPedal">
         <engaged />
         <button>6</button>
         <funcTwoType>None</funcTwoType>
         <funcTwoPort>None</funcTwoPort>
+    </pedal> -->
+    <pedal name="Empty" type="Empty">
+        <button>6</button>
+    </pedal>
+    <pedal name="Empty" type="Empty">
+        <button>7</button>
+    </pedal>
+    <pedal name="Empty" type="Empty">
+        <button>8</button>
     </pedal>
     <pedal name="El Capistan" type="LoopPedal">
         <engaged />
-        <button>7</button>
+        <button>9</button>
         <funcTwoType>Latching</funcTwoType>
         <funcTwoPort>FUNC_1</funcTwoPort>
     </pedal>
     <pedal name="Super Pulsar" type="LoopPedal">
         <engaged />
         <preset>0</preset>
-        <button>8</button>
+        <button>10</button>
         <funcTwoType>Momentary</funcTwoType>
         <funcTwoPort>FUNC_2</funcTwoPort>
     </pedal>
-    <pedal name="Empty" type="Empty">
-        <button>9</button>
-    </pedal>
-    <pedal type="TapTempo">
+    <!-- <pedal type="TapTempo">
         <button>10</button>
-    </pedal>
+    </pedal> -->
 </PedalGroup>

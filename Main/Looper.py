@@ -20,8 +20,6 @@ Tempo = float(default_pedals_root.find('tempo').text) #get the default tempo
 knob_color = default_pedals_root.find('knobColor').text #get the default encoder knob color
 knob_brightness = int(default_pedals_root.find('knobBrightness').text) #get the default encoder knob brightness
 mode = default_pedals_root.find('mode').text #get the mode of the looper (pedal or song)
-fontType = default_pedals_root.find('fontType').text #get the fontType
-fontSize = int(default_pedals_root.find('fontSize').text) #get the fontSize
 setList = default_pedals_root.find('setList').text #get the default setlist
 song = default_pedals_root.find('song').text #get the default song of the setlist
 part = default_pedals_root.find('part').text #get the default part of the song
@@ -34,7 +32,6 @@ option_five = default_pedals_root.find('op5').text # including main menu
 #rotary encoder pins A & B go these pins on rpi
 ENCODE_B = 23 
 ENCODE_A = 24
-OLED_RESET = 25
 
 #MCP23017 output interrupt pins for bank A (0 - 7) and B (8 - 15) go to these pins on rpi
 BANKA_INTPIN = 4
@@ -46,14 +43,6 @@ ROTARY_PUSHBUTTON_PINNUMBER = 15
 #with the 'key' being the pin that goes high when footswitch is pressed
 #and 'value' is the pedal object associated with the switch press
 pedal_dict = {"MIDITempoPedal":None}
-
-# Reset OLEDs to begin initialization
-GPIO.setup(OLED_RESET, GPIO.OUT) #make output
-GPIO.output(OLED_RESET, GPIO.HIGH)
-time.sleep(0.001)
-GPIO.output(OLED_RESET, GPIO.LOW)
-time.sleep(0.010)
-GPIO.output(OLED_RESET, GPIO.HIGH)
 
 #iterate the Default Pedals XML file
 for current in default_pedals_root.iter('pedal'):
