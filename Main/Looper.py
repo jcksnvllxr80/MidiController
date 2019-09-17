@@ -81,8 +81,8 @@ for current in default_pedals_root.iter('pedal'):
 		pedal_dict[str(current_pedal.getPin())] = current_pedal #assign this pedal to the dictionary
 		TapTempo = current_pedal
 		
-rotary_push_button = RotaryEncoder.RotaryPushButton(ROTARY_PUSHBUTTON_PINNUMBER, True, mode, ft=fontType, 
-	fs=fontSize, kc=knob_color, kb=knob_brightness, sl=setList, s=song, p=part) #initialize the rotaryencoder object
+rotary_push_button = RotaryEncoder.RotaryPushButton(ROTARY_PUSHBUTTON_PINNUMBER, True, mode, 
+	kc=knob_color, kb=knob_brightness, sl=setList, s=song, p=part) #initialize the rotaryencoder object
 pedal_dict[str(rotary_push_button.getPin())] = rotary_push_button #assign this pedal to the dictionary
 
 #passes a list of pedal objects to the rotary encoder

@@ -13,7 +13,6 @@ from numpy import arange
 
 SET_FOLDER = "/home/pi/Looper/PartSongSet/Sets/"
 DEFAULT_FILE = "/home/pi/Looper/Main/PedalGroup.xml"
-FONT_FOLDER = '/home/pi/Looper/test/Font/'
 
 #define class for the PWM driver for the colors part of the rotary knob
 class RgbKnob(object):
