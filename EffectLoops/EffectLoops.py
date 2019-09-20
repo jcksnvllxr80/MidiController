@@ -423,13 +423,13 @@ class MidiLoopPedal(LoopPedal, MidiPedal):
 
 	def turn_on(self):
 		#turn on via MIDI
-		self.midi.MIDI_CC_TX(self.MidiCommandDict["BYPASS_CC"], self.MidiCommandDict["DATA_BYTE"])
+		# self.midi.MIDI_CC_TX(self.MidiCommandDict["ENGAGE_CC"], self.MidiCommandDict["DATA_BYTE"])
 		LoopPedal.turn_on(self)
 		#print self.name + " on."
 
 	def turn_off(self):
 		#turn off via MIDI
-		self.midi.MIDI_CC_TX(self.MidiCommandDict["ENGAGE_CC"], self.MidiCommandDict["DATA_BYTE"])
+		# self.midi.MIDI_CC_TX(self.MidiCommandDict["BYPASS_CC"], self.MidiCommandDict["DATA_BYTE"])
 		LoopPedal.turn_off(self)
 		#print self.name + " off."
 
