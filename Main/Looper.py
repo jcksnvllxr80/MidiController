@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import time
+import time, logging
 from time import strftime
 import math
 import RPi.GPIO as GPIO #for interfacing with raspberrypi GPIO
@@ -8,6 +8,21 @@ import xml.etree.ElementTree as ET # for reading and writing to XML files
 import EffectLoops #package for controlling the pedals
 import Footswitches #package for the footswitch inputs
 import RotaryEncoder #package for the rotary encoder inputs
+
+'''   ############ USAGE ###############
+logger.info("info message")
+logger.warning("warning message")
+logger.error("error message")
+'''
+logger = logging.getLogger(__name__)   
+logger.setLevel(logging.DEBUG)
+logger.propagate = False
+# create console handler and set level to info
+handler = logging.StreamHandler()
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s [Looper.py] [%(levelname)-5.5s]  %(message)s")
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 switch_pins = Footswitches.Looper_Switches() #class for dealing with footswitch presses
 # previous_button_press = None

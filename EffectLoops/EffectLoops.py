@@ -5,6 +5,7 @@ import time
 import MIDI
 import Routes
 import LEDs
+import logging
 # import Adafruit_GPIO.SPI as SPI
 # import SSD1306
 import RPi.GPIO as GPIO
@@ -24,9 +25,31 @@ import RPi.GPIO as GPIO
 # spi_disp = SSD1306.SSD1306_128_64(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000))
 Routing = Routes.Looper_Routes()
 Leds = LEDs.Looper_LEDs()
+logger = init_logging()
+
+def init_logging():
+  '''   ############ USAGE ###############
+  logger.info("info message")
+  logger.warning("warning message")
+  logger.error("error message")
+  '''
+  logger = logging.getLogger(__name__)   
+  logger.setLevel(logging.DEBUG)
+  logger.propagate = False
+  # create console handler and set level to info
+  handler = logging.StreamHandler()
+  handler.setLevel(logging.INFO)
+  formatter = logging.Formatter(
+          "%(asctime)s [EffectLoops.py] [%(levelname)-5.5s]  %(message)s")
+  handler.setFormatter(formatter)
+  logger.addHandler(handler)
+    
+  return logger
+
 
 def unload():
 	Leds.stop_pwm()
+
 
 class Pedal(object):
 
@@ -168,9 +191,9 @@ class ButtonOnPedalBoard(Pedal):
 		elif self.func_two_type == "Latching":
 			Routing.changeOutputPinState(portPin)
 		elif self.func_two_type == "Settings":
-			print "Settings"
+			logger.info("Settings")
 		else:	
-			print "None " + str(self.button)
+			logger.info("None " + str(self.button))
 			
 
 	def getPortPin(self):
@@ -425,13 +448,13 @@ class MidiLoopPedal(LoopPedal, MidiPedal):
 		#turn on via MIDI
 		# self.midi.MIDI_CC_TX(self.MidiCommandDict["ENGAGE_CC"], self.MidiCommandDict["DATA_BYTE"])
 		LoopPedal.turn_on(self)
-		#print self.name + " on."
+		logger.info(self.name + " on.")
 
 	def turn_off(self):
 		#turn off via MIDI
 		# self.midi.MIDI_CC_TX(self.MidiCommandDict["BYPASS_CC"], self.MidiCommandDict["DATA_BYTE"])
 		LoopPedal.turn_off(self)
-		#print self.name + " off."
+		logger.info(self.name + " off.")
 
 	def setSelahPreset(self, preset):
 		self.preset = preset
@@ -478,14 +501,14 @@ class MidiNonLoopPedal(MidiPedal, Pedal):
 			#turn on via MIDI
 			self.midi.MIDI_CC_TX(self.MidiCommandDict["ENGAGE_CC"], self.MidiCommandDict["DATA_BYTE_ON"])
 			self.is_engaged = True
-			#print self.name + " on."
+			logger.info(self.name + " on.")
 
 	def turn_off(self):
 		if not self.brand == "Selah":
 			#turn off via MIDI
 			self.midi.MIDI_CC_TX(self.MidiCommandDict["BYPASS_CC"], self.MidiCommandDict["DATA_BYTE_OFF"])
 			self.is_engaged = False
-			#print self.name + " off."
+			logger.info(self.name + " off.")
 
 	def setStrymonPreset(self, preset):
 		self.preset = preset
