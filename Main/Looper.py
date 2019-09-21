@@ -123,7 +123,7 @@ def my_encoder_callback(EncoderInterruptPin):
 
 #function called when any footswitch is pressed
 def my_button_callback(interrupt_pin):
-	#print "interrupt enter"
+	logger.info("interrupt enter")
 	#Which bank sent the interrupt; bank A (pin 4) mod 2 is 0; bank B (pin 17) mod 2 is 1
 	interrupt_bank = interrupt_pin % 2  
 	#read the interrupt register; find which pin and bank that caused the interrupt
@@ -134,7 +134,7 @@ def my_button_callback(interrupt_pin):
 		#where pin n returns 2^n. log returns a floating point so turn that into a integer
 		#and add 8 for bank B. interrupt bank is either 0 or 1 from above.
 		intFlagPin = int(math.log(pin_caused_int,2)) + 8*interrupt_bank
-		#print "bank: " + str(interrupt_bank) + "; pin: " + str(intFlagPin) + "; interrupt  Register = " + str(pin_caused_int)
+		logger.info("bank: " + str(interrupt_bank) + "; pin: " + str(intFlagPin) + "; interrupt  Register = " + str(pin_caused_int))
 		#look up the pedal object that caused the interrupt and assign it to interrupt pedal
 		int_pedal = pedal_dict[str(intFlagPin)]
 		time.sleep(.005)
@@ -164,7 +164,7 @@ def my_button_callback(interrupt_pin):
 						rotary_push_button.change_pedal_configuration(option_five)
 					int_pedal.PedalConfigChanged = True
 					#int_pedal.partner.PedalConfigChanged == True  
-					#print "double footswitch function"
+					logger.info( "double footswitch function")
 			else:
 				#button state determines which function of the pedal whose footswitch was pressed to use
 				int_pedal.button_state(interrupt_value, rotary_push_button.mode)
