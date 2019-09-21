@@ -222,9 +222,9 @@ class Rotary_Encoder(RgbKnob):
 
 	def test_point_node_printer(self, the_node):
 		pass
-		# print("\nnode: " + str(the_node) + "prompt: " + the_node.menu_data_prompt + 
-		# 	"\nitems: " + str(the_node.menu_data_items) + "\ncurrent item: " + str(the_node.menu_data_items[the_node.menu_data_position]) + 
-		# 	"\nposition: " + str(the_node.menu_data_position))
+		logger.info("\nnode: " + str(the_node) + "prompt: " + the_node.menu_data_prompt + 
+			"\nitems: " + str(the_node.menu_data_items) + "\ncurrent item: " + str(the_node.menu_data_items[the_node.menu_data_position]) + 
+			"\nposition: " + str(the_node.menu_data_position))
 
 
 	def show_setlists(self):
@@ -242,9 +242,9 @@ class Rotary_Encoder(RgbKnob):
 	def show_songs(self):
 		self.songs_menu.menu_data_items = []
 		self.songs_menu.menu_data_prompt = self.songs_menu.name + ":"
-		print(self.setlist.songs.show())
+		logger.info(self.setlist.songs.show())
 		for song in self.setlist.songs.to_list():
-			print(song)
+			logger.info(song)
 			self.songs_menu.menu_data_items.append(song.name)
 		self.test_point_node_printer(self.songs_menu)
 
@@ -252,9 +252,9 @@ class Rotary_Encoder(RgbKnob):
 	def show_parts(self):
 		self.parts_menu.menu_data_items = []
 		self.parts_menu.menu_data_prompt = self.parts_menu.name + ":"
-		print(self.current_song.data.parts.show())
+		logger.info(self.current_song.data.parts.show())
 		for part in self.current_song.data.parts.to_list():
-			print(part)
+			logger.info(part)
 			self.parts_menu.menu_data_items.append(part.part_name)
 		self.test_point_node_printer(self.parts_menu)
 
@@ -270,8 +270,8 @@ class Rotary_Encoder(RgbKnob):
 		self.bpm_menu.menu_data_prompt = self.bpm_menu.name + ":"
 		self.bpm_menu.menu_data_items = self.tempo_range
 		# tempo range starts at 40 and goes to 500 by 0.5
-		print("bpm: " + self.current_song.data.bpm)
-		print("position in list: " + str(self.bpm_menu.menu_data_position))
+		logger.info("bpm: " + self.current_song.data.bpm)
+		logger.info("position in list: " + str(self.bpm_menu.menu_data_position))
 		self.bpm_menu.menu_data_position = int(2 * (float(self.current_song.data.bpm) - 40))
 		self.test_point_node_printer(self.bpm_menu)
 
@@ -280,7 +280,7 @@ class Rotary_Encoder(RgbKnob):
 		self.set_message("Loading set...")
 		self.setlist_name = self.setlist_menu.menu_data_items[self.setlist_menu.menu_data_position]
 		self.setlist.load_setlist(SET_FOLDER + self.setlist_name)
-		print("switched current setlist to: " + self.setlist_name + "\n" +
+		logger.info("switched current setlist to: " + self.setlist_name + "\n" +
 			  "switched current song to: " + str(self.current_song.data.name) + str(self.current_song) + "\n" +
 			  "switched current part to: " + str(self.current_part.data.part_name) + str(self.current_part))
 		self.current_song = self.setlist.songs.head
@@ -291,14 +291,14 @@ class Rotary_Encoder(RgbKnob):
 
 	def load_song_func(self):
 		self.current_song = self.setlist.songs.index_to_node(self.songs_menu.menu_data_position + 1)
-		print("switched current song to: " + str(self.current_song.data.name) + str(self.current_song))
+		logger.info("switched current song to: " + str(self.current_song.data.name) + str(self.current_song))
 		self.load_song()
 		self.change_menu_nodes()
 
 
 	def load_part_func(self):
 		self.current_part = self.current_song.data.parts.index_to_node(self.parts_menu.menu_data_position + 1)
-		print("switched current part to: " + str(self.current_part.data.part_name) + str(self.current_part))
+		logger.info("switched current part to: " + str(self.current_part.data.part_name) + str(self.current_part))
 		self.load_part()
 		self.change_menu_nodes()
 
@@ -376,7 +376,7 @@ class Rotary_Encoder(RgbKnob):
 		'''
 		move = None #initialize move to None
 		seq = b*2 +  a*1 | b << 1
-		print("sequence: " + str(seq))
+		logger.info("sequence: " + str(seq))
 		if seq in [1, 3]:
 			self.last_good_seq = seq
 		elif seq == 2:
@@ -403,7 +403,7 @@ class Rotary_Encoder(RgbKnob):
 		'''change the current position of the menu and display the new menu item
 		unless the end or the beginning of the list has been reached
 		'''
-		print("direction: " + direction)
+		logger.info("direction: " + direction)
 		if not self.menu.current_node is self.menu.root:
 			if self.menu.current_node.children:
 				if direction == "CW":
@@ -415,12 +415,12 @@ class Rotary_Encoder(RgbKnob):
 						self.menu.current_node.current_child -= 1
 						self.set_children_message()
 				try:
-					print("current node name: " + self.menu.current_node.name + ",\nnumber of children in node: " + 
+					logger.info("current node name: " + self.menu.current_node.name + ",\nnumber of children in node: " + 
 						str(len(self.menu.current_node.children)) + ",\ncurrent child in node: " + 
 						str(self.menu.current_node.current_child))
 				except:
-					print(sys.exc_info()[0])
-					print("current node name: " + self.menu.current_node.name + ",\ncurrent child in node: " + 
+					logger.info(sys.exc_info()[0])
+					logger.info("current node name: " + self.menu.current_node.name + ",\ncurrent child in node: " + 
 						str(self.menu.current_node.current_child))
 			else:
 				if direction == "CW":
@@ -428,12 +428,12 @@ class Rotary_Encoder(RgbKnob):
 				elif direction == "CCW":
 					self.prev_menu_list_item()
 				try:
-					print("current node name: " + self.menu.current_node.name + ",\nnumber of elems in list: " + 
+					logger.info("current node name: " + self.menu.current_node.name + ",\nnumber of elems in list: " + 
 						str(len(self.menu.current_node.menu_data_items)) + ",\ncurrent elem in list: " + 
 						str(self.menu.current_node.menu_data_position))
 				except:
-					print(sys.exc_info()[0])
-					print("current node name: " + self.menu.current_node.name + ",\ncurrent elem in list: " + 
+					logger.info(sys.exc_info()[0])
+					logger.info("current node name: " + self.menu.current_node.name + ",\ncurrent elem in list: " + 
 						str(self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]))
 		
 			# TODO: dont let the tempo go below 40 or above 500
@@ -596,12 +596,12 @@ class Rotary_Encoder(RgbKnob):
 		elif self.menu.current_node.children:
 			self.set_children_message()
 		elif self.menu.current_node.func: 
-			print(self.menu.current_node.name + ": menu_func")
+			logger.info(self.menu.current_node.name + ": menu_func")
 			self.menu.current_node.func()
 			self.set_menu_data_message()
 			self.menu.current_node.menu_data_loaded = True
 		else:
-			print("Error!!")
+			logger.error("Error!!")
 			self.set_message("Error!!")
 
 
@@ -658,34 +658,34 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 			if delta_t < 0.5: #if the press was shorter than half a second
 				# select the item or go into the menu currently on the display
 				if self.menu.current_node is self.menu.root:
-					print(self.menu.current_node.name + ": main -> setup")
+					logger.info(self.menu.current_node.name + ": main -> setup")
 					self.change_menu_nodes(self.setup_menu)
 				elif self.menu.current_node.children:
-					print(self.menu.current_node.name + ": deeper menu")
+					logger.info(self.menu.current_node.name + ": deeper menu")
 					self.change_menu_nodes(self.menu.current_node.children[self.menu.current_node.current_child])
 					self.menu.current_node.current_child = 0
 				elif self.menu.current_node.menu_data_items:
 					if self.menu.current_node.menu_data_func:
-						print(self.menu.current_node.name + ": data_func")
+						logger.info(self.menu.current_node.name + ": data_func")
 						self.menu.current_node.menu_data_func()
 						self.menu.current_node.menu_data_loaded = False
 					else:	
-						print(self.menu.current_node.name + ": data_items")
+						logger.info(self.menu.current_node.name + ": data_items")
 						self.menu.current_node.menu_data_dict[self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]]()
 			elif delta_t < 2: #longer than half a second but shorter than 2 seconds
 				if self.menu.current_node.parent:
-					print(self.menu.current_node.name + ": child menu -> parent")
+					logger.info(self.menu.current_node.name + ": child menu -> parent")
 					self.change_menu_nodes(self.menu.current_node.parent)
 			else: 
 				if delta_t > 5: # if button held for more than 5 seconds
 					if not self.menu.current_node is self.power_menu:
-						print(self.menu.current_node.name + ": ? -> power menu")
+						logger.info(self.menu.current_node.name + ": ? -> power menu")
 						self.change_menu_nodes(self.power_menu)	
 				elif self.menu.current_node is self.menu.root: # if the button was pressed btwn 2 and 5 secs
-					print(self.menu.current_node.name + ": ? -> global menu")
+					logger.info(self.menu.current_node.name + ": ? -> global menu")
 					self.change_menu_nodes(self.global_menu) # if the currentmenu is mainmenu swap to 'Global'
 				else:
-					print(self.menu.current_node.name + ": ? -> Looper main menu")
+					logger.info(self.menu.current_node.name + ": ? -> Looper main menu")
 					self.change_menu_nodes(self.menu.root)
 
 			self.is_pressed = False #was released
