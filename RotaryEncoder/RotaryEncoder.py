@@ -10,6 +10,22 @@ import Adafruit_CharLCD
 import PartSongSet
 import N_Tree
 from numpy import arange
+import logging
+
+'''   ############ USAGE ###############
+logger.info("info message")
+logger.warning("warning message")
+logger.error("error message")
+'''
+logger = logging.getLogger(__name__)   
+logger.setLevel(logging.DEBUG)
+logger.propagate = False
+# create console handler and set level to info
+handler = logging.StreamHandler()
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s [RotaryEncoder.py] [%(levelname)-5.5s]  %(message)s")
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 SET_FOLDER = "/home/pi/Looper/PartSongSet/Sets/"
 DEFAULT_FILE = "/home/pi/Looper/Main/PedalGroup.xml"

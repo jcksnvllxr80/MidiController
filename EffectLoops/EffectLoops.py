@@ -5,23 +5,24 @@ import time
 import MIDI
 import Routes
 import LEDs
-# import Adafruit_GPIO.SPI as SPI
-# import SSD1306
 import RPi.GPIO as GPIO
-# import SlaveSelect
+import logging
 
-# from PIL import Image
-# from PIL import ImageFont
-# from PIL import ImageDraw
+'''   ############ USAGE ###############
+logger.info("info message")
+logger.warning("warning message")
+logger.error("error message")
+'''
+logger = logging.getLogger(__name__)   
+logger.setLevel(logging.DEBUG)
+logger.propagate = False
+# create console handler and set level to info
+handler = logging.StreamHandler()
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s [EffectLoops.py] [%(levelname)-5.5s]  %(message)s")
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
-# RST = 25
-# DC = 12
-# SPI_PORT = 0
-# SPI_DEVICE = 0
-# FONT_FOLDER = '/home/pi/Looper/test/Font/'
-
-# slave_select = SlaveSelect.SlaveSelect()
-# spi_disp = SSD1306.SSD1306_128_64(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000))
 Routing = Routes.Looper_Routes()
 Leds = LEDs.Looper_LEDs()
 
@@ -168,9 +169,9 @@ class ButtonOnPedalBoard(Pedal):
 		elif self.func_two_type == "Latching":
 			Routing.changeOutputPinState(portPin)
 		elif self.func_two_type == "Settings":
-			print "Settings"
+			logger.info("Settings")
 		else:	
-			print "None " + str(self.button)
+			logger.info("None " + str(self.button))
 			
 
 	def getPortPin(self):
@@ -191,21 +192,21 @@ class ButtonOnPedalBoard(Pedal):
 		Routing.set_output(self.pin, False)
 		Leds.set_output(self.pin, False)
 		self.is_engaged = True
-		#print self
+		logger.info(self)
 
 	def turn_off(self):
 		if self.name <> "Empty":
 			Routing.set_output(self.pin, True)
 		Leds.set_output(self.pin, True)
 		self.is_engaged = False
-		#print self
+		logger.info(self)
 	
 	def getPin(self):
 		return self.pin
 		
 	def set_setting(self, setting):
 		pass
-		#print "setting " + str(setting)
+		logger.info("setting " + str(setting))
 
 	def get_partner_function(self):
 		if self.pin > 5:
@@ -302,12 +303,12 @@ class TapTempoButton(ButtonOnPedalBoard):
 	def turn_on(self):
 		Leds.set_output(self.pin, False)
 		self.is_engaged = True
-		#print self
+		logger.info(self)
 
 	def turn_off(self):
 		Leds.set_output(self.pin, True)
 		self.is_engaged = False
-		#print self
+		logger.info(self)
 		
 	def setDutyCycle1(self, DC):
 		self.DC1 = DC
@@ -425,13 +426,13 @@ class MidiLoopPedal(LoopPedal, MidiPedal):
 		#turn on via MIDI
 		# self.midi.MIDI_CC_TX(self.MidiCommandDict["ENGAGE_CC"], self.MidiCommandDict["DATA_BYTE"])
 		LoopPedal.turn_on(self)
-		#print self.name + " on."
+		logger.info(self.name + " on.")
 
 	def turn_off(self):
 		#turn off via MIDI
 		# self.midi.MIDI_CC_TX(self.MidiCommandDict["BYPASS_CC"], self.MidiCommandDict["DATA_BYTE"])
 		LoopPedal.turn_off(self)
-		#print self.name + " off."
+		logger.info(self.name + " off.")
 
 	def setSelahPreset(self, preset):
 		self.preset = preset
@@ -478,14 +479,14 @@ class MidiNonLoopPedal(MidiPedal, Pedal):
 			#turn on via MIDI
 			self.midi.MIDI_CC_TX(self.MidiCommandDict["ENGAGE_CC"], self.MidiCommandDict["DATA_BYTE_ON"])
 			self.is_engaged = True
-			#print self.name + " on."
+			logger.info(self.name + " on.")
 
 	def turn_off(self):
 		if not self.brand == "Selah":
 			#turn off via MIDI
 			self.midi.MIDI_CC_TX(self.MidiCommandDict["BYPASS_CC"], self.MidiCommandDict["DATA_BYTE_OFF"])
 			self.is_engaged = False
-			#print self.name + " off."
+			logger.info(self.name + " off.")
 
 	def setStrymonPreset(self, preset):
 		self.preset = preset

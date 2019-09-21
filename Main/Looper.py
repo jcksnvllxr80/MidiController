@@ -1,5 +1,5 @@
 #!/usr/bin/python
-import time, logging
+import time
 from time import strftime
 import math
 import RPi.GPIO as GPIO #for interfacing with raspberrypi GPIO
@@ -8,6 +8,7 @@ import xml.etree.ElementTree as ET # for reading and writing to XML files
 import EffectLoops #package for controlling the pedals
 import Footswitches #package for the footswitch inputs
 import RotaryEncoder #package for the rotary encoder inputs
+import logging
 
 '''   ############ USAGE ###############
 logger.info("info message")
