@@ -426,13 +426,13 @@ class MidiLoopPedal(LoopPedal, MidiPedal):
 		#turn on via MIDI
 		# self.midi.MIDI_CC_TX(self.MidiCommandDict["ENGAGE_CC"], self.MidiCommandDict["DATA_BYTE"])
 		LoopPedal.turn_on(self)
-		logger.info(self.name + " on.")
+		# logger.info(self.name + " on.")
 
 	def turn_off(self):
 		#turn off via MIDI
 		# self.midi.MIDI_CC_TX(self.MidiCommandDict["BYPASS_CC"], self.MidiCommandDict["DATA_BYTE"])
 		LoopPedal.turn_off(self)
-		logger.info(self.name + " off.")
+		# logger.info(self.name + " off.")
 
 	def setSelahPreset(self, preset):
 		self.preset = preset
