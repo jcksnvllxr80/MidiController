@@ -134,7 +134,7 @@ class ButtonOnPedalBoard(Pedal):
 			Routing.set_output(self.pin, True)
 			Leds.set_output(self.pin, True)
 			self.is_engaged = False
-	  else:
+		else:
 			Leds.set_output(self.pin, False)
 			self.is_engaged = True
 		logger.info(self)
