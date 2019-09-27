@@ -124,14 +124,14 @@ class ButtonOnPedalBoard(Pedal):
 		self.func_two_type = func_two_type
 
 	def turn_on(self):
-		Routing.set_output(self.pin, False)
-		Leds.set_output(self.pin, False)
+		Routing.set_output(self.pin, True)
+		Leds.set_output(self.pin, True)
 		self.is_engaged = True
 		logger.info(self)
 
 	def turn_off(self):
-		Routing.set_output(self.pin, True)
-		Leds.set_output(self.pin, True)
+		Routing.set_output(self.pin, False)
+		Leds.set_output(self.pin, False)
 		self.is_engaged = False
 		logger.info(self)
 	
