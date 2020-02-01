@@ -27,7 +27,7 @@
 		<preset>2</preset>
         <midiChannel>1</midiChannel>
     </pedal>
-    <!-- <pedal name="RC Booster" type="LoopPedal">
+    <pedal name="RC Booster" type="LoopPedal">
         <engaged>True</engaged>
         <button>1</button>
         <funcTwoType>None</funcTwoType>
@@ -38,13 +38,13 @@
         <button>2</button>
         <funcTwoType>None</funcTwoType>
         <funcTwoPort>None</funcTwoPort>
-    </pedal> -->
-    <pedal name="Empty" type="Empty">
+    </pedal>
+    <!-- <pedal name="Empty" type="Empty">
         <button>1</button>
     </pedal>
     <pedal name="Empty" type="Empty">
         <button>2</button>
-    </pedal>
+    </pedal> -->
     <pedal name="Empty" type="Empty">
         <button>3</button>
     </pedal>
@@ -62,15 +62,15 @@
         <funcTwoType>MIDI</funcTwoType>
         <funcTwoPort>CYCLE_CLIP_CC</funcTwoPort>
     </pedal>
-    <!-- <pedal name="POG" type="LoopPedal">
+    <pedal name="POG" type="LoopPedal">
         <engaged />
         <button>6</button>
         <funcTwoType>None</funcTwoType>
         <funcTwoPort>None</funcTwoPort>
-    </pedal> -->
-    <pedal name="Empty" type="Empty">
-        <button>6</button>
     </pedal>
+    <!-- <pedal name="Empty" type="Empty">
+        <button>6</button>
+    </pedal> -->
     <pedal name="Empty" type="Empty">
         <button>7</button>
     </pedal>
