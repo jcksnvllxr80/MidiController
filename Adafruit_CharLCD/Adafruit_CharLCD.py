@@ -196,7 +196,7 @@ class Adafruit_CharLCD(object):
             row = self._lines - 1
         # Set location.
         self.write8(LCD_SETDDRAMADDR | (col + LCD_ROW_OFFSETS[row]))
-        logger.info("Move the cursor to an column " + str(col) + " and row " + str(row))
+        logger.info("Move the cursor to column " + str(col) + " and row " + str(row))
 
 
     def enable_display(self, enable):
