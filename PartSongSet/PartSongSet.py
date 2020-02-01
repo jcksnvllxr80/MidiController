@@ -1,5 +1,21 @@
 import xml.etree.ElementTree as ET
 import DoublyLinkedList
+import logging
+
+'''   ############ USAGE ###############
+logger.info("info message")
+logger.warning("warning message")
+logger.error("error message")
+'''
+logger = logging.getLogger(__name__)   
+logger.setLevel(logging.DEBUG)
+logger.propagate = False
+# create console handler and set level to info
+handler = logging.StreamHandler()
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s [PartSongSet.py] [%(levelname)-5.5s]  %(message)s")
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 class Setlist(object):
 	'''class for importing, editing, and maintaining a setlist. 
@@ -28,6 +44,7 @@ class Setlist(object):
 	def load_setlist(self, setlist_path):
 		'''read and load the setlist. calls the getsongnames method and then calls the loadsong method
 		'''
+		logger.info("set setlist to: " + setlist_path)
 		self.get_song_names(setlist_path)
 		for song_name in self.song_list:
 			self.load_song(song_name)
@@ -45,6 +62,7 @@ class Setlist(object):
 		'''gets song names from list and then opens each individual song
 		file from the song directory and reads it into memory.
 		'''
+		logger.info("set song to: " + song_name)
 		song_file = ET.parse("/home/pi/Looper/PartSongSet/Songs/" + song_name + '.xml')     
 		song_root = song_file.getroot()    #get the root of the song xml file     
 		tempo = song_root.find('tempo').text #get the tempo of the song
