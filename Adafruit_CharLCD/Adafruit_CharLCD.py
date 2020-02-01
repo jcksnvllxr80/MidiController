@@ -24,6 +24,22 @@ import Adafruit_GPIO as GPIO
 import Adafruit_GPIO.I2C as I2C
 import MCP23017_R1 as MCP
 import Adafruit_GPIO.PWM as PWM
+import logging
+
+'''   ############ USAGE ###############
+logger.info("info message")
+logger.warning("warning message")
+logger.error("error message")
+'''
+logger = logging.getLogger(__name__)   
+logger.setLevel(logging.DEBUG)
+logger.propagate = False
+# create console handler and set level to info
+handler = logging.StreamHandler()
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s [Adafruit_CharLCD.py] [%(levelname)-5.5s]  %(message)s")
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 
 # Commands
@@ -163,11 +179,13 @@ class Adafruit_CharLCD(object):
 
     def home(self):
         """Move the cursor back to its home (first line and first column)."""
+        logger.info("Move the cursor back to its home (first line and first column).")
         self.write8(LCD_RETURNHOME)  # set cursor position to zero
         self._delay_microseconds(3000)  # this command takes a long time!
 
     def clear(self):
         """Clear the LCD."""
+        logger.info("Clear the LCD.")
         self.write8(LCD_CLEARDISPLAY)  # command to clear display
         self._delay_microseconds(3000)  # 3000 microsecond sleep, clearing the display takes a long time
 
@@ -178,46 +196,58 @@ class Adafruit_CharLCD(object):
             row = self._lines - 1
         # Set location.
         self.write8(LCD_SETDDRAMADDR | (col + LCD_ROW_OFFSETS[row]))
+        logger.info("Move the cursor to an column " + str(col) + " and row " + str(row))
+
 
     def enable_display(self, enable):
         """Enable or disable the display.  Set enable to True to enable."""
         if enable:
+            logger.info("Enable display")
             self.displaycontrol |= LCD_DISPLAYON
         else:
+            logger.info("Disable display")
             self.displaycontrol &= ~LCD_DISPLAYON
         self.write8(LCD_DISPLAYCONTROL | self.displaycontrol)
 
     def show_cursor(self, show):
         """Show or hide the cursor.  Cursor is shown if show is True."""
         if show:
+            logger.info("Show cursor")
             self.displaycontrol |= LCD_CURSORON
         else:
+            logger.info("Hide cursor")
             self.displaycontrol &= ~LCD_CURSORON
         self.write8(LCD_DISPLAYCONTROL | self.displaycontrol)
 
     def blink(self, blink):
         """Turn on or off cursor blinking.  Set blink to True to enable blinking."""
         if blink:
+            logger.info("Blink cursor set to on")
             self.displaycontrol |= LCD_BLINKON
         else:
+            logger.info("Blink cursor set to off")
             self.displaycontrol &= ~LCD_BLINKON
         self.write8(LCD_DISPLAYCONTROL | self.displaycontrol)
 
     def move_left(self):
         """Move display left one position."""
+        logger.info("Move display left one position")
         self.write8(LCD_CURSORSHIFT | LCD_DISPLAYMOVE | LCD_MOVELEFT)
 
     def move_right(self):
         """Move display right one position."""
+        logger.info("Move display right one position")
         self.write8(LCD_CURSORSHIFT | LCD_DISPLAYMOVE | LCD_MOVERIGHT)
 
     def set_left_to_right(self):
         """Set text direction left to right."""
+        logger.info("Set text direction left to right")
         self.displaymode |= LCD_ENTRYLEFT
         self.write8(LCD_ENTRYMODESET | self.displaymode)
 
     def set_right_to_left(self):
         """Set text direction right to left."""
+        logger.info("Set text direction right to left")
         self.displaymode &= ~LCD_ENTRYLEFT
         self.write8(LCD_ENTRYMODESET | self.displaymode)
 
@@ -226,13 +256,16 @@ class Adafruit_CharLCD(object):
         otherwise it will 'left justify' the text.
         """
         if autoscroll:
+            logger.info("Set autoscroll on")
             self.displaymode |= LCD_ENTRYSHIFTINCREMENT
         else:
+            logger.info("Set autoscroll off")
             self.displaymode &= ~LCD_ENTRYSHIFTINCREMENT
         self.write8(LCD_ENTRYMODESET | self.displaymode)
 
     def message(self, text):
         """Write text to display.  Note that text can include newlines."""
+        logger.info("Set message to: \n" + text)
         line = 0
         # Iterate through each character.
         for char in text:
@@ -252,6 +285,7 @@ class Adafruit_CharLCD(object):
         turn it off.  If PWM is enabled, backlight can be any value from 0.0 to
         1.0, with 1.0 being full intensity backlight.
         """
+        logger.info("Set backlight value [0.0, 1.0] to " + str(backlight))
         if self._backlight is not None:
             if self._pwm_enabled:
                 self._pwm.set_duty_cycle(self._backlight, self._pwm_duty_cycle(backlight))
