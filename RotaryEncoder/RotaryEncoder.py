@@ -634,7 +634,7 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 			else:
 				self.turn_off()
 				self.mode = "Song"
-		logger.info("Mode switched to " + self.mode + " mode.")
+		logger.info(mode + " --> Mode switched to " + self.mode + " mode.")
 		self.save_mode_to_default()
 			
 			
