@@ -152,21 +152,23 @@ def my_button_callback(interrupt_pin):
 			#like bank up, bank down, next song, etc.
 			if int_pedal.partner.is_pressed:
 				if interrupt_value: 
+					option_type = None
 					#do the 2-button function for the pedal that called it
 					f = int_pedal.partner.get_partner_function()
 					if f == 1:
-						rotary_push_button.change_pedal_configuration(option_one)
+						option_type = option_one
 					elif f == 2:
-						rotary_push_button.change_pedal_configuration(option_two)
+						option_type = option_two
 					elif f == 3:
-						rotary_push_button.change_pedal_configuration(option_three)
+						option_type = option_three
 					elif f == 4:
-						rotary_push_button.change_pedal_configuration(option_four)
+						option_type = option_four
 					elif f == 5:
-						rotary_push_button.change_pedal_configuration(option_five)
+						option_type = option_five
+					rotary_push_button.change_pedal_configuration(option_type)
 					int_pedal.PedalConfigChanged = True
 					#int_pedal.partner.PedalConfigChanged == True  
-					logger.info( "double footswitch function")
+					logger.info( "double footswitch function: " + option_type)
 			else:
 				#button state determines which function of the pedal whose footswitch was pressed to use
 				int_pedal.button_state(interrupt_value, rotary_push_button.mode)
