@@ -35,7 +35,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logger.propagate = False
 # create console handler and set level to info
-handler = logging.StreamHandler()
+handler = logging.WatchedFileHandler(os.environ.get("LOGFILE", "/var/log/yourapp.log"))
 handler.setLevel(logging.INFO)
 formatter = logging.Formatter("%(asctime)s [Adafruit_CharLCD.py] [%(levelname)-5.5s]  %(message)s")
 handler.setFormatter(formatter)
