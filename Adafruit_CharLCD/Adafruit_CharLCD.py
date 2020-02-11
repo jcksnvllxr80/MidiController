@@ -25,7 +25,6 @@ import Adafruit_GPIO.I2C as I2C
 import MCP23017_R1 as MCP
 import Adafruit_GPIO.PWM as PWM
 import logging
-import os
 
 '''   ############ USAGE ###############
 logger.info("info message")
@@ -36,7 +35,7 @@ logger = logging.getLogger(__name__)
 logger.setLevel(logging.DEBUG)
 logger.propagate = False
 # create console handler and set level to info
-handler = logging.FileHandler(os.environ.get("LOGFILE", "/var/log/messages"))
+handler = logging.StreamHandler()
 handler.setLevel(logging.INFO)
 formatter = logging.Formatter("%(asctime)s [Adafruit_CharLCD.py] [%(levelname)-5.5s]  %(message)s")
 handler.setFormatter(formatter)
