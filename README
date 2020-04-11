@@ -1,1 +1,1 @@
-This is a pedal looper project using Raspberry Pi 3. Written in python.
+This is a midi controller using Raspberry Pi. Written in python. Used to be pedal looper project but removed all the looper / switcher parts and only use midi now.
