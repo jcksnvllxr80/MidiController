@@ -21,7 +21,7 @@ logger.propagate = False
 # create console handler and set level to info
 handler = logging.StreamHandler()
 handler.setLevel(logging.INFO)
-formatter = logging.Formatter("%(asctime)s [Looper.py] [%(levelname)-5.5s]  %(message)s")
+formatter = logging.Formatter("%(asctime)s [midi_controller.py] [%(levelname)-5.5s]  %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
@@ -41,7 +41,7 @@ song = default_pedals_root.find('song').text #get the default song of the setlis
 part = default_pedals_root.find('part').text #get the default part of the song
 option_one = default_pedals_root.find('op1').text #options for changing pedal config
 option_two = default_pedals_root.find('op2').text #when pressing two buttons simultaneously.
-option_three = default_pedals_root.find('op3').text #the choices are song up, sopng down,
+option_three = default_pedals_root.find('op3').text #the choices are song up, song down,
 option_four = default_pedals_root.find('op4').text # part up, part down, other options
 option_five = default_pedals_root.find('op5').text # including main menu
 #set up rpi pins
@@ -66,19 +66,7 @@ for current in default_pedals_root.iter('pedal'):
 		type = current.attrib["type"] #get the pedal type
 	except:
 		break #break out of the for loop on a read error
-	if type == "LoopPedal": #initialize a LoopPedal object
-		current_pedal = EffectLoops.LoopPedal(current.attrib["name"], 
-			int(current.find("./button").text), bool(current.find("./engaged").text),
-			current.find("./funcTwoType").text, current.find("./funcTwoPort").text)
-		pedal_dict[str(current_pedal.getPin())] = current_pedal #assign this pedal to the dictionary
-	elif type == "MidiLoopPedal":  #initialize a MidiLoopPedal object
-		current_pedal = EffectLoops.MidiLoopPedal(current.attrib["name"], 
-			int(current.find("./button").text), bool(current.find("./engaged").text),
-			str(current.find("./preset").text), int(current.find("./midiChannel").text), 
-			current.find("./funcTwoType").text, current.find("./funcTwoPort").text, 
-			current.attrib["brand"])
-		pedal_dict[str(current_pedal.getPin())] = current_pedal #assign this pedal to the dictionary
-	elif type == "MidiNonLoopPedal": #initialize a MidiNonLoopPedal object
+	if type == "MidiNonLoopPedal": #initialize a MidiNonLoopPedal object
 		current_pedal = EffectLoops.MidiNonLoopPedal(current.attrib["name"], 
 			bool(current.find("./engaged").text), int(current.find("./midiChannel").text),
 			current.attrib["brand"], int(current.find("./preset").text))
@@ -88,14 +76,6 @@ for current in default_pedals_root.iter('pedal'):
 			bool(current.find("./engaged").text), int(current.find("./midiChannel").text),
 			current.attrib["brand"], Tempo, int(current.find("./preset").text))
 		pedal_dict["MIDITempoPedal"] = current_pedal #assign this pedal to the dictionary
-	elif type == "Empty": #initialize an Empty object for loops not associated with pedals
-		current_pedal = EffectLoops.Empty(current.attrib["name"], int(current.find("./button").text), True)
-		pedal_dict[str(current_pedal.getPin())] = current_pedal #assign this pedal to the dictionary
-	elif type == "TapTempo": #initialize the TapTempoButton object
-		current_pedal = EffectLoops.TapTempoButton("TapTempo", int(current.find("./button").text),
-			Tempo, pedal_dict["MIDITempoPedal"]) 
-		pedal_dict[str(current_pedal.getPin())] = current_pedal #assign this pedal to the dictionary
-		TapTempo = current_pedal
 		
 rotary_push_button = RotaryEncoder.RotaryPushButton(ROTARY_PUSHBUTTON_PINNUMBER, True, mode, 
 	kc=knob_color, kb=knob_brightness, sl=setList, s=song, p=part) #initialize the rotaryencoder object
