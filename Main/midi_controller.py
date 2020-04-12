@@ -48,7 +48,7 @@ def setup():
 
 	# read config yaml file into dictionaries
 	with open(CONFIG_FILE, 'r') as ymlfile:
-							config_file = yaml.load(ymlfile)
+		config_file = yaml.load(ymlfile)
 
 	# read config dict's into more specific variables
 	button_setup = {k: v for k, v in config_file['button_setup'].iteritems()}

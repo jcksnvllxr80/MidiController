@@ -3,6 +3,7 @@ import sys
 import time
 import RPi.GPIO as GPIO
 import os
+import yaml
 import xml.etree.ElementTree as ET # for reading and writing to XML files
 #import custom packages
 import EffectLoops
@@ -28,7 +29,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 SET_FOLDER = "/home/pi/MidiController/PartSongSet/Sets/"
-DEFAULT_FILE = "/home/pi/MidiController/Main/midi_controller.yaml"
+CONFIG_FILE = "/home/pi/MidiController/Main/midi_controller.yaml"
 
 #define class for the PWM driver for the colors part of the rotary knob
 class RgbKnob(object):
@@ -537,20 +538,22 @@ class Rotary_Encoder(RgbKnob):
 
 		
 	def save_color_as_default(self):
-		Defaults = ET.parse(DEFAULT_FILE)
-		Root = Defaults.getroot()
-		Root.find('knobColor').text = self.color 
-		Root.find('knobBrightness').text = str(self.brightness) 
-		Defaults.write(DEFAULT_FILE,encoding="us-ascii", xml_declaration=True)
+		defaults = self.read_config()
+		defaults['knob'].update({
+			'color': self.color,
+			'brightness': str(self.brightness) 
+		})
+		self.write_config(defaults)
 
 		
 	def save_part_to_default(self):
-		Defaults = ET.parse(DEFAULT_FILE)
-		Root = Defaults.getroot()
-		Root.find('setList').text = self.setlist_name
-		Root.find('song').text = self.current_song.data.name
-		Root.find('part').text = self.current_part.data.part_name
-		Defaults.write(DEFAULT_FILE,encoding="us-ascii", xml_declaration=True)
+		defaults = self.read_config()
+		defaults['current_settings']['preset'].update({
+			'setList': self.setlist_name,
+			'song': self.current_song.data.name,
+			'part': self.current_part.data.part_name
+		})
+		self.write_config(defaults)
 
 	
 	def change_to_footswitch_item(self, button=None):
@@ -637,12 +640,26 @@ class RotaryPushButton(EffectLoops.ButtonOnbuttonBoard, Rotary_Encoder):
 		logger.info(str(mode) + " --> Mode switched to " + self.mode + " mode.")
 		self.save_mode_to_default()
 			
-			
+
+	def write_config(self, config_dict):
+		# write to config yaml file from dictionaries
+		with open(CONFIG_FILE, 'w') as file:
+			yaml.dump(config_dict, file)
+
+
+	def read_config(self):
+		# read config yaml file into dictionaries
+		with open(CONFIG_FILE, 'r') as ymlfile:
+			config_file = yaml.load(ymlfile)
+		return config_file
+
+
 	def save_mode_to_default(self):
-		Defaults = ET.parse(DEFAULT_FILE)
-		Root = Defaults.getroot()
-		Root.find('mode').text = self.mode 
-		Defaults.write(DEFAULT_FILE,encoding="us-ascii", xml_declaration=True)
+		defaults = self.read_config()
+		defaults['current_settings'].update({
+			'mode': self.mode
+		})
+		self.write_config(defaults)
 
 
 	def button_state(self, int_capture_pin_val):
