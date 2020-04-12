@@ -1,4 +1,4 @@
-import xml.etree.ElementTree as ET
+import yaml
 import DoublyLinkedList
 import logging
 
@@ -16,6 +16,8 @@ handler.setLevel(logging.INFO)
 formatter = logging.Formatter("%(asctime)s [PartSongSet.py] [%(levelname)-5.5s]  %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
+
+
 
 class Setlist(object):
 	'''class for importing, editing, and maintaining a setlist. 
@@ -35,10 +37,16 @@ class Setlist(object):
 	@setlist_name.setter
 	def setlist_name(self, value):
 		'''method for setting the setlist name according to "name" attribute"
-		inside the XML file that describes the particular list
+		inside the yaml file that describes the particular list
 		'''
 		self._setlist_name = value
 
+
+	def read_config(self, config_file):
+		# read config yaml file into dictionaries
+		with open(config_file, 'r') as ymlfile:
+			config_dict = yaml.full_load(ymlfile)
+		return config_dict
 
 
 	def load_setlist(self, setlist_path):
@@ -49,25 +57,26 @@ class Setlist(object):
 		for song_name in self.song_list:
 			self.load_song(song_name)
 
-	def get_song_names(self, setlist_path): #get songs from xml, put in List
+
+	def get_song_names(self, setlist_path): #get songs from yaml, put in List
 		'''method for reading the setlist and appending song names to a list
 		'''
-		setlist_file = ET.parse(setlist_path +'.xml')
-		setlist_root = setlist_file.getroot()
-		self.setlist_name = setlist_root.get('name')
-		for song in setlist_root.iter('song'):
-			self.song_list.append(song.get("name"))
+		setlist_dict = self.read_config(setlist_path +'.yaml')
+		self.setlist_name = setlist_dict['name']
+		[self.song_list.append(song.get("name")) for song in setlist_dict['song'].keys()]
+
 
 	def load_song(self, song_name): 
 		'''gets song names from list and then opens each individual song
 		file from the song directory and reads it into memory.
 		'''
-		logger.info("set song to: " + song_name) #TODO: remove this path from here (below)
-		song_file = ET.parse("/home/pi/MidiController/PartSongSet/Songs/" + song_name + '.xml')      
-		song_root = song_file.getroot()    #get the root of the song xml file     
+		logger.info("set song to: " + song_name) 
+		#TODO: remove this path from here (below)
+		song_file = ET.parse("/home/pi/MidiController/PartSongSet/Songs/" + song_name + '.yaml')      
+		song_root = song_file.getroot()    #get the root of the song yaml file     
 		tempo = song_root.find('tempo').text #get the tempo of the song
 		new_song = Song(song_name, tempo)  #create a new song object
-		for part in song_root.iter('part'): #iterate the song xml over each part
+		for part in song_root.iter('part'): #iterate the song yaml over each part
 			part_name = part.get("name") #get the name of the part
 			new_part = Part(part_name)   #create a new part object 
 			for pedal in part.iter('pedal'): #iterate all the pedals for each part

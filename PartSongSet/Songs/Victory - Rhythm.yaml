@@ -1,0 +1,57 @@
+name: Victory - Rhythm
+tempo: 110
+parts: 
+    - 1:
+        name: Chorus
+        pedals: 
+            - RC Booster:
+                engaged: True
+            - Deep Six:
+                engaged: True
+            - Angry Charlie:
+                engaged: True
+            - Scarlett Love:
+                engaged: True
+                preset: Plexi
+            - POG:
+                engaged: False
+            - El Capistan:
+                engaged: False
+            - Super Pulsar:
+                engaged: False
+            - TimeLine:
+                engaged: False
+                preset: 2
+            - BigSky:
+                engaged: True
+                preset: 1
+            - QuartzV2:
+                engaged: True
+                preset: 0
+    - 2:
+        name: Bridge
+        pedals: 
+            - RC Booster:
+                engaged: True
+            - Deep Six:
+                engaged: True
+            - Angry Charlie:
+                engaged: True
+            - Scarlett Love:
+                engaged: True
+                preset: Plexi
+            - POG:
+                engaged: False
+            - El Capistan:
+                engaged: False
+            - Super Pulsar:
+                engaged: False
+            - TimeLine:
+                engaged: False
+                preset: 2
+            - BigSky:
+                engaged: True
+                preset: 1
+            - QuartzV2:
+                engaged: True
+                preset: 0
