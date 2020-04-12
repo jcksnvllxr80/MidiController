@@ -77,15 +77,16 @@ class Setlist(object):
 		song_dict = self.read_config(SONG_PATH + song_name + '.yaml')      
 		tempo = song_dict['tempo'] #get the tempo of the song
 		new_song = Song(song_name, tempo)  #create a new song object
-		for part in song_dict['parts']: #iterate the song yaml over each part
-			part_name = part["name"] #get the name of the part
+		parts = song_dict['parts']
+		for part in parts.keys(): #iterate the song yaml over each part
+			part_name = parts[part]["name"] #get the name of the part
 			new_part = Part(part_name)   #create a new part object 
-			for pedal in part['pedals']: #iterate all the pedals for each part
+			for pedal in parts[part]['pedals']: #iterate all the pedals for each part
 				pedal_name = pedal.get("name") #store pedal name, whether its on or off, 
 				engaged = bool(pedal.find("./engaged").text) #and if it has a setting associated with it 
 				preset = pedal.get('preset', '')
 				if preset: 
-					new_part.add_pedal(pedal_name, engaged, setting) #add each pedal to a dictionary of pedals       
+					new_part.add_pedal(pedal_name, engaged, preset) #add each pedal to a dictionary of pedals       
 			new_song.add_part(new_part) #add part to the "parts" doublyLinkedList in Song   
 		self.songs.append(new_song) #add song to the "songs" doublyLinkedList in Setlist
 
