@@ -1,57 +1,57 @@
-name: Victory - Lead
+name: Victory Lead
 tempo: 110
 parts: 
     Chorus:
         position: 1
         pedals: 
-            - RC Booster:
+            RC Booster:
                 engaged: True
-            - Deep Six:
+            Deep Six:
                 engaged: True
-            - Angry Charlie:
+            Angry Charlie:
                 engaged: True
-            - Scarlett Love:
+            Scarlett Love:
                 engaged: True
                 preset: Plexi
-            - POG:
+            POG:
                 engaged: False
-            - El Capistan:
+            El Capistan:
                 engaged: False
-            - Super Pulsar:
+            Super Pulsar:
                 engaged: False
-            - TimeLine:
+            TimeLine:
                 engaged: False
                 preset: 2
-            - BigSky:
+            BigSky:
                 engaged: True
                 preset: 1
-            - QuartzV2:
+            QuartzV2:
                 engaged: True
                 preset: 0
     Bridge:
         position: 2
         pedals: 
-            - RC Booster:
+            RC Booster:
                 engaged: True
-            - Deep Six:
+            Deep Six:
                 engaged: True
-            - Angry Charlie:
+            Angry Charlie:
                 engaged: True
-            - Scarlett Love:
+            Scarlett Love:
                 engaged: True
                 preset: Plexi
-            - POG:
+            POG:
                 engaged: False
-            - El Capistan:
+            El Capistan:
                 engaged: False
-            - Super Pulsar:
+            Super Pulsar:
                 engaged: False
-            - TimeLine:
+            TimeLine:
                 engaged: False
                 preset: 2
-            - BigSky:
+            BigSky:
                 engaged: True
                 preset: 1
-            - QuartzV2:
+            QuartzV2:
                 engaged: True
                 preset: 0

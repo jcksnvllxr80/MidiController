@@ -1,111 +1,111 @@
-name: Here As In Heaven - Lead
+name: Here As In Heaven Lead
 tempo: 74
 parts: 
     Intro:
         position: 1
         pedals: 
-            - RC Booster:
+            RC Booster:
                 engaged: True
-            - Deep Six:
+            Deep Six:
                 engaged: True
-            - Angry Charlie:
+            Angry Charlie:
                 engaged: False
-            - Scarlett Love:
+            Scarlett Love:
                 engaged: True
                 preset: TS808
-            - POG:
+            POG:
                 engaged: False
-            - El Capistan:
+            El Capistan:
                 engaged: False
-            - Super Pulsar:
+            Super Pulsar:
                 engaged: False
-            - TimeLine:
-                engaged: False
-                preset: 0
-            - BigSky:
+            TimeLine:
                 engaged: False
                 preset: 0
-            - QuartzV2:
+            BigSky:
+                engaged: False
+                preset: 0
+            QuartzV2:
                 engaged: False
                 preset: 1
     Verse:
         position: 2
         pedals: 
-            - RC Booster:
+            RC Booster:
                 engaged: True
-            - Deep Six:
+            Deep Six:
                 engaged: True
-            - Angry Charlie:
+            Angry Charlie:
                 engaged: False
-            - Scarlett Love:
+            Scarlett Love:
                 engaged: True
                 preset: Plexi
-            - POG:
+            POG:
                 engaged: False
-            - El Capistan:
+            El Capistan:
                 engaged: False
-            - Super Pulsar:
+            Super Pulsar:
                 engaged: False
-            - TimeLine:
+            TimeLine:
                 engaged: False
                 preset: 2
-            - BigSky:
+            BigSky:
                 engaged: True
                 preset: 1
-            - QuartzV2:
+            QuartzV2:
                 engaged: True
                 preset: 1
     Chorus:
         position: 3
         pedals: 
-            - RC Booster:
+            RC Booster:
                 engaged: True
-            - Deep Six:
+            Deep Six:
                 engaged: True
-            - Angry Charlie:
+            Angry Charlie:
                 engaged: True
-            - Scarlett Love:
+            Scarlett Love:
                 engaged: True
                 preset: Plexi
-            - POG:
+            POG:
                 engaged: False
-            - El Capistan:
+            El Capistan:
                 engaged: False
-            - Super Pulsar:
+            Super Pulsar:
                 engaged: False
-            - TimeLine:
+            TimeLine:
                 engaged: False
                 preset: 2
-            - BigSky:
+            BigSky:
                 engaged: True
                 preset: 1
-            - QuartzV2:
+            QuartzV2:
                 engaged: True
                 preset: 1
     Bridge:
         position: 4
         pedals: 
-            - RC Booster:
+            RC Booster:
                 engaged: True
-            - Deep Six:
+            Deep Six:
                 engaged: True
-            - Angry Charlie:
+            Angry Charlie:
                 engaged: True
-            - Scarlett Love:
+            Scarlett Love:
                 engaged: True
                 preset: Plexi
-            - POG:
+            POG:
                 engaged: True
-            - El Capistan:
+            El Capistan:
                 engaged: False
-            - Super Pulsar:
+            Super Pulsar:
                 engaged: False
-            - TimeLine:
+            TimeLine:
                 engaged: True
                 preset: 2
-            - BigSky:
+            BigSky:
                 engaged: True
                 preset: 1
-            - QuartzV2:
+            QuartzV2:
                 engaged: True
                 preset: 1
