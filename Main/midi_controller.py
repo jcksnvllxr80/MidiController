@@ -186,6 +186,6 @@ def clean_break():
 	EffectLoops.unload()
 
 
-if __name__ = "__main__":
+if __name__ == "__main__":
 	logger = init_logging()
 	main()
