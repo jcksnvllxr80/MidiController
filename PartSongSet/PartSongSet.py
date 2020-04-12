@@ -63,7 +63,7 @@ class Setlist(object):
 		'''
 		setlist_dict = self.read_config(setlist_path +'.yaml')
 		self.setlist_name = setlist_dict['name']
-		[self.song_list.append(song) for song in setlist_dict['songs'].keys()]
+		[self.song_list.append(song) for song in setlist_dict['songs']]
 
 
 	def load_song(self, song_name): 
