@@ -137,10 +137,9 @@ class ButtonOnPedalBoard(object):
 
 class MidiPedal(Pedal):
 	#Strymon Pedals are the only Pedals not routed through the looper
-	StrymonCommands = {"DATA_BYTE_ON":"\x7F", "DATA_BYTE_OFF":"\x00", "DATA_BYTE":"\x0F", 
+	commands = {"DATA_BYTE_ON":"\x7F", "DATA_BYTE_OFF":"\x00", "DATA_BYTE":"\x0F", 
 		"PRESET_GROUP_0":"\x00\x00", "PRESET_GROUP_1":"\x00\x01", "PRESET_GROUP_2":"\x00\x02", 
 		"ENGAGE_CC":"\x66", "BYPASS_CC":"\x66", "TAP_CC":"\x5D", "TOGGLEBYPASS_CC":"\x1D"}
-	SelahCommands = {}
 
 	def __init__(self, name, state, MIDIchannel, commands, preset):
 		type = "MidiPedal"
@@ -152,34 +151,31 @@ class MidiPedal(Pedal):
 		Pedal.__init__(self, name, state, type) 
 
 	def turn_on(self):
-		if not self.brand == "Selah":
 			#turn on via MIDI
 			self.midi.MIDI_CC_TX(self.MidiCommandDict["ENGAGE_CC"], self.MidiCommandDict["DATA_BYTE_ON"])
 			self.is_engaged = True
 			logger.info(self.name + " on.")
 
 	def turn_off(self):
-		if not self.brand == "Selah":
-			#turn off via MIDI
-			self.midi.MIDI_CC_TX(self.MidiCommandDict["BYPASS_CC"], self.MidiCommandDict["DATA_BYTE_OFF"])
-			self.is_engaged = False
-			logger.info(self.name + " off.")
+		#turn off via MIDI
+		self.midi.MIDI_CC_TX(self.MidiCommandDict["BYPASS_CC"], self.MidiCommandDict["DATA_BYTE_OFF"])
+		self.is_engaged = False
+		logger.info(self.name + " off.")
 
-	def setStrymonPreset(self, preset):
+	def setPreset(self, preset):
 		self.preset = preset
 		presetGroup = preset / 128
 		preset = preset % 128
-		self.midi.StrymonPresetChange(self.MidiCommandDict["PRESET_GROUP_" + str(presetGroup)], chr(preset))
+		# self.midi.StrymonPresetChange(self.MidiCommandDict["PRESET_GROUP_" + str(presetGroup)], chr(preset))
 
 	def setSelahPreset(self, preset):
 		self.preset = preset
 		self.midi.SelahPresetTempoChange(chr(preset))
 	    	
 	def set_setting(self, setting):
-		if self.brand == "Strymon":
-			self.setStrymonPreset(int(setting))
-		elif self.brand == "Selah":
-			self.setSelahPreset(int(setting))
+		pass
+		# self.setStrymonPreset(int(setting))
+		# self.setSelahPreset(int(setting))
 		
 
 # class TimeLine(MidiPedal):
