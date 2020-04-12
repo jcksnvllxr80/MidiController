@@ -39,13 +39,6 @@ def main():
 
 
 def setup():
-	#define the interrupt for the MCP23017 bank A and B for the footswitches
-	GPIO.add_event_detect(BANKA_INTPIN, GPIO.RISING, callback=my_button_callback, bouncetime=5)
-	GPIO.add_event_detect(BANKB_INTPIN, GPIO.RISING, callback=my_button_callback, bouncetime=5)
-	#define the interrupt for the MCP23017 encode pin A and B for the rotary encoder
-	GPIO.add_event_detect(ENCODE_A, GPIO.BOTH, callback=my_encoder_callback)
-	GPIO.add_event_detect(ENCODE_B, GPIO.BOTH, callback=my_encoder_callback)
-
 	# read config yaml file into dictionaries
 	with open(CONFIG_FILE, 'r') as ymlfile:
 		config_file = yaml.load(ymlfile)
@@ -97,6 +90,13 @@ def setup():
 		button = footswitch_dict[pin]
 		if isinstance(button, EffectLoops.ButtonOnPedalBoard) and button.name != "RotaryPB":
 			button.set_partner(footswitch_dict[str(button.from_button_to_pin(button.get_partner_button()))])
+
+	#define the interrupt for the MCP23017 bank A and B for the footswitches
+	GPIO.add_event_detect(BANKA_INTPIN, GPIO.RISING, callback=my_button_callback, bouncetime=5)
+	GPIO.add_event_detect(BANKB_INTPIN, GPIO.RISING, callback=my_button_callback, bouncetime=5)
+	#define the interrupt for the MCP23017 encode pin A and B for the rotary encoder
+	GPIO.add_event_detect(ENCODE_A, GPIO.BOTH, callback=my_encoder_callback)
+	GPIO.add_event_detect(ENCODE_B, GPIO.BOTH, callback=my_encoder_callback)
 
 
 def init_logging():
