@@ -74,7 +74,7 @@ class Setlist(object):
 		'''
 		logger.info("set song to: " + song_name) 
 		song_dict = self.read_config(SONG_PATH + song_name + '.yaml')      
-		tempo = song_dict['tempo'] #get the tempo of the song
+		tempo = str(song_dict['tempo']) #get the tempo of the song
 		new_song = Song(song_name, tempo)  #create a new song object
 		parts = song_dict['parts']
 		for part_name in parts.keys(): #iterate the song yaml over each part
