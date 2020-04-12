@@ -350,7 +350,7 @@ class Rotary_Encoder(RgbKnob):
 	def load_part(self):
 		tempo_obj = None
 		for button_obj in self.all_buttons:
-			if button_obj.name not in ["Empty", "RotaryPB", "TapTempo"]:
+			if button_obj.name not in ["RotaryPB"]:
 				state, setting = self.current_part.data.button_dictionary[button_obj.name]
 				if state:
 					button_obj.turn_on()
@@ -512,12 +512,12 @@ class Rotary_Encoder(RgbKnob):
 		of the objects from the buttons dictionary but stripped 
 		of their respective button numbers.
 		'''
-		self.button_button_dict = {}
+		self.button_dict = {}
 		self.button_pin_dict = buttons
 		self.all_buttons = self.button_pin_dict.values()
 		for button_obj in self.all_buttons:
 			if isinstance(button_obj, EffectLoops.ButtonOnPedalBoard) and button_obj.name != "RotaryPB":
-				self.button_button_dict[button_obj.button] = button_obj
+				self.button_dict[button_obj.button] = button_obj
 		if mode == "favorite":
 			self.change_to_footswitch_item()
 			self.load_part()
@@ -612,16 +612,15 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 	'''class to handle button pushes on the rotary encoder knob. its parents are 'ButtonOnPedalBoard' 
 	from the 'EffectLoops' package and 'Rotary_Encoder' 
 	'''
-	def __init__(self, button, state, mode, **kwargs):
-		type = "RotaryPushButton"
+	def __init__(self, button, mode, **kwargs):
+		# type = "RotaryPushButton"
 		# func_two_type = "Settings"
 		# func_two_port = "None"
 		self.mode = mode
-		self.state = state
-		self.name = "RotaryPB"
+		name = "RotaryPB"
 		Rotary_Encoder.__init__(self, **kwargs) #initialize parent class rotary encoder
 		#initialize parent class ButtonOnPedalBoard
-		super(RotaryPushButton, self).__init__(button)
+		super(RotaryPushButton, self).__init__(name, button)
 		
 		
 	def switch_modes(self, mode=None):

@@ -48,7 +48,8 @@ class Pedal(object):
 
 class ButtonOnPedalBoard(object):
 
-	def __init__(self, button, **kwargs):
+	def __init__(self, name, button, **kwargs):
+		self.name = name
 		self.button = button
 		self.start = time.time()
 		self.pin = self.from_button_to_pin(self.button)

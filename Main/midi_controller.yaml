@@ -1,13 +1,13 @@
 button_setup:
-  0: 
+  1: 
     function: Song Dn
-  2: 
+  3: 
     function: Song Up
-  8: 
-    function: Part Dn
   9: 
-    function: Select
+    function: Part Dn
   10: 
+    function: Select
+  11: 
     function: Part Up
 knob:
   color: Magenta

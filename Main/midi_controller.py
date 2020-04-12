@@ -71,12 +71,14 @@ def setup():
 						int(channel), channels[channel]['commands'], int(channels[channel]['preset']['number']))
 				})
 
-	# make a dictionary of {pin: footswitch_obj}
+	# make a dictionary of {ftsw_btn: footswitch_obj}
 	footswitch_dict = {}
-	rotary_push_button = RotaryEncoder.RotaryPushButton(ROTARY_PUSHBUTTON_PINNUMBER, True, mode, 
+	rotary_push_button = RotaryEncoder.RotaryPushButton(ROTARY_PUSHBUTTON_PINNUMBER, mode, 
 		kc=knob_color, kb=knob_brightness, sl=setList, s=song, p=part) #initialize the rotaryencoder object
 	footswitch_dict[str(rotary_push_button.getPin())] = rotary_push_button #assign this button to the dictionary
-	[footswitch_dict.update({pin: button_setup[pin]['function']}) for pin in button_setup.keys()]
+	[footswitch_dict.update({
+		ftsw_btn: EffectLoops.ButtonOnPedalBoard(button_setup[ftsw_btn]['function'], ftsw_btn)
+	}) for ftsw_btn in button_setup.keys()]
 
 	#pass a list of button objects to the rotary encoder
 	rotary_push_button.set_button_list(footswitch_dict, mode)
