@@ -351,7 +351,7 @@ class Rotary_Encoder(RgbKnob):
 		tempo_obj = None
 		for button_obj in self.all_buttons:
 			if button_obj.name not in ["RotaryPB"]:
-				state, setting = self.current_part.data.button_dictionary[button_obj.name]
+				state, setting = self.current_part.data.pedal_dictionary[button_obj.name]
 				if state:
 					button_obj.turn_on()
 				else:
