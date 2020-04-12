@@ -77,9 +77,9 @@ class Setlist(object):
 		tempo = song_dict['tempo'] #get the tempo of the song
 		new_song = Song(song_name, tempo)  #create a new song object
 		parts = song_dict['parts']
-		for part in parts: #iterate the song yaml over each part
-			new_part = Part(part.key())   #create a new part object 
-			for pedal_name, pedal in part['pedals']: #iterate all the pedals for each part
+		for part_name in parts.keys(): #iterate the song yaml over each part
+			new_part = Part(part_name)   #create a new part object 
+			for pedal_name, pedal in parts[part_name]['pedals']: #iterate all the pedals for each part
 				engaged = bool(pedal['engaged']) #and if it has a setting associated with it 
 				preset = pedal.get('preset', '')
 				new_part.add_pedal(pedal_name, engaged, preset) #add each pedal to a dictionary of pedals       
