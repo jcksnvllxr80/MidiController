@@ -62,12 +62,14 @@ def setup():
 	midi_channel_dict = {}
 	channels = midi['channels']
 	for channel in channels.keys():
-		channel_name = channels[channel].get('name', None)
-		if channel_name:
-			midi_channel_dict.update({
-				channel_name: EffectLoops.MidiPedal(channels[channel]['name'], bool(channels[channel]['state']), \
-					int(channel), channels[channel]['commands'], int(channels[channel]['preset']['number']))
-			})
+		channel_dict = channels[channel]
+		if isinstance(channel_dict, dict):
+			channel_name = channels[channel].get('name', '')
+			if channel_name:
+				midi_channel_dict.update({
+					channel_name: EffectLoops.MidiPedal(channels[channel]['name'], bool(channels[channel]['state']), \
+						int(channel), channels[channel]['commands'], int(channels[channel]['preset']['number']))
+				})
 
 	# make a dictionary of {pin: footswitch_obj}
 	footswitch_dict = {}
