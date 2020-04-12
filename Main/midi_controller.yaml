@@ -39,7 +39,7 @@ midi:
           pc:
     2: 
       name: Timeline
-      sate: True
+      state: True
       preset: 
         number: 1
         name: 
@@ -55,7 +55,7 @@ midi:
           pc:
     3: 
       name: BigSky
-      sate: True
+      state: True
       preset: 
         number: 2
         name: 
@@ -83,7 +83,7 @@ midi:
     15: 
     16: 
       name: Scarlett Love
-      sate: True
+      state: True
       preset: 
         number: 1
         name: Plexi
