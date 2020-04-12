@@ -1,7 +1,6 @@
-setList:
-    name: 2017-05-22 Set
-    songs: 
-        - Victory - Rhythm
-        - Here As In Heaven - Lead
-        - Victory - Lead
-        - Here As In Heaven - Rhythm
+name: 2017-05-22 Set
+songs: 
+    - Victory - Rhythm
+    - Here As In Heaven - Lead
+    - Victory - Lead
+    - Here As In Heaven - Rhythm
