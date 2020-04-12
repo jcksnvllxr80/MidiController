@@ -1,7 +1,7 @@
 name: Here As In Heaven - Lead
 tempo: 74
 parts: 
-    - Intro:
+    Intro:
         position: 1
         pedals: 
             - RC Booster:
@@ -28,7 +28,7 @@ parts:
             - QuartzV2:
                 engaged: False
                 preset: 1
-    - Verse:
+    Verse:
         position: 2
         pedals: 
             - RC Booster:
@@ -55,7 +55,7 @@ parts:
             - QuartzV2:
                 engaged: True
                 preset: 1
-    - Chorus:
+    Chorus:
         position: 3
         pedals: 
             - RC Booster:
@@ -82,7 +82,7 @@ parts:
             - QuartzV2:
                 engaged: True
                 preset: 1
-    - Bridge:
+    Bridge:
         position: 4
         pedals: 
             - RC Booster:
