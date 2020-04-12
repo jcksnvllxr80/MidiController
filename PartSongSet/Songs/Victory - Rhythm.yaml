@@ -1,8 +1,8 @@
 name: Victory - Rhythm
 tempo: 110
 parts: 
-    - 1:
-        name: Chorus
+    - Chorus:
+        position: 1
         pedals: 
             - RC Booster:
                 engaged: True
@@ -28,8 +28,8 @@ parts:
             - QuartzV2:
                 engaged: True
                 preset: 0
-    - 2:
-        name: Bridge
+    - Bridge:
+        position: 2
         pedals: 
             - RC Booster:
                 engaged: True

@@ -1,156 +1,111 @@
-<?xml version="1.0"?>
-<song name="Here As In Heaven">
-    <tempo>74</tempo>
-    <part name="Intro">
-        <position>1</position>
-        <pedal name="RC Booster">
-            <engaged>True</engaged>
-        </pedal>
-        <pedal name="Deep Six">
-            <engaged>True</engaged>
-        </pedal>
-        <pedal name="Angry Charlie">
-            <engaged />
-        </pedal>
-        <pedal name="Scarlett Love">
-            <engaged>True</engaged>
-            <setting>Plexi</setting>
-        </pedal>
-        <pedal name="POG">
-            <engaged />
-        </pedal>
-        <pedal name="El Capistan">
-            <engaged />
-        </pedal>
-        <pedal name="Super Pulsar">
-            <engaged />
-            <setting>1</setting>
-        </pedal>
-        <pedal name="TimeLine">
-            <engaged />
-            <setting>2</setting>
-        </pedal>
-        <pedal name="BigSky">
-            <engaged>True</engaged>
-            <setting>1</setting>
-        </pedal>
-		<pedal name="QuartzV2">
-			<engaged>True</engaged>
-            <setting>1</setting>
-        </pedal>
-    </part>
-    <part name="Verse">
-        <position>2</position>
-        <pedal name="RC Booster">
-            <engaged>True</engaged>
-        </pedal>
-        <pedal name="Deep Six">
-            <engaged>True</engaged>
-        </pedal>
-        <pedal name="Angry Charlie">
-            <engaged />
-        </pedal>
-        <pedal name="Scarlett Love">
-            <engaged>True</engaged>
-            <setting>Plexi</setting>
-        </pedal>
-        <pedal name="POG">
-            <engaged />
-        </pedal>
-        <pedal name="El Capistan">
-            <engaged />
-        </pedal>
-        <pedal name="Super Pulsar">
-            <engaged />
-            <setting>1</setting>
-        </pedal>
-        <pedal name="TimeLine">
-            <engaged />
-            <setting>2</setting>
-        </pedal>
-        <pedal name="BigSky">
-            <engaged>True</engaged>
-            <setting>1</setting>
-        </pedal>
-		<pedal name="QuartzV2">
-			<engaged>True</engaged>
-            <setting>1</setting>
-        </pedal>
-	</part>
-    <part name="Chorus">
-        <position>3</position>
-        <pedal name="RC Booster">
-            <engaged>True</engaged>
-        </pedal>
-        <pedal name="Deep Six">
-            <engaged>True</engaged>
-        </pedal>
-        <pedal name="Angry Charlie">
-            <engaged>True</engaged>
-        </pedal>
-        <pedal name="Scarlett Love">
-            <engaged>True</engaged>
-            <setting>Plexi</setting>
-        </pedal>
-        <pedal name="POG">
-            <engaged />
-        </pedal>
-        <pedal name="El Capistan">
-            <engaged />
-        </pedal>
-        <pedal name="Super Pulsar">
-            <engaged />
-            <setting>1</setting>
-        </pedal>
-        <pedal name="TimeLine">
-            <engaged />
-            <setting>2</setting>
-        </pedal>
-        <pedal name="BigSky">
-            <engaged>True</engaged>
-            <setting>1</setting>
-        </pedal>
-		<pedal name="QuartzV2">
-			<engaged>True</engaged>
-            <setting>1</setting>
-        </pedal>
-    </part>
-    <part name="Bridge">
-        <position>4</position>
-        <pedal name="RC Booster">
-            <engaged>True</engaged>
-        </pedal>
-        <pedal name="Deep Six">
-            <engaged>True</engaged>
-        </pedal>
-        <pedal name="Angry Charlie">
-            <engaged>True</engaged>
-        </pedal>
-        <pedal name="Scarlett Love">
-            <engaged>True</engaged>
-            <setting>Plexi</setting>
-        </pedal>
-        <pedal name="POG">
-            <engaged>True</engaged>
-        </pedal>
-        <pedal name="El Capistan">
-            <engaged />
-        </pedal>
-        <pedal name="Super Pulsar">
-            <engaged />
-            <setting>1</setting>
-        </pedal>
-        <pedal name="TimeLine">
-            <engaged />
-            <setting>2</setting>
-        </pedal>
-        <pedal name="BigSky">
-            <engaged>True</engaged>
-            <setting>1</setting>
-        </pedal>
-		<pedal name="QuartzV2">
-			<engaged>True</engaged>
-            <setting>1</setting>
-        </pedal>
-    </part>
-</song>
+name: Here As In Heaven - Rhythm
+tempo: 74
+parts: 
+    - Intro:
+        position: 1
+        pedals: 
+            - RC Booster:
+                engaged: True
+            - Deep Six:
+                engaged: True
+            - Angry Charlie:
+                engaged: False
+            - Scarlett Love:
+                engaged: True
+                preset: TS808
+            - POG:
+                engaged: False
+            - El Capistan:
+                engaged: False
+            - Super Pulsar:
+                engaged: False
+            - TimeLine:
+                engaged: False
+                preset: 0
+            - BigSky:
+                engaged: False
+                preset: 0
+            - QuartzV2:
+                engaged: False
+                preset: 1
+    - Verse:
+        position: 2
+        pedals: 
+            - RC Booster:
+                engaged: True
+            - Deep Six:
+                engaged: True
+            - Angry Charlie:
+                engaged: False
+            - Scarlett Love:
+                engaged: True
+                preset: Plexi
+            - POG:
+                engaged: False
+            - El Capistan:
+                engaged: False
+            - Super Pulsar:
+                engaged: False
+            - TimeLine:
+                engaged: False
+                preset: 2
+            - BigSky:
+                engaged: True
+                preset: 1
+            - QuartzV2:
+                engaged: True
+                preset: 1
+    - Chorus:
+        position: 3
+        pedals: 
+            - RC Booster:
+                engaged: True
+            - Deep Six:
+                engaged: True
+            - Angry Charlie:
+                engaged: True
+            - Scarlett Love:
+                engaged: True
+                preset: Plexi
+            - POG:
+                engaged: False
+            - El Capistan:
+                engaged: False
+            - Super Pulsar:
+                engaged: False
+            - TimeLine:
+                engaged: False
+                preset: 2
+            - BigSky:
+                engaged: True
+                preset: 1
+            - QuartzV2:
+                engaged: True
+                preset: 1
+    - Bridge:
+        position: 4
+        pedals: 
+            - RC Booster:
+                engaged: True
+            - Deep Six:
+                engaged: True
+            - Angry Charlie:
+                engaged: True
+            - Scarlett Love:
+                engaged: True
+                preset: Plexi
+            - POG:
+                engaged: True
+            - El Capistan:
+                engaged: False
+            - Super Pulsar:
+                engaged: False
+            - TimeLine:
+                engaged: True
+                preset: 2
+            - BigSky:
+                engaged: True
+                preset: 1
+            - QuartzV2:
+                engaged: True
+                preset: 1
