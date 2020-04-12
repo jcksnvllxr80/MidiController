@@ -46,19 +46,16 @@ class Pedal(object):
 			return "Bypassed"
 
 
-class ButtonOnPedalBoard(Pedal):
+class ButtonOnPedalBoard(object):
 
-	def __init__(self, name, state, button, type, func_two_type, func_two_port, **kwargs):
+	def __init__(self, button, **kwargs):
 		self.button = button
 		self.start = time.time()
 		self.pin = self.from_button_to_pin(self.button)
-		self.func_two_port = func_two_port
-		self.func_two_type = func_two_type
 		self.is_pressed = False
 		self.partner = None
-		self.last_action_time = time.time()
+		self.last_action_time = self.start
 		self.PedalConfigChanged = False
-		super(ButtonOnPedalBoard, self).__init__(name, state, type)
 
 			
 	def from_button_to_pin(self, button):
@@ -69,14 +66,17 @@ class ButtonOnPedalBoard(Pedal):
 		else:
 			return button
 
+
 	def set_partner(self, partner):
 		self.partner = partner
+
 
 	def get_partner_button(self):
 		if self.button < 6:
 			return self.button + 5
 		elif self.button < 11:
 			return self.button - 5
+
 
 	def secondaryFunction(self):
 		portPin = self.getPortPin()
@@ -107,21 +107,26 @@ class ButtonOnPedalBoard(Pedal):
 		self.func_two_port = func_two_port
 		self.func_two_type = func_two_type
 
+
 	def turn_on(self):
 		self.is_engaged = True
 		logger.info(self)
+
 
 	def turn_off(self):
 		if self.name <> "Empty":
 			self.is_engaged = False
 		logger.info(self)
 	
+
 	def getPin(self):
 		return self.pin
 		
+
 	def set_setting(self, setting):
 		pass
 		logger.info("setting " + str(setting))
+
 
 	def get_partner_function(self):
 		if self.pin > 5:

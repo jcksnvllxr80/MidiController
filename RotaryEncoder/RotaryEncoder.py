@@ -517,7 +517,7 @@ class Rotary_Encoder(RgbKnob):
 		for button_obj in self.all_buttons:
 			if isinstance(button_obj, EffectLoops.ButtonOnbuttonBoard) and button_obj.name != "RotaryPB":
 				self.button_button_dict[button_obj.button] = button_obj
-		if mode == "Song":
+		if mode == "favorite":
 			self.change_to_footswitch_item()
 			self.load_part()
 		self.switch_modes(mode)
@@ -623,17 +623,17 @@ class RotaryPushButton(EffectLoops.ButtonOnbuttonBoard, Rotary_Encoder):
 		if mode is None:
 			if not self.is_engaged:
 				self.turn_on()
-				self.mode = "button"
+				self.mode = "favorite"
 			else:
 				self.turn_off()
-				self.mode = "Song"
+				self.mode = "standard"
 		else:
-			if mode == "button":
+			if mode == "favorite":
 				self.turn_on()
-				self.mode = "button"
+				self.mode = "favorite"
 			else:
 				self.turn_off()
-				self.mode = "Song"
+				self.mode = "standard"
 		logger.info(str(mode) + " --> Mode switched to " + self.mode + " mode.")
 		self.save_mode_to_default()
 			
