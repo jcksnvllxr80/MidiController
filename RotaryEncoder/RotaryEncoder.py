@@ -27,8 +27,8 @@ formatter = logging.Formatter("%(asctime)s [RotaryEncoder.py] [%(levelname)-5.5s
 handler.setFormatter(formatter)
 logger.addHandler(handler)
 
-SET_FOLDER = "/home/pi/Looper/PartSongSet/Sets/"
-DEFAULT_FILE = "/home/pi/Looper/Main/PedalGroup.xml"
+SET_FOLDER = "/home/pi/MidiController/PartSongSet/Sets/"
+DEFAULT_FILE = "/home/pi/MidiController/Main/midi_controller.yaml"
 
 #define class for the PWM driver for the colors part of the rotary knob
 class RgbKnob(object):
@@ -121,12 +121,12 @@ class Rotary_Encoder(RgbKnob):
 	'''
 
 	# NOTE: Need to always display song info (main menu / root of menu tree)
-	# on 1 short click go to song/set/part/bpm/pedal menun
+	# on 1 short click go to song/set/part/bpm/button menun
 	# on 2 second click got to global menu
 	# on 5 second click go to power off menu
 
 	# build menu with N_Tree
-	menu = N_Tree.N_Tree("Looper")
+	menu = N_Tree.N_Tree("MidiController")
 	setup_menu = menu.root.add_child("Setup:")
 	global_menu = menu.root.add_child("Global:")
 	
@@ -152,11 +152,11 @@ class Rotary_Encoder(RgbKnob):
 		while self.current_part.next is not None and previously_loaded_part <> self.current_part.data.part_name:
 			self.current_part = self.current_part.next
 
-		# set up the Looper setup menus (set, seong, part, pedal, bpm)
+		# set up the MidiController setup menus (set, seong, part, button, bpm)
 		self.setlist_menu = self.setup_menu.add_child("Sets", self.show_setlists, self.load_set_func)
 		self.songs_menu = self.setup_menu.add_child("Songs", self.show_songs, self.load_song_func)
 		self.parts_menu = self.setup_menu.add_child("Parts", self.show_parts, self.load_part_func)
-		self.pedal_menu = self.setup_menu.add_child("Pedals", self.show_pedals, self.load_pedal_func)
+		self.button_menu = self.setup_menu.add_child("buttons", self.show_buttons, self.load_button_func)
 		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm, self.load_bpm_func)
 		# dont let the tempo go below 40 or above 500
 		self.tempo_range = arange(40,500,0.5).tolist()
@@ -259,11 +259,11 @@ class Rotary_Encoder(RgbKnob):
 		self.test_point_node_printer(self.parts_menu)
 
 
-	def show_pedals(self):
-		self.pedal_menu.menu_data_prompt = self.pedal_menu.name + ":"
-		self.pedal_menu.menu_data_items = self.all_pedals
-		self.pedal_menu.menu_data_position = 0
-		self.test_point_node_printer(self.pedal_menu)
+	def show_buttons(self):
+		self.button_menu.menu_data_prompt = self.button_menu.name + ":"
+		self.button_menu.menu_data_items = self.all_buttons
+		self.button_menu.menu_data_position = 0
+		self.test_point_node_printer(self.button_menu)
 
 
 	def show_bpm(self):
@@ -303,25 +303,25 @@ class Rotary_Encoder(RgbKnob):
 		self.change_menu_nodes()
 
 
-	def load_pedal_func(self):
-		pedal = self.pedal_menu.menu_data_items[self.pedal_menu.menu_data_position]
-		if pedal.is_engaged:
-			pedal.turn_off()
+	def load_button_func(self):
+		button = self.button_menu.menu_data_items[self.button_menu.menu_data_position]
+		if button.is_engaged:
+			button.turn_off()
 		else:
-			pedal.turn_on()
-		self.set_message(pedal.name + "\n" + str(pedal.getState()))
+			button.turn_on()
+		self.set_message(button.name + "\n" + str(button.getState()))
 
 
 	def load_bpm_func(self):
 		self.current_song.data.bpm = str(self.bpm_menu.menu_data_items[self.bpm_menu.menu_data_position])
-		for pedal_obj in self.all_pedals:
-			if pedal_obj.name is "TapTempo":
-				pedal_obj.setTempo(float(self.current_song.data.bpm))
+		for button_obj in self.all_buttons:
+			if button_obj.name is "TapTempo":
+				button_obj.setTempo(float(self.current_song.data.bpm))
 
 		self.change_menu_nodes(self.menu.current_node.parent)
 
 
-	def change_pedal_configuration(self, option):
+	def change_button_configuration(self, option):
 		if option == "Song Down":
 			if self.current_song.prev is not None: 
 				self.current_song = self.current_song.prev
@@ -339,29 +339,29 @@ class Rotary_Encoder(RgbKnob):
 				self.current_song = self.current_song.next
 				self.load_song()
 		elif option == "Switch Mode":
-			for pedal_obj in self.all_pedals:
-				if pedal_obj.name == "RotaryPB":
-					pedal_obj.switch_modes()
+			for button_obj in self.all_buttons:
+				if button_obj.name == "RotaryPB":
+					button_obj.switch_modes()
 					break
 		
 
 			
 	def load_part(self):
 		tempo_obj = None
-		for pedal_obj in self.all_pedals:
-			if pedal_obj.name not in ["Empty", "RotaryPB", "TapTempo"]:
-				state, setting = self.current_part.data.pedal_dictionary[pedal_obj.name]
+		for button_obj in self.all_buttons:
+			if button_obj.name not in ["Empty", "RotaryPB", "TapTempo"]:
+				state, setting = self.current_part.data.button_dictionary[button_obj.name]
 				if state:
-					pedal_obj.turn_on()
+					button_obj.turn_on()
 				else:
-					pedal_obj.turn_off()
+					button_obj.turn_off()
 				if setting is not None:
-					pedal_obj.set_setting(setting)
-				if pedal_obj.name == "TimeLine":
-					pedal_obj.setTempo(float(self.current_song.data.bpm))
-			elif pedal_obj.name == "TapTempo":
-				tempo_obj = pedal_obj #store this object for later use. 
-				#need to get all the pedals to their correct state before messsing with tempo
+					button_obj.set_setting(setting)
+				if button_obj.name == "TimeLine":
+					button_obj.setTempo(float(self.current_song.data.bpm))
+			elif button_obj.name == "TapTempo":
+				tempo_obj = button_obj #store this object for later use. 
+				#need to get all the buttons to their correct state before messsing with tempo
 		#now that we are out of the for loop, set the tempo
 		self.rebuild_menu()
 		self.set_song_info_message()
@@ -505,28 +505,28 @@ class Rotary_Encoder(RgbKnob):
 		return self.menu.current_node.name
 
 		
-	def set_pedals_list(self, pedals, mode):
-		'''sets the pedal list for the current pedal layout.
-		pedals come in as a dictionary. "all_pedals" is a list 
-		of the objects from the pedals dictionary but stripped 
+	def set_button_list(self, buttons, mode):
+		'''sets the button list for the current button layout.
+		buttons come in as a dictionary. "all_buttons" is a list 
+		of the objects from the buttons dictionary but stripped 
 		of their respective button numbers.
 		'''
-		self.pedal_button_dict = {}
-		self.pedal_pin_dict = pedals
-		self.all_pedals = self.pedal_pin_dict.values()
-		for pedal_obj in self.all_pedals:
-			if isinstance(pedal_obj, EffectLoops.ButtonOnPedalBoard) and pedal_obj.name != "RotaryPB":
-				self.pedal_button_dict[pedal_obj.button] = pedal_obj
+		self.button_button_dict = {}
+		self.button_pin_dict = buttons
+		self.all_buttons = self.button_pin_dict.values()
+		for button_obj in self.all_buttons:
+			if isinstance(button_obj, EffectLoops.ButtonOnbuttonBoard) and button_obj.name != "RotaryPB":
+				self.button_button_dict[button_obj.button] = button_obj
 		if mode == "Song":
 			self.change_to_footswitch_item()
 			self.load_part()
 		self.switch_modes(mode)
 
 		
-	def get_pedals_list(self):
-		'''returns the pedal list for the current pedal layout
+	def get_buttons_list(self):
+		'''returns the button list for the current button layout
 		'''
-		return self.all_pedals
+		return self.all_buttons
 
 		
 	def set_temp_message(self, temp_message):
@@ -605,8 +605,8 @@ class Rotary_Encoder(RgbKnob):
 			self.set_message("Error!!")
 
 
-class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
-	'''class to handle button pushes on the rotary encoder knob. its parents are 'ButtonOnPedalBoard' 
+class RotaryPushButton(EffectLoops.ButtonOnbuttonBoard, Rotary_Encoder):
+	'''class to handle button pushes on the rotary encoder knob. its parents are 'ButtonOnbuttonBoard' 
 	from the 'EffectLoops' package and 'Rotary_Encoder' 
 	'''
 	def __init__(self, button, state, mode, **kwargs):
@@ -615,7 +615,7 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 		func_two_port = "None"
 		name = "RotaryPB"
 		Rotary_Encoder.__init__(self, **kwargs) #initialize parent class rotary encoder
-		#initialize parent class buttonOnPedalboard
+		#initialize parent class buttonOnbuttonboard
 		super(RotaryPushButton, self).__init__(name, state, button, type, func_two_type, func_two_port)
 		
 		
@@ -623,14 +623,14 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 		if mode is None:
 			if not self.is_engaged:
 				self.turn_on()
-				self.mode = "Pedal"
+				self.mode = "button"
 			else:
 				self.turn_off()
 				self.mode = "Song"
 		else:
-			if mode == "Pedal":
+			if mode == "button":
 				self.turn_on()
-				self.mode = "Pedal"
+				self.mode = "button"
 			else:
 				self.turn_off()
 				self.mode = "Song"
@@ -686,7 +686,7 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 					logger.info(self.menu.current_node.name + ": ? -> global menu")
 					self.change_menu_nodes(self.global_menu) # if the currentmenu is mainmenu swap to 'Global'
 				else:
-					logger.info(self.menu.current_node.name + ": ? -> Looper main menu")
+					logger.info(self.menu.current_node.name + ": ? -> MidiController main menu")
 					self.change_menu_nodes(self.menu.root)
 
 			self.is_pressed = False #was released

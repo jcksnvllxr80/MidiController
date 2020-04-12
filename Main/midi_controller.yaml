@@ -1,0 +1,99 @@
+button_setup:
+  0: 
+    function: Song Dn
+  2: 
+    function: Song Up
+  8: 
+    function: Part Dn
+  9: 
+    function: Select
+  10: 
+    function: Part Up
+knob:
+  color: Magenta
+  brightness: 100
+current_settings:
+  tempo: 106
+  preset:
+    setList: 2016-09-16 Set
+    song: Here As In Heaven - Lead
+    part: Intro
+  mode: favorite
+midi:
+  channels:
+    1:
+      name: QuartzV2
+      state: True
+      preset: 
+        number: 2
+        name: 
+      commands:
+        turn_on:
+          cc:
+          pc:
+        turn_off:
+          cc:
+          pc:
+        change_preset:
+          cc:
+          pc:
+    2: 
+      name: Timeline
+      sate: True
+      preset: 
+        number: 1
+        name: 
+      commands:
+        turn_on:
+          cc:
+          pc:
+        turn_off:
+          cc:
+          pc:
+        change_preset:
+          cc:
+          pc:
+    3: 
+      name: BigSky
+      sate: True
+      preset: 
+        number: 2
+        name: 
+      commands:
+        turn_on:
+          cc:
+          pc:
+        turn_off:
+          cc:
+          pc:
+        change_preset:
+          cc:
+          pc:
+    4: 
+    5:
+    6: 
+    7: 
+    8: 
+    9: 
+    10: 
+    11: 
+    12: 
+    13: 
+    14: 
+    15: 
+    16: 
+      name: Scarlett Love
+      sate: True
+      preset: 
+        number: 1
+        name: Plexi
+      commands:
+        turn_on:
+          cc:
+          pc:
+        turn_off:
+          cc:
+          pc:
+        change_preset:
+          cc:
+          pc:
