@@ -650,7 +650,7 @@ class RotaryPushButton(EffectLoops.ButtonOnbuttonBoard, Rotary_Encoder):
 	def read_config(self):
 		# read config yaml file into dictionaries
 		with open(CONFIG_FILE, 'r') as ymlfile:
-			config_file = yaml.load(ymlfile)
+			config_file = yaml.full_load(ymlfile)
 		return config_file
 
 
