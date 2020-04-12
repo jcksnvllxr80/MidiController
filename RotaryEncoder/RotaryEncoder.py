@@ -614,29 +614,21 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 	'''
 	def __init__(self, button, state, mode, **kwargs):
 		type = "RotaryPushButton"
-		func_two_type = "Settings"
-		func_two_port = "None"
+		# func_two_type = "Settings"
+		# func_two_port = "None"
+		self.mode = mode
+		self.state = state
 		name = "RotaryPB"
 		Rotary_Encoder.__init__(self, **kwargs) #initialize parent class rotary encoder
 		#initialize parent class ButtonOnPedalBoard
-		super(RotaryPushButton, self).__init__(name, state, button, type, func_two_type, func_two_port)
+		super(RotaryPushButton, self).__init__(name, button)
 		
 		
 	def switch_modes(self, mode=None):
-		if mode is None:
-			if not self.is_engaged:
-				self.turn_on()
-				self.mode = "favorite"
-			else:
-				self.turn_off()
-				self.mode = "standard"
+		if mode == "favorite":
+			self.mode = "standard"
 		else:
-			if mode == "favorite":
-				self.turn_on()
-				self.mode = "favorite"
-			else:
-				self.turn_off()
-				self.mode = "standard"
+			self.mode = "favorite"
 		logger.info(str(mode) + " --> Mode switched to " + self.mode + " mode.")
 		self.save_mode_to_default()
 			
