@@ -51,8 +51,8 @@ def setup():
 
 	# read config objects into variables
 	Tempo = float(current_settings['tempo']) 
-	knob_color = knob['knobColor'] 
-	knob_brightness = int(knob['knobBrightness'])
+	knob_color = knob['color'] 
+	knob_brightness = int(knob['brightness'])
 	mode = current_settings['mode'] 
 	setList = current_settings['preset']['setList'] 
 	song = current_settings['preset']['song'] 
