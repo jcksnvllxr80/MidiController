@@ -21,7 +21,7 @@ BANKA_INTPIN = 4
 BANKB_INTPIN = 17
 #these are input pins on the MCP23017 for the tap button and the rotary encoders push button
 ROTARY_PUSHBUTTON_PINNUMBER = 15
-CONFIG_FOLDER = ""
+CONFIG_FOLDER = "/home/pi/MidiController/Main/"
 CONFIG_FILE = CONFIG_FOLDER + "midi_controller.yaml"
 
 
