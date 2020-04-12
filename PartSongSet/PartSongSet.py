@@ -62,8 +62,8 @@ class Setlist(object):
 		'''gets song names from list and then opens each individual song
 		file from the song directory and reads it into memory.
 		'''
-		logger.info("set song to: " + song_name)
-		song_file = ET.parse("/home/pi/Looper/PartSongSet/Songs/" + song_name + '.xml')     
+		logger.info("set song to: " + song_name) #TODO: remove this path from here (below)
+		song_file = ET.parse("/home/pi/MidiController/PartSongSet/Songs/" + song_name + '.xml')      
 		song_root = song_file.getroot()    #get the root of the song xml file     
 		tempo = song_root.find('tempo').text #get the tempo of the song
 		new_song = Song(song_name, tempo)  #create a new song object
