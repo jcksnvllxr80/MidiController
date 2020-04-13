@@ -60,12 +60,15 @@ class ButtonOnPedalBoard(object):
 
 			
 	def from_button_to_pin(self, button):
-		if button < 6:
-			return button - 1
-		elif button < 11:
-			return button + 2
+		if button:
+			if button < 6:
+				return button - 1
+			elif button < 11:
+				return button + 2
+			else:
+				return button
 		else:
-			return button
+			return None
 
 
 	def set_partner(self, partner):
