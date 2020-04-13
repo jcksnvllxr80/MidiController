@@ -512,7 +512,7 @@ class Rotary_Encoder(RgbKnob):
 		of their respective channel numbers.
 		'''
 		# self.midi_pedal_dict = {}
-		self.all_midi_pedals = self.midi_pedals.values()
+		self.all_midi_pedals = midi_pedals.values()
 		# for midi_pedal_obj in self.all_midi_pedals:
 		# 	if isinstance(midi_pedal_obj, EffectLoops.MidiPedal):
 		# 		self.midi_pedal_dict[midi_pedal_obj.name] = midi_pedal_obj
