@@ -359,8 +359,8 @@ class Rotary_Encoder(RgbKnob):
 					midi_pedal_obj.turn_off()
 				if setting is not None:
 					midi_pedal_obj.set_setting(setting)
-				if midi_pedal_obj.name == "TimeLine":
-					midi_pedal_obj.setTempo(float(self.current_song.data.bpm))
+				# if midi_pedal_obj.name == "TimeLine":
+				# 	midi_pedal_obj.setTempo(float(self.current_song.data.bpm))
 				#need to get all the buttons to their correct state before messsing with tempo
 		#now that we are out of the for loop, set the tempo
 		self.rebuild_menu()
