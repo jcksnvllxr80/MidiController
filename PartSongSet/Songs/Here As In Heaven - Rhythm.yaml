@@ -4,21 +4,9 @@ parts:
     Intro:
         position: 1
         pedals: 
-            RC Booster:
-                engaged: True
-            Deep Six:
-                engaged: True
-            Angry Charlie:
-                engaged: False
             Scarlett Love:
                 engaged: True
                 preset: TS808
-            POG:
-                engaged: False
-            El Capistan:
-                engaged: False
-            Super Pulsar:
-                engaged: False
             TimeLine:
                 engaged: False
                 preset: 0
@@ -28,24 +16,35 @@ parts:
             QuartzV2:
                 engaged: False
                 preset: 1
+            # SuperSwitcher:
+            #     loops:
+            #         Morning Glory:
+            #             loop: 1
+            #             engaged: True
+            #         Superbolt:
+            #             loop: 2
+            #             engaged: True
+            #         Angry Charlie:
+            #             loop: 3
+            #             engaged: True
+            #         Xotic Wah:
+            #             loop: 4
+            #             engaged: True
+            #         POG:
+            #             loop: 6
+            #             engaged: False
+            #         El Capistan:
+            #             loop: 7
+            #             engaged: False
+            #         Super Pulsar:
+            #             loop: 8
+            #             engaged: False
     Verse:
         position: 2
         pedals: 
-            RC Booster:
-                engaged: True
-            Deep Six:
-                engaged: True
-            Angry Charlie:
-                engaged: False
             Scarlett Love:
                 engaged: True
                 preset: Plexi
-            POG:
-                engaged: False
-            El Capistan:
-                engaged: False
-            Super Pulsar:
-                engaged: False
             TimeLine:
                 engaged: False
                 preset: 2
@@ -55,24 +54,35 @@ parts:
             QuartzV2:
                 engaged: True
                 preset: 1
+            # SuperSwitcher:
+            #     loops:
+            #         Morning Glory:
+            #             loop: 1
+            #             engaged: True
+            #         Superbolt:
+            #             loop: 2
+            #             engaged: True
+            #         Angry Charlie:
+            #             loop: 3
+            #             engaged: True
+            #         Xotic Wah:
+            #             loop: 4
+            #             engaged: True
+            #         POG:
+            #             loop: 6
+            #             engaged: False
+            #         El Capistan:
+            #             loop: 7
+            #             engaged: False
+            #         Super Pulsar:
+            #             loop: 8
+            #             engaged: False
     Chorus:
         position: 3
         pedals: 
-            RC Booster:
-                engaged: True
-            Deep Six:
-                engaged: True
-            Angry Charlie:
-                engaged: True
             Scarlett Love:
                 engaged: True
                 preset: Plexi
-            POG:
-                engaged: False
-            El Capistan:
-                engaged: False
-            Super Pulsar:
-                engaged: False
             TimeLine:
                 engaged: False
                 preset: 2
@@ -82,24 +92,35 @@ parts:
             QuartzV2:
                 engaged: True
                 preset: 1
+            # SuperSwitcher:
+            #     loops:
+            #         Morning Glory:
+            #             loop: 1
+            #             engaged: True
+            #         Superbolt:
+            #             loop: 2
+            #             engaged: True
+            #         Angry Charlie:
+            #             loop: 3
+            #             engaged: True
+            #         Xotic Wah:
+            #             loop: 4
+            #             engaged: True
+            #         POG:
+            #             loop: 6
+            #             engaged: False
+            #         El Capistan:
+            #             loop: 7
+            #             engaged: False
+            #         Super Pulsar:
+            #             loop: 8
+            #             engaged: False
     Bridge:
         position: 4
         pedals: 
-            RC Booster:
-                engaged: True
-            Deep Six:
-                engaged: True
-            Angry Charlie:
-                engaged: True
             Scarlett Love:
                 engaged: True
                 preset: Plexi
-            POG:
-                engaged: True
-            El Capistan:
-                engaged: False
-            Super Pulsar:
-                engaged: False
             TimeLine:
                 engaged: True
                 preset: 2
@@ -109,3 +130,26 @@ parts:
             QuartzV2:
                 engaged: True
                 preset: 1
+            # SuperSwitcher:
+            #     loops:
+            #         Morning Glory:
+            #             loop: 1
+            #             engaged: True
+            #         Superbolt:
+            #             loop: 2
+            #             engaged: True
+            #         Angry Charlie:
+            #             loop: 3
+            #             engaged: True
+            #         Xotic Wah:
+            #             loop: 4
+            #             engaged: True
+            #         POG:
+            #             loop: 6
+            #             engaged: False
+            #         El Capistan:
+            #             loop: 7
+            #             engaged: False
+            #         Super Pulsar:
+            #             loop: 8
+            #             engaged: False
