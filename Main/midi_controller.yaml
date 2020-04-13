@@ -70,21 +70,21 @@ midi:
           cc:
           pc:
     4: 
-      name: SuperSwitcher
-      state: True
-      preset: 
-        number: 1
-        name: Victory - Lead
-      commands:
-        turn_on:
-          cc:
-          pc:
-        turn_off:
-          cc:
-          pc:
-        change_preset:
-          cc:
-          pc:
+      # name: SuperSwitcher
+      # state: True
+      # preset: 
+      #   number: 1
+      #   name: Victory - Lead
+      # commands:
+      #   turn_on:
+      #     cc:
+      #     pc:
+      #   turn_off:
+      #     cc:
+      #     pc:
+      #   change_preset:
+      #     cc:
+      #     pc:
     5:
     6: 
     7: 

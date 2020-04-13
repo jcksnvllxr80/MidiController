@@ -349,7 +349,9 @@ class Rotary_Encoder(RgbKnob):
 	def load_part(self):
 		tempo_obj = None
 		for midi_pedal_obj in self.all_midi_pedals:
-			if midi_pedal_obj.name not in ["RotaryPB"]:
+			if midi_pedal_obj.name == "TapTempo":
+				tempo_obj = midi_pedal_obj #store this object for later use. 
+			else:
 				state, setting = self.current_part.data.pedal_dictionary[midi_pedal_obj.name]
 				if state:
 					midi_pedal_obj.turn_on()
@@ -359,8 +361,6 @@ class Rotary_Encoder(RgbKnob):
 					midi_pedal_obj.set_setting(setting)
 				if midi_pedal_obj.name == "TimeLine":
 					midi_pedal_obj.setTempo(float(self.current_song.data.bpm))
-			elif midi_pedal_obj.name == "TapTempo":
-				tempo_obj = midi_pedal_obj #store this object for later use. 
 				#need to get all the buttons to their correct state before messsing with tempo
 		#now that we are out of the for loop, set the tempo
 		self.rebuild_menu()
