@@ -72,7 +72,6 @@ def setup():
 				})
 
 	# make a dictionary of {ftsw_btn: footswitch_obj}
-	footswitch_dict = {}
 	rotary_push_button = RotaryEncoder.RotaryPushButton(ROTARY_PUSHBUTTON_PINNUMBER, mode, 
 		kc=knob_color, kb=knob_brightness, sl=setList, s=song, p=part) #initialize the rotaryencoder object
 	footswitch_dict[str(rotary_push_button.getPin())] = rotary_push_button #assign this button to the dictionary
@@ -93,7 +92,7 @@ def setup():
 	for pin in footswitch_dict:
 		button = footswitch_dict[pin]
 		if isinstance(button, EffectLoops.ButtonOnPedalBoard) and button.name != "RotaryPB":
-			button.set_partner(footswitch_dict[str(button.from_button_to_pin(button.get_partner_button()))])
+			button.set_partner(footswitch_dict.get(str(button.from_button_to_pin(button.get_partner_button())), None))
 
 	#define the interrupt for the MCP23017 bank A and B for the footswitches
 	GPIO.add_event_detect(BANKA_INTPIN, GPIO.RISING, callback=my_button_callback, bouncetime=5)
@@ -153,24 +152,25 @@ def my_button_callback(interrupt_pin):
 			#print interrupt_bank, intFlagPin #TESTING PURPOSES
 			#check to see if the footswitch was pressed in combination with its partner for the 2-button function
 			#like bank up, bank down, next song, etc.
-			if int_button.partner.is_pressed:
-				if interrupt_value: 
-					option_type = None
-					#do the 2-button function for the btn that called it
-					f = int_button.partner.get_partner_function()
-					# if f == 1:
-					# 	option_type = option_one
-					# elif f == 2:
-					# 	option_type = option_two
-					# elif f == 3:
-					# 	option_type = option_three
-					# elif f == 4:
-					# 	option_type = option_four
-					# elif f == 5:
-					# 	option_type = option_five
-					# rotary_push_button.change_pedal_configuration(option_type)
-					# int_button.PedalConfigChanged = True
-					# logger.info( "double footswitch function: " + option_type)
+			if int_button.partner:
+				if int_button.partner.is_pressed:
+					if interrupt_value: 
+						option_type = None
+						#do the 2-button function for the btn that called it
+						f = int_button.partner.get_partner_function()
+						# if f == 1:
+						# 	option_type = option_one
+						# elif f == 2:
+						# 	option_type = option_two
+						# elif f == 3:
+						# 	option_type = option_three
+						# elif f == 4:
+						# 	option_type = option_four
+						# elif f == 5:
+						# 	option_type = option_five
+						# rotary_push_button.change_pedal_configuration(option_type)
+						# int_button.PedalConfigChanged = True
+						# logger.info( "double footswitch function: " + option_type)
 			else:
 				#button state determines which function of the btn whose footswitch was pressed to use
 				int_button.button_state(interrupt_value, rotary_push_button.mode)
@@ -192,4 +192,6 @@ def clean_break():
 
 if __name__ == "__main__":
 	logger = init_logging()
+	footswitch_dict = {}
+	rotary_push_button = None
 	main()
