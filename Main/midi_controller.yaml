@@ -38,7 +38,7 @@ midi:
           cc:
           pc:
     2: 
-      name: Timeline
+      name: TimeLine
       state: True
       preset: 
         number: 1
