@@ -80,8 +80,8 @@ def setup():
 		ftsw_btn: EffectLoops.ButtonOnPedalBoard(button_setup[ftsw_btn]['function'], ftsw_btn)
 	}) for ftsw_btn in button_setup.keys()]
 
-	#pass a list of button objects to the rotary encoder
-	rotary_push_button.set_button_list(footswitch_dict, mode)
+	#pass a list of midi_pedal objects to the rotary encoder
+	rotary_push_button.set_midi_pedal_list(midi_channel_dict, mode)
 
 	#define the input pin on the rpi for the MCP23017 bank A and B footswitch interrupt
 	GPIO.setup([BANKA_INTPIN, BANKB_INTPIN], GPIO.IN, pull_up_down=GPIO.PUD_DOWN)

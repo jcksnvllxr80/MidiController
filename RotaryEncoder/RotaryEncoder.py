@@ -262,7 +262,7 @@ class Rotary_Encoder(RgbKnob):
 
 	def show_buttons(self):
 		self.button_menu.menu_data_prompt = self.button_menu.name + ":"
-		self.button_menu.menu_data_items = self.all_buttons
+		self.button_menu.menu_data_items = self.all_midi_pedals
 		self.button_menu.menu_data_position = 0
 		self.test_point_node_printer(self.button_menu)
 
@@ -315,9 +315,9 @@ class Rotary_Encoder(RgbKnob):
 
 	def load_bpm_func(self):
 		self.current_song.data.bpm = str(self.bpm_menu.menu_data_items[self.bpm_menu.menu_data_position])
-		for button_obj in self.all_buttons:
-			if button_obj.name is "TapTempo":
-				button_obj.setTempo(float(self.current_song.data.bpm))
+		for midi_pedal_obj in self.all_midi_pedals:
+			if midi_pedal_obj.name is "TapTempo":
+				midi_pedal_obj.setTempo(float(self.current_song.data.bpm))
 
 		self.change_menu_nodes(self.menu.current_node.parent)
 
@@ -340,28 +340,27 @@ class Rotary_Encoder(RgbKnob):
 				self.current_song = self.current_song.next
 				self.load_song()
 		elif option == "Switch Mode":
-			for button_obj in self.all_buttons:
-				if button_obj.name == "RotaryPB":
-					button_obj.switch_modes()
+			for midi_pedal_obj in self.all_midi_pedals:
+				if midi_pedal_obj.name == "RotaryPB":
+					midi_pedal_obj.switch_modes()
 					break
-		
 
-			
+
 	def load_part(self):
 		tempo_obj = None
-		for button_obj in self.all_buttons:
-			if button_obj.name not in ["RotaryPB"]:
-				state, setting = self.current_part.data.pedal_dictionary[button_obj.name]
+		for midi_pedal_obj in self.all_midi_pedals:
+			if midi_pedal_obj.name not in ["RotaryPB"]:
+				state, setting = self.current_part.data.pedal_dictionary[midi_pedal_obj.name]
 				if state:
-					button_obj.turn_on()
+					midi_pedal_obj.turn_on()
 				else:
-					button_obj.turn_off()
+					midi_pedal_obj.turn_off()
 				if setting is not None:
-					button_obj.set_setting(setting)
-				if button_obj.name == "TimeLine":
-					button_obj.setTempo(float(self.current_song.data.bpm))
-			elif button_obj.name == "TapTempo":
-				tempo_obj = button_obj #store this object for later use. 
+					midi_pedal_obj.set_setting(setting)
+				if midi_pedal_obj.name == "TimeLine":
+					midi_pedal_obj.setTempo(float(self.current_song.data.bpm))
+			elif midi_pedal_obj.name == "TapTempo":
+				tempo_obj = midi_pedal_obj #store this object for later use. 
 				#need to get all the buttons to their correct state before messsing with tempo
 		#now that we are out of the for loop, set the tempo
 		self.rebuild_menu()
@@ -506,18 +505,17 @@ class Rotary_Encoder(RgbKnob):
 		return self.menu.current_node.name
 
 		
-	def set_button_list(self, buttons, mode):
-		'''sets the button list for the current button layout.
-		buttons come in as a dictionary. "all_buttons" is a list 
-		of the objects from the buttons dictionary but stripped 
-		of their respective button numbers.
+	def set_midi_pedal_list(self, midi_pedals, mode):
+		'''sets the midi_pedal list for the current midi_pedal setup.
+		midi_pedals come in as a dictionary. "all_midi_pedals" is a list 
+		of the objects from the midi_pedals dictionary but stripped 
+		of their respective channel numbers.
 		'''
-		self.button_dict = {}
-		self.button_pin_dict = buttons
-		self.all_buttons = self.button_pin_dict.values()
-		for button_obj in self.all_buttons:
-			if isinstance(button_obj, EffectLoops.ButtonOnPedalBoard) and button_obj.name != "RotaryPB":
-				self.button_dict[button_obj.button] = button_obj
+		# self.midi_pedal_dict = {}
+		self.all_midi_pedals = self.midi_pedals.values()
+		# for midi_pedal_obj in self.all_midi_pedals:
+		# 	if isinstance(midi_pedal_obj, EffectLoops.MidiPedal):
+		# 		self.midi_pedal_dict[midi_pedal_obj.name] = midi_pedal_obj
 		if mode == "favorite":
 			self.change_to_footswitch_item()
 			self.load_part()
@@ -525,9 +523,9 @@ class Rotary_Encoder(RgbKnob):
 
 		
 	def get_buttons_list(self):
-		'''returns the button list for the current button layout
+		'''returns the midi_pedal list for the current midi_pedal layout
 		'''
-		return self.all_buttons
+		return self.all_midi_pedals
 
 		
 	def set_temp_message(self, temp_message):
