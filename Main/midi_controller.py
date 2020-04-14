@@ -23,7 +23,9 @@ BANKB_INTPIN = 17
 ROTARY_PUSHBUTTON_PINNUMBER = 15
 CONFIG_FOLDER = "/home/pi/MidiController/Main/"
 CONFIG_FILE = CONFIG_FOLDER + "midi_controller.yaml"
-global logger, rotary_push_button, footswitch_dict
+global logger
+global rotary_push_button
+global footswitch_dict
 
 def main():
 	setup()
@@ -192,6 +194,4 @@ def clean_break():
 
 if __name__ == "__main__":
 	logger = init_logging()
-	footswitch_dict = {}
-	rotary_push_button = None
 	main()
