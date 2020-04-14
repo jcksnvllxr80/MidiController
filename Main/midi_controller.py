@@ -23,6 +23,10 @@ BANKB_INTPIN = 17
 ROTARY_PUSHBUTTON_PINNUMBER = 15
 CONFIG_FOLDER = "/home/pi/MidiController/Main/"
 CONFIG_FILE = CONFIG_FOLDER + "midi_controller.yaml"
+logger = None
+rotary_push_button = None
+footswitch_dict = {}
+
 
 def main():
 	setup()
