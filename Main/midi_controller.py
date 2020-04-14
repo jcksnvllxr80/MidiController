@@ -23,10 +23,6 @@ BANKB_INTPIN = 17
 ROTARY_PUSHBUTTON_PINNUMBER = 15
 CONFIG_FOLDER = "/home/pi/MidiController/Main/"
 CONFIG_FILE = CONFIG_FOLDER + "midi_controller.yaml"
-global logger
-global rotary_push_button
-global footswitch_dict
-logger = init_logging()
 
 def main():
 	setup()
@@ -124,12 +120,17 @@ def init_logging():
 
 
 def my_encoder_callback(EncoderInterruptPin):
+	global rotary_push_button
 	direction = rotary_push_button.get_rotary_movement(GPIO.input(ENCODE_A), GPIO.input(ENCODE_B))
 	if direction is not None:
 		rotary_push_button.change_menu_pos(direction)
 
 
 def my_button_callback(interrupt_pin):
+	global logger
+	global rotary_push_button
+	global footswitch_dict
+
 	logger.info("interrupt enter")
 	#Which bank sent the interrupt; bank A (pin 4) mod 2 is 0; bank B (pin 17) mod 2 is 1
 	interrupt_bank = interrupt_pin % 2  
@@ -195,4 +196,5 @@ def clean_break():
 
 
 if __name__ == "__main__":
+	logger = init_logging()
 	main()
