@@ -26,6 +26,7 @@ CONFIG_FILE = CONFIG_FOLDER + "midi_controller.yaml"
 global logger
 global rotary_push_button
 global footswitch_dict
+logger = init_logging()
 
 def main():
 	setup()
@@ -194,5 +195,4 @@ def clean_break():
 
 
 if __name__ == "__main__":
-	logger = init_logging()
 	main()
