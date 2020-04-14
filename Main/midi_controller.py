@@ -74,6 +74,7 @@ def setup():
 				})
 
 	# make a dictionary of {ftsw_btn: footswitch_obj}
+	footswitch_dict = {}
 	rotary_push_button = RotaryEncoder.RotaryPushButton(ROTARY_PUSHBUTTON_PINNUMBER, mode, 
 		kc=knob_color, kb=knob_brightness, sl=setList, s=song, p=part) #initialize the rotaryencoder object
 	footswitch_dict[str(rotary_push_button.getPin())] = rotary_push_button #assign this button to the dictionary
