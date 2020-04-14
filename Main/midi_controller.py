@@ -191,7 +191,7 @@ def clean_break():
 
 
 if __name__ == "__main__":
-	logger = init_logging()
-	footswitch_dict = {}
-	rotary_push_button = None
+	global logger = init_logging()
+	global footswitch_dict = {}
+	global rotary_push_button = None
 	main()
