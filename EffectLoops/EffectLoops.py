@@ -58,7 +58,29 @@ class ButtonOnPedalBoard(object):
 		self.last_action_time = self.start
 		self.PedalConfigChanged = False
 
-			
+
+	def button_state(self, int_capture_pin_val, mode):
+		output = None
+		if not int_capture_pin_val:
+			self.is_pressed = True
+			self.start = time.time()
+		else:
+			self.end = time.time()
+			delta_t = self.end - self.start
+			if not self.partner.PedalConfigChanged:
+				if time.time() - self.partner.last_action_time > 0.25:
+					# if mode == "favorite":
+					# 	self.secondaryFunction()
+					# else:
+					if delta_t > 0.5:
+						output = self.name
+			else:
+				output = "partner func"
+				self.partner.PedalConfigChanged = False
+			self.is_pressed = False
+		return output
+
+
 	def from_button_to_pin(self, button):
 		if button:
 			if button < 6:

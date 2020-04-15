@@ -183,10 +183,10 @@ def my_button_callback(interrupt_pin):
 						# logger.info( "double footswitch function: " + option_type)
 			else:
 				#button state determines which function of the btn whose footswitch was pressed to use
-				int_button.button_state(interrupt_value, rotary_push_button.mode)
+				action = int_button.button_state(interrupt_value, rotary_push_button.mode)
 				if interrupt_value:
-					if rotary_push_button.mode == "Song" and time.time() - int_button.last_action_time <= 0.5:
-						rotary_push_button.change_to_footswitch_item(int_button.button)
+					if rotary_push_button.mode == "standard" and time.time() - int_button.last_action_time <= 0.5:
+						rotary_push_button.button_executor(action)
 			int_button.last_action_time = time.time()
 		else:
 			#button state determines which function of the btn whose footswitch was pressed to use

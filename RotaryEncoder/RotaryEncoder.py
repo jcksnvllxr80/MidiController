@@ -553,12 +553,66 @@ class Rotary_Encoder(RgbKnob):
 		})
 		self.write_config(defaults)
 
-	
+
+	def button_executor(self, action):
+		if action:
+			actions = { 
+				"Song Dn": Rotary_Encoder.prev_song,
+				"Song Up": Rotary_Encoder.next_song,
+				"Part Dn": Rotary_Encoder.prev_part,
+				"Select": Rotary_Encoder.select_choice,
+				"Part Up": Rotary_Encoder.next_part
+			}
+			func = actions.get(action, Rotary_Encoder.action_missing)
+			func()
+
+
+	def action_missing(self):
+		logger.info("This buttons action does not exist in the actions dictionary.")
+
+
 	def change_to_footswitch_item(self, button=None):
-		if button is not None:
+		if button:
 			if button <= self.current_song.data.parts.getLength() and not self.current_part == self.current_song.data.parts.index_to_node(button):
 				self.current_part = self.current_song.data.parts.index_to_node(button)
 				self.load_part()
+
+
+	def prev_part(self):
+		pass
+	# TODO: implement this
+		# if not self.current_song.data.parts.current_node == self.current_song.parts.getTail():
+		# 	self.current_part = self.current_song.data.parts.index_to_node(self.current_part.data.node_to_index + 1)
+		# 	self.load_part()
+
+
+	def next_part(self):
+		pass
+	# TODO: implement this
+		# if not self.current_song.data.parts.current_node == self.current_song.parts.getTail():
+		# 	self.current_part = self.current_song.data.parts.index_to_node(self.current_part.data.node_to_index + 1)
+		# 	self.load_part()
+
+
+	def prev_song(self):
+		pass
+	# TODO: implement this
+		# if not self.current_song.data.parts.current_node == self.current_song.parts.getTail():
+		# 	self.current_part = self.current_song.data.parts.index_to_node(self.current_part.data.node_to_index + 1)
+		# 	self.load_part()
+
+
+	def next_song(self):
+		pass
+	# TODO: implement this
+		# if not self.setlist.songs.current_node == self.setlist.songs.getTail():
+		# 	self.current_part = self.current_song.data.parts.index_to_node(self.current_part.data.node_to_index + 1)
+		# 	self.load_part()
+
+
+	def select_choice(self):
+		pass
+	# TODO: implement this
 
 
 	def next_menu_list_item(self):
