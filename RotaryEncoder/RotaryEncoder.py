@@ -72,7 +72,7 @@ class RgbKnob(object):
 		self._green.stop()
 		self._blue.stop()
 		GPIO.cleanup()
-		logger.info("\nstopping PWM for the rotary pb.") 
+		logger.info("Stopping PWM for the rotary pb.") 
 	
 	def set_brightness(self, v):
 		''' change the global brightness variable and apply to the current color

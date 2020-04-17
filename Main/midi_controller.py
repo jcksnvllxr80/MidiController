@@ -198,7 +198,7 @@ def my_button_callback(interrupt_pin):
 
 
 def clean_break():
-	rotary_push_button.stop_pwm #this will cause the PWM to stop if anything causes the program to stop
+	rotary_push_button.stop_pwm() #this will cause the PWM to stop if anything causes the program to stop
 	EffectLoops.unload()
 
 
