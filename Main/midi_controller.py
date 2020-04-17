@@ -165,6 +165,7 @@ def my_button_callback(interrupt_pin):
 			#check to see if the footswitch was pressed in combination with its partner for the 2-button function
 			#like bank up, bank down, next song, etc.
 			if int_button.partner:
+				logger.info("interrupt button's partner: " + str(int_button.partner))
 				if int_button.partner.is_pressed:
 					if interrupt_value: 
 						option_type = None
