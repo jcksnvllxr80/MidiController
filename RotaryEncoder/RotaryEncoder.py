@@ -72,7 +72,7 @@ class RgbKnob(object):
 		self._green.stop()
 		self._blue.stop()
 		GPIO.cleanup()
-		logger.info("Stopping PWM for the rotary pb.") 
+		logger.info("Stopped PWM for the rotary pb.") 
 	
 	def set_brightness(self, v):
 		''' change the global brightness variable and apply to the current color
@@ -187,6 +187,12 @@ class Rotary_Encoder(RgbKnob):
 	def rebuild_menu(self):
 		# build setup menu based on current files stored in filesystem
 		pass
+
+
+	def clean_up_display(self):
+		self.lcd.clear()
+		self.lcd.set_backlight(0)
+		logger.info("Cleared LCD screen and turned off the backlight.") 
 
 
 	def power_off(self):
