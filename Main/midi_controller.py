@@ -1,7 +1,7 @@
 #!/usr/bin/python
 import time
 from time import strftime
-import traceback
+from traceback import format_exception
 import sys
 import math
 import RPi.GPIO as GPIO #for interfacing with raspberrypi GPIO
