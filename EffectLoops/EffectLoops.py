@@ -82,15 +82,8 @@ class ButtonOnPedalBoard(object):
 
 
 	def from_button_to_pin(self, button):
-		if button:
-			if button < 6:
-				return button - 1
-			elif button < 11:
-				return button + 2
-			else:
-				return button
-		else:
-			return None
+		button_to_pin_dict = {1:0, 2:1, 3:2, 4:8, 5:10}
+		return button_to_pin_dict.get(button, None)
 
 
 	def set_partner(self, partner):
@@ -98,10 +91,9 @@ class ButtonOnPedalBoard(object):
 
 
 	def get_partner_button(self):
-		if self.button < 6:
-			return self.button + 5
-		elif self.button < 11:
-			return self.button - 5
+		partner_dict = {1: 4, 3: 5, 4: 1, 5: 3}
+		return partner_dict.get(self.button, None)
+
 
 
 	def secondaryFunction(self):
