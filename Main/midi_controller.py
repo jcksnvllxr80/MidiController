@@ -1,6 +1,8 @@
 #!/usr/bin/python
 import time
 from time import strftime
+import traceback
+import sys
 import math
 import RPi.GPIO as GPIO #for interfacing with raspberrypi GPIO
 import xml.etree.ElementTree as ET # for reading and writing to XML files
