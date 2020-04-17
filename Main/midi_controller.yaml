@@ -1,14 +1,14 @@
 button_setup:
   1: 
-    function: Song Dn
-  3: 
-    function: Song Up
-  9: 
     function: Part Dn
-  10: 
+  2: 
     function: Select
-  11: 
+  3: 
     function: Part Up
+  4: 
+    function: Song Dn
+  5: 
+    function: Song Up
 knob:
   color: Magenta
   brightness: 100
