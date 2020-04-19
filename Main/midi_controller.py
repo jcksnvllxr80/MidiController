@@ -103,7 +103,7 @@ def setup():
 	for pin in footswitch_dict:
 		button = footswitch_dict[pin]
 		if isinstance(button, EffectLoops.ButtonOnPedalBoard) and button.name != "RotaryPB":
-			print("my button number is: " + str(button.getPin()) + "; my partners button number is: " + str(button.get_partner_button()))
+			print("my button number is: " + str(button.button) + "; my pin number is: " + str(pin) + "; my partners button number is: " + str(button.get_partner_button()))
 			button.set_partner(footswitch_dict.get(str(button.from_button_to_pin(button.get_partner_button())), None))
 
 	#define the interrupt for the MCP23017 bank A and B for the footswitches
