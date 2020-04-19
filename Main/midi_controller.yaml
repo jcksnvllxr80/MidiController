@@ -18,7 +18,7 @@ current_settings:
     setList: 2016-09-16 Set
     song: Here As In Heaven - Lead
     part: Intro
-  mode: favorite
+  mode: standard
 midi:
   channels:
     1:
