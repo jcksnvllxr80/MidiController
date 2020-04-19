@@ -166,7 +166,8 @@ def my_button_callback(interrupt_pin):
 			#like bank up, bank down, next song, etc.
 			if int_button.partner:
 				if int_button.partner.is_pressed:
-					if interrupt_value: 
+					if interrupt_value:
+						print "partner func" 
 						option_type = None
 						#do the 2-button function for the btn that called it
 						f = int_button.partner.get_partner_function()
@@ -192,6 +193,7 @@ def my_button_callback(interrupt_pin):
 						rotary_push_button.button_executor(action)
 			int_button.last_action_time = time.time()
 		else:
+			print "rotary func" 
 			#button state determines which function of the btn whose footswitch was pressed to use
 			int_button.button_state(interrupt_value)
 		#reenable the interrupts on the pin of the footswitch that was pressed		
