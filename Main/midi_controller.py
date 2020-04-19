@@ -103,7 +103,6 @@ def setup():
 	for pin in footswitch_dict:
 		button = footswitch_dict[pin]
 		if isinstance(button, EffectLoops.ButtonOnPedalBoard) and button.name != "RotaryPB":
-			print("my button number is: " + str(button.button) + "; my pin number is: " + str(pin) + "; my partners button number is: " + str(button.get_partner_button()))
 			button.set_partner(footswitch_dict.get(str(button.from_button_to_pin(button.get_partner_button())), None))
 
 	#define the interrupt for the MCP23017 bank A and B for the footswitches
@@ -166,7 +165,6 @@ def my_button_callback(interrupt_pin):
 			#check to see if the footswitch was pressed in combination with its partner for the 2-button function
 			#like bank up, bank down, next song, etc.
 			if int_button.partner:
-				logger.info("interrupt button's partner: " + str(int_button.partner))
 				if int_button.partner.is_pressed:
 					if interrupt_value: 
 						option_type = None

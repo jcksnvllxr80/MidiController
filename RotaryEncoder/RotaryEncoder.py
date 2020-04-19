@@ -586,6 +586,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def prev_part(self):
+		logger.info("This is the \'previous part\' action.")
 		pass
 	# TODO: implement this
 		# if not self.current_song.data.parts.current_node == self.current_song.parts.getTail():
@@ -594,6 +595,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def next_part(self):
+		logger.info("This is the \'next part\' action.")
 		pass
 	# TODO: implement this
 		# if not self.current_song.data.parts.current_node == self.current_song.parts.getTail():
@@ -602,6 +604,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def prev_song(self):
+		logger.info("This is the \'previous song\' action.")
 		pass
 	# TODO: implement this
 		# if not self.current_song.data.parts.current_node == self.current_song.parts.getTail():
@@ -610,6 +613,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def next_song(self):
+		logger.info("This is the \'next song\' action.")
 		pass
 	# TODO: implement this
 		# if not self.setlist.songs.current_node == self.setlist.songs.getTail():
@@ -618,6 +622,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def select_choice(self):
+		logger.info("This is the select action.")
 		pass
 	# TODO: implement this
 
