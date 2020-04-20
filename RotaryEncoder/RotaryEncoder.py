@@ -121,7 +121,6 @@ class RgbKnob(object):
 class Rotary_Encoder(RgbKnob):
 	'''class for everything to do with the rotary encoder. its parent is RgbKnob
 	'''
-
 	# NOTE: Need to always display song info (main menu / root of menu tree)
 	# on 1 short click go to song/set/part/bpm/button menun
 	# on 2 second click got to global menu
@@ -131,6 +130,13 @@ class Rotary_Encoder(RgbKnob):
 	menu = N_Tree.N_Tree("MidiController")
 	setup_menu = menu.root.add_child("Setup:")
 	global_menu = menu.root.add_child("Global:")
+	actions_dict = { 
+		"Song Dn": Rotary_Encoder.prev_song,
+		"Song Up": Rotary_Encoder.next_song,
+		"Part Dn": Rotary_Encoder.prev_part,
+		"Select": Rotary_Encoder.select_choice,
+		"Part Up": Rotary_Encoder.next_part
+	}
 	
 	def __init__(self, **kwargs):		
 		knob_col = kwargs["kc"]
@@ -563,18 +569,11 @@ class Rotary_Encoder(RgbKnob):
 
 	def button_executor(self, action):
 		if action:
-			actions = { 
-				"Song Dn": Rotary_Encoder.prev_song,
-				"Song Up": Rotary_Encoder.next_song,
-				"Part Dn": Rotary_Encoder.prev_part,
-				"Select": Rotary_Encoder.select_choice,
-				"Part Up": Rotary_Encoder.next_part
-			}
-			actions.get(action, Rotary_Encoder.action_missing)()
+			self.actions_dict.get(action, Rotary_Encoder.action_missing)()
 
 
 	def action_missing(self):
-		logger.info("This buttons action does not exist in the actions dictionary.")
+		logger.info("This buttons action does not exist in the actions_dict dictionary.")
 
 
 	def change_to_footswitch_item(self, button=None):
