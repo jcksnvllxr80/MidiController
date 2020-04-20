@@ -72,12 +72,10 @@ class ButtonOnPedalBoard(object):
 					# if mode == "favorite":
 					# 	self.secondaryFunction()
 					# else:
-					if delta_t < 0.5:
-						output = self.name
-					else:
-						output = "secondary func"
+					if delta_t > 0.5:
+						output = "partner func"
 			else:
-				output = "partner func"
+				output = self.name
 				self.partner.PedalConfigChanged = False
 			self.is_pressed = False
 		return output
