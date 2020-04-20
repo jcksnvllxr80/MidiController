@@ -164,26 +164,25 @@ def my_button_callback(interrupt_pin):
 			#print interrupt_bank, intFlagPin #TESTING PURPOSES
 			#check to see if the footswitch was pressed in combination with its partner for the 2-button function
 			#like bank up, bank down, next song, etc.
-			if int_button.partner:
-				if int_button.partner.is_pressed:
-					if interrupt_value:
-						logger.info("partner func")
-						option_type = None
-						#do the 2-button function for the btn that called it
-						f = int_button.partner.get_partner_function()
-						# if f == 1:
-						# 	option_type = option_one
-						# elif f == 2:
-						# 	option_type = option_two
-						# elif f == 3:
-						# 	option_type = option_three
-						# elif f == 4:
-						# 	option_type = option_four
-						# elif f == 5:
-						# 	option_type = option_five
-						# rotary_push_button.change_pedal_configuration(option_type)
-						# int_button.PedalConfigChanged = True
-						# logger.info( "double footswitch function: " + option_type)
+			if int_button.partner and int_button.partner.is_pressed:
+				if interrupt_value:
+					logger.info("partner func")
+					option_type = None
+					#do the 2-button function for the btn that called it
+					f = int_button.partner.get_partner_function()
+					# if f == 1:
+					# 	option_type = option_one
+					# elif f == 2:
+					# 	option_type = option_two
+					# elif f == 3:
+					# 	option_type = option_three
+					# elif f == 4:
+					# 	option_type = option_four
+					# elif f == 5:
+					# 	option_type = option_five
+					# rotary_push_button.change_pedal_configuration(option_type)
+					# int_button.PedalConfigChanged = True
+					# logger.info( "double footswitch function: " + option_type)
 			else:
 				#button state determines which function of the btn whose footswitch was pressed to use
 				action = int_button.button_state(interrupt_value, rotary_push_button.mode)
