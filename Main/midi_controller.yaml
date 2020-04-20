@@ -1,114 +1,99 @@
 button_setup:
-  1: 
+  1:
     function: Part Dn
-  2: 
+  2:
     function: Select
-  3: 
+  3:
     function: Part Up
-  4: 
+  4:
     function: Song Dn
-  5: 
+  5:
     function: Song Up
-knob:
-  color: Magenta
-  brightness: 100
 current_settings:
-  tempo: 106
+  mode: standard
   preset:
+    part: Intro
     setList: 2016-09-16 Set
     song: Here As In Heaven - Lead
-    part: Intro
-  mode: standard
+  tempo: 106
+knob:
+  brightness: 100
+  color: Magenta
 midi:
   channels:
     1:
+      commands:
+        change_preset:
+          cc: null
+          pc: null
+        turn_off:
+          cc: null
+          pc: null
+        turn_on:
+          cc: null
+          pc: null
       name: QuartzV2
-      state: True
-      preset: 
+      preset:
+        name: null
         number: 2
-        name: 
+      state: true
+    2:
       commands:
-        turn_on:
-          cc:
-          pc:
-        turn_off:
-          cc:
-          pc:
         change_preset:
-          cc:
-          pc:
-    2: 
+          cc: null
+          pc: null
+        turn_off:
+          cc: null
+          pc: null
+        turn_on:
+          cc: null
+          pc: null
       name: TimeLine
-      state: True
-      preset: 
+      preset:
+        name: null
         number: 1
-        name: 
+      state: true
+    3:
       commands:
-        turn_on:
-          cc:
-          pc:
-        turn_off:
-          cc:
-          pc:
         change_preset:
-          cc:
-          pc:
-    3: 
+          cc: null
+          pc: null
+        turn_off:
+          cc: null
+          pc: null
+        turn_on:
+          cc: null
+          pc: null
       name: BigSky
-      state: True
-      preset: 
+      preset:
+        name: null
         number: 2
-        name: 
+      state: true
+    4: null
+    5: null
+    6: null
+    7: null
+    8: null
+    9: null
+    10: null
+    11: null
+    12: null
+    13: null
+    14: null
+    15: null
+    16:
       commands:
-        turn_on:
-          cc:
-          pc:
-        turn_off:
-          cc:
-          pc:
         change_preset:
-          cc:
-          pc:
-    4: 
-      # name: SuperSwitcher
-      # state: True
-      # preset: 
-      #   number: 1
-      #   name: Victory - Lead
-      # commands:
-      #   turn_on:
-      #     cc:
-      #     pc:
-      #   turn_off:
-      #     cc:
-      #     pc:
-      #   change_preset:
-      #     cc:
-      #     pc:
-    5:
-    6: 
-    7: 
-    8: 
-    9: 
-    10: 
-    11: 
-    12: 
-    13: 
-    14: 
-    15: 
-    16: 
+          cc: null
+          pc: null
+        turn_off:
+          cc: null
+          pc: null
+        turn_on:
+          cc: null
+          pc: null
       name: Scarlett Love
-      state: True
-      preset: 
-        number: 1
+      preset:
         name: Plexi
-      commands:
-        turn_on:
-          cc:
-          pc:
-        turn_off:
-          cc:
-          pc:
-        change_preset:
-          cc:
-          pc:
+        number: 1
+      state: true
