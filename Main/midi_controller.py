@@ -186,7 +186,7 @@ def my_button_callback(interrupt_pin):
 			else:
 				#button state determines which function of the btn whose footswitch was pressed to use
 				action = int_button.button_state(interrupt_value, rotary_push_button.mode)
-				logger.info("interrupt button's action: " + action)
+				logger.info("interrupt button's action: " + str(action))
 				if interrupt_value:
 					if rotary_push_button.mode == "standard" and time.time() - int_button.last_action_time <= 0.5:
 						rotary_push_button.button_executor(action)
