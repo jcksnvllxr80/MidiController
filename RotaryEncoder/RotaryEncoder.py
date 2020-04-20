@@ -570,7 +570,7 @@ class Rotary_Encoder(RgbKnob):
 				"Select": Rotary_Encoder.select_choice,
 				"Part Up": Rotary_Encoder.next_part
 			}
-			self.actions.get(action, Rotary_Encoder.action_missing)()
+			actions.get(action, Rotary_Encoder.action_missing)()
 
 
 	def action_missing(self):
