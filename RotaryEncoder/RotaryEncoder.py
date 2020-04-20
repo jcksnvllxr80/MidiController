@@ -626,7 +626,7 @@ class Rotary_Encoder(RgbKnob):
 
 	@staticmethod
 	def select_choice():
-		logger.info("This is the select action.")
+		logger.info("This is the \'select\' action.")
 		pass
 	# TODO: implement this
 
