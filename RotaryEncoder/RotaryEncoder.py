@@ -121,6 +121,7 @@ class RgbKnob(object):
 class Rotary_Encoder(RgbKnob):
 	'''class for everything to do with the rotary encoder. its parent is RgbKnob
 	'''
+
 	# NOTE: Need to always display song info (main menu / root of menu tree)
 	# on 1 short click go to song/set/part/bpm/button menun
 	# on 2 second click got to global menu
@@ -130,13 +131,6 @@ class Rotary_Encoder(RgbKnob):
 	menu = N_Tree.N_Tree("MidiController")
 	setup_menu = menu.root.add_child("Setup:")
 	global_menu = menu.root.add_child("Global:")
-	actions_dict = { 
-		"Song Dn": Rotary_Encoder.prev_song,
-		"Song Up": Rotary_Encoder.next_song,
-		"Part Dn": Rotary_Encoder.prev_part,
-		"Select": Rotary_Encoder.select_choice,
-		"Part Up": Rotary_Encoder.next_part
-	}
 	
 	def __init__(self, **kwargs):		
 		knob_col = kwargs["kc"]
@@ -569,11 +563,18 @@ class Rotary_Encoder(RgbKnob):
 
 	def button_executor(self, action):
 		if action:
-			self.actions_dict.get(action, Rotary_Encoder.action_missing)()
+			actions = { 
+				"Song Dn": Rotary_Encoder.prev_song,
+				"Song Up": Rotary_Encoder.next_song,
+				"Part Dn": Rotary_Encoder.prev_part,
+				"Select": Rotary_Encoder.select_choice,
+				"Part Up": Rotary_Encoder.next_part
+			}
+			self.actions.get(action, Rotary_Encoder.action_missing)()
 
 
 	def action_missing(self):
-		logger.info("This buttons action does not exist in the actions_dict dictionary.")
+		logger.info("This buttons action does not exist in the actions dictionary.")
 
 
 	def change_to_footswitch_item(self, button=None):
@@ -583,7 +584,8 @@ class Rotary_Encoder(RgbKnob):
 				self.load_part()
 
 
-	def prev_part(self):
+	@staticmethod
+	def prev_part():
 		logger.info("This is the \'previous part\' action.")
 		pass
 	# TODO: implement this
@@ -592,7 +594,8 @@ class Rotary_Encoder(RgbKnob):
 		# 	self.load_part()
 
 
-	def next_part(self):
+	@staticmethod
+	def next_part():
 		logger.info("This is the \'next part\' action.")
 		pass
 	# TODO: implement this
@@ -601,7 +604,8 @@ class Rotary_Encoder(RgbKnob):
 		# 	self.load_part()
 
 
-	def prev_song(self):
+	@staticmethod
+	def prev_song():
 		logger.info("This is the \'previous song\' action.")
 		pass
 	# TODO: implement this
@@ -610,7 +614,8 @@ class Rotary_Encoder(RgbKnob):
 		# 	self.load_part()
 
 
-	def next_song(self):
+	@staticmethod
+	def next_song():
 		logger.info("This is the \'next song\' action.")
 		pass
 	# TODO: implement this
@@ -619,7 +624,8 @@ class Rotary_Encoder(RgbKnob):
 		# 	self.load_part()
 
 
-	def select_choice(self):
+	@staticmethod
+	def select_choice():
 		logger.info("This is the select action.")
 		pass
 	# TODO: implement this
