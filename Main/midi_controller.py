@@ -158,7 +158,7 @@ def my_button_callback(interrupt_pin):
 		switch_pins.disableInterruptPin(intFlagPin)
 		#read value of the pin that caused the interrupt at the time of the interrupt
 		interrupt_value = switch_pins.readIntrptCapPin(intFlagPin)
-		logger.info("interrupt pin's value: " + str(interrupt_value))
+		logger.info(int_button.name + "\'s interrupt pin's value: " + str(interrupt_value))
 		#rotary push button does not have a "partner" so no need to check that one
 		if int_button.name != "RotaryPB":
 			#print interrupt_bank, intFlagPin #TESTING PURPOSES
