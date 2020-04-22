@@ -590,32 +590,32 @@ class Rotary_Encoder(RgbKnob):
 
 	def prev_part(self):
 		logger.info("This is the \'previous part\' action.")
-		if self.current_part.prev:
-			self.current_part_displayed = self.current_part.prev
+		if self.current_part_displayed.prev:
+			self.current_part_displayed = self.current_part_displayed.prev
 			self.set_song_info_message()
 			# TODO: set a timer so the menu changes back to current part after expiration
 
 
 	def next_part(self):
 		logger.info("This is the \'next part\' action.")
-		if self.current_part.next:
-			self.current_part_displayed = self.current_part.next
+		if self.current_part_displayed.next:
+			self.current_part_displayed = self.current_part_displayed.next
 			self.set_song_info_message()
 			# TODO: set a timer so the menu changes back to current part after expiration
 
 
 	def prev_song(self):
 		logger.info("This is the \'previous song\' action.")
-		if self.current_song.prev:
-			self.current_song = self.current_song.prev
+		if self.current_song_displayed.prev:
+			self.current_song_displayed = self.current_song_displayed.prev
 			self.set_song_info_message()
 			# TODO: set a timer so the menu changes back to current song after expiration
 
 
 	def next_song(self):
 		logger.info("This is the \'next song\' action.")
-		if self.current_song.next:
-			self.current_song_displayed = self.current_song.next
+		if self.current_song_displayed.next:
+			self.current_song_displayed = self.current_song_displayed.next
 			self.set_song_info_message()
 			# TODO: set a timer so the menu changes back to current song after expiration
 
