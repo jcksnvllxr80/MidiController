@@ -148,9 +148,11 @@ class Rotary_Encoder(RgbKnob):
 		#load the set, song, and part that was last used that was saved to the default file
 		self.setlist.load_setlist(SET_FOLDER + previously_loaded_set)
 		self.current_song = self.setlist.songs.head
+		self.current_song_displayed = self.current_song
 		while self.current_song.next is not None and previously_loaded_song <> self.current_song.data.name:
 			self.current_song = self.current_song.next
 		self.current_part = self.current_song.data.parts.head
+		self.current_part_displayed = self.current_part
 		while self.current_part.next is not None and previously_loaded_part <> self.current_part.data.part_name:
 			self.current_part = self.current_part.next
 
@@ -354,6 +356,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def load_part(self):
+		self.current_part = self.current_part_displayed
 		tempo_obj = None
 		for midi_pedal_obj in self.all_midi_pedals:
 			if midi_pedal_obj.name == "TapTempo":
@@ -402,6 +405,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def load_song(self):
+		self.current_song = self.current_song_displayed
 		self.current_part = self.current_song.data.parts.head
 		self.load_part()
 
@@ -496,8 +500,8 @@ class Rotary_Encoder(RgbKnob):
 
 			
 	def set_song_info_message(self):
-		self.set_message(self.current_song.data.name + "\n"
-			+ self.current_song.data.bpm + "BPM - " + self.current_part.data.part_name)
+		self.set_message(self.current_song_displayed.data.name + "\n"
+			+ self.current_song_displayed.data.bpm + "BPM - " + self.current_part_displayed.data.part_name)
 
 			
 	def get_message(self):
@@ -564,13 +568,13 @@ class Rotary_Encoder(RgbKnob):
 	def button_executor(self, action):
 		if action:
 			actions = { 
-				"Song Dn": Rotary_Encoder.prev_song,
-				"Song Up": Rotary_Encoder.next_song,
-				"Part Dn": Rotary_Encoder.prev_part,
-				"Select": Rotary_Encoder.select_choice,
-				"Part Up": Rotary_Encoder.next_part
+				"Song Dn": self.prev_song,
+				"Song Up": self.next_song,
+				"Part Dn": self.prev_part,
+				"Select": self.select_choice,
+				"Part Up": self.next_part
 			}
-			actions.get(action, Rotary_Encoder.action_missing)()
+			actions.get(action, self.action_missing)()
 
 
 	def action_missing(self):
@@ -584,51 +588,44 @@ class Rotary_Encoder(RgbKnob):
 				self.load_part()
 
 
-	@staticmethod
-	def prev_part():
+	def prev_part(self):
 		logger.info("This is the \'previous part\' action.")
-		pass
-	# TODO: implement this
-		# if not self.current_song.data.parts.current_node == self.current_song.parts.getTail():
-		# 	self.current_part = self.current_song.data.parts.index_to_node(self.current_part.data.node_to_index + 1)
-		# 	self.load_part()
+		if self.current_part.prev:
+			self.current_part_displayed = self.current_part.prev
+			self.set_song_info_message()
+			# TODO: set a timer so the menu changes back to current part after expiration
 
 
-	@staticmethod
-	def next_part():
+	def next_part(self):
 		logger.info("This is the \'next part\' action.")
-		pass
-	# TODO: implement this
-		# if not self.current_song.data.parts.current_node == self.current_song.parts.getTail():
-		# 	self.current_part = self.current_song.data.parts.index_to_node(self.current_part.data.node_to_index + 1)
-		# 	self.load_part()
+		if self.current_part.next:
+			self.current_part_displayed = self.current_part.next
+			self.set_song_info_message()
+			# TODO: set a timer so the menu changes back to current part after expiration
 
 
-	@staticmethod
-	def prev_song():
+	def prev_song(self):
 		logger.info("This is the \'previous song\' action.")
-		pass
-	# TODO: implement this
-		# if not self.current_song.data.parts.current_node == self.current_song.parts.getTail():
-		# 	self.current_part = self.current_song.data.parts.index_to_node(self.current_part.data.node_to_index + 1)
-		# 	self.load_part()
+		if self.current_song.prev:
+			self.current_song = self.current_song.prev
+			self.set_song_info_message()
+			# TODO: set a timer so the menu changes back to current song after expiration
 
 
-	@staticmethod
-	def next_song():
+	def next_song(self):
 		logger.info("This is the \'next song\' action.")
-		pass
-	# TODO: implement this
-		# if not self.setlist.songs.current_node == self.setlist.songs.getTail():
-		# 	self.current_part = self.current_song.data.parts.index_to_node(self.current_part.data.node_to_index + 1)
-		# 	self.load_part()
+		if self.current_song.next:
+			self.current_song_displayed = self.current_song.next
+			self.set_song_info_message()
+			# TODO: set a timer so the menu changes back to current song after expiration
 
 
-	@staticmethod
-	def select_choice():
+	def select_choice(self):
 		logger.info("This is the \'select\' action.")
-		pass
-	# TODO: implement this
+		if self.current_song is not self.current_song_displayed:
+			self.load_song()
+		elif self.current_part is not self.current_part_displayed:
+			self.load_part()
 
 
 	def next_menu_list_item(self):
