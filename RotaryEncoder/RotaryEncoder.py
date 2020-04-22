@@ -610,7 +610,7 @@ class Rotary_Encoder(RgbKnob):
 		logger.info("This is the \'previous song\' action.")
 		if self.current_song.prev:
 			self.current_song = self.current_song.prev
-			self.song_navigated = true
+			self.song_navigated = True
 			self.set_song_info_message()
 			# TODO: set a timer so the menu changes back to current song after expiration
 
@@ -619,7 +619,7 @@ class Rotary_Encoder(RgbKnob):
 		logger.info("This is the \'next song\' action.")
 		if self.current_song.next:
 			self.current_song = self.current_song.next
-			self.song_navigated = true
+			self.song_navigated = True
 			self.set_song_info_message()
 			# TODO: set a timer so the menu changes back to current song after expiration
 
