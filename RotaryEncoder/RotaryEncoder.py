@@ -148,11 +148,11 @@ class Rotary_Encoder(RgbKnob):
 		#load the set, song, and part that was last used that was saved to the default file
 		self.setlist.load_setlist(SET_FOLDER + previously_loaded_set)
 		self.current_song = self.setlist.songs.head
-		self.current_song_displayed = self.current_song
+		self.song_navigated = False
 		while self.current_song.next is not None and previously_loaded_song <> self.current_song.data.name:
 			self.current_song = self.current_song.next
 		self.current_part = self.current_song.data.parts.head
-		self.current_part_displayed = self.current_part
+		self.part_navigated = False
 		while self.current_part.next is not None and previously_loaded_part <> self.current_part.data.part_name:
 			self.current_part = self.current_part.next
 
@@ -356,7 +356,6 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def load_part(self):
-		self.current_part = self.current_part_displayed
 		tempo_obj = None
 		for midi_pedal_obj in self.all_midi_pedals:
 			if midi_pedal_obj.name == "TapTempo":
@@ -378,6 +377,7 @@ class Rotary_Encoder(RgbKnob):
 		if tempo_obj is not None:
 			tempo_obj.setTempo(float(self.current_song.data.bpm))
 		self.save_part_to_default()
+		self.part_navigated = False
 
 		
 	def get_rotary_movement(self, a, b):
@@ -405,8 +405,8 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def load_song(self):
-		self.current_song = self.current_song_displayed
 		self.current_part = self.current_song.data.parts.head
+		self.part_navigated = False
 		self.load_part()
 
 
@@ -500,8 +500,8 @@ class Rotary_Encoder(RgbKnob):
 
 			
 	def set_song_info_message(self):
-		self.set_message(self.current_song_displayed.data.name + "\n"
-			+ self.current_song_displayed.data.bpm + "BPM - " + self.current_part_displayed.data.part_name)
+		self.set_message(self.current_song.data.name + "\n"
+			+ self.current_song.data.bpm + "BPM - " + self.current_part.data.part_name)
 
 			
 	def get_message(self):
@@ -590,41 +590,45 @@ class Rotary_Encoder(RgbKnob):
 
 	def prev_part(self):
 		logger.info("This is the \'previous part\' action.")
-		if self.current_part_displayed.prev:
-			self.current_part_displayed = self.current_part_displayed.prev
+		if self.current_part.prev:
+			self.current_part = self.current_part.prev
+			self.part_navigated = True
 			self.set_song_info_message()
 			# TODO: set a timer so the menu changes back to current part after expiration
 
 
 	def next_part(self):
 		logger.info("This is the \'next part\' action.")
-		if self.current_part_displayed.next:
-			self.current_part_displayed = self.current_part_displayed.next
+		if self.current_part.next:
+			self.current_part = self.current_part.next
+			self.part_navigated = True
 			self.set_song_info_message()
 			# TODO: set a timer so the menu changes back to current part after expiration
 
 
 	def prev_song(self):
 		logger.info("This is the \'previous song\' action.")
-		if self.current_song_displayed.prev:
-			self.current_song_displayed = self.current_song_displayed.prev
+		if self.current_song.prev:
+			self.current_song = self.current_song.prev
+			self.song_navigated = true
 			self.set_song_info_message()
 			# TODO: set a timer so the menu changes back to current song after expiration
 
 
 	def next_song(self):
 		logger.info("This is the \'next song\' action.")
-		if self.current_song_displayed.next:
-			self.current_song_displayed = self.current_song_displayed.next
+		if self.current_song.next:
+			self.current_song = self.current_song.next
+			self.song_navigated = true
 			self.set_song_info_message()
 			# TODO: set a timer so the menu changes back to current song after expiration
 
 
 	def select_choice(self):
 		logger.info("This is the \'select\' action.")
-		if self.current_song is not self.current_song_displayed:
+		if self.song_navigated:
 			self.load_song()
-		elif self.current_part is not self.current_part_displayed:
+		elif self.part_navigated:
 			self.load_part()
 
 
