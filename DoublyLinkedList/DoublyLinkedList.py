@@ -90,11 +90,13 @@ class DoublyLinkedList(object):
 
 	def node_to_index(self, node):
 		tempNode = self.head
-		for index in range(1, self.length + 1):
+		index = None
+		for i in range(1, self.length + 1):
 			if node is not tempNode:	
 				if tempNode.next is not None:
 					tempNode = tempNode.next
 			else:
+				index = i
 				break
 		return index
 
