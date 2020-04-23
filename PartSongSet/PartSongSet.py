@@ -77,7 +77,9 @@ class Setlist(object):
 		tempo = str(song_dict['tempo']) #get the tempo of the song
 		new_song = Song(song_name, tempo)  #create a new song object
 		parts = song_dict['parts']
-		for part_name in parts.keys(): #iterate the song yaml over each part
+		part_position_dict = {part['position']:part_name for (part_name, part) in parts.iteritems()}
+		for i in range(0,len(part_position_dict)): #iterate the song yaml over each part
+			part_name = part_position_dict.get(i + 1)
 			new_part = Part(part_name)   #create a new part object 
 			part = parts[part_name]
 			pedals = part['pedals']
