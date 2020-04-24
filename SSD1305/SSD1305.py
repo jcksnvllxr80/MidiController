@@ -84,7 +84,7 @@ class _SSD1305(framebuf.FrameBuffer):
     """Base class for SSD1305 display driver"""
 
     # pylint: disable-msg=too-many-arguments
-    def __init__(self, buffer, width, height, *, external_vcc, reset):
+    def __init__(self, buffer, width, height, external_vcc, reset):
         super().__init__(buffer, width, height)
         self.width = width
         self.height = height
