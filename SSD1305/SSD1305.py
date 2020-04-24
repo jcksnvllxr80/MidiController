@@ -264,7 +264,6 @@ class SSD1305_SPI(_SSD1305):
         dc,
         reset,
         cs,
-        *,
         external_vcc=False,
         baudrate=8000000,
         polarity=0,
