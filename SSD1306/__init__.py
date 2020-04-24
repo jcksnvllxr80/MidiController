@@ -1,1 +1,1 @@
-from SSD1305 import *
+from SSD1306 import *
