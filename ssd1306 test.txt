@@ -115,8 +115,8 @@ BORDER = 8
  
 # Use for SPI
 spi = board.SPI()
-oled_cs = digitalio.DigitalInOut(board.D5)
-oled_dc = digitalio.DigitalInOut(board.D6)
+oled_cs = digitalio.DigitalInOut(board.D7)  #D5
+oled_dc = digitalio.DigitalInOut(board.D12) #D6
 oled = adafruit_ssd1305.SSD1305_SPI(WIDTH, HEIGHT, spi, oled_dc, oled_reset, oled_cs)
  
 # Use for I2C.
