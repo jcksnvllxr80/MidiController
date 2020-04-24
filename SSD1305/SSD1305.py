@@ -1,6 +1,6 @@
 # The MIT License (MIT)
 #
-# Copyright (c) 2017 Michael McWethy
+# Copyright (c) 2019 Bryan Siepert for Adafruit Industries
 #
 # Permission is hereby granted, free of charge, to any person obtaining a copy
 # of this software and associated documentation files (the "Software"), to deal
@@ -20,11 +20,26 @@
 # OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN
 # THE SOFTWARE.
 """
-`adafruit_SSD1305`
-====================================================
-MicroPython SSD1305 OLED driver, I2C and SPI interfaces
-* Author(s): Tony DiCola, Michael McWethy
+`adafruit_ssd1305`
+================================================================================
+Framebuf (non-displayio) driver for SSD1305 displays
+* Author(s): Melissa LeBlanc-Williamns, Bryan Siepert, Tony DiCola, Michael McWethy
+Display init commands taken from
+    https://www.buydisplay.com/download/democode/ER-OLED022-1_I2C_DemoCode.txt
+Implementation Notes
+--------------------
+**Software and Dependencies:**
+* Adafruit CircuitPython firmware for the supported boards:
+  https://github.com/adafruit/circuitpython/releases
+* Adafruit's Bus Device library: https://github.com/adafruit/Adafruit_CircuitPython_BusDevice
+* Adafruit's framebuf library: https://github.com/adafruit/Adafruit_CircuitPython_framebuf
 """
+
+# imports
+
+__version__ = "0.0.0-auto.0"
+__repo__ = "https://github.com/adafruit/Adafruit_CircuitPython_SSD1305.git"
+
 
 import time
 
@@ -49,12 +64,16 @@ SET_MEM_ADDR = const(0x20)
 SET_COL_ADDR = const(0x21)
 SET_PAGE_ADDR = const(0x22)
 SET_DISP_START_LINE = const(0x40)
+SET_LUT = const(0x91)
 SET_SEG_REMAP = const(0xA0)
 SET_MUX_RATIO = const(0xA8)
+SET_MASTER_CONFIG = const(0xAD)
 SET_COM_OUT_DIR = const(0xC0)
+SET_COMSCAN_DEC = const(0xC8)
 SET_DISP_OFFSET = const(0xD3)
 SET_COM_PIN_CFG = const(0xDA)
 SET_DISP_CLK_DIV = const(0xD5)
+SET_AREA_COLOR = const(0xD8)
 SET_PRECHARGE = const(0xD9)
 SET_VCOM_DESEL = const(0xDB)
 SET_CHARGE_PUMP = const(0x8D)
@@ -75,63 +94,62 @@ class _SSD1305(framebuf.FrameBuffer):
         if self.reset_pin:
             self.reset_pin.switch_to_output(value=0)
         self.pages = self.height // 8
+        self._column_offset = 0
+        if self.height == 32:
+            self._column_offset = 4  # hardcoded for now...
         # Note the subclass must initialize self.framebuf to a framebuffer.
         # This is necessary because the underlying data buffer is different
         # between I2C and SPI implementations (I2C needs an extra byte).
-        self._power = False
         self.poweron()
         self.init_display()
-
-    @property
-    def power(self):
-        """True if the display is currently powered on, otherwise False"""
-        return self._power
 
     def init_display(self):
         """Base class to initialize display"""
         for cmd in (
             SET_DISP | 0x00,  # off
-            # address setting
-            SET_MEM_ADDR,
-            0x00,  # horizontal
-            # resolution and layout
-            SET_DISP_START_LINE | 0x00,
-            SET_SEG_REMAP | 0x01,  # column addr 127 mapped to SEG0
-            SET_MUX_RATIO,
-            self.height - 1,
-            SET_COM_OUT_DIR | 0x08,  # scan from COM[N] to COM0
-            SET_DISP_OFFSET,
-            0x00,
-            SET_COM_PIN_CFG,
-            0x02 if self.height == 32 or self.height == 16 else 0x12,
             # timing and driving scheme
             SET_DISP_CLK_DIV,
-            0x80,
-            SET_PRECHARGE,
-            0x22 if self.external_vcc else 0xF1,
-            SET_VCOM_DESEL,
-            0x30,  # 0.83*Vcc
-            # display
+            0x80,  # SET_DISP_CLK_DIV
+            SET_SEG_REMAP | 0x01,  # column addr 127 mapped to SEG0 SET_SEG_REMAP
+            SET_MUX_RATIO,
+            self.height - 1,  # SET_MUX_RATIO
+            SET_DISP_OFFSET,
+            0x00,  # SET_DISP_OFFSET
+            SET_MASTER_CONFIG,
+            0x8E,  # Set Master Configuration
+            SET_AREA_COLOR,
+            0x05,  # Set Area Color Mode On/Off & Low Power Display Mode
+            SET_MEM_ADDR,
+            0x00,  # horizontal SET_MEM_ADDR ADD
+            SET_DISP_START_LINE | 0x00,
+            0x2E,  # SET_DISP_START_LINE ADD
+            SET_COMSCAN_DEC,  # Set COM Output Scan Direction 64 to 1
+            SET_COM_PIN_CFG,
+            0x12,  # SET_COM_PIN_CFG
+            SET_LUT,
+            0x3F,
+            0x3F,
+            0x3F,
+            0x3F,  # Current drive pulse width of BANK0, Color A, B, C
             SET_CONTRAST,
-            0xFF,  # maximum
-            SET_ENTIRE_ON,  # output follows RAM contents
-            SET_NORM_INV,  # not inverted
-            # charge pump
+            0xFF,  # maximum SET_CONTRAST to maximum
+            SET_PRECHARGE,
+            0xD2,  # SET_PRECHARGE orig: 0xd9, 0x22 if self.external_vcc else 0xf1,
+            SET_VCOM_DESEL,
+            0x34,  # SET_VCOM_DESEL 0xdb, 0x30, $ 0.83* Vcc
+            SET_NORM_INV,  # not inverted SET_NORM_INV
+            SET_ENTIRE_ON,  # output follows RAM contents  SET_ENTIRE_ON
             SET_CHARGE_PUMP,
-            0x10 if self.external_vcc else 0x14,
+            0x10 if self.external_vcc else 0x14,  # SET_CHARGE_PUMP
             SET_DISP | 0x01,
-        ):  # on
+        ):  # //--turn on oled panel
             self.write_cmd(cmd)
-        if self.width == 72:
-            self.write_cmd(0xAD)
-            self.write_cmd(0x30)
         self.fill(0)
         self.show()
 
     def poweroff(self):
         """Turn off the display (nothing visible)"""
         self.write_cmd(SET_DISP | 0x00)
-        self._power = False
 
     def contrast(self, contrast):
         """Adjust the contrast"""
@@ -160,7 +178,6 @@ class _SSD1305(framebuf.FrameBuffer):
             self.reset_pin.value = 1
             time.sleep(0.010)
         self.write_cmd(SET_DISP | 0x01)
-        self._power = True
 
     def show(self):
         """Update the display"""
@@ -170,13 +187,9 @@ class _SSD1305(framebuf.FrameBuffer):
             # displays with width of 64 pixels are shifted by 32
             xpos0 += 32
             xpos1 += 32
-        if self.width == 72:
-            # displays with width of 72 pixels are shifted by 28
-            xpos0 += 28
-            xpos1 += 28
         self.write_cmd(SET_COL_ADDR)
-        self.write_cmd(xpos0)
-        self.write_cmd(xpos1)
+        self.write_cmd(xpos0 + self._column_offset)
+        self.write_cmd(xpos1 + self._column_offset)
         self.write_cmd(SET_PAGE_ADDR)
         self.write_cmd(0)
         self.write_cmd(self.pages - 1)
