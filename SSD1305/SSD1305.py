@@ -84,7 +84,7 @@ class _SSD1305(framebuf.FrameBuffer):
     """Base class for SSD1305 display driver"""
 
     # pylint: disable-msg=too-many-arguments
-    def __init__(self, buffer, width, height, *, external_vcc, reset):
+    def __init__(self, buffer, width, height, external_vcc, reset):
         super().__init__(buffer, width, height)
         self.width = width
         self.height = height
@@ -208,7 +208,7 @@ class SSD1305_I2C(_SSD1305):
     """
 
     def __init__(
-        self, width, height, i2c, *, addr=0x3C, external_vcc=False, reset=None
+        self, width, height, i2c, addr=0x3C, external_vcc=False, reset=None
     ):
         self.i2c_device = i2c_device.I2CDevice(i2c, addr)
         self.addr = addr
