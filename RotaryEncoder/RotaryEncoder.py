@@ -630,7 +630,7 @@ class Rotary_Encoder(RgbKnob):
 		logger.info("This is the \'next song\' action.")
 		song_to_display = self.setlist.songs.index_to_node(self.displayed_song_index + 1)
 		if song_to_display and (self.displayed_song_index < self.setlist.songs.length):
-				self.displayed_song_index += 1 
+			self.displayed_song_index += 1 
 			self.set_song_info_message_by_value(song_to_display, song_to_display.data.parts.head)
 			# TODO: set a timer so the menu changes back to current song after expiration
 
