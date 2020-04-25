@@ -30,7 +30,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 class OledDisplay(object):
-  font_type = 'verminVibes'
+  font_type = 'unispaceReg'
   font_size = 12
   spi_disp = SSD1306.SSD1306_128_64(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000))
 
