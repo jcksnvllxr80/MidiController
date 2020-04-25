@@ -138,7 +138,7 @@ def my_encoder_callback(EncoderInterruptPin):
 
 
 def my_button_callback(interrupt_pin):
-	logger.info("interrupt enter")
+	# logger.info("interrupt enter")
 	#Which bank sent the interrupt; bank A (pin 4) mod 2 is 0; bank B (pin 17) mod 2 is 1
 	interrupt_bank = interrupt_pin % 2  
 	#read the interrupt register; find which pin and bank that caused the interrupt
@@ -149,7 +149,7 @@ def my_button_callback(interrupt_pin):
 		#where pin n returns 2^n. log returns a floating point so turn that into a integer
 		#and add 8 for bank B. interrupt bank is either 0 or 1 from above.
 		intFlagPin = int(math.log(pin_caused_int,2)) + 8*interrupt_bank
-		logger.info("bank: " + str(interrupt_bank) + "; pin: " + str(intFlagPin) + "; interrupt  Register = " + str(pin_caused_int))
+		# logger.info("bank: " + str(interrupt_bank) + "; pin: " + str(intFlagPin) + "; interrupt  Register = " + str(pin_caused_int))
 		#look up the button object that caused the interrupt and assign it to interrupt button
 		int_button = footswitch_dict[str(intFlagPin)]
 		time.sleep(.005)
@@ -158,7 +158,7 @@ def my_button_callback(interrupt_pin):
 		switch_pins.disableInterruptPin(intFlagPin)
 		#read value of the pin that caused the interrupt at the time of the interrupt
 		interrupt_value = switch_pins.readIntrptCapPin(intFlagPin)
-		logger.info(int_button.name + "\'s interrupt pin's value: " + str(interrupt_value))
+		# logger.info(int_button.name + "\'s interrupt pin's value: " + str(interrupt_value))
 		#rotary push button does not have a "partner" so no need to check that one
 		if int_button.name != "RotaryPB":
 			#print interrupt_bank, intFlagPin #TESTING PURPOSES
@@ -166,7 +166,7 @@ def my_button_callback(interrupt_pin):
 			#like bank up, bank down, next song, etc.
 			if int_button.partner and int_button.partner.is_pressed:
 				if interrupt_value:
-					logger.info("partner func")
+					# logger.info("partner func")
 					option_type = None
 					#do the 2-button function for the btn that called it
 					f = int_button.partner.get_partner_function()
@@ -186,13 +186,13 @@ def my_button_callback(interrupt_pin):
 			else:
 				#button state determines which function of the btn whose footswitch was pressed to use
 				action = int_button.button_state(interrupt_value, rotary_push_button.mode)
-				logger.info("interrupt button's action: " + str(action))
+				# logger.info("interrupt button's action: " + str(action))
 				if interrupt_value:
 					if rotary_push_button.mode == "standard" and time.time() - int_button.last_action_time <= 0.5:
 						rotary_push_button.button_executor(action)
 			int_button.last_action_time = time.time()
 		else:
-			logger.info("rotary func")
+			# logger.info("rotary func")
 			#button state determines which function of the btn whose footswitch was pressed to use
 			int_button.button_state(interrupt_value)
 		#reenable the interrupts on the pin of the footswitch that was pressed		
