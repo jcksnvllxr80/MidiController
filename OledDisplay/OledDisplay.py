@@ -11,8 +11,8 @@ RST = 25
 DC = 12
 SPI_PORT = 0
 SPI_DEVICE = 0
-FONT_FOLDER = '/home/pi/Looper/SSD1306/font/'
-IMG_FOLDER = '/home/pi/Looper/SSD1306/images/'
+FONT_FOLDER = '/home/pi/MidiController/SSD1306/font/'
+IMG_FOLDER = '/home/pi/MidiController/SSD1306/images/'
 
 '''   ############ USAGE ###############
 logger.info("info message")
