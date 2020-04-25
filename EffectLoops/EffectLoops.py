@@ -95,7 +95,7 @@ class ButtonOnPedalBoard(object):
 
 
 	def get_partner_button(self):
-		partner_dict = {1: 4, 3: 5, 4: 1, 5: 3}
+		partner_dict = {1: 4, 2:15, 3: 5, 4: 1, 5: 3, 15:2}
 		return partner_dict.get(self.button, None)
 
 
