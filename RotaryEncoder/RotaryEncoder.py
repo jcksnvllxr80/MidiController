@@ -602,6 +602,7 @@ class Rotary_Encoder(RgbKnob):
 	def prev_part(self):
 		logger.info("This is the \'previous part\' action.")
 		part_to_display = self.current_song.data.parts.index_to_node(self.displayed_part_index - 1)
+		logger.info(song_to_display)
 		if part_to_display:
 			self.displayed_part_index -= 1
 			self.set_song_info_message_by_value(self.current_song, part_to_display)
@@ -611,6 +612,7 @@ class Rotary_Encoder(RgbKnob):
 	def next_part(self):
 		logger.info("This is the \'next part\' action.")
 		part_to_display = self.current_song.data.parts.index_to_node(self.displayed_part_index + 1)
+		logger.info(song_to_display)
 		if part_to_display:
 			self.displayed_part_index += 1
 			self.set_song_info_message_by_value(self.current_song, part_to_display)
@@ -620,6 +622,7 @@ class Rotary_Encoder(RgbKnob):
 	def prev_song(self):
 		logger.info("This is the \'previous song\' action.")
 		song_to_display = self.setlist.songs.index_to_node(self.displayed_song_index - 1)
+		logger.info(song_to_display)
 		if song_to_display:
 			self.displayed_song_index -= 1 
 			self.set_song_info_message_by_value(song_to_display, song_to_display.data.parts.head)
@@ -629,6 +632,7 @@ class Rotary_Encoder(RgbKnob):
 	def next_song(self):
 		logger.info("This is the \'next song\' action.")
 		song_to_display = self.setlist.songs.index_to_node(self.displayed_song_index + 1)
+		logger.info(song_to_display)
 		if song_to_display:
 			self.displayed_song_index += 1 
 			self.set_song_info_message_by_value(song_to_display, song_to_display.data.parts.head)
