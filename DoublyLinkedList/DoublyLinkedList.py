@@ -83,9 +83,8 @@ class DoublyLinkedList(object):
 	def index_to_node(self, index):
 		node = self.head
 		for i in range(1, index):
-			node = node.next
-			if node is None:
-				break
+			if node.next is not None:
+				node = node.next
 		return node
 
 
