@@ -84,18 +84,18 @@ class ButtonOnPedalBoard(object):
 
 
 	def from_button_to_pin(self, button):
-		button_to_pin_dict = {1:0, 2:1, 3:2, 4:8, 5:10}
+		button_to_pin_dict = {1:0, 2:1, 3:2, 4:8, 5:10, 15:15}
 		return button_to_pin_dict.get(button, None)
 
 
 	def set_partner(self, partner):
 		if partner:
 			self.partner = partner
-			self.partner.parter = self
+			self.partner.partner = self
 
 
 	def get_partner_button(self):
-		partner_dict = {1: 4, 3: 5, 4: 1, 5: 3}
+		partner_dict = {1: 4, 2:15, 3: 5, 4: 1, 5: 3, 15:2}
 		return partner_dict.get(self.button, None)
 
 

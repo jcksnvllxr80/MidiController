@@ -7,7 +7,8 @@ import yaml
 import xml.etree.ElementTree as ET # for reading and writing to XML files
 #import custom packages
 import EffectLoops
-import Adafruit_CharLCD
+# import Adafruit_CharLCD
+import OledDisplay
 import PartSongSet
 import N_Tree
 from numpy import arange
@@ -141,7 +142,8 @@ class Rotary_Encoder(RgbKnob):
 		previously_loaded_part = kwargs["p"]
 		#initialize parent class
 		super(Rotary_Encoder, self).__init__(knob_color)
-		self.lcd = Adafruit_CharLCD.Adafruit_CharLCDPlate() #Rotary_Encoder "has-a" lcd
+		self.oled = OledDisplay.OledDisplay()
+		# self.lcd = Adafruit_CharLCD.Adafruit_CharLCDPlate() #Rotary_Encoder "has-a" lcd
 		self.setlist = PartSongSet.Setlist() #Rotary_Encoder "has-a" Setlist
 		self.displayed_msg = ""
 		self.setlist_name = previously_loaded_set
@@ -193,15 +195,16 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def clean_up_display(self):
-		self.lcd.clear()
-		self.lcd.set_backlight(0)
-		logger.info("Cleared LCD screen and turned off the backlight.") 
+		self.oled.clear_display()
+		# self.lcd.clear()
+		# self.lcd.set_backlight(0)
 
 
 	def power_off(self):
 		self.set_message("Goodbye.")
-		self.lcd._delay_microseconds(1000000)
-		self.lcd.set_backlight(0)
+		self.oled._delay_microseconds(1000000)
+		# self.lcd._delay_microseconds(1000000)
+		# self.lcd.set_backlight(0)
 		os.system('sudo shutdown now -h')
 
 
@@ -487,8 +490,9 @@ class Rotary_Encoder(RgbKnob):
 	def set_message(self, msg):
 		'''display a message on the lcd screen
 		'''
-		self.lcd.clear()
-		self.lcd.message(msg)
+		self.oled.setDisplayMessage(msg)
+		# self.lcd.clear()
+		# self.lcd.message(msg)
 		self.displayed_msg = msg
 
 		
@@ -548,7 +552,8 @@ class Rotary_Encoder(RgbKnob):
 	def set_temp_message(self, temp_message):
 		saved_message = self.get_message()
 		self.set_message(temp_message)
-		self.lcd._delay_microseconds(1000000)
+		self.oled._delay_microseconds(1000000)
+		# self.lcd._delay_microseconds(1000000)
 		self.set_message(saved_message)
 
 		
@@ -597,7 +602,7 @@ class Rotary_Encoder(RgbKnob):
 	def prev_part(self):
 		logger.info("This is the \'previous part\' action.")
 		part_to_display = self.current_song.data.parts.index_to_node(self.displayed_part_index - 1)
-		if part_to_display:
+		if part_to_display and (self.displayed_part_index > 1):
 			self.displayed_part_index -= 1
 			self.set_song_info_message_by_value(self.current_song, part_to_display)
 			# TODO: set a timer so the menu changes back to current part after expiration
@@ -606,7 +611,7 @@ class Rotary_Encoder(RgbKnob):
 	def next_part(self):
 		logger.info("This is the \'next part\' action.")
 		part_to_display = self.current_song.data.parts.index_to_node(self.displayed_part_index + 1)
-		if part_to_display:
+		if part_to_display and (self.displayed_part_index < self.current_song.data.parts.length):
 			self.displayed_part_index += 1
 			self.set_song_info_message_by_value(self.current_song, part_to_display)
 			# TODO: set a timer so the menu changes back to current part after expiration
@@ -615,7 +620,7 @@ class Rotary_Encoder(RgbKnob):
 	def prev_song(self):
 		logger.info("This is the \'previous song\' action.")
 		song_to_display = self.setlist.songs.index_to_node(self.displayed_song_index - 1)
-		if song_to_display:
+		if song_to_display and (self.displayed_song_index > 1):
 			self.displayed_song_index -= 1 
 			self.set_song_info_message_by_value(song_to_display, song_to_display.data.parts.head)
 			# TODO: set a timer so the menu changes back to current song after expiration
@@ -624,7 +629,7 @@ class Rotary_Encoder(RgbKnob):
 	def next_song(self):
 		logger.info("This is the \'next song\' action.")
 		song_to_display = self.setlist.songs.index_to_node(self.displayed_song_index + 1)
-		if song_to_display:
+		if song_to_display and (self.displayed_song_index < self.setlist.songs.length):
 			self.displayed_song_index += 1 
 			self.set_song_info_message_by_value(song_to_display, song_to_display.data.parts.head)
 			# TODO: set a timer so the menu changes back to current song after expiration
