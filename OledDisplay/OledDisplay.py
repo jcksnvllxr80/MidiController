@@ -13,7 +13,22 @@ SPI_DEVICE = 0
 FONT_FOLDER = '/home/pi/Looper/SSD1306/font/'
 IMG_FOLDER = '/home/pi/Looper/SSD1306/images/'
 
-class ButtonDisplay(object):
+'''   ############ USAGE ###############
+logger.info("info message")
+logger.warning("warning message")
+logger.error("error message")
+'''
+logger = logging.getLogger(__name__)   
+logger.setLevel(logging.DEBUG)
+logger.propagate = False
+# create console handler and set level to info
+handler = logging.StreamHandler()
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s [OledDisplay.py] [%(levelname)-5.5s]  %(message)s")
+handler.setFormatter(formatter)
+logger.addHandler(handler)
+
+class OledDisplay(object):
   font_type = None
   font_size = 0
   spi_disp = SSD1306.SSD1306_128_64(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000))
@@ -28,13 +43,20 @@ class ButtonDisplay(object):
 			self.spi_disp.clear()
 			self.spi_disp.display()
 			self.spiDisable()
-			self.pedalImage = None
+			self.displayImage = None
 		else:
-			ButtonDisplay.font_type = ft
-			ButtonDisplay.font_size = fs
+			OledDisplay.font_type = ft
+			OledDisplay.font_size = fs
 
 
-  def setButtonDisplayMessage(self, msg, mode):
+  def _delay_microseconds(self, microseconds):
+      # Busy wait in loop because delays are generally very short (few microseconds).
+      end = time.time() + (microseconds/1000000.0)
+      while time.time() < end:
+          pass
+
+
+  def setDisplayMessage(self, msg):
 		self.message = msg
 		backgroundColor = 0
 		textColor = 255
@@ -42,14 +64,14 @@ class ButtonDisplay(object):
 		font = ImageFont.truetype(FONT_FOLDER + self.font_type + ".ttf", self.font_size)
 		draw = ImageDraw.Draw(image)
 		# Clear image buffer by drawing a black filled box.
-		if self.invertDisplayColors and mode == "Song":
+		if self.invertDisplayColors:
 			backgroundColor = 255
 			textColor = 0
 			
 		draw.rectangle((0,0,self.width,self.height), outline=backgroundColor, fill=backgroundColor)
 		y = 0
-		if self.pedalImage is not None:
-			image = Image.open(IMG_FOLDER + self.pedalImage + '.ppm').convert('1') #for testing. comment when not testing
+		if self.displayImage is not None:
+			image = Image.open(IMG_FOLDER + self.displayImage + '.ppm').convert('1') #for testing. comment when not testing
 		else:
 			for str in msg.split(" "):
 				xMax, yMax = draw.textsize(str, font=font)
@@ -80,5 +102,11 @@ class ButtonDisplay(object):
     # not implemented
 
 
-  def setPedalImage(self, filename):
-		self.pedalImage = filename
+  def setDisplayImage(self, filename):
+    self.displayImage = filename
+    logger.info("Image set.")
+
+
+  def clear_display(self):
+    # not implemented
+    logger.info("Cleared OLED screen.") 
