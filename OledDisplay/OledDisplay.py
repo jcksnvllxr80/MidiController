@@ -1,4 +1,5 @@
 import time
+import logging
 import Adafruit_GPIO.SPI as SPI
 import SSD1306
 import RPi.GPIO as GPIO
