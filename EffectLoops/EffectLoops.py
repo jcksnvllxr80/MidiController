@@ -91,7 +91,7 @@ class ButtonOnPedalBoard(object):
 	def set_partner(self, partner):
 		if partner:
 			self.partner = partner
-			self.partner.parter = self
+			self.partner.partner = self
 
 
 	def get_partner_button(self):
