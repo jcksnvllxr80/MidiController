@@ -32,18 +32,19 @@ logger.addHandler(handler)
 class OledDisplay(object):
   font_type = 'unispaceReg'
   font_size = 9
-  spi_disp = SSD1306.SSD1306_128_64(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000))
 
   def __init__(self, ft=None, fs=None):	
+		self.spi_disp = SSD1306.SSD1306_128_64(
+			rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000)
+		)
 		if ft is None and fs is None:
 			self.invertDisplayColors = False
-			self.spiEnable()
+			# self.spiEnable()
 			self.spi_disp.begin()
 			self.width = self.spi_disp.width
 			self.height = self.spi_disp.height
-			self.spi_disp.clear()
-			self.spi_disp.display()
-			self.spiDisable()
+			self.clear_display()
+			# self.spiDisable()
 			self.displayImage = None
 		else:
 			OledDisplay.font_type = ft
@@ -109,5 +110,6 @@ class OledDisplay(object):
 
 
   def clear_display(self):
-    # not implemented
-    logger.info("Cleared OLED screen.") 
+		self.spi_disp.clear()
+		self.spi_disp.display()
+		logger.info("Cleared OLED screen.") 
