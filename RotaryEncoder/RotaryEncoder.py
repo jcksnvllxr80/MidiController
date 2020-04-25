@@ -611,7 +611,7 @@ class Rotary_Encoder(RgbKnob):
 	def next_part(self):
 		logger.info("This is the \'next part\' action.")
 		part_to_display = self.current_song.data.parts.index_to_node(self.displayed_part_index + 1)
-		if part_to_display and (self.displayed_part_index < self.current_song.parts.length):
+		if part_to_display and (self.displayed_part_index < self.current_song.data.parts.length):
 			self.displayed_part_index += 1
 			self.set_song_info_message_by_value(self.current_song, part_to_display)
 			# TODO: set a timer so the menu changes back to current part after expiration
