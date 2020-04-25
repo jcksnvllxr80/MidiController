@@ -74,7 +74,7 @@ class OledDisplay(object):
 		if self.displayImage is not None:
 			image = Image.open(IMG_FOLDER + self.displayImage + '.ppm').convert('1') #for testing. comment when not testing
 		else:
-			for str in msg.split(" "):
+			for str in msg.split(" - "):
 				xMax, yMax = draw.textsize(str, font=font)
 				x = (self.width - xMax)/2
 				draw.text((x, y), str, font=font, fill=textColor) 
