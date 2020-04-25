@@ -31,7 +31,7 @@ logger.addHandler(handler)
 
 class OledDisplay(object):
   font_type = 'unispaceReg'
-  font_size = 8
+  font_size = 9
   spi_disp = SSD1306.SSD1306_128_64(rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000))
 
   def __init__(self, ft=None, fs=None):	
