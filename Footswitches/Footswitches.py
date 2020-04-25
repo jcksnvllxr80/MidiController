@@ -7,11 +7,18 @@ import MCP23017_R1
 
 class Looper_Switches(MCP23017_R1.MCP23017, object):
 
-	LOOP_SWITCH_5              = 10
-	LOOP_SWITCH_4              = 8
+	LOOP_SWITCH_10             = 12
+	LOOP_SWITCH_9              = 11
+	LOOP_SWITCH_8              = 10
+	LOOP_SWITCH_7              = 9
+	LOOP_SWITCH_6              = 8
+
+	LOOP_SWITCH_5              = 4
+	LOOP_SWITCH_4              = 3
 	LOOP_SWITCH_3              = 2
 	LOOP_SWITCH_2              = 1
 	LOOP_SWITCH_1              = 0
+
 	SELECTOR_SWITCH            = 15
 
 	BIT_A0	= 0
@@ -35,7 +42,8 @@ class Looper_Switches(MCP23017_R1.MCP23017, object):
 	allPins = [BIT_A0, BIT_A1, BIT_A2, BIT_A3, BIT_A4, BIT_A5, BIT_A6, BIT_A7, BIT_B0, BIT_B1, BIT_B2, BIT_B3, BIT_B4, BIT_B5, BIT_B6, BIT_B7]
 	allPins_A = [BIT_A0, BIT_A1, BIT_A2, BIT_A3, BIT_A4, BIT_A5, BIT_A6, BIT_A7]
 	allPins_B = [BIT_B0, BIT_B1, BIT_B2, BIT_B3, BIT_B4, BIT_B5, BIT_B6, BIT_B7]
-	footswitch_pins = [LOOP_SWITCH_1, LOOP_SWITCH_2, LOOP_SWITCH_3, LOOP_SWITCH_4, LOOP_SWITCH_5, SELECTOR_SWITCH]
+	footswitch_pins = [LOOP_SWITCH_1, LOOP_SWITCH_2, LOOP_SWITCH_3, LOOP_SWITCH_4, LOOP_SWITCH_5,
+		LOOP_SWITCH_6, LOOP_SWITCH_7, LOOP_SWITCH_8, LOOP_SWITCH_9, LOOP_SWITCH_10, SELECTOR_SWITCH]
 		
 	def __init__(self, address=0x22, busnum=I2C.get_default_bus()):
 		# Configure MCP23017 device.
