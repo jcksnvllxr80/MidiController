@@ -84,7 +84,7 @@ class ButtonOnPedalBoard(object):
 
 
 	def from_button_to_pin(self, button):
-		button_to_pin_dict = {1:0, 2:1, 3:2, 4:8, 5:10}
+		button_to_pin_dict = {1:0, 2:1, 3:2, 4:8, 5:10, 15:15}
 		return button_to_pin_dict.get(button, None)
 
 
