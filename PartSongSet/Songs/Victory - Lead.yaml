@@ -16,6 +16,9 @@ parts:
             QuartzV2:
                 engaged: True
                 preset: 0
+            Iridium:
+                engaged: True
+                preset: 1
             # SuperSwitcher:
             #     loops:
             #         Morning Glory:
@@ -42,21 +45,9 @@ parts:
     Bridge:
         position: 2
         pedals: 
-            RC Booster:
-                engaged: True
-            Deep Six:
-                engaged: True
-            Angry Charlie:
-                engaged: True
             Scarlett Love:
                 engaged: True
                 preset: Plexi
-            POG:
-                engaged: False
-            El Capistan:
-                engaged: False
-            Super Pulsar:
-                engaged: False
             TimeLine:
                 engaged: False
                 preset: 2
@@ -66,6 +57,9 @@ parts:
             QuartzV2:
                 engaged: True
                 preset: 0
+            Iridium:
+                engaged: True
+                preset: 1
             # SuperSwitcher:
             #     loops:
             #         Morning Glory:

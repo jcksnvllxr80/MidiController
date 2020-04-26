@@ -64,12 +64,27 @@ midi:
         turn_on:
           cc: null
           pc: null
+      name: Iridium
+      preset:
+        name: null
+        number: 1
+      state: true
+    4:
+      commands:
+        change_preset:
+          cc: null
+          pc: null
+        turn_off:
+          cc: null
+          pc: null
+        turn_on:
+          cc: null
+          pc: null
       name: BigSky
       preset:
         name: null
         number: 2
       state: true
-    4: null
     5: null
     6: null
     7: null

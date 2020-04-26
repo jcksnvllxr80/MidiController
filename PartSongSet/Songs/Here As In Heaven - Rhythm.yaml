@@ -16,6 +16,9 @@ parts:
             QuartzV2:
                 engaged: False
                 preset: 1
+            Iridium:
+                engaged: True
+                preset: 1
             # SuperSwitcher:
             #     loops:
             #         Morning Glory:
@@ -52,6 +55,9 @@ parts:
                 engaged: True
                 preset: 1
             QuartzV2:
+                engaged: True
+                preset: 1
+            Iridium:
                 engaged: True
                 preset: 1
             # SuperSwitcher:
@@ -92,6 +98,9 @@ parts:
             QuartzV2:
                 engaged: True
                 preset: 1
+            Iridium:
+                engaged: True
+                preset: 1
             # SuperSwitcher:
             #     loops:
             #         Morning Glory:
@@ -128,6 +137,9 @@ parts:
                 engaged: True
                 preset: 1
             QuartzV2:
+                engaged: True
+                preset: 1
+            Iridium:
                 engaged: True
                 preset: 1
             # SuperSwitcher:
