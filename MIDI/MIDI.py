@@ -2,6 +2,23 @@
 #import smbus #used for i2c #THE OLD i2c WAY
 import Adafruit_GPIO.I2C as I2C # THE NEW WAY
 import time
+import logging
+
+'''   ############ USAGE ###############
+logger.debug("debug message")
+logger.info("info message")
+logger.warning("warning message")
+logger.error("error message")
+'''
+logger = logging.getLogger(__name__)   
+logger.setLevel(logging.DEBUG)
+logger.propagate = False
+# create console handler and set level to info
+handler = logging.StreamHandler()
+handler.setLevel(logging.INFO)
+formatter = logging.Formatter("%(asctime)s [MIDI.py] [%(levelname)-5.5s]  %(message)s")
+handler.setFormatter(formatter)
+logger.addHandler(handler)
 
 i2c_device = I2C.get_i2c_device(address=0x04, busnum=I2C.get_default_bus())
 
@@ -50,6 +67,7 @@ class MIDI(object):
 		self.write(message)
 		
 	def write(self, msg):
+		logger.debug("MIDI sent: " + repr(msg))
 		for byte in msg:
 			i2c_device.writeRaw8(ord(byte))
 			time.sleep(0.0001)
