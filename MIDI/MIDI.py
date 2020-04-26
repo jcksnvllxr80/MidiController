@@ -22,7 +22,7 @@ logger.addHandler(handler)
 
 i2c_device = I2C.get_i2c_device(address=0x04, busnum=I2C.get_default_bus())
 
-#class MIDI(serial.Serial, object): #when using the raspPi for MIDI
+
 class MIDI(object):
         
 	CCdict = {"1":"\xB0", "2":"\xB1", "3":"\xB2", "4":"\xB3", "5":"\xB4", 
@@ -33,9 +33,6 @@ class MIDI(object):
 		"12":"\xCB", "13":"\xCC", "14":"\xCD", "15":"\xCE", "16":"\xCF"}
 
 	def __init__(self, channel):
-		#self.bus = smbus.SMBus(1) #The old i2c way
-		#set MIDI serial port and baudrate of UART
-		#super(MIDI, self).__init__('/dev/ttyAMA0', baudrate=31250)
 		self.CCchannel = self.CCdict[str(channel)]
 		self.PCchannel = self.PCdict[str(channel)]
 
@@ -71,10 +68,3 @@ class MIDI(object):
 		for byte in msg:
 			i2c_device.writeRaw8(ord(byte))
 			time.sleep(0.0001)
-			#self.bus.write_byte(self.address, ord(byte)) #the old i2c way
-			#self.bus.write_byte(self.address, byte) #use with pi serial
-		# hexStr = ""
-		# for byte in msg:
-			# hexStr += str(hex(ord(byte)))
-		# print hexStr
-	
