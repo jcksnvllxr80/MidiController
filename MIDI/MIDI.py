@@ -67,7 +67,7 @@ class MIDI(object):
 		self.write(message)
 		
 	def write(self, msg):
-		logger.debug("MIDI sent: " + repr(msg))
+		logger.info("MIDI sent: " + repr(msg))
 		for byte in msg:
 			i2c_device.writeRaw8(ord(byte))
 			time.sleep(0.0001)
