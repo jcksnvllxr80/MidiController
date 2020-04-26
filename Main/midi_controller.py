@@ -114,6 +114,7 @@ def setup():
 
 
 def init_logging():
+	logging.basicConfig(filename='/var/log/messages', level=logging.INFO)
 	'''   ############ USAGE ###############
 	logger.info("info message")
 	logger.warning("warning message")
