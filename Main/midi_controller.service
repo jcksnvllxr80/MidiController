@@ -1,14 +1,14 @@
 # this file runs ~/MidiController/Main/midi_controller.py as a service at boot time
 #
 # automate later:
-# sudo update-rc.d looper defaults
+# sudo update-rc.d midi_controller defaults
 # sudo systemctl daemon-reload
-# sudo systemctl enable ~/Looper/Main/looper.service
+# sudo systemctl enable ~/MidiController/Main/midi_controller.service
 #
 # Usage:
-# sudo systemctl start | status | stop | restart looper
+# sudo systemctl start | status | stop | restart midi_controller
 # OR
-# sudo service looper start | status | stop | restart
+# sudo service midi_controller start | status | stop | restart
 
 [Unit]
 Description=My Sample Service
