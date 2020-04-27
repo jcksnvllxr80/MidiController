@@ -271,9 +271,9 @@ class Rotary_Encoder(RgbKnob):
 
 	def set_about(self, menu_item):
 		if menu_item == "IP":
-			show_ip()
+			self.show_ip()
 		elif menu_item == "Stats":
-			show_stats()
+			self.show_stats()
 
 
 	def load_about_func(self):
