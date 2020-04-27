@@ -50,16 +50,15 @@ class OledDisplay(object):
 			self.displayImage = None
 		else:
 			self.set_font(ft, fs)
+	
+
+	def _delay_microseconds(self, microseconds):
+		end = time.time() + (microseconds/1000000.0)
+		while time.time() < end:
+			pass
 
 
-  def _delay_microseconds(self, microseconds):
-      # Busy wait in loop because delays are generally very short (few microseconds).
-      end = time.time() + (microseconds/1000000.0)
-      while time.time() < end:
-          pass
-
-
-  def setDisplayMessage(self, msg):
+	def setDisplayMessage(self, msg):
 		self.message = msg
 		backgroundColor = 0
 		textColor = 255
@@ -84,7 +83,7 @@ class OledDisplay(object):
 		self.spi_disp.display()
 
 
-  def set_font(self, font_type=None, font_size=None):
+	def set_font(self, font_type=None, font_size=None):
 		if font_size:
 			self.font_size = int(font_size)
 		else:
@@ -96,18 +95,18 @@ class OledDisplay(object):
 			self.font_type = ImageFont.load_default()
 
 
-  def setDisplayImage(self, filename):
-    self.displayImage = filename
-    logger.info("Image set.")
+	def setDisplayImage(self, filename):
+		self.displayImage = filename
+		logger.info("Image set.")
 
 
-  def clear_display(self):
+	def clear_display(self):
 		self.spi_disp.clear()
 		self.spi_disp.display()
 		logger.info("Cleared OLED screen.")
 
 
-  def display_stats(self):
+	def display_stats(self):
 		self.show_stats	= True
 		image = Image.new('1', (self.width, self.height))
 		draw = ImageDraw.Draw(image)
