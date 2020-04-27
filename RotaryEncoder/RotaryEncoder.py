@@ -249,12 +249,12 @@ class Rotary_Encoder(RgbKnob):
 
 	def show_ip(self):
 		self.oled.setDisplayMessage(self.get_ip())
-		self.oled._delay_microseconds(5000000)
+		# self.oled._delay_microseconds(5000000)
 
 
 	def show_stats(self):
 		self.oled.setDisplayMessage(self.get_stats())
-		self.oled._delay_microseconds(5000000)
+		# self.oled._delay_microseconds(5000000)
 
 
 	def load_color_func(self):
@@ -278,7 +278,7 @@ class Rotary_Encoder(RgbKnob):
 
 	def load_about_func(self):
 		self.set_about(self.about_menu.menu_data_items[self.about_menu.menu_data_position])
-		self.change_menu_nodes(self.knobbrightness_menu.parent)
+		# self.change_menu_nodes(self.about_menu.parent)
 
 
 	def test_point_node_printer(self, the_node):
