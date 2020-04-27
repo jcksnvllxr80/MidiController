@@ -34,7 +34,6 @@ logger.addHandler(handler)
 class OledDisplay(object):
 	font_type = None
 	font_size = None
-	show_stats = False
 
 	def __init__(self, ft=None, fs=None):	
 		self.spi_disp = SSD1306.SSD1306_128_64(
@@ -43,6 +42,7 @@ class OledDisplay(object):
 		if ft is None and fs is None:
 			self.set_font()
 			self.invertDisplayColors = False
+			self.set_show_stats(False)
 			self.spi_disp.begin()
 			self.width = self.spi_disp.width
 			self.height = self.spi_disp.height
@@ -51,6 +51,14 @@ class OledDisplay(object):
 		else:
 			self.set_font(ft, fs)
 	
+
+	def set_show_stats(self, show_stats):
+		self.show_stats = show_stats
+
+
+	def get_show_stats(self):
+		return self.show_stats
+
 
 	def _delay_microseconds(self, microseconds):
 		end = time.time() + (microseconds/1000000.0)
@@ -107,7 +115,7 @@ class OledDisplay(object):
 
 
 	def display_stats(self):
-		self.show_stats	= True
+		self.set_show_stats(True)
 		image = Image.new('1', (self.width, self.height))
 		draw = ImageDraw.Draw(image)
 		# Draw a black filled box to clear the image.
@@ -118,7 +126,7 @@ class OledDisplay(object):
 		top = padding
 		# Move left to right keeping track of the current x position for drawing shapes.
 		x = 0
-		while self.show_stats:
+		while self.get_show_stats():
 			# Draw a black filled box to clear the image.
 			draw.rectangle((0,0,self.width,self.height), outline=0, fill=0)
 			# Shell scripts for system monitoring from here : https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-usage-and-cpu-load
@@ -138,7 +146,7 @@ class OledDisplay(object):
 			draw.text((x, top+25),    str(Disk),  font=self.font_type, fill=255)
 
 			self.spi_disp.image(image)
-			if self.show_stats:
+			if self.get_show_stats():
 				# Display image.
 				self.spi_disp.display()
 				time.sleep(.1)
