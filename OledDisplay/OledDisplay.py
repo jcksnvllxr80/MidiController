@@ -32,17 +32,17 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 class OledDisplay(object):
-  font_type = None
-  font_size = None
+	font_type = None
+	font_size = None
+	show_stats = False
 
-  def __init__(self, ft=None, fs=None):	
+	def __init__(self, ft=None, fs=None):	
 		self.spi_disp = SSD1306.SSD1306_128_64(
 			rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000)
 		)
 		if ft is None and fs is None:
 			self.set_font()
 			self.invertDisplayColors = False
-			self.show_stats	= False
 			self.spi_disp.begin()
 			self.width = self.spi_disp.width
 			self.height = self.spi_disp.height
