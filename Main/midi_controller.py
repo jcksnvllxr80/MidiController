@@ -132,14 +132,12 @@ def init_logging():
 
 
 def my_encoder_callback(EncoderInterruptPin):
-	rotary_push_button.oled.set_show_stats(False)
 	direction = rotary_push_button.get_rotary_movement(GPIO.input(ENCODE_A), GPIO.input(ENCODE_B))
 	if direction is not None:
 		rotary_push_button.change_menu_pos(direction)
 
 
 def my_button_callback(interrupt_pin):
-	rotary_push_button.oled.set_show_stats(False)
 	# logger.info("interrupt enter")
 	#Which bank sent the interrupt; bank A (pin 4) mod 2 is 0; bank B (pin 17) mod 2 is 1
 	interrupt_bank = interrupt_pin % 2  

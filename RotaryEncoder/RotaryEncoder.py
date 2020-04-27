@@ -13,6 +13,7 @@ import PartSongSet
 import N_Tree
 from numpy import arange
 import logging
+import subprocess
 
 '''   ############ USAGE ###############
 logger.info("info message")
@@ -42,6 +43,7 @@ class RgbKnob(object):
 	#global variables
 	FREQ = 1000
 	COLORS = ["Off", "Blue", "Green", "Cyan", "Red", "Magenta", "Yellow", "White"]
+	STATS = ["IP", "Stats"]
 	
 	def __init__(self, knob_color):
 		col, val = knob_color
@@ -116,7 +118,6 @@ class RgbKnob(object):
 		self._red.ChangeDutyCycle(100 - self.r)
 		self._green.ChangeDutyCycle(100 - self.g)
 		self._blue.ChangeDutyCycle(100 - self.b)
-	
 
 
 class Rotary_Encoder(RgbKnob):
@@ -178,7 +179,7 @@ class Rotary_Encoder(RgbKnob):
 		# build global menu
 		self.knobcolor_menu = self.global_menu.add_child("Knob Color", self.show_knob_colors, self.load_color_func)
 		self.knobbrightness_menu = self.global_menu.add_child("Knob Brightness", self.show_brightness, self.load_brightness_func)
-		self.stats_menu = self.global_menu.add_child("Stats", self.show_statistics, None)
+		self.about_menu = self.global_menu.add_child("About", self.show_about, self.load_about_func)
 
 		#variables for the rotary movement interpretation loop
 		self.last_good_seq = 0
@@ -193,11 +194,6 @@ class Rotary_Encoder(RgbKnob):
 	def rebuild_menu(self):
 		# build setup menu based on current files stored in filesystem
 		pass
-
-
-	def show_statistics(self):
-		self.oled.set_show_stats(True)
-		self.oled.display_stats()
 
 
 	def clean_up_display(self):
@@ -228,6 +224,39 @@ class Rotary_Encoder(RgbKnob):
 		self.test_point_node_printer(self.knobbrightness_menu)
 
 
+	def show_about(self):
+		self.about_menu.menu_data_items = RgbKnob.STATS
+		self.about_menu.menu_data_prompt = self.about_menu.name + ":"
+		self.about_menu.menu_data_position = self.about_menu.menu_data_items.index('IP')
+		self.test_point_node_printer(self.about_menu)
+
+
+	def get_ip(self):
+		cmd = "hostname -I | cut -d\' \' -f1"
+		IP = subprocess.check_output(cmd, shell = True )
+		return "IP: " + str(IP)
+
+
+	def get_stats(self):
+		cmd = "top -bn1 | grep load | awk '{printf \"CPU Load: %.2f\", $(NF-2)}'"
+		CPU = subprocess.check_output(cmd, shell = True )
+		cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
+		MemUsage = subprocess.check_output(cmd, shell = True )
+		cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
+		Disk = subprocess.check_output(cmd, shell = True )
+		return str(CPU) + " - " + str(MemUsage) + " - " + str(Disk)
+
+
+	def show_ip(self):
+		self.oled.setDisplayMessage(self.get_ip())
+		self.oled._delay_microseconds(2500000)
+
+
+	def show_stats(self):
+		self.oled.setDisplayMessage(self.get_stats())
+		self.oled._delay_microseconds(2500000)
+
+
 	def load_color_func(self):
 		self.set_color(self.knobcolor_menu.menu_data_items[self.knobcolor_menu.menu_data_position])
 		self.save_color_as_default()
@@ -237,6 +266,18 @@ class Rotary_Encoder(RgbKnob):
 	def load_brightness_func(self):
 		self.set_brightness(self.knobbrightness_menu.menu_data_items[self.knobbrightness_menu.menu_data_position])
 		self.save_color_as_default()
+		self.change_menu_nodes(self.knobbrightness_menu.parent)
+
+
+	def set_about(self, menu_item):
+		if menu_item == "IP":
+			show_ip()
+		elif menu_item == "Stats":
+			show_stats()
+
+
+	def load_about_func(self):
+		self.set_about(self.about_menu.menu_data_items[self.about_menu.menu_data_position])
 		self.change_menu_nodes(self.knobbrightness_menu.parent)
 
 
