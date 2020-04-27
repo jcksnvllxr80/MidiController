@@ -249,12 +249,12 @@ class Rotary_Encoder(RgbKnob):
 
 	def show_ip(self):
 		self.oled.setDisplayMessage(self.get_ip())
-		self.oled._delay_microseconds(2500000)
+		self.oled._delay_microseconds(5000000)
 
 
 	def show_stats(self):
 		self.oled.setDisplayMessage(self.get_stats())
-		self.oled._delay_microseconds(2500000)
+		self.oled._delay_microseconds(5000000)
 
 
 	def load_color_func(self):
