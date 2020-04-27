@@ -178,7 +178,7 @@ class Rotary_Encoder(RgbKnob):
 		# build global menu
 		self.knobcolor_menu = self.global_menu.add_child("Knob Color", self.show_knob_colors, self.load_color_func)
 		self.knobbrightness_menu = self.global_menu.add_child("Knob Brightness", self.show_brightness, self.load_brightness_func)
-		self.stats_menu = self.global_menu.add_child("Stats", self.oled.display_stats, None)
+		self.stats_menu = self.global_menu.add_child("Stats", self.show_statistics, None)
 
 		#variables for the rotary movement interpretation loop
 		self.last_good_seq = 0
@@ -193,6 +193,11 @@ class Rotary_Encoder(RgbKnob):
 	def rebuild_menu(self):
 		# build setup menu based on current files stored in filesystem
 		pass
+
+
+	def show_statistics(self):
+		self.oled.set_show_stats(True)
+		self.oled.display_stats()
 
 
 	def clean_up_display(self):
