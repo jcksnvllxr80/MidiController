@@ -115,7 +115,6 @@ class OledDisplay(object):
 
 
 	def display_stats(self):
-		self.set_show_stats(True)
 		image = Image.new('1', (self.width, self.height))
 		draw = ImageDraw.Draw(image)
 		# Draw a black filled box to clear the image.
