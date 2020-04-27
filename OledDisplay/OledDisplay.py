@@ -30,15 +30,18 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 class OledDisplay(object):
-  font_type = 'unispaceReg'
-  font_size = 9
+  font_type = None
+  font_size = 0
 
   def __init__(self, ft=None, fs=None):	
 		self.spi_disp = SSD1306.SSD1306_128_64(
 			rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000)
 		)
 		if ft is None and fs is None:
+			self.font_type = ImageFont.load_default()
+			self.font_size = 9
 			self.invertDisplayColors = False
+			self.show_stats	= False
 			# self.spiEnable()
 			self.spi_disp.begin()
 			self.width = self.spi_disp.width
@@ -112,4 +115,34 @@ class OledDisplay(object):
   def clear_display(self):
 		self.spi_disp.clear()
 		self.spi_disp.display()
-		logger.info("Cleared OLED screen.") 
+		logger.info("Cleared OLED screen.")
+		
+	
+	def show_stats(self):
+		self.show_stats	= True
+		while True:
+			# Draw a black filled box to clear the image.
+			draw.rectangle((0,0,self.width,self.height), outline=0, fill=0)
+			# Shell scripts for system monitoring from here : https://unix.stackexchange.com/questions/119126/command-to-display-memory-usage-disk-usage-and-cpu-load
+			cmd = "hostname -I | cut -d\' \' -f1"
+			IP = subprocess.check_output(cmd, shell = True )
+			cmd = "top -bn1 | grep load | awk '{printf \"CPU Load: %.2f\", $(NF-2)}'"
+			CPU = subprocess.check_output(cmd, shell = True )
+			cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
+			MemUsage = subprocess.check_output(cmd, shell = True )
+			cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
+			Disk = subprocess.check_output(cmd, shell = True )
+
+			# Write two lines of text.
+			draw.text((x, top),       "IP: " + str(IP),  font=font, fill=255)
+			draw.text((x, top+8),     str(CPU), font=font, fill=255)
+			draw.text((x, top+16),    str(MemUsage),  font=font, fill=255)
+			draw.text((x, top+25),    str(Disk),  font=font, fill=255)
+
+			disp.image(image)
+			if self.show_stats:
+				# Display image.
+				disp.display()
+				time.sleep(.1)
+			else:
+				break
