@@ -33,27 +33,23 @@ logger.addHandler(handler)
 
 class OledDisplay(object):
   font_type = None
-  font_size = 0
+  font_size = None
 
   def __init__(self, ft=None, fs=None):	
 		self.spi_disp = SSD1306.SSD1306_128_64(
 			rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000)
 		)
 		if ft is None and fs is None:
-			self.font_type = ImageFont.load_default()
-			self.font_size = 9
+			self.set_font()
 			self.invertDisplayColors = False
 			self.show_stats	= False
-			# self.spiEnable()
 			self.spi_disp.begin()
 			self.width = self.spi_disp.width
 			self.height = self.spi_disp.height
 			self.clear_display()
-			# self.spiDisable()
 			self.displayImage = None
 		else:
-			self.font_type = ft
-			self.font_size = fs
+			self.set_font(ft, fs)
 
 
   def _delay_microseconds(self, microseconds):
@@ -68,7 +64,6 @@ class OledDisplay(object):
 		backgroundColor = 0
 		textColor = 255
 		image = Image.new('1', (self.width, self.height))
-		font = ImageFont.truetype(FONT_FOLDER + self.font_type + ".ttf", self.font_size)
 		draw = ImageDraw.Draw(image)
 		# Clear image buffer by drawing a black filled box.
 		if self.invertDisplayColors:
@@ -81,32 +76,24 @@ class OledDisplay(object):
 			image = Image.open(IMG_FOLDER + self.displayImage + '.ppm').convert('1') #for testing. comment when not testing
 		else:
 			for str in msg.split(" - "):
-				xMax, yMax = draw.textsize(str, font=font)
+				xMax, yMax = draw.textsize(str, font=self.font_type)
 				x = (self.width - xMax)/2
-				draw.text((x, y), str, font=font, fill=textColor) 
+				draw.text((x, y), str, font=self.font_type, fill=textColor) 
 				y += yMax + 2
-
-		self.spiEnable()
 		self.spi_disp.image(image)
 		self.spi_disp.display()
-		self.spiDisable()
 
 
-  def setFont(self, fontType=None, fontSize=None):
-    if fontType is not None:
-      self.font_type = fontType
-    if fontSize is not None:
-      self.font_size = int(fontSize)	
+  def set_font(self, font_type=None, font_size=None):
+		if font_size:
+			self.font_size = int(font_size)
+		else:
+			self.font_size = 9
 
-  
-  def spiEnable(self):
-		pass
-    # not implemented
-
-
-  def spiDisable(self):
-		pass
-    # not implemented
+		if font_type:
+			self.font_type = ImageFont.truetype(FONT_FOLDER + font_type + ".ttf", self.font_size)
+		else:
+			self.font_type = ImageFont.load_default()
 
 
   def setDisplayImage(self, filename):
@@ -132,7 +119,6 @@ class OledDisplay(object):
 		top = padding
 		# Move left to right keeping track of the current x position for drawing shapes.
 		x = 0
-		# Load default font.
 		while True:
 			# Draw a black filled box to clear the image.
 			draw.rectangle((0,0,self.width,self.height), outline=0, fill=0)
