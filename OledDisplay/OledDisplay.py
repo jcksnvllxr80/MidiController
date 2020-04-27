@@ -6,6 +6,8 @@ import RPi.GPIO as GPIO
 from PIL import Image
 from PIL import ImageFont
 from PIL import ImageDraw
+import subprocess
+
 
 RST = 25
 DC = 12
@@ -50,8 +52,8 @@ class OledDisplay(object):
 			# self.spiDisable()
 			self.displayImage = None
 		else:
-			OledDisplay.font_type = ft
-			OledDisplay.font_size = fs
+			self.font_type = ft
+			self.font_size = fs
 
 
   def _delay_microseconds(self, microseconds):
@@ -92,9 +94,9 @@ class OledDisplay(object):
 
   def setFont(self, fontType=None, fontSize=None):
     if fontType is not None:
-      ButtonDisplay.font_type = fontType
+      self.font_type = fontType
     if fontSize is not None:
-      ButtonDisplay.font_size = int(fontSize)	
+      self.font_size = int(fontSize)	
 
   
   def spiEnable(self):
@@ -116,10 +118,21 @@ class OledDisplay(object):
 		self.spi_disp.clear()
 		self.spi_disp.display()
 		logger.info("Cleared OLED screen.")
-		
-	
-	def show_stats(self):
+
+
+  def display_stats(self):
 		self.show_stats	= True
+		image = Image.new('1', (self.width, self.height))
+		draw = ImageDraw.Draw(image)
+		# Draw a black filled box to clear the image.
+		draw.rectangle((0,0,self.width,self.height), outline=0, fill=0)
+		# Draw some shapes.
+		# First define some constants to allow easy resizing of shapes.
+		padding = -2
+		top = padding
+		# Move left to right keeping track of the current x position for drawing shapes.
+		x = 0
+		# Load default font.
 		while True:
 			# Draw a black filled box to clear the image.
 			draw.rectangle((0,0,self.width,self.height), outline=0, fill=0)
@@ -134,15 +147,15 @@ class OledDisplay(object):
 			Disk = subprocess.check_output(cmd, shell = True )
 
 			# Write two lines of text.
-			draw.text((x, top),       "IP: " + str(IP),  font=font, fill=255)
-			draw.text((x, top+8),     str(CPU), font=font, fill=255)
-			draw.text((x, top+16),    str(MemUsage),  font=font, fill=255)
-			draw.text((x, top+25),    str(Disk),  font=font, fill=255)
+			draw.text((x, top),       "IP: " + str(IP),  font=self.font_type, fill=255)
+			draw.text((x, top+8),     str(CPU), font=self.font_type, fill=255)
+			draw.text((x, top+16),    str(MemUsage),  font=self.font_type, fill=255)
+			draw.text((x, top+25),    str(Disk),  font=self.font_type, fill=255)
 
-			disp.image(image)
+			self.spi_disp.image(image)
 			if self.show_stats:
 				# Display image.
-				disp.display()
+				self.spi_disp.display()
 				time.sleep(.1)
 			else:
 				break
