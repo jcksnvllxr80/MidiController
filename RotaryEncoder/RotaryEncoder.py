@@ -156,8 +156,10 @@ class Rotary_Encoder(RgbKnob):
 		self.current_part = self.current_song.data.parts.head
 		while self.current_part.next is not None and previously_loaded_part <> self.current_part.data.part_name:
 			self.current_part = self.current_part.next
-		self.displayed_song_index = self.setlist.songs.node_to_index(self.current_song)
-		self.displayed_part_index = self.current_song.data.parts.node_to_index(self.current_part)
+		self.song_to_display = self.current_song
+		self.part_to_display = self.current_part
+		self.displayed_song_index = self.setlist.songs.node_to_index(self.song_to_display)
+		self.displayed_part_index = self.current_song.data.parts.node_to_index(self.part_to_display)
 		# print("{displayed song index: " + str(self.displayed_song_index) + ", displayed part index: " + str(self.displayed_part_index) + "}")
 
 		# set up the MidiController setup menus (set, seong, part, button, bpm)
@@ -346,6 +348,10 @@ class Rotary_Encoder(RgbKnob):
 			  "switched current part to: " + str(self.current_part.data.part_name) + str(self.current_part))
 		self.current_song = self.setlist.songs.head
 		self.current_part = self.current_song.data.parts.head
+		self.song_to_display = self.current_song
+		self.part_to_display = self.current_part
+		self.displayed_song_index = self.setlist.songs.node_to_index(self.song_to_display)
+		self.displayed_part_index = self.current_song.data.parts.node_to_index(self.part_to_display)
 		self.load_part()
 		self.change_menu_nodes()
 
@@ -456,6 +462,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def load_song(self):
+		self.song_to_display = self.current_song
 		self.current_part = self.current_song.data.parts.head
 		self.displayed_song_index = self.setlist.songs.node_to_index(self.current_song)
 		self.load_part()
@@ -648,37 +655,39 @@ class Rotary_Encoder(RgbKnob):
 
 	def prev_part(self):
 		logger.info("This is the \'previous part\' action.")
-		part_to_display = self.current_song.data.parts.index_to_node(self.displayed_part_index - 1)
-		if part_to_display and (self.displayed_part_index > 1):
+		self.part_to_display = self.song_to_display.data.parts.index_to_node(self.displayed_part_index - 1)
+		if self.part_to_display and (self.displayed_part_index > 1):
 			self.displayed_part_index -= 1
-			self.set_song_info_message_by_value(self.current_song, part_to_display)
+			self.set_song_info_message_by_value(self.song_to_display, self.part_to_display)
 			# TODO: set a timer so the menu changes back to current part after expiration
 
 
 	def next_part(self):
 		logger.info("This is the \'next part\' action.")
-		part_to_display = self.current_song.data.parts.index_to_node(self.displayed_part_index + 1)
-		if part_to_display and (self.displayed_part_index < self.current_song.data.parts.length):
+		self.part_to_display = self.song_to_display.data.parts.index_to_node(self.displayed_part_index + 1)
+		if self.part_to_display and (self.displayed_part_index < self.song_to_display.data.parts.length):
 			self.displayed_part_index += 1
-			self.set_song_info_message_by_value(self.current_song, part_to_display)
+			self.set_song_info_message_by_value(self.song_to_display, self.part_to_display)
 			# TODO: set a timer so the menu changes back to current part after expiration
 
 
 	def prev_song(self):
 		logger.info("This is the \'previous song\' action.")
-		song_to_display = self.setlist.songs.index_to_node(self.displayed_song_index - 1)
-		if song_to_display and (self.displayed_song_index > 1):
+		self.song_to_display = self.setlist.songs.index_to_node(self.displayed_song_index - 1)
+		if self.song_to_display and (self.displayed_song_index > 1):
 			self.displayed_song_index -= 1 
-			self.set_song_info_message_by_value(song_to_display, song_to_display.data.parts.head)
+			self.displayed_part_index = 1
+			self.set_song_info_message_by_value(self.song_to_display, self.song_to_display.data.parts.head)
 			# TODO: set a timer so the menu changes back to current song after expiration
 
 
 	def next_song(self):
 		logger.info("This is the \'next song\' action.")
-		song_to_display = self.setlist.songs.index_to_node(self.displayed_song_index + 1)
-		if song_to_display and (self.displayed_song_index < self.setlist.songs.length):
+		self.song_to_display = self.setlist.songs.index_to_node(self.displayed_song_index + 1)
+		if self.song_to_display and (self.displayed_song_index < self.setlist.songs.length):
 			self.displayed_song_index += 1 
-			self.set_song_info_message_by_value(song_to_display, song_to_display.data.parts.head)
+			self.displayed_part_index = 1
+			self.set_song_info_message_by_value(self.song_to_display, self.song_to_display.data.parts.head)
 			# TODO: set a timer so the menu changes back to current song after expiration
 
 
