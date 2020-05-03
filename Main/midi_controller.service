@@ -16,7 +16,7 @@ After=local-fs.target basic.target
 
 [Service]
 Type=idle
-User=sudo
+User=root
 ExecStart=/usr/bin/nohup /usr/bin/python /home/pi/MidiController/Main/midi_controller.py 2>&1 &
 
 [Install]
