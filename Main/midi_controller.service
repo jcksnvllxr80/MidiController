@@ -11,7 +11,7 @@
 # sudo service midi_controller start | status | stop | restart
 
 [Unit]
-Description=My Sample Service
+Description=Midi Controller Service
 After=local-fs.target basic.target
 
 [Service]
