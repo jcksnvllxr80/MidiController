@@ -25,7 +25,7 @@ class Setlist(object):
 	'''class for importing, editing, and maintaining a setlist. 
 	'''
 	def __init__(self):
-		clear_song_data()
+		self.clear_song_data()
 
 	
 	def clear_song_data(self):
@@ -59,7 +59,7 @@ class Setlist(object):
 		'''read and load the setlist. calls the getsongnames method and then calls the loadsong method
 		'''
 		logger.info("set setlist to: " + setlist_path)
-		clear_song_data()
+		self.clear_song_data()
 		self.get_song_names(setlist_path)
 		for song_name in self.song_list:
 			self.load_song(song_name)
