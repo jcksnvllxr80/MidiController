@@ -25,6 +25,10 @@ class Setlist(object):
 	'''class for importing, editing, and maintaining a setlist. 
 	'''
 	def __init__(self):
+		clear_song_data()
+
+	
+	def clear_song_data(self):
 		self.songs = DoublyLinkedList.DoublyLinkedList()  #create an empty list for keeping multiple Song objects
 		self.song_list = [] #create an empty list for keeping song names that correspond to the setlist songs
 
@@ -55,6 +59,7 @@ class Setlist(object):
 		'''read and load the setlist. calls the getsongnames method and then calls the loadsong method
 		'''
 		logger.info("set setlist to: " + setlist_path)
+		clear_song_data()
 		self.get_song_names(setlist_path)
 		for song_name in self.song_list:
 			self.load_song(song_name)
@@ -63,7 +68,6 @@ class Setlist(object):
 	def get_song_names(self, setlist_path): #get songs from yaml, put in List
 		'''method for reading the setlist and appending song names to a list
 		'''
-		self.song_list = []
 		setlist_dict = self.read_config(setlist_path + '.yaml')
 		self.setlist_name = setlist_dict['name']
 		[self.song_list.append(song) for song in setlist_dict['songs']]
