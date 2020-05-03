@@ -283,7 +283,6 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def test_point_node_printer(self, the_node):
-		pass
 		logger.info("\nnode: " + str(the_node) + "prompt: " + the_node.menu_data_prompt + 
 			"\nitems: " + str(the_node.menu_data_items) + "\ncurrent item: " + str(the_node.menu_data_items[the_node.menu_data_position]) + 
 			"\nposition: " + str(the_node.menu_data_position))
@@ -296,7 +295,7 @@ class Rotary_Encoder(RgbKnob):
 		self.setlist_menu.menu_data_prompt = self.setlist_menu.name + ":"
 		setlist_files = os.listdir(SET_FOLDER)
 		for setlist_file in setlist_files:
-			if setlist_file[-4:] == ".yaml":
+			if setlist_file[-5:] == ".yaml":
 				self.setlist_menu.menu_data_items.append(setlist_file[:-4])
 		self.test_point_node_printer(self.setlist_menu)
 
