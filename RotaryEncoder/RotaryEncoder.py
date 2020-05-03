@@ -4,7 +4,6 @@ import time
 import RPi.GPIO as GPIO
 import os
 import yaml
-import xml.etree.ElementTree as ET # for reading and writing to XML files
 #import custom packages
 import EffectLoops
 # import Adafruit_CharLCD
@@ -297,7 +296,7 @@ class Rotary_Encoder(RgbKnob):
 		self.setlist_menu.menu_data_prompt = self.setlist_menu.name + ":"
 		setlist_files = os.listdir(SET_FOLDER)
 		for setlist_file in setlist_files:
-			if setlist_file[-4:] == ".xml":
+			if setlist_file[-4:] == ".yaml":
 				self.setlist_menu.menu_data_items.append(setlist_file[:-4])
 		self.test_point_node_printer(self.setlist_menu)
 
@@ -762,11 +761,19 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 		
 		
 	def switch_modes(self, mode=None):
-		if mode == "favorite":
-			self.mode = "standard"
+		if node:
+			if mode in ["favorite", "standard"]:
+				self.mode = mode
+				logger.info(str(mode) + " --> Mode switched to " + self.mode + " mode.")
+			else: 
+				self.mode = "standard"
+				logger.info("Did not understand input mode: " + str(mode) + ". Mode will be " + self.mode + " mode.")
 		else:
-			self.mode = "favorite"
-		logger.info(str(mode) + " --> Mode switched to " + self.mode + " mode.")
+			if self.mode == "favorite":
+				self.mode = "standard"
+			elif self.mode == "standard":
+				self.mode = "favorite"
+			logger.info("Mode switched to " + self.mode + " mode.")
 		self.save_mode_to_default()
 			
 
