@@ -296,7 +296,7 @@ class Rotary_Encoder(RgbKnob):
 		setlist_files = os.listdir(SET_FOLDER)
 		for setlist_file in setlist_files:
 			if setlist_file[-5:] == ".yaml":
-				self.setlist_menu.menu_data_items.append(setlist_file[:-4])
+				self.setlist_menu.menu_data_items.append(setlist_file[:-5])
 		self.test_point_node_printer(self.setlist_menu)
 
 
