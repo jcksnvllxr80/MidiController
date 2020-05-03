@@ -63,7 +63,8 @@ class Setlist(object):
 	def get_song_names(self, setlist_path): #get songs from yaml, put in List
 		'''method for reading the setlist and appending song names to a list
 		'''
-		setlist_dict = self.read_config(setlist_path +'.yaml')
+		self.song_list = []
+		setlist_dict = self.read_config(setlist_path + '.yaml')
 		self.setlist_name = setlist_dict['name']
 		[self.song_list.append(song) for song in setlist_dict['songs']]
 
