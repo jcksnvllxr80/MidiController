@@ -761,7 +761,7 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 		
 		
 	def switch_modes(self, mode=None):
-		if node:
+		if mode:
 			if mode in ["favorite", "standard"]:
 				self.mode = mode
 				logger.info(str(mode) + " --> Mode switched to " + self.mode + " mode.")
