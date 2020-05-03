@@ -346,6 +346,8 @@ class Rotary_Encoder(RgbKnob):
 			  "switched current part to: " + str(self.current_part.data.part_name) + str(self.current_part))
 		self.current_song = self.setlist.songs.head
 		self.current_part = self.current_song.data.parts.head
+		self.songs_menu.menu_data_position = 0
+		self.parts_menu.menu_data_position = 0
 		self.displayed_song = self.current_song
 		self.displayed_part = self.current_part
 		self.displayed_song_index = self.setlist.songs.node_to_index(self.displayed_song)
