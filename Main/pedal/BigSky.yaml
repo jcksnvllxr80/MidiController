@@ -1,60 +1,233 @@
 MIDI Specification
-KNOBS: CC# Value Range
-Type encoder 19 0-11
-Value encoder 20 0-1
-Decay 17 0-127
-Pre-Delay 18 0-127
-Mix 15 0-127
-Tone 3 0-127
-Param 1 9 0-127
-Param 2 16 0-127
-Mod 14 0-127
+Knobs: CC# Value Range
+  Type: 
+    cc: 19 
+    min: 0
+    max: 11
+  Value: 
+    cc: 20 
+    min: 0
+    max: 1
+  Decay:
+    cc: 17 
+    min: 0
+    max: 127
+  Pre-Delay: 
+    cc: 18 
+    min: 0
+    max: 127
+  Mix: 
+    min: 0
+    max: 127
+  Tone: 
+    cc: 3 
+    min: 0
+    max: 127
+  Param 1: 
+    cc: 9 
+    min: 0
+    max: 127
+  Param 2: 
+    cc: 16 
+    min: 0
+    max: 127
+  Mod: 
+    cc: 14 
+    min: 0
+    max: 127
 PARAMETERS:
-Boost 23 0-60
-Persist Off/On 22 0-1
-Freeze/Infinite 70 0-1
-Expression Off/On 60 0-1
-MIDI Clock Off/On 71 0-1
-ROOM - Low End 61 0-20
-ROOM - Size 59 0-1
-ROOM - Diffusion 58 0-20
-HALL - Low End 39 0-20
-HALL - Size 40 0-1
-HALL - Mid 42 0-20
-PLATE - Low End 69 0-20
-PLATE - Size 68 0-1
-SPRING - Low End 64 0-20
-SPRING - Dwell 63 0-3
-SPRING - # Springs 62 0-2
-SWELL - Low End 65 0-20
-SWELL - Rise 66 0-22
-SWELL - Mode 67 0-1
-BLOOM - Low End 31 0-20
-BLOOM - Length 32 0-17
-BLOOM - Feedback 30 0-17
-CLOUD - Low End 38 0-20
-CLOUD - Diffusion 37 0-20
-CHORALE - Vowel 33 0-6
-CHORALE - Reso 34 0-2
-SHIMMER - Shift 1 25 0-27
-SHIMMER - Shift 2 26 0-28
-SHIMMER - Amount 27 0-18
-SHIMMER - Mode 28 0-2
-SHIMMER - Low End 24 0-20
-MAGNETO - Low End 55 0-20
-MAGNETO - Diffusion 56 0-20
-MAGNETO - Heads 57 0-2
-MAGNETO - Spacing 54 0-1
-NONLINEAR - Low End 44 0-20
-NONLINEAR - Shape 46 0-5
-NONLINEAR - Diffusion 45 0-20
-NONLINEAR - Late Decay 47 0-17
-NONLINEAR - Late Level 48 0-18
-NONLINEAR - Mod Speed 43 0-17
-REFLECTIONS - Low End 52 0-20
-REFLECTIONS - Loc Y 50 0-6
-REFLECTIONS - Loc X 49 0-6
-REFLECTIONS - Shape 51 0-2
+  Boost: 
+    cc: 23 
+    min: 0
+    max: 60
+  Persist: 
+    cc: 22
+    off: 0
+    on: 1
+  Freeze Infinite:
+    cc: 70
+    off: 0
+    on: 1
+  Expression:
+    cc: 60
+    off: 0
+    on: 1
+  MIDI Clock: 
+    cc: 71
+    off: 0
+    on: 1
+  Room:
+    Low End:
+      cc: 61
+      min: 0
+      max: 20
+    Size:
+      cc: 59
+      min: 0
+      max: 1
+    Diffusion:
+      cc: 58
+      min: 0
+      max: 20
+  Hall:
+    Low End:
+      cc: 39
+      min: 0
+      max: 20
+    Size:
+      cc: 40
+      min: 0
+      max: 1
+    Mid:
+      cc: 42
+      min: 0
+      max: 20
+  Plate:
+    Low End:
+      cc: 69
+      min: 0
+      max: 20
+    Size:
+      cc: 68
+      min: 0
+      max: 1
+  Spring:
+    Low End:
+      cc: 64
+      min: 0
+      max: 20
+    Dwell:
+      cc: 63
+      min: 0
+      max: 3
+    Springs:
+      cc: 62
+      min: 0
+      max: 2
+  Swell:
+    Low End:
+      cc: 65
+      min: 0
+      max: 20
+    Rise:
+      cc: 66
+      min: 0
+      max: 22
+    Mode:
+      cc: 67
+      min: 0
+      max: 1
+  Bloom:
+    Low End:
+      cc: 31
+      min: 0
+      max: 20
+    Length:
+      cc: 32
+      min: 0
+      max: 17
+    Feedback:
+      cc: 30
+      min: 0
+      max: 17
+  Cloud:
+    Low End:
+      cc: 38
+      min: 0
+      max: 20
+    Diffusion:
+      cc: 37
+      min: 0
+      max: 20
+  Chorale:
+    Vowel:
+      cc: 33
+      min: 0
+      max: 6
+    Reso:
+      cc: 34
+      min: 0
+      max: 2
+  Shimmer:
+    Shift 1:
+      cc: 25
+      min: 0
+      max: 27
+    Shift 2:
+      cc: 26
+      min: 0
+      max: 28
+    Amount:
+      cc: 27
+      min: 0
+      max: 18
+    Mode:
+      cc: 28
+      min: 0
+      max: 2
+    Low End:
+      cc: 24
+      min: 0
+      max: 20
+  Magneto:
+    Low End:
+      cc: 55
+      min: 0
+      max: 20
+    Diffusion:
+      cc: 56
+      min: 0
+      max: 20
+    Heads:
+      cc: 57
+      min: 0
+      max: 2
+    Spacing:
+      cc: 54
+      min: 0
+      max: 1
+  Non-linear:
+    Low End:
+      cc: 44
+      min: 0
+      max: 20
+    Shape:
+      cc: 46
+      min: 0
+      max: 5
+    Diffusion:
+      cc: 45
+      min: 0
+      max: 20
+    Late Decay:
+      cc: 47
+      min: 0
+      max: 17
+    Late Level:
+      cc: 48
+      min: 0
+      max: 18
+    Mod Speed:
+      cc: 43
+      min: 0
+      max: 17
+  Reflections:
+    Low End:
+      cc: 52
+      min: 0
+      max: 20
+    Loc Y:
+      cc: 50
+      min: 0
+      max: 6
+    Loc X:
+      cc: 49
+      min: 0
+      max: 6
+    Shape:
+      cc: 51
+      min: 0
+      max: 2
 MIDI Patch changes:
 BigSky presets are arranged in a grid of 100 numbered
 Banks (00-99) with 3 presets (A,B and C) within each
