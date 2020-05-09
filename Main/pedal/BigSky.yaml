@@ -1,4 +1,3 @@
-MIDI Specification
 Knobs: CC# Value Range
   Type: 
     cc: 19 
@@ -35,7 +34,7 @@ Knobs: CC# Value Range
     cc: 14 
     min: 0
     max: 127
-PARAMETERS:
+Parameters:
   Boost: 
     cc: 23 
     min: 0

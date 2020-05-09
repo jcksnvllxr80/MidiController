@@ -32,7 +32,7 @@ Knobs: CC# Value Range
     cc: 18 
     min: 0
     max: 127
-PARAMETERS:
+Parameters:
 Tap Division 21 0-4
 Boost 23 0-60
 Persist Off/On 22 0-1

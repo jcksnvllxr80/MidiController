@@ -17,7 +17,7 @@ Selecting bank 0, patch 127 will put Iridium into Manual mode. In this
 mode, the pedal will be set to the current knob and switch settings. No
 preset data can be stored at this preset location.
 MIDI CC NUMBERS							
-PARAMETERS:	
+Parameters:
 	Bank Select:
 		notes: "bank1 = 0 - bank2 = 1 - bank3 = 2"
 		cc: 0
