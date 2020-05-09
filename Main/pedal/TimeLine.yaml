@@ -1,13 +1,37 @@
 MIDI Specification
-KNOBS: CC# Value Range
-Type encoder 19 0-11
-Time 3 0-127
-Repeats 9 0-127
-Mix 14 0-127
-Filter 15 0-127
-Grit 16 0-127
-Speed 17 0-127
-Depth 18 0-127
+Knobs: CC# Value Range
+  Type: 
+    cc: 19 
+    min: 0
+    max: 11
+  Time: 
+    cc: 3 
+    min: 0
+    max: 127
+  Repeats:
+    cc: 9 
+    min: 0
+    max: 127
+  Mix: 
+    cc: 14
+    min: 0
+    max: 127
+  Filter: 
+    cc: 15 
+    min: 0
+    max: 127
+  Grit: 
+    cc: 16 
+    min: 0
+    max: 127
+  Speed: 
+    cc: 17
+    min: 0
+    max: 127
+  Depth: 
+    cc: 18 
+    min: 0
+    max: 127
 PARAMETERS:
 Tap Division 21 0-4
 Boost 23 0-60
