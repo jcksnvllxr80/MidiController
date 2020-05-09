@@ -122,7 +122,7 @@ midi:
         turn_on:
           cc: null
           pc: null
-      name: Scarlett Love
+      name: ScarlettLove
       preset:
         name: Plexi
         number: 1

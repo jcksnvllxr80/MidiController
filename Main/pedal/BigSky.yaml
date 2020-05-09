@@ -1,0 +1,93 @@
+MIDI Specification
+KNOBS: CC# Value Range
+Type encoder 19 0-11
+Value encoder 20 0-1
+Decay 17 0-127
+Pre-Delay 18 0-127
+Mix 15 0-127
+Tone 3 0-127
+Param 1 9 0-127
+Param 2 16 0-127
+Mod 14 0-127
+PARAMETERS:
+Boost 23 0-60
+Persist Off/On 22 0-1
+Freeze/Infinite 70 0-1
+Expression Off/On 60 0-1
+MIDI Clock Off/On 71 0-1
+ROOM - Low End 61 0-20
+ROOM - Size 59 0-1
+ROOM - Diffusion 58 0-20
+HALL - Low End 39 0-20
+HALL - Size 40 0-1
+HALL - Mid 42 0-20
+PLATE - Low End 69 0-20
+PLATE - Size 68 0-1
+SPRING - Low End 64 0-20
+SPRING - Dwell 63 0-3
+SPRING - # Springs 62 0-2
+SWELL - Low End 65 0-20
+SWELL - Rise 66 0-22
+SWELL - Mode 67 0-1
+BLOOM - Low End 31 0-20
+BLOOM - Length 32 0-17
+BLOOM - Feedback 30 0-17
+CLOUD - Low End 38 0-20
+CLOUD - Diffusion 37 0-20
+CHORALE - Vowel 33 0-6
+CHORALE - Reso 34 0-2
+SHIMMER - Shift 1 25 0-27
+SHIMMER - Shift 2 26 0-28
+SHIMMER - Amount 27 0-18
+SHIMMER - Mode 28 0-2
+SHIMMER - Low End 24 0-20
+MAGNETO - Low End 55 0-20
+MAGNETO - Diffusion 56 0-20
+MAGNETO - Heads 57 0-2
+MAGNETO - Spacing 54 0-1
+NONLINEAR - Low End 44 0-20
+NONLINEAR - Shape 46 0-5
+NONLINEAR - Diffusion 45 0-20
+NONLINEAR - Late Decay 47 0-17
+NONLINEAR - Late Level 48 0-18
+NONLINEAR - Mod Speed 43 0-17
+REFLECTIONS - Low End 52 0-20
+REFLECTIONS - Loc Y 50 0-6
+REFLECTIONS - Loc X 49 0-6
+REFLECTIONS - Shape 51 0-2
+MIDI Patch changes:
+BigSky presets are arranged in a grid of 100 numbered
+Banks (00-99) with 3 presets (A,B and C) within each
+Bank for a total of 300 presets.
+Because MIDI Program Change messages have a
+maximum number of 128 (0-127), the presets are
+grouped into 3 MIDI Patch Banks:
+MIDI BANK 0 = PRESETS 00A-42B
+MIDI BANK 1 = PRESETS 42C-85A
+MIDI BANK 2 = PRESETS 85B-99C
+The presets are numbered sequentially within each bank:
+PRESET 00A = MIDI program # 0
+PRESET 00B = MIDI program # 1
+PRESET 00C = MIDI program # 2
+PRESET 01A = MIDI program # 3
+PRESET 01B = MIDI program # 4 etc. up to #127...
+BigSky always powers up in MIDI Patch Bank 0, so if you
+plan to stay within the first 127 presets (00A-42B), simply
+send a standard MIDI Program Change message to load
+a preset.
+If you will be using MIDI Banks 1 and/or 2, it is advisable
+to send a standard MIDI Bank Change message [MIDI
+CC# 0 with a value equal to the MIDI Bank #] before each
+MIDI Program Change.
+Other MIDI CC numbers:
+A footswitch 80 down=0 up=127
+B footswitch 82 down=0 up=127
+C footswitch 81 down=0 up=127
+Press/Hold switch 97 off=0 on=127
+Remote TAP 93 any
+Expression Pedal 100 0-127
+Bypass 102 byp=0 eng=127
+MIDI Patch Bank 0 0-2
+-Send a 0 value to access presets 00A - 42B
+-Send a 1 value to access presets 42C - 85A
+-Send a 2 value to access presets 85B - 99C

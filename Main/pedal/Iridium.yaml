@@ -1,0 +1,38 @@
+MIDI Specifications
+MIDI PROGRAM CHANGES
+Iridium contains 300 preset locations, numbered sequentially from
+0-299. Because MIDI Program Change messages have a maximum
+number of 128 (0-127) the presets are grouped into three MIDI patch
+banks.
+MIDI BANK 0 = PRESETS 0-127
+MIDI BANK 1 = PRESETS 128-255
+MIDI BANK 2 = PRESETS 256-299
+Iridium always powers up in MIDI Patch Bank 0, so if you plan to stay
+within the first 127 presets, simply send a standard MIDI Program
+Change message to load a preset.
+If you will be using MIDI Banks 1 and/or 2, it is advisable to send a
+standard MIDI Bank Change message (MIDI CC# 0 with a value equal
+to the MIDI Bank#) before each MIDI Program Change.
+Selecting bank 0, patch 127 will put Iridium into Manual mode. In this
+mode, the pedal will be set to the current knob and switch settings. No
+preset data can be stored at this preset location.
+MIDI CC NUMBERS							
+PARAMETERS			        CC#		  RANGE		  NOTES
+Bank Select			        0		    0-2		
+Volume Pedal		        7		    0-127		
+Level			              12		  0-127		
+Drive			              13		  0-127		
+Bass			              14		  0-127		
+Mid			                15		  0-127		
+Treble			            16		  0-127		
+Room Level			        17		  0-127		
+Room Size			          18		  1-3		    (1=small, 2= medium, 3= large)
+Amp			                19		  1-4		    (1=round, 2=chime, 3=punch)
+Cab			                20		  0-2		    (round a, b, c)
+			                  20		  3-5		    (chime a, b, c)
+			                  20		  6-8		    (punch a, b, c)
+Footswitch Fav	        27		  0, 127		(0=release, 1-127=press)
+Footswitch On		        28		  0, 127		(0=release, 1-127=press)
+MIDI Expression Off/On  60		  0, 127		(0=off, 1-127=on)
+Expression Pedal			  100		  0-127		
+Bypass/On			          102		  0, 127		(0=bypass, 1-127=on)

@@ -1,0 +1,32 @@
+MIDI RECEIVE
+The Super Switcher can be controlled by other MIDI devices. See SETUP MENU. Global values for MIDI receive channel, MIDI thru and MIDI clock ON/OFF are available in SETUP.
+The tables on the following page list the Program Change (PC) and Control Change (CC) messages that the Super Switcher responds to on its MIDI IN connector.
+PC Messages: Use PC messages to directly load presets through MIDI. For example, if you want directly load preset 03.1, send PC 16.
+CC Messages: Use CC messages to directly perform button pushes through MIDI. CC Values 0-63 send an “off” message, 64-127 send “on”. We recommend interleaving on and off messages for the same button push.
+
+PC RECEIVE MESSAGES:
+PC Number: Preset
+0: 01.1
+1: 01.2
+2: 01.3
+…
+8: 02.1
+9: 02.2
+…
+126: 16.7
+127: 16.8
+
+CC RECEIVE MESSAGES:
+CC Number: Function
+102: Loop 1
+103: Loop 2
+104: Loop 3
+105: Loop 4
+106: Loop 5
+107: Loop 6
+109: Loop 7
+108: Loop 8
+110: Boost
+111: Tuner
+112: Control 1
+113: Control 2

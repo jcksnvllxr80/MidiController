@@ -4,7 +4,7 @@ parts:
     Chorus:
         position: 1
         pedals: 
-            Scarlett Love:
+            ScarlettLove:
                 engaged: True
                 preset: Plexi
             TimeLine:
@@ -47,7 +47,7 @@ parts:
     Bridge:
         position: 2
         pedals: 
-            Scarlett Love:
+            ScarlettLove:
                 engaged: True
                 preset: Plexi
             TimeLine:

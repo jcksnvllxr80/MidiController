@@ -4,7 +4,7 @@ parts:
     Intro:
         position: 1
         pedals: 
-            Scarlett Love:
+            ScarlettLove:
                 engaged: True
                 preset: TS808
             TimeLine:
@@ -47,7 +47,7 @@ parts:
     Verse:
         position: 2
         pedals: 
-            Scarlett Love:
+            ScarlettLove:
                 engaged: True
                 preset: Plexi
             TimeLine:
@@ -90,7 +90,7 @@ parts:
     Chorus:
         position: 3
         pedals: 
-            Scarlett Love:
+            ScarlettLove:
                 engaged: True
                 preset: Plexi
             TimeLine:
@@ -133,7 +133,7 @@ parts:
     Bridge:
         position: 4
         pedals: 
-            Scarlett Love:
+            ScarlettLove:
                 engaged: True
                 preset: Plexi
             TimeLine:

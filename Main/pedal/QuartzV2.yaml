@@ -1,0 +1,63 @@
+The Quartz can receive Midi messages from another Midi Controller, and do something with it. What it can do
+is defined below. The messages that it listens to can all be changed. Normally pedal makers set this in stone,
+but there are some Midi Controllers that only send certain messages, so now you can make the Quartz to suit them.
+You can also change these messages to "Note On" messages for example. So that you can set a key on your
+keyboard to be "next preset" for example. Or you could tell the Quartz to listen to PC messages, so that whenever you
+change presets on another pedal, the Quartz will tap in a tempo. Just in case you ever want to see how fast
+you change presets...
+Since the messages can be changed, we won't list the value. Any Midi message will work to activate the following:
+INCOMING MIDI
+Set the tempo directly with a value. This requires 2 messages to be sent together. The 1st message's value is the 100's,
+the 2nd message's value is the 10's and 1's or the BPM. If you send these messages for example:
+Send...
+Type = Control, Channel = 3, Message = 94, Value = 001
+Then straight after send...
+Type = Control, Channel = 3, Message = 94, Value = 059
+Tempo will be set to 159 BPM (assuming that the Channel and Message value match).
+SET TEMPO
+Page 13
+Whenever this message is received, the Quartz will change to the next preset in the Setlist.
+Whenever this message is received, the Quartz will change to the previous preset in the Setlist.
+Set the Preset directly with the Value of the message.
+If the Value of the message is 0, Global Tempo will be disabled.
+If the Value of the message is 127, Global Tempo will be enabled.
+The division for Output 1 will be set.
+If the Value of the message = 0, Division = Quarter
+If the Value of the message = 1, Division = 1/4 Triplets
+If the Value of the message = 2, Division = Dotted 1/4
+...and so on...
+The division for Output 2 will be set.
+If the Value of the message = 0, Division = Quarter
+If the Value of the message = 1, Division = 1/4 Triplets
+If the Value of the message = 2, Division = Dotted 1/4
+...and so on...
+The division for Output 3 will be set.
+If the Value of the message = 0, Division = Quarter
+If the Value of the message = 1, Division = 1/4 Triplets
+If the Value of the message = 2, Division = Dotted 1/4
+...and so on...
+The division for Output 3 will be set.
+If the Value of the message = 0, Division = Quarter
+If the Value of the message = 1, Division = 1/4 Triplets
+If the Value of the message = 2, Division = Dotted 1/4
+...and so on...
+The division for the Midi Clock will be set.
+If the Value of the message = 0, Division = Quarter
+If the Value of the message = 1, Division = 1/4 Triplets
+If the Value of the message = 2, Division = Dotted 1/4
+...and so on...
+NEXT PRESET
+PREV PRESET
+SET PRESET
+GLBL TEMPO
+SET DIV 1 SET DIV 2
+SET DIV 3 SET DIV 4
+SET DIV MD
+Send out a Midi Stack directly with the Value of the message.
+SEND STACK
+REPEAT MIDI
+MIDI CLK OUT
+If the Value of the message is 0, the Repeating Midi Stack will stop sending
+If the Value of the message is 127, the Repeating Midi Stack will start sending
+If the Value of the message is 0, Midi Clock will stop sending
+If the Value of the message is 127, Midi Clock will start sending

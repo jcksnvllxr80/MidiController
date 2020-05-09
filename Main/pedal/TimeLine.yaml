@@ -1,0 +1,110 @@
+MIDI Specification
+KNOBS: CC# Value Range
+Type encoder 19 0-11
+Time 3 0-127
+Repeats 9 0-127
+Mix 14 0-127
+Filter 15 0-127
+Grit 16 0-127
+Speed 17 0-127
+Depth 18 0-127
+PARAMETERS:
+Tap Division 21 0-4
+Boost 23 0-60
+Persist Off/On 22 0-1
+Smear 38 0-18
+High Pass 47 0-20
+Expression Off/On 60 0-1
+MIDI Clock Off/On 63 0-1
+dTAPE - Tape Speed 58 0-1
+dTAPE - Low End 59 0-20
+dBUCKET - Range 45 0-1
+DIGITAL - Repeat Dynamics 56 0-1
+DUAL - Time 2 32 0-26
+DUAL - Repeats 2 34 0-18
+DUAL - Mix 2 33 0-18
+DUAL - Config 36 0-1
+PATTERN - Pattern 39 0-15
+SWELL - Rise Time 44 0-27
+TREM - Speed 61 0-34
+TREM - Depth 57 0-18
+TREM - LFO 29 0-4
+FILTER - Q 40 0-11
+FILTER - LFO 28 0-10
+FILTER - Depth 41 0-18
+FILTER - Speed 42 0-34
+FILTER - Location 43 0-1
+LO-Fi - Mix 51 0-20
+LO-Fi - Vinyl 52 0-18
+LO-Fi - Sample Rate 49 0-20
+LO-Fi - Bit Depth 50 0-20
+LO-Fi - Filter 53 0-8
+ICE - Interval 30 0-29
+ICE - Slice 46 0-2
+ICE - Blend 25 0-20
+DUCK - Sensitivity 37 0-17
+DUCK - Release 55 0-20
+DUCK - Feedback 54 0-1
+LOOPER:
+Record 87 any
+Play 86 any
+Stop 85 any
+Reverse (toggle) 94 any
+Full/Half Speeed (toggle) 95 any
+Pre/Post (toggle) 96 any
+Undo (to initial loop) 89 any
+Redo 90 any
+Looper Level 98 0-127
+MIDI Patch changes:
+Timeline presets are arranged in a grid of 100 numbered
+Banks (00-99) with 2 presets (A and B) within each Bank for
+a total of 200 presets.
+Because MIDI Program Change messages have a maximum
+number of 128 (0-127), the presets are grouped into 2 MIDI
+Patch Banks:
+MIDI BANK 0 = PRESETS 00A-63B
+MIDI BANK 1 = PRESETS 64A-99B
+The presets are numbered sequentially within each bank:
+PRESET 00A = MIDI program # 0
+PRESET 00B = MIDI program # 1
+PRESET 01A = MIDI program # 2
+PRESET 01B = MIDI program # 3
+PRESET 02A = MIDI program # 4 etc. up to #127...
+TimeLine always powers up in MIDI Patch Bank 0, so if you
+plan to stay within the first 127 presets (00A-63B), simply
+send a standard MIDI Program Change message to load a
+preset.
+If you will be using MIDI Bank 1, it is advisable to send a
+standard MIDI Bank Change message [MIDI CC# 0 with a
+value equal to the MIDI Bank #] before each MIDI Program
+Change.
+Other MIDI CC numbers:
+A footswitch 80 down=0 up=127
+B footswitch 82 down=0 up=127
+TAP footswitch 81 off=0 on=127
+Remote TAP 93 any
+Expression Pedal 100 0-127
+Bypass 102 byp=0 eng=127
+Phase Reset 125 any
+MIDI Patch Bank 0 0-1
+-Send a 0 value to access presets 00A - 63B.
+-Send a 1 value to access presets 64A - 99A.
+(continued on next page)
+CC# Value Range
+TimeLine - User Manual ®
+pg 26
+MIDI Specification (continued)
+Looper MIDI control via MIDI note #’s:
+The looper can also be controlled with MIDI note numbers.
+Record note 0, velocity > 0
+Play note 2, velocity > 0
+Stop note 4, velocity > 0
+Reverse (toggle) note 14, velocity > 0
+Full/Half Speed (toggle) note 16, velocity > 0
+Pre/Post (toggle) note 17, velocity > 0
+Undo (to initial loop) note 7, velocity > 0
+Redo note 9, velocity > 0
+Reverse (absolute) note 103, velocity = 127
+Forward (absolute) note 103, velocity = 0
+Half Speed (absolute) note 104, velocity = 127
+Full Speed (absolute) note 104, velocity = 0
