@@ -227,39 +227,43 @@ Parameters:
       cc: 51
       min: 0
       max: 2
-MIDI Patch changes:
-BigSky presets are arranged in a grid of 100 numbered
-Banks (00-99) with 3 presets (A,B and C) within each
-Bank for a total of 300 presets.
-Because MIDI Program Change messages have a
-maximum number of 128 (0-127), the presets are
-grouped into 3 MIDI Patch Banks:
-MIDI BANK 0 = PRESETS 00A-42B
-MIDI BANK 1 = PRESETS 42C-85A
-MIDI BANK 2 = PRESETS 85B-99C
-The presets are numbered sequentially within each bank:
-PRESET 00A = MIDI program # 0
-PRESET 00B = MIDI program # 1
-PRESET 00C = MIDI program # 2
-PRESET 01A = MIDI program # 3
-PRESET 01B = MIDI program # 4 etc. up to #127...
-BigSky always powers up in MIDI Patch Bank 0, so if you
-plan to stay within the first 127 presets (00A-42B), simply
-send a standard MIDI Program Change message to load
-a preset.
-If you will be using MIDI Banks 1 and/or 2, it is advisable
-to send a standard MIDI Bank Change message [MIDI
-CC# 0 with a value equal to the MIDI Bank #] before each
-MIDI Program Change.
-Other MIDI CC numbers:
-A footswitch 80 down=0 up=127
-B footswitch 82 down=0 up=127
-C footswitch 81 down=0 up=127
-Press/Hold switch 97 off=0 on=127
-Remote TAP 93 any
-Expression Pedal 100 0-127
-Bypass 102 byp=0 eng=127
-MIDI Patch Bank 0 0-2
--Send a 0 value to access presets 00A - 42B
--Send a 1 value to access presets 42C - 85A
--Send a 2 value to access presets 85B - 99C
+Preset:
+  multi:
+    1: bank
+    2: preset
+  bank: 
+    cc: 0
+    func: "x / 128"
+  preset:
+    pc:
+      func: "x % 128"
+  min: 0
+  max: 299
+Other:
+  Footswitch A:
+    cc: 80
+    off: 127
+    on: 0 
+  Footswitch B:
+    cc: 82
+    off: 127
+    on: 0 
+  Footswitch C:
+    cc: 81
+    off: 127
+    on: 0
+  Remote Tap: 
+    cc: 93
+    val: 1 # doesnt matter what value
+  Expression Pedal:
+    cc: 100
+    min: 0
+    max: 127
+  Bypass:
+    cc: 102
+    off: 0
+    on: 127
+  Hold Switch:
+    cc: 97
+    off: 0
+    on: 127
