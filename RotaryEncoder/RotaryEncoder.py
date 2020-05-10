@@ -561,6 +561,7 @@ class Rotary_Encoder(RgbKnob):
 	def set_song_info_message(self):
 		self.set_message(self.current_song.data.name + "\n"
 			+ self.current_song.data.bpm + "BPM - " + self.current_part.data.part_name)
+		logger.info("Now displaying indices song: " + str(self.displayed_song_index) + "; part: " + str(self.displayed_part_index))
 
 
 	def set_song_info_message_by_value(self, song, part):
