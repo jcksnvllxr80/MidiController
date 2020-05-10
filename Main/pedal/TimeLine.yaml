@@ -1,5 +1,4 @@
-MIDI Specification
-Knobs: CC# Value Range
+Knobs:
   Type: 
     cc: 19 
     min: 0
@@ -33,53 +32,191 @@ Knobs: CC# Value Range
     min: 0
     max: 127
 Parameters:
-Tap Division 21 0-4
-Boost 23 0-60
-Persist Off/On 22 0-1
-Smear 38 0-18
-High Pass 47 0-20
-Expression Off/On 60 0-1
-MIDI Clock Off/On 63 0-1
-dTAPE - Tape Speed 58 0-1
-dTAPE - Low End 59 0-20
-dBUCKET - Range 45 0-1
-DIGITAL - Repeat Dynamics 56 0-1
-DUAL - Time 2 32 0-26
-DUAL - Repeats 2 34 0-18
-DUAL - Mix 2 33 0-18
-DUAL - Config 36 0-1
-PATTERN - Pattern 39 0-15
-SWELL - Rise Time 44 0-27
-TREM - Speed 61 0-34
-TREM - Depth 57 0-18
-TREM - LFO 29 0-4
-FILTER - Q 40 0-11
-FILTER - LFO 28 0-10
-FILTER - Depth 41 0-18
-FILTER - Speed 42 0-34
-FILTER - Location 43 0-1
-LO-Fi - Mix 51 0-20
-LO-Fi - Vinyl 52 0-18
-LO-Fi - Sample Rate 49 0-20
-LO-Fi - Bit Depth 50 0-20
-LO-Fi - Filter 53 0-8
-ICE - Interval 30 0-29
-ICE - Slice 46 0-2
-ICE - Blend 25 0-20
-DUCK - Sensitivity 37 0-17
-DUCK - Release 55 0-20
-DUCK - Feedback 54 0-1
+  Tap Division: 
+    cc: 21 
+    min: 0
+    max: 4
+  Boost: 
+    cc: 23 
+    min: 0
+    max: 60
+  Persist: 
+    cc: 22 
+    off: 0
+    on: 1
+  Smear: 
+    cc: 38 
+    min: 0
+    max: 18
+  High Pass: 
+    cc: 47 
+    min: 0
+    max: 20
+  Expression: 
+    cc: 60 
+    off: 0
+    on: 1
+  MIDI Clock: 
+    cc: 63 
+    off: 0
+    on: 1
+  dTape:
+    Low End:
+      cc: 59
+      min: 0
+      max: 20
+    Tape Speed:
+      cc: 58
+      min: 0
+      max: 1
+  dBucket:
+    Range:
+      cc: 45
+      min: 0
+      max: 1
+  Digital:
+    Repeat Dynamics:
+      cc: 56
+      min: 0
+      max: 1
+  Dual:
+    Time 2:
+      cc: 32
+      min: 0
+      max: 26
+    Repeats 2:
+      cc: 34
+      min: 0
+      max: 18
+    Mix 2:
+      cc: 33
+      min: 0
+      max: 18
+    Config:
+      cc: 36
+      min: 0
+      max: 1
+  Pattern:
+    Pattern:
+      cc: 39
+      min: 0
+      max: 15
+  Swell:
+    Rise Time:
+      cc: 44
+      min: 0
+      max: 27
+  Trem:
+    Speed:
+      cc: 61
+      min: 0
+      max: 34
+    Depth:
+      cc: 57
+      min: 0
+      max: 18
+    LFO:
+      cc: 29
+      min: 0
+      max: 4
+  Filter:
+    Q:
+      cc: 40
+      min: 0
+      max: 11
+    LFO:
+      cc: 28
+      min: 0
+      max: 10
+    Depth:
+      cc: 41
+      min: 0
+      max: 18
+    Speed:
+      cc: 42
+      min: 0
+      max: 34
+    Location:
+      cc: 43
+      min: 0
+      max: 1
+  Lo-Fi:
+    Mix:
+      cc: 51
+      min: 0
+      max: 20
+    Vinyl:
+      cc: 52
+      min: 0
+      max: 18
+    Sample Rate:
+      cc: 49
+      min: 0
+      max: 20
+    Bit Depth:
+      cc: 50
+      min: 0
+      max: 20
+    Filter:
+      cc: 53
+      min: 0
+      max: 8
+  Ice:
+    Interval:
+      cc: 30
+      min: 0
+      max: 29
+    Slice:
+      cc: 46
+      min: 0
+      max: 2
+    Blend:
+      cc: 25
+      min: 0
+      max: 20
+  Duck:
+    Sensitivity:
+      cc: 37
+      min: 0
+      max: 17
+    Release:
+      cc: 55
+      min: 0
+      max: 20
+    Feedback:
+      cc: 54
+      min: 0
+      max: 1
 LOOPER:
-Record 87 any
-Play 86 any
-Stop 85 any
-Reverse (toggle) 94 any
-Full/Half Speeed (toggle) 95 any
-Pre/Post (toggle) 96 any
-Undo (to initial loop) 89 any
-Redo 90 any
-Looper Level 98 0-127
-MIDI Patch changes:
+  Record: 
+    cc: 87
+    val: 1 # doesnt matter what value
+  Play: 
+    cc: 86
+    val: 1 # doesnt matter what value
+  Stop: 
+    cc: 85
+    val: 1 # doesnt matter what value
+  Reverse (Toggle): 
+    cc: 94
+    val: 1 # doesnt matter what value
+  Half Speed (Toggle): 
+    cc: 95
+    val: 1 # doesnt matter what value
+  Pre/Post (Toggle): 
+    cc: 96
+    val: 1 # doesnt matter what value
+  Undo: 
+    cc: 89
+    val: 1 # doesnt matter what value
+  Redo: 
+    cc: 90
+    val: 1 # doesnt matter what value
+  Looper Level: 
+    cc: 98
+    min: 0
+    max: 127
+Patch:
 Timeline presets are arranged in a grid of 100 numbered
 Banks (00-99) with 2 presets (A and B) within each Bank for
 a total of 200 presets.
@@ -113,22 +250,3 @@ Phase Reset 125 any
 MIDI Patch Bank 0 0-1
 -Send a 0 value to access presets 00A - 63B.
 -Send a 1 value to access presets 64A - 99A.
-(continued on next page)
-CC# Value Range
-TimeLine - User Manual ®
-pg 26
-MIDI Specification (continued)
-Looper MIDI control via MIDI note #’s:
-The looper can also be controlled with MIDI note numbers.
-Record note 0, velocity > 0
-Play note 2, velocity > 0
-Stop note 4, velocity > 0
-Reverse (toggle) note 14, velocity > 0
-Full/Half Speed (toggle) note 16, velocity > 0
-Pre/Post (toggle) note 17, velocity > 0
-Undo (to initial loop) note 7, velocity > 0
-Redo note 9, velocity > 0
-Reverse (absolute) note 103, velocity = 127
-Forward (absolute) note 103, velocity = 0
-Half Speed (absolute) note 104, velocity = 127
-Full Speed (absolute) note 104, velocity = 0
