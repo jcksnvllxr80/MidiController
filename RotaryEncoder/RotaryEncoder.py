@@ -245,7 +245,7 @@ class Rotary_Encoder(RgbKnob):
 		MemUsage = subprocess.check_output(cmd, shell = True )
 		cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
 		Disk = subprocess.check_output(cmd, shell = True )
-		cmd = "/opt/vc/bin/vcgencmd measure_temp | egrep -o '[0-9]*\.[0-9]*' | awk '{printf \"Temp: %.1f\'C\", $1}"
+		cmd = "/opt/vc/bin/vcgencmd measure_temp | egrep -o '[0-9]*\.[0-9]*' | awk '{printf \"Temp: %.1f°C\", $1}"
 		Temp = subprocess.check_output(cmd, shell = True )
 		return str(CPU) + " - " + str(MemUsage) + " - " + str(Disk) + " - " + str(Temp)
 
