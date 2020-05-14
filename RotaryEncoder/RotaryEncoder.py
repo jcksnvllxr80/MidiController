@@ -30,7 +30,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 SET_FOLDER = "/home/pi/MidiController/PartSongSet/Sets/"
-CONFIG_FILE = "/home/pi/MidiController/Main/midi_controller.yaml"
+CONFIG_FILE = "/home/pi/MidiController/Main/Conf/midi_controller.yaml"
 
 #define class for the PWM driver for the colors part of the rotary knob
 class RgbKnob(object):

@@ -3,6 +3,7 @@ import time
 from time import strftime
 from traceback import format_exception
 import sys
+from os import path
 import math
 import RPi.GPIO as GPIO #for interfacing with raspberrypi GPIO
 import xml.etree.ElementTree as ET # for reading and writing to XML files
@@ -23,7 +24,7 @@ BANKA_INTPIN = 4
 BANKB_INTPIN = 17
 #these are input pins on the MCP23017 for the tap button and the rotary encoders push button
 ROTARY_PUSHBUTTON_PINNUMBER = 15
-CONFIG_FOLDER = "/home/pi/MidiController/Main/"
+CONFIG_FOLDER = "/home/pi/MidiController/Main/Conf/"
 CONFIG_FILE = CONFIG_FOLDER + "midi_controller.yaml"
 rotary_push_button = None
 footswitch_dict = {}
@@ -73,10 +74,17 @@ def setup():
 		if isinstance(channel_dict, dict):
 			channel_name = channels[channel].get('name', '')
 			if channel_name:
-				midi_channel_dict.update({
-					channel_name: EffectLoops.MidiPedal(channels[channel]['name'], bool(channels[channel]['state']), \
-						int(channel), channels[channel]['commands'], int(channels[channel]['preset']['number']))
-				})
+				pedal_conf = CONFIG_FOLDER + channel_name + '.yaml'
+				if path.exists(pedal_conf):
+					# read midi config yaml file into dictionaries
+					with open(pedal_conf, 'r') as ymlfile:
+						midi_conf = yaml.full_load(ymlfile)
+					midi_channel_dict.update({
+						channel_name: EffectLoops.MidiPedal(channels[channel]['name'], bool(channels[channel]['state']), \
+							int(channel), midi_conf, int(channels[channel]['preset']['number']))
+					})
+				else:
+					logger.error('Cant add ' + channel_name + ' to the dicitonary because it doesnt have a config file in ' + CONFIG_FOLDER + '.')
 
 	# make a dictionary of {ftsw_btn: footswitch_obj}
 	footswitch_dict = {}
