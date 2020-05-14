@@ -1,20 +1,24 @@
-The Quartz can receive Midi messages from another Midi Controller, and do something with it. What it can do
-is defined below. The messages that it listens to can all be changed. Normally pedal makers set this in stone,
-but there are some Midi Controllers that only send certain messages, so now you can make the Quartz to suit them.
-You can also change these messages to "Note On" messages for example. So that you can set a key on your
-keyboard to be "next preset" for example. Or you could tell the Quartz to listen to PC messages, so that whenever you
-change presets on another pedal, the Quartz will tap in a tempo. Just in case you ever want to see how fast
-you change presets...
-Since the messages can be changed, we won't list the value. Any Midi message will work to activate the following:
-INCOMING MIDI
-Set the tempo directly with a value. This requires 2 messages to be sent together. The 1st message's value is the 100's,
-the 2nd message's value is the 10's and 1's or the BPM. If you send these messages for example:
-Send...
-Type = Control, Channel = 3, Message = 94, Value = 001
-Then straight after send...
-Type = Control, Channel = 3, Message = 94, Value = 059
-Tempo will be set to 159 BPM (assuming that the Channel and Message value match).
-SET TEMPO
+Set Tempo: #Type = Control, Channel = 3, Message = 94, Value = 001
+  cc: 
+  multi:
+    1: hundreds
+    2: tens_and_ones
+  hundreds: 
+    cc: 94
+    func: "x / 100"
+  tens_and_ones:
+    cc: 94
+      func: "x % 100"
+  min: 40
+  max: 3000
+Next Preset:
+Prev Preset:
+Set Preset:
+Global Tempo:
+  cc:
+  off:
+  on:
+Set Div 1:
 Page 13
 Whenever this message is received, the Quartz will change to the next preset in the Setlist.
 Whenever this message is received, the Quartz will change to the previous preset in the Setlist.
