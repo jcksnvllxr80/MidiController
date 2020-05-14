@@ -1,67 +1,54 @@
+Tap Tempo:
+  cc: 93
+  val: 1 # any value can be used
 Set Tempo: #Type = Control, Channel = 3, Message = 94, Value = 001
-  cc: 
   multi:
     1: hundreds
-    2: tens_and_ones
+    2: tens_ones
   hundreds: 
     cc: 94
     func: "x / 100"
-  tens_and_ones:
+  tens_ones:
     cc: 94
-      func: "x % 100"
+    func: "x % 100"
   min: 40
   max: 3000
 Next Preset:
+  cc: 95
+  val: 1 # any value can be used
 Prev Preset:
+  cc: 96
+  val: 1 # any value can be used
 Set Preset:
+  cc: 97
+  min: 0
+  max: 127
 Global Tempo:
-  cc:
-  off:
-  on:
+  cc: 98
+  off: 0
+  on: 127
 Set Div 1:
-Page 13
-Whenever this message is received, the Quartz will change to the next preset in the Setlist.
-Whenever this message is received, the Quartz will change to the previous preset in the Setlist.
-Set the Preset directly with the Value of the message.
-If the Value of the message is 0, Global Tempo will be disabled.
-If the Value of the message is 127, Global Tempo will be enabled.
-The division for Output 1 will be set.
-If the Value of the message = 0, Division = Quarter
-If the Value of the message = 1, Division = 1/4 Triplets
-If the Value of the message = 2, Division = Dotted 1/4
-...and so on...
-The division for Output 2 will be set.
-If the Value of the message = 0, Division = Quarter
-If the Value of the message = 1, Division = 1/4 Triplets
-If the Value of the message = 2, Division = Dotted 1/4
-...and so on...
-The division for Output 3 will be set.
-If the Value of the message = 0, Division = Quarter
-If the Value of the message = 1, Division = 1/4 Triplets
-If the Value of the message = 2, Division = Dotted 1/4
-...and so on...
-The division for Output 3 will be set.
-If the Value of the message = 0, Division = Quarter
-If the Value of the message = 1, Division = 1/4 Triplets
-If the Value of the message = 2, Division = Dotted 1/4
-...and so on...
-The division for the Midi Clock will be set.
-If the Value of the message = 0, Division = Quarter
-If the Value of the message = 1, Division = 1/4 Triplets
-If the Value of the message = 2, Division = Dotted 1/4
-...and so on...
-NEXT PRESET
-PREV PRESET
-SET PRESET
-GLBL TEMPO
-SET DIV 1 SET DIV 2
-SET DIV 3 SET DIV 4
-SET DIV MD
-Send out a Midi Stack directly with the Value of the message.
-SEND STACK
-REPEAT MIDI
-MIDI CLK OUT
-If the Value of the message is 0, the Repeating Midi Stack will stop sending
-If the Value of the message is 127, the Repeating Midi Stack will start sending
-If the Value of the message is 0, Midi Clock will stop sending
-If the Value of the message is 127, Midi Clock will start sending
+  notes: "0=1/4, 1=1/4trp, 2=dot1/4 - 3=1/8, 4=1/8trp, 5=dot1/8 - 6=1/2, 7=1/2trp, 8=1/16 - 9=2/2, 10=3/2, 11=4/2"
+  cc: 99
+  min: 0
+  max: 11
+Set Div 2:
+  notes: "0=1/4, 1=1/4trp, 2=dot1/4 - 3=1/8, 4=1/8trp, 5=dot1/8 - 6=1/2, 7=1/2trp, 8=1/16 - 9=2/2, 10=3/2, 11=4/2"
+  cc: 100
+  min: 0
+  max: 11
+Set Div 3:
+  notes: "0=1/4, 1=1/4trp, 2=dot1/4 - 3=1/8, 4=1/8trp, 5=dot1/8 - 6=1/2, 7=1/2trp, 8=1/16 - 9=2/2, 10=3/2, 11=4/2"
+  cc: 101
+  min: 0
+  max: 11
+Set Div 4:
+  notes: "0=1/4, 1=1/4trp, 2=dot1/4 - 3=1/8, 4=1/8trp, 5=dot1/8 - 6=1/2, 7=1/2trp, 8=1/16 - 9=2/2, 10=3/2, 11=4/2"
+  cc: 102
+  min: 0
+  max: 11
+Set Midi Div:
+  notes: "0=1/4, 1=1/4trp, 2=dot1/4 - 3=1/8, 4=1/8trp, 5=dot1/8 - 6=1/2, 7=1/2trp, 8=1/16 - 9=2/2, 10=3/2, 11=4/2"
+  cc: 103
+  min: 0
+  max: 11
