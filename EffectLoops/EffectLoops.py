@@ -190,9 +190,9 @@ class MidiPedal(Pedal):
 		preset = preset % 128
 		# self.midi.StrymonPresetChange(self.MidiCommandDict["PRESET_GROUP_" + str(presetGroup)], chr(preset))
 
-	def setSelahPreset(self, preset):
-		self.preset = preset
-		self.midi.SelahPresetTempoChange(chr(preset))
+	# def setSelahPreset(self, preset):
+	# 	self.preset = preset
+	# 	self.midi.SelahPresetTempoChange(chr(preset))
 	    	
 	def set_setting(self, setting):
 		pass

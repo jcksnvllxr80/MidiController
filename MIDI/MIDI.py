@@ -51,17 +51,17 @@ class MIDI(object):
 	#	self._devices.read_byte(self.address)
 		#self.write(ser.read(1))
 
-	def StrymonPresetChange(self, presetGroup, preset):
-		message = self.CCchannel + presetGroup + self.PCchannel + preset
-		self.write(message)
+	# def StrymonPresetChange(self, presetGroup, preset):
+	# 	message = self.CCchannel + presetGroup + self.PCchannel + preset
+	# 	self.write(message)
 
-	def SelahPresetChange(self, preset, value):
-		message = self.CCchannel + preset + value
-		self.write(message)
+	# def SelahPresetChange(self, preset, value):
+	# 	message = self.CCchannel + preset + value
+	# 	self.write(message)
 		
-	def	SelahPresetTempoChange(self, preset):
-		message = self.PCchannel + preset
-		self.write(message)
+	# def	SelahPresetTempoChange(self, preset):
+	# 	message = self.PCchannel + preset
+	# 	self.write(message)
 		
 	def write(self, msg):
 		logger.info("MIDI sent: " + repr(msg))
