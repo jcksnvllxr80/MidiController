@@ -27,9 +27,8 @@ def unload():
 
 class Pedal(object):
 
-	def __init__(self, name, state, type):
+	def __init__(self, name, state):
 		self.name = name
-		self.type = type
 		self.is_engaged = state
 		if self.is_engaged:
 			self.turn_on()
@@ -164,13 +163,12 @@ class MidiPedal(Pedal):
 		"ENGAGE_CC":"\x66", "BYPASS_CC":"\x66", "TAP_CC":"\x5D", "TOGGLEBYPASS_CC":"\x1D"}
 
 	def __init__(self, name, state, MIDIchannel, commands, preset):
-		type = "MidiPedal"
 		self.MIDIchannel = MIDIchannel
 		self.midi = MIDI.MIDI(self.MIDIchannel)
 		self.preset = preset
 		self.MidiCommandDict = self.commands
 		self.setPreset(self.preset)
-		Pedal.__init__(self, name, state, type) 
+		Pedal.__init__(self, name, state) 
 
 	def turn_on(self):
 			#turn on via MIDI
@@ -206,7 +204,6 @@ class MidiPedal(Pedal):
 # 	TimeLineSysExEnd= "\xF7"
 
 # 	def __init__(self, name, state, MIDIchannel, brand, tempo, preset):
-# 		self.type = "TimeLine"
 # 		self.tempo = tempo
 # 		super(TimeLine, self).__init__(name, state, MIDIchannel, brand, preset)
 # 		self.setTempo(self.tempo)
