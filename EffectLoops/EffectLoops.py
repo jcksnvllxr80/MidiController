@@ -157,24 +157,29 @@ class ButtonOnPedalBoard(object):
 
 
 class MidiPedal(Pedal):
-	#Strymon Pedals are the only Pedals not routed through the looper
-	commands = {"DATA_BYTE_ON":"\x7F", "DATA_BYTE_OFF":"\x00", "DATA_BYTE":"\x0F", 
-		"PRESET_GROUP_0":"\x00\x00", "PRESET_GROUP_1":"\x00\x01", "PRESET_GROUP_2":"\x00\x02", 
-		"ENGAGE_CC":"\x66", "BYPASS_CC":"\x66", "TAP_CC":"\x5D", "TOGGLEBYPASS_CC":"\x1D"}
+	# commands = {"DATA_BYTE_ON":"\x7F", "DATA_BYTE_OFF":"\x00", "DATA_BYTE":"\x0F", 
+	# 	"PRESET_GROUP_0":"\x00\x00", "PRESET_GROUP_1":"\x00\x01", "PRESET_GROUP_2":"\x00\x02", 
+	# 	"ENGAGE_CC":"\x66", "BYPASS_CC":"\x66", "TAP_CC":"\x5D", "TOGGLEBYPASS_CC":"\x1D"}
 
 	def __init__(self, name, state, MIDIchannel, commands, preset):
 		self.MIDIchannel = MIDIchannel
 		self.midi = MIDI.MIDI(self.MIDIchannel)
 		self.preset = preset
-		self.MidiCommandDict = self.commands
+		self.MidiCommandDict = None
+		self.parse_midi_config(commands)
 		self.setPreset(self.preset)
 		Pedal.__init__(self, name, state) 
 
+	def parse_midi_config(self, commands_dict):
+		preset_command_dict = commands_dict.get('Set Preset', None)
+		if preset_command_dict:
+			pass # TODO: work on this
+
 	def turn_on(self):
-			#turn on via MIDI
-			self.midi.MIDI_CC_TX(self.MidiCommandDict["ENGAGE_CC"], self.MidiCommandDict["DATA_BYTE_ON"])
-			self.is_engaged = True
-			logger.info(self.name + " on.")
+		#turn on via MIDI
+		self.midi.MIDI_CC_TX(self.MidiCommandDict["ENGAGE_CC"], self.MidiCommandDict["DATA_BYTE_ON"])
+		self.is_engaged = True
+		logger.info(self.name + " on.")
 
 	def turn_off(self):
 		#turn off via MIDI

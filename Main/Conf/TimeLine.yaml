@@ -216,7 +216,7 @@ LOOPER:
     cc: 98
     min: 0
     max: 127
-Preset:
+Set Preset:
   multi:
     1: bank
     2: preset

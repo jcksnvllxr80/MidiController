@@ -227,7 +227,7 @@ Parameters:
       cc: 51
       min: 0
       max: 2
-Preset:
+Set Preset:
   multi:
     1: bank
     2: preset

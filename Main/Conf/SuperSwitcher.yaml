@@ -1,145 +1,141 @@
+
+Set Preset: 
+  bank 1: 
+    notes: "01.1 = 0 - ... - 01.8 = 7"
+    pc: 
+      min: 0
+      max: 7
+  bank 2:
+    notes: "02.1 = 8 - ... - 02.8 = 15"
+    pc: 
+      min: 8
+      max: 15
+  bank 3: 
+    notes: "03.1 = 16 - ... - 03.8 = 23"
+    pc: 
+      min: 16
+      max: 23
+  bank 4:
+    notes: "04.1 = 24 - ... - 04.8 = 31"
+    pc: 
+      min: 24
+      max: 31
+  bank 5: 
+    notes: "05.1 = 32 - ... - 05.8 = 39"
+    pc: 
+      min: 32
+      max: 39
+  bank 6:
+    notes: "06.1 = 40 - ... - 06.8 = 47"
+    pc: 
+      min: 40
+      max: 47
+  bank 7: 
+    notes: "07.1 = 48 - ... - 07.8 = 55"
+    pc: 
+      min: 48
+      max: 55
+  bank 8:
+    notes: "08.1 = 56 - ... - 08.8 = 63"
+    pc: 
+      min: 56
+      max: 63
+  bank 9: 
+    notes: "09.1 = 64 - ... - 09.8 = 71"
+    pc: 
+      min: 64
+      max: 71
+  bank 10:
+    notes: "10.1 = 72 - ... - 10.8 = 79"
+    pc: 
+      min: 72
+      max: 79
+  bank 11: 
+    notes: "11.1 = 80 - ... - 11.8 = 87"
+    pc: 
+      min: 80
+      max: 87
+  bank 121:
+    notes: "12.1 = 88 - ... - 12.8 = 95"
+    pc: 
+      min: 88
+      max: 95
+  bank 13: 
+    notes: "13.1 = 96 - ... - 13.8 = 103"
+    pc: 
+      min: 96
+      max: 103
+  bank 14:
+    notes: "14.1 = 104 - ... - 14.8 = 111"
+    pc: 
+      min: 104
+      max: 111
+  bank 15: 
+    notes: "15.1 = 112 - ... - 15.8 = 119"
+    pc: 
+      min: 112
+      max: 119
+  bank 16:
+    notes: "16.1 = 120 - ... - 16.8 = 127"
+    pc: 
+      min: 120
+      max: 127
 Parameters:
-  PC Messages:
-    notes: "load presets"
-    Presets: 
-      bank 1: 
-        notes: "01.1 = 0 - ... - 01.8 = 7"
-        pc: 
-          min: 0
-          max: 7
-      bank 2:
-        notes: "02.1 = 8 - ... - 02.8 = 15"
-        pc: 
-          min: 8
-          max: 15
-      bank 3: 
-        notes: "03.1 = 16 - ... - 03.8 = 23"
-        pc: 
-          min: 16
-          max: 23
-      bank 4:
-        notes: "04.1 = 24 - ... - 04.8 = 31"
-        pc: 
-          min: 24
-          max: 31
-      bank 5: 
-        notes: "05.1 = 32 - ... - 05.8 = 39"
-        pc: 
-          min: 32
-          max: 39
-      bank 6:
-        notes: "06.1 = 40 - ... - 06.8 = 47"
-        pc: 
-          min: 40
-          max: 47
-      bank 7: 
-        notes: "07.1 = 48 - ... - 07.8 = 55"
-        pc: 
-          min: 48
-          max: 55
-      bank 8:
-        notes: "08.1 = 56 - ... - 08.8 = 63"
-        pc: 
-          min: 56
-          max: 63
-      bank 9: 
-        notes: "09.1 = 64 - ... - 09.8 = 71"
-        pc: 
-          min: 64
-          max: 71
-      bank 10:
-        notes: "10.1 = 72 - ... - 10.8 = 79"
-        pc: 
-          min: 72
-          max: 79
-      bank 11: 
-        notes: "11.1 = 80 - ... - 11.8 = 87"
-        pc: 
-          min: 80
-          max: 87
-      bank 121:
-        notes: "12.1 = 88 - ... - 12.8 = 95"
-        pc: 
-          min: 88
-          max: 95
-      bank 13: 
-        notes: "13.1 = 96 - ... - 13.8 = 103"
-        pc: 
-          min: 96
-          max: 103
-      bank 14:
-        notes: "14.1 = 104 - ... - 14.8 = 111"
-        pc: 
-          min: 104
-          max: 111
-      bank 15: 
-        notes: "15.1 = 112 - ... - 15.8 = 119"
-        pc: 
-          min: 112
-          max: 119
-      bank 16:
-        notes: "16.1 = 120 - ... - 16.8 = 127"
-        pc: 
-          min: 120
-          max: 127
-  CC Messages:
-    notes: "button pushes"
-    Function:
-      Loop 1:
-        name: MorningGlory
-        cc: 102
-        off: 0
-        on: 127
-      Loop 2:
-        name: AngryCharlie
-        cc: 103
-        off: 0
-        on: 127
-      Loop 3:
-        name: SuperBolt
-        cc: 104
-        off: 0
-        on: 127
-      Loop 4:
-        name: XoticWah
-        cc: 105
-        off: 0
-        on: 127
-      Loop 5:
-        name: 
-        cc: 106
-        off: 0
-        on: 127
-      Loop 6:
-        name: Pog
-        cc: 107
-        off: 0
-        on: 127
-      Loop 7:
-        name: ElCapistan
-        cc: 109
-        off: 0
-        on: 127
-      Loop 8:
-        name: SuperPulsar
-        cc: 108
-        off: 0
-        on: 127
-      Boost:
-        cc: 110
-        off: 0
-        on: 127
-      Tuner:
-        cc: 111
-        off: 0
-        on: 127
-      Control 1:
-        name: SuperBolt Heavy
-        cc: 112
-        off: 0
-        on: 127
-      Control 2:
-        name: ElCapistan Fave
-        cc: 113
-        off: 0
-        on: 127
+  Loop 1:
+    name: MorningGlory
+    cc: 102
+    off: 0
+    on: 127
+  Loop 2:
+    name: AngryCharlie
+    cc: 103
+    off: 0
+    on: 127
+  Loop 3:
+    name: SuperBolt
+    cc: 104
+    off: 0
+    on: 127
+  Loop 4:
+    name: XoticWah
+    cc: 105
+    off: 0
+    on: 127
+  Loop 5:
+    name: 
+    cc: 106
+    off: 0
+    on: 127
+  Loop 6:
+    name: Pog
+    cc: 107
+    off: 0
+    on: 127
+  Loop 7:
+    name: ElCapistan
+    cc: 109
+    off: 0
+    on: 127
+  Loop 8:
+    name: SuperPulsar
+    cc: 108
+    off: 0
+    on: 127
+  Boost:
+    cc: 110
+    off: 0
+    on: 127
+  Tuner:
+    cc: 111
+    off: 0
+    on: 127
+  Control 1:
+    name: SuperBolt Heavy
+    cc: 112
+    off: 0
+    on: 127
+  Control 2:
+    name: ElCapistan Fave
+    cc: 113
+    off: 0
+    on: 127
