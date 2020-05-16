@@ -9,86 +9,86 @@ Set Preset:
     program change:
       func: "x % 128"
   min: 0
-	max: 299
+  max: 299
 Bank Select:
-	notes: "bank1 = 0 - bank2 = 1 - bank3 = 2"
-	cc: 0
-	min: 0
-	max: 2
+  notes: "bank1 = 0 - bank2 = 1 - bank3 = 2"
+  cc: 0
+  min: 0
+  max: 2
 Engage:
-	cc: 102
-	value: 127 # turns pedal on
+  cc: 102
+  value: 127 # turns pedal on
 Bypass:
-	cc: 102
-	value: 0 # turns pedal off
+  cc: 102
+  value: 0 # turns pedal off
 Parameters:
-	Volume:
-		notes: "min volume 0 - max volume 127"
-		cc: 7
-		min: 0
-		max: 127		
-	Level:	
-		notes: "min level 0 - max level 127"
-		cc: 12
-		min: 0
-		max: 127		
-	Drive:
-		notes: "min drive 0 - max drive 127"
-		cc: 13
-		min: 0
-		max: 127		
-	Bass:	
-		notes: "min bass 0 - max bass 127"
-		cc: 14
-		min: 0
-		max: 127		
-	Mid:
-		notes: "min mid 0 - max mid 127"
-		cc: 15
-		min: 0
-		max: 127	
-	Treble:	
-		notes: "min treble 0 - max treble 127"
-		cc: 16
-		min: 0
-		max: 127	
-	Room Level:	
-		notes: "min room level 0 - max room level 127"
-		cc: 17
-		min: 0
-		max: 127	
-	Room Size:
-		notes: "1 = small - 2 = medium - 3 = large"
-		cc: 18
-		min: 1
-		max: 3	
-	Amp:
-		notes: "1 = round - 2 = chime - 3 = punch"
-		cc: 19
-		min: 1
-		max: 3
-	Cab:
-		notes: "0-2	(round a, b, c) - 3-5 (chime a, b, c) - 6-8	(punch a, b, c)" 
-		cc: 20
-		min: 0
-		max: 8
-	Footswitch Fav:
-		notes: "0 = release - 1 thru 127 = press"
-		cc: 27
-		min: 0
-		max: 127	
-	Footswitch On:
-		notes: "0 = release - 1 thru 127 = press"
-		cc: 28
-		min: 0
-		max: 127	
-	MIDI Expression:
-		notes: "0 = off - 1 thru 127 = on"
-		cc: 60
-		min: 0
-		max: 127	
-	Expression Pedal:
-		notes: "min exp pedal 0 - max exp pedal 127"
-		cc: 100
-		min: 0
-		max: 127	
+  Volume:
+    notes: "min volume 0 - max volume 127"
+    cc: 7
+    min: 0
+    max: 127
+  Level:
+    notes: "min level 0 - max level 127"
+    cc: 12
+    min: 0
+    max: 127
+  Drive:
+    notes: "min drive 0 - max drive 127"
+    cc: 13
+    min: 0
+    max: 127
+  Bass:
+    notes: "min bass 0 - max bass 127"
+    cc: 14
+    min: 0
+    max: 127
+  Mid:
+    notes: "min mid 0 - max mid 127"
+    cc: 15
+    min: 0
+    max: 127
+  Treble:
+    notes: "min treble 0 - max treble 127"
+    cc: 16
+    min: 0
+    max: 127
+  Room Level:
+    notes: "min room level 0 - max room level 127"
+    cc: 17
+    min: 0
+    max: 127
+  Room Size:
+    notes: "1 = small - 2 = medium - 3 = large"
+    cc: 18
+    min: 1
+    max: 3
+  Amp:
+    notes: "1 = round - 2 = chime - 3 = punch"
+    cc: 19
+    min: 1
+    max: 3
+  Cab:
+    notes: "0-2 (round a, b, c) - 3-5 (chime a, b, c) - 6-8 (punch a, b, c)" 
+    cc: 20
+    min: 0
+    max: 8
+  Footswitch Fav:
+    notes: "0 = release - 1 thru 127 = press"
+    cc: 27
+    min: 0
+    max: 127
+  Footswitch On:
+    notes: "0 = release - 1 thru 127 = press"
+    cc: 28
+    min: 0
+    max: 127
+  MIDI Expression:
+    notes: "0 = off - 1 thru 127 = on"
+    cc: 60
+    min: 0
+    max: 127
+  Expression Pedal:
+    notes: "min exp pedal 0 - max exp pedal 127"
+    cc: 100
+    min: 0
+    max: 127

@@ -1,21 +1,21 @@
 Toggle Bypass:
-	cc: 29
-	value: 1 # value can be anything
+  cc: 29
+  value: 1 # value can be anything
 Engage:
-	cc: 23
-	value: 1 # value can be anything
+  cc: 23
+  value: 1 # value can be anything
 Bypass:
-	cc: 24
-	value: 1 # value can be anything
+  cc: 24
+  value: 1 # value can be anything
 Cycle Clipping:
-	cc: 25
-	value: 1 # value can be anything
+  cc: 25
+  value: 1 # value can be anything
 TS808 Type:
-	cc: 20
-	value: 1 # value can be anything
+  cc: 20
+  value: 1 # value can be anything
 Plexi Type:
-	cc: 21
-	value: 1 # value can be anything
+  cc: 21
+  value: 1 # value can be anything
 Klone Type:
-	cc: 22
-	value: 1 # value can be anything
+  cc: 22
+  value: 1 # value can be anything
