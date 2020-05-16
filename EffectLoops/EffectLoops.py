@@ -170,7 +170,6 @@ class MidiPedal(Pedal):
 		engage_dict = self.midi_command_dict.get("Engage", None)
 		if engage_dict:
 			self.determine_action_method(engage_dict)
-			pass 
 			self.is_engaged = True
 			logger.info(self.name + " on.")
 		else:
@@ -181,7 +180,6 @@ class MidiPedal(Pedal):
 		bypass_dict = self.midi_command_dict.get("Bypass", None)
 		if bypass_dict:
 			self.determine_action_method(bypass_dict)
-			pass 
 			self.is_engaged = False
 			logger.info(self.name + " off.")
 		else:
@@ -193,7 +191,7 @@ class MidiPedal(Pedal):
 		set_preset_dict = self.midi_command_dict.get("Set Preset", None)
 		if set_preset_dict:
 			self.determine_action_method(set_preset_dict, preset)
-			pass
+			logger.info(self.name + " preset was set to " + str(preset) + ".")
 		else:
 			logger.info(self.name + " has no \'Set Preset\' option defined in the pedal config.")
 
