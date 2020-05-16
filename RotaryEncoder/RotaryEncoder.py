@@ -413,7 +413,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def load_part(self):
-		logger.info("switching current part to: " + str(self.current_part.data.part_name) + str(self.current_part))
+		logger.info("switching current part to: " + str(self.current_part.data.part_name) + ": " + str(self.current_part))
 		tempo_obj = None
 		self.displayed_part_index = self.current_song.data.parts.node_to_index(self.current_part)
 		for midi_pedal_obj in self.all_midi_pedals:
@@ -465,7 +465,7 @@ class Rotary_Encoder(RgbKnob):
 	def load_song(self):
 		self.current_song = self.displayed_song
 		self.current_part = self.displayed_part
-		logger.info("switching current song to: " + str(self.current_song.data.name) + str(self.current_song))
+		logger.info("switching current song to: " + str(self.current_song.data.name) + ": " + str(self.current_song))
 		self.displayed_song_index = self.setlist.songs.node_to_index(self.current_song)
 		self.load_part()
 
