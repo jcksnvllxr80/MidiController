@@ -162,8 +162,8 @@ class MidiPedal(Pedal):
 		self.midi_channel = midi_channel
 		self.midi = MIDI.MIDI(self.midi_channel)
 		self.midi_command_dict = commands
-		self.set_preset(preset)
-		Pedal.__init__(self, name, state) 
+		Pedal.__init__(self, name, state)
+		self.set_preset(preset) 
 
 
 	def turn_on(self):
