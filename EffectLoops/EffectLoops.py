@@ -226,6 +226,7 @@ class MidiPedal(Pedal):
 	def handle_multi_functions(self, action_dict, val):
 		actions = action_dict['multi']
 		for i in range(len(actions)):
+			logger.info('actions dictionary: ' + actions)
 			todo_item = actions[str(i + 1)]
 			if action_dict.get(todo_item, None):
 				todo = action_dict[todo_item]
