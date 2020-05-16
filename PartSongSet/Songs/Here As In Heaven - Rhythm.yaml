@@ -20,7 +20,6 @@ parts:
                 engaged: True
                 preset: 1
             SuperSwitcher:
-                engaged: True
                 preset: 1
                 loops:
                     Morning Glory:
@@ -63,7 +62,6 @@ parts:
                 engaged: True
                 preset: 1
             SuperSwitcher:
-                engaged: True
                 preset: 1
                 loops:
                     Morning Glory:
@@ -106,7 +104,6 @@ parts:
                 engaged: True
                 preset: 1
             SuperSwitcher:
-                engaged: True
                 preset: 1
                 loops:
                     Morning Glory:
@@ -149,7 +146,6 @@ parts:
                 engaged: True
                 preset: 1
             SuperSwitcher:
-                engaged: True
                 preset: 1
                 loops:
                     Morning Glory:
