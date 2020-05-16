@@ -7,15 +7,18 @@ Engage:
 Bypass:
   cc: 24
   value: 1 # value can be anything
+Set Preset:
+  control change:
+    func: '{"TS808":20, "Plexi":21, "Klone":22}.get(x, None)'
 Cycle Clipping:
   cc: 25
   value: 1 # value can be anything
-TS808 Type:
+TS808:
   cc: 20
   value: 1 # value can be anything
-Plexi Type:
+Plexi:
   cc: 21
   value: 1 # value can be anything
-Klone Type:
+Klone:
   cc: 22
   value: 1 # value can be anything

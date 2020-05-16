@@ -36,8 +36,12 @@ class MIDI(object):
 		self.cc_channel = self.cc_dict[str(channel)]
 		self.pc_channel = self.pc_dict[str(channel)]
 
-	def midi_cc_tx(self, change_num, value):
-		message = self.cc_channel + change_num + value
+	def midi_cc_tx(self, change_num, value=None):
+		if value:
+			message = self.cc_channel + change_num + value
+		else:
+			message = self.cc_channel + change_num + chr(127)
+
 		self.write(message)
 
 	def midi_pc_tx(self, change_num, value=None):

@@ -209,6 +209,9 @@ class MidiPedal(Pedal):
 		elif action_dict.get('program change', None):
 			value = self.check_for_func(action_dict['program change'], value)
 			self.midi.midi_pc_tx(chr(value))
+		elif action_dict.get('control change', None):
+			value = self.check_for_func(action_dict['control change'], value)
+			self.midi.midi_cc_tx(chr(value))
 		elif action_dict.get('multi', None):
 			self.handle_multi_functions(action_dict, value)
 
