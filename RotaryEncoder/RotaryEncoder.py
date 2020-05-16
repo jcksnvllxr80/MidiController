@@ -159,7 +159,7 @@ class Rotary_Encoder(RgbKnob):
 		self.displayed_part = self.current_part
 		self.displayed_song_index = self.setlist.songs.node_to_index(self.displayed_song)
 		self.displayed_part_index = self.current_song.data.parts.node_to_index(self.displayed_part)
-		# print("{displayed song index: " + str(self.displayed_song_index) + ", displayed part index: " + str(self.displayed_part_index) + "}")
+		logger.info("{displayed song index: " + str(self.displayed_song_index) + ", displayed part index: " + str(self.displayed_part_index) + "}")
 
 		# set up the MidiController setup menus (set, seong, part, button, bpm)
 		self.setlist_menu = self.setup_menu.add_child("Sets", self.show_setlists, self.load_set_func)
