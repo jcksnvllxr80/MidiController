@@ -65,5 +65,4 @@ midi:
       name: ScarlettLove
       preset:
         name: Plexi
-        number: 1
       state: true

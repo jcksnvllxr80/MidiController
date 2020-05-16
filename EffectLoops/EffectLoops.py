@@ -163,6 +163,10 @@ class MidiPedal(Pedal):
 		self.midi = MIDI.MIDI(self.midi_channel)
 		self.midi_command_dict = commands
 		Pedal.__init__(self, name, state)
+		try:
+			preset = int(preset)
+		except ValueError:
+			logging.info("Cant cast \'" + preset + "\' as an interger. Assuming it is a name based preset.")
 		self.set_preset(preset) 
 
 

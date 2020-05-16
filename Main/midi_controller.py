@@ -81,7 +81,7 @@ def setup():
 						midi_conf = yaml.full_load(ymlfile)
 					midi_channel_dict.update({
 						channel_name: EffectLoops.MidiPedal(channels[channel]['name'], bool(channels[channel]['state']), \
-							int(channel), midi_conf, int(channels[channel]['preset']['number']))
+							int(channel), midi_conf, channels[channel]['preset'].get('number', channels[channel]['preset'].get('name')))
 					})
 				else:
 					logger.error('Cant add ' + channel_name + ' to the dicitonary because it doesnt have a config file in ' + CONFIG_FOLDER + '.')
