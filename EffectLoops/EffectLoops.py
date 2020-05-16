@@ -211,6 +211,7 @@ class MidiPedal(Pedal):
 			self.midi.midi_pc_tx(chr(value))
 		elif action_dict.get('control change', None):
 			value = self.check_for_func(action_dict['control change'], value)
+			logger.info(self.name + " has a value of " + str(value) + " after going through lambda func.")
 			self.midi.midi_cc_tx(chr(value))
 		elif action_dict.get('multi', None):
 			self.handle_multi_functions(action_dict, value)
