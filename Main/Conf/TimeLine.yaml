@@ -224,34 +224,35 @@ Set Preset:
     cc: 0
     func: "x / 128"
   preset:
-    pc:
+    program change:
       func: "x % 128"
   min: 0
   max: 199
-Other:
-  Footswitch A:
-    cc: 80
-    off: 127
-    on: 0 
-  Footswitch B:
-    cc: 82
-    off: 127
-    on: 0 
-  Tap footswitch:
-    cc: 81
-    off: 0 
-    on: 127
-  Remote Tap: 
-    cc: 93
-    val: 1 # doesnt matter what value
-  Expression Pedal:
-    cc: 100
-    min: 0
-    max: 127
-  Bypass:
-    cc: 102
-    off: 0
-    on: 127
-  Phase Reset: 
-    cc: 125
-    val: 1 # doesnt matter what value
+Footswitch A:
+  cc: 80
+  off: 127
+  on: 0 
+Footswitch B:
+  cc: 82
+  off: 127
+  on: 0 
+Tap footswitch:
+  cc: 81
+  off: 0 
+  on: 127
+Remote Tap: 
+  cc: 93
+  val: 1 # doesnt matter what value
+Expression Pedal:
+  cc: 100
+  min: 0
+  max: 127
+Engage:
+  cc: 102
+  value: 127 # turns pedal on
+Bypass:
+  cc: 102
+  value: 0 # turns pedal off
+Phase Reset: 
+  cc: 125
+  val: 1 # doesnt matter what value

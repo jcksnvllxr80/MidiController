@@ -157,67 +157,81 @@ class ButtonOnPedalBoard(object):
 
 
 class MidiPedal(Pedal):
-	# commands = {"DATA_BYTE_ON":"\x7F", "DATA_BYTE_OFF":"\x00", "DATA_BYTE":"\x0F", 
-	# 	"PRESET_GROUP_0":"\x00\x00", "PRESET_GROUP_1":"\x00\x01", "PRESET_GROUP_2":"\x00\x02", 
-	# 	"ENGAGE_CC":"\x66", "BYPASS_CC":"\x66", "TAP_CC":"\x5D", "TOGGLEBYPASS_CC":"\x1D"}
 
-	def __init__(self, name, state, MIDIchannel, commands, preset):
-		self.MIDIchannel = MIDIchannel
-		self.midi = MIDI.MIDI(self.MIDIchannel)
-		self.preset = preset
-		self.MidiCommandDict = None
-		self.parse_midi_config(commands)
-		self.setPreset(self.preset)
+	def __init__(self, name, state, midi_channel, commands, preset):
+		self.midi_channel = midi_channel
+		self.midi = MIDI.MIDI(self.midi_channel)
+		self.midi_command_dict = commands
+		self.set_preset(preset)
 		Pedal.__init__(self, name, state) 
 
-	def parse_midi_config(self, commands_dict):
-		preset_command_dict = commands_dict.get('Set Preset', None)
-		if preset_command_dict:
-			pass # TODO: work on this
 
 	def turn_on(self):
-		#turn on via MIDI
-		self.midi.MIDI_CC_TX(self.MidiCommandDict["ENGAGE_CC"], self.MidiCommandDict["DATA_BYTE_ON"])
-		self.is_engaged = True
-		logger.info(self.name + " on.")
+		engage_dict = self.midi_command_dict.get("Engage", None)
+		if engage_dict:
+			self.determine_action_method(engage_dict)
+			pass 
+			self.is_engaged = True
+			logger.info(self.name + " on.")
+		else:
+			logger.info(self.name + " has no \'Engage\' option defined in the pedal config.")
+
 
 	def turn_off(self):
-		#turn off via MIDI
-		self.midi.MIDI_CC_TX(self.MidiCommandDict["BYPASS_CC"], self.MidiCommandDict["DATA_BYTE_OFF"])
-		self.is_engaged = False
-		logger.info(self.name + " off.")
+		bypass_dict = self.midi_command_dict.get("Bypass", None)
+		if bypass_dict:
+			self.determine_action_method(bypass_dict)
+			pass 
+			self.is_engaged = False
+			logger.info(self.name + " off.")
+		else:
+			logger.info(self.name + " has no \'Bypass\' option defined in the pedal config.")
 
-	def setPreset(self, preset):
+
+	def set_preset(self, preset):
 		self.preset = preset
-		presetGroup = preset / 128
-		preset = preset % 128
-		# self.midi.StrymonPresetChange(self.MidiCommandDict["PRESET_GROUP_" + str(presetGroup)], chr(preset))
+		set_preset_dict = self.midi_command_dict.get("Set Preset", None)
+		if set_preset_dict:
+			self.determine_action_method(set_preset_dict, preset)
+			pass
+		else:
+			logger.info(self.name + " has no \'Set Preset\' option defined in the pedal config.")
 
-	# def setSelahPreset(self, preset):
-	# 	self.preset = preset
-	# 	self.midi.SelahPresetTempoChange(chr(preset))
-	    	
+
 	def set_setting(self, setting):
 		pass
-		# self.setStrymonPreset(int(setting))
-		# self.setSelahPreset(int(setting))
-		
 
-# class TimeLine(MidiPedal):
-    
-# 	TimeLineSysExTempoStart = "\xF0\x00\x01\x55\x12\x01\x6F\x00\x00\x00" 
-# 	TimeLineSysExEnd= "\xF7"
 
-# 	def __init__(self, name, state, MIDIchannel, brand, tempo, preset):
-# 		self.tempo = tempo
-# 		super(TimeLine, self).__init__(name, state, MIDIchannel, brand, preset)
-# 		self.setTempo(self.tempo)
+	def determine_action_method(self, action_dict, value=None):
+		if value is None:
+			value = action_dict.get('value', None)
+		if action_dict.get('cc', None):
+			value = self.check_for_func(action_dict, value)
+			self.midi.midi_cc_tx(chr(action_dict['cc']), chr(value))
+		elif action_dict.get('program change', None):
+			value = self.check_for_func(action_dict['program change'], value)
+			self.midi.midi_pc_tx(chr(value))
+		elif action_dict.get('multi', None):
+			self.handle_multi_functions(action_dict, value)
 
-# 	def setTempo(self, tempo):
-# 		#set tempo via MIDI
-# 		self.delayInMs = int(60000/tempo)
-# 		self.midi.SysEx_TX(self.TimeLineSysExTempoStart + chr(self.delayInMs//128) + chr(self.delayInMs%128) 
-# 			+ self.TimeLineSysExEnd)
 
-# 	def tapTempo(self):
-# 		self.midi.MIDI_CC_TX(self.MidiCommandDict["TAP_CC"], self.MidiCommandDict["DATA_BYTE"])
+	def check_for_func(self, change_dict, v):
+		new_v = v
+		if change_dict.get('func', None):
+			f = eval('lambda x: ' + change_dict['func'])
+			new_v = f(v)
+		return new_v
+
+
+	def handle_multi_functions(self, action_dict, val):
+		actions = action_dict['multi']
+		for i in range(len(actions)):
+			todo_item = actions[str(i + 1)]
+			if action_dict.get(todo_item, None):
+				todo = action_dict[todo_item]
+				if todo.get('cc', None):
+					val = self.check_for_func(todo, val)
+					self.midi.midi_cc_tx(chr(todo['cc']), chr(val))
+				elif todo.get('program change', None):
+					val = self.check_for_func(todo['program change'], val)
+					self.midi.midi_pc_tx(chr(val))

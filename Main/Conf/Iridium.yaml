@@ -6,17 +6,23 @@ Set Preset:
     cc: 0
     func: "x / 128"
   preset:
-    pc:
+    program change:
       func: "x % 128"
   min: 0
-  max: 299
+	max: 299
+Bank Select:
+	notes: "bank1 = 0 - bank2 = 1 - bank3 = 2"
+	cc: 0
+	min: 0
+	max: 2
+Engage:
+	cc: 102
+	value: 127 # turns pedal on
+Bypass:
+	cc: 102
+	value: 0 # turns pedal off
 Parameters:
-	Bank Select:
-		notes: "bank1 = 0 - bank2 = 1 - bank3 = 2"
-		cc: 0
-		min: 0
-		max: 2		
-	Volume Pedal:
+	Volume:
 		notes: "min volume 0 - max volume 127"
 		cc: 7
 		min: 0
@@ -84,10 +90,5 @@ Parameters:
 	Expression Pedal:
 		notes: "min exp pedal 0 - max exp pedal 127"
 		cc: 100
-		min: 0
-		max: 127	
-	Bypass:
-		notes: "0 = bypass - 1 thru 127 = on"
-		cc: 102
 		min: 0
 		max: 127	

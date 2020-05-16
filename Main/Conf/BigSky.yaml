@@ -235,7 +235,7 @@ Set Preset:
     cc: 0
     func: "x / 128"
   preset:
-    pc:
+    program change:
       func: "x % 128"
   min: 0
   max: 299
@@ -259,10 +259,12 @@ Other:
     cc: 100
     min: 0
     max: 127
+  Engage:
+    cc: 102
+    value: 127 # turns pedal on
   Bypass:
     cc: 102
-    off: 0
-    on: 127
+    value: 0 # turns pedal off
   Hold Switch:
     cc: 97
     off: 0
