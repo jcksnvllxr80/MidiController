@@ -658,9 +658,11 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def invert_display_colors(self):
-			if self.displayed_part is not self.current_part and self.displayed_song is not self.current_song :
+			if self.displayed_part is not self.current_part and self.displayed_song is not self.current_song:
+				logger.info("Setting display colors to inverted.")
 				self.oled.invert_display_colors = True
 			else:
+				logger.info("Setting display colors to not inverted.")
 				self.oled.invert_display_colors = False
 
 
