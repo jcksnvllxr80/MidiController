@@ -40,12 +40,12 @@ class OledDisplay(object):
 		)
 		if ft is None and fs is None:
 			self.set_font()
-			self.invertDisplayColors = False
+			self.invert_display_colors = False
 			self.spi_disp.begin()
 			self.width = self.spi_disp.width
 			self.height = self.spi_disp.height
 			self.clear_display()
-			self.displayImage = None
+			self.display_image = None
 		else:
 			self.set_font(ft, fs)
 
@@ -56,21 +56,21 @@ class OledDisplay(object):
 			pass
 
 
-	def setDisplayMessage(self, msg):
+	def set_display_message(self, msg):
 		self.message = msg
 		backgroundColor = 0
 		textColor = 255
 		image = Image.new('1', (self.width, self.height))
 		draw = ImageDraw.Draw(image)
 		# Clear image buffer by drawing a black filled box.
-		if self.invertDisplayColors:
+		if self.invert_display_colors:
 			backgroundColor = 255
 			textColor = 0
 			
 		draw.rectangle((0,0,self.width,self.height), outline=backgroundColor, fill=backgroundColor)
 		y = 0
-		if self.displayImage is not None:
-			image = Image.open(IMG_FOLDER + self.displayImage + '.ppm').convert('1') #for testing. comment when not testing
+		if self.display_image is not None:
+			image = Image.open(IMG_FOLDER + self.display_image + '.ppm').convert('1') #for testing. comment when not testing
 		else:
 			for str in msg.split(" - "):
 				xMax, yMax = draw.textsize(str, font=self.font_type)
@@ -93,8 +93,8 @@ class OledDisplay(object):
 			self.font_type = ImageFont.load_default()
 
 
-	def setDisplayImage(self, filename):
-		self.displayImage = filename
+	def set_display_image(self, filename):
+		self.display_image = filename
 		logger.info("Image set.")
 
 

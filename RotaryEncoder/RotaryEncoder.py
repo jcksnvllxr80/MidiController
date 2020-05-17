@@ -251,12 +251,12 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def show_ip(self):
-		self.oled.setDisplayMessage(self.get_ip())
+		self.oled.set_display_message(self.get_ip())
 		# self.oled._delay_microseconds(5000000)
 
 
 	def show_stats(self):
-		self.oled.setDisplayMessage(self.get_stats())
+		self.oled.set_display_message(self.get_stats())
 		# self.oled._delay_microseconds(5000000)
 
 
@@ -413,6 +413,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def load_part(self):
+		self.current_part = self.displayed_part
 		logger.info("switching current part to: " + str(self.current_part.data.part_name) + ": " + str(self.current_part))
 		tempo_obj = None
 		self.displayed_part_index = self.current_song.data.parts.node_to_index(self.current_part)
@@ -546,7 +547,7 @@ class Rotary_Encoder(RgbKnob):
 	def set_message(self, msg):
 		'''display a message on the lcd screen
 		'''
-		self.oled.setDisplayMessage(msg)
+		self.oled.set_display_message(msg)
 		# self.lcd.clear()
 		# self.lcd.message(msg)
 		self.displayed_msg = msg
@@ -656,10 +657,18 @@ class Rotary_Encoder(RgbKnob):
 				self.load_part()
 
 
+	def invert_display_colors(self):
+			if self.displayed_part is not self.current_part:
+				self.oled.invert_display_colors = True
+			else:
+				self.oled.invert_display_colors = False
+
+
 	def prev_part(self):
 		logger.info("This is the \'previous part\' action.")
 		self.displayed_part = self.displayed_song.data.parts.index_to_node(self.displayed_part_index - 1)
 		if self.displayed_part and (self.displayed_part_index > 1):
+			self.invert_display_colors()
 			self.displayed_part_index -= 1
 			self.set_song_info_message_by_value(self.displayed_song, self.displayed_part)
 			# TODO: set a timer so the menu changes back to current part after expiration
@@ -669,6 +678,7 @@ class Rotary_Encoder(RgbKnob):
 		logger.info("This is the \'next part\' action.")
 		self.displayed_part = self.displayed_song.data.parts.index_to_node(self.displayed_part_index + 1)
 		if self.displayed_part and (self.displayed_part_index < self.displayed_song.data.parts.length):
+			self.invert_display_colors()
 			self.displayed_part_index += 1
 			self.set_song_info_message_by_value(self.displayed_song, self.displayed_part)
 			# TODO: set a timer so the menu changes back to current part after expiration
@@ -678,6 +688,7 @@ class Rotary_Encoder(RgbKnob):
 		logger.info("This is the \'previous song\' action.")
 		self.displayed_song = self.setlist.songs.index_to_node(self.displayed_song_index - 1)
 		if self.displayed_song and (self.displayed_song_index > 1):
+			self.invert_display_colors()
 			self.displayed_song_index -= 1 
 			self.displayed_part_index = 1
 			self.displayed_part = self.displayed_song.data.parts.head
@@ -689,6 +700,7 @@ class Rotary_Encoder(RgbKnob):
 		logger.info("This is the \'next song\' action.")
 		self.displayed_song = self.setlist.songs.index_to_node(self.displayed_song_index + 1)
 		if self.displayed_song and (self.displayed_song_index < self.setlist.songs.length):
+			self.invert_display_colors()
 			self.displayed_song_index += 1 
 			self.displayed_part_index = 1
 			self.displayed_part = self.displayed_song.data.parts.head
@@ -698,11 +710,11 @@ class Rotary_Encoder(RgbKnob):
 
 	def select_choice(self):
 		logger.info("This is the \'select\' action.")
+		self.oled.invert_display_colors = False
 		if self.current_song is not self.displayed_song:
-			# self.current_song = self.displayed_song
 			self.load_song()
 		elif self.current_part is not self.displayed_part:
-			self.current_part = self.displayed_part
+			# self.current_part = self.displayed_part
 			self.load_part()
 
 
