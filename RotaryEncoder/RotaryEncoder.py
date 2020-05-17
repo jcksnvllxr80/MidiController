@@ -680,7 +680,7 @@ class Rotary_Encoder(RgbKnob):
 		if self.displayed_song and (self.displayed_song_index > 1):
 			self.displayed_song_index -= 1 
 			self.displayed_part_index = 1
-			self.displayed_part = displayed_song.data.parts.head
+			self.displayed_part = self.displayed_song.data.parts.head
 			self.set_song_info_message_by_value(self.displayed_song, self.displayed_song.data.parts.head)
 			# TODO: set a timer so the menu changes back to current song after expiration
 
@@ -691,7 +691,7 @@ class Rotary_Encoder(RgbKnob):
 		if self.displayed_song and (self.displayed_song_index < self.setlist.songs.length):
 			self.displayed_song_index += 1 
 			self.displayed_part_index = 1
-			self.displayed_part = displayed_song.data.parts.head
+			self.displayed_part = self.displayed_song.data.parts.head
 			self.set_song_info_message_by_value(self.displayed_song, self.displayed_song.data.parts.head)
 			# TODO: set a timer so the menu changes back to current song after expiration
 
