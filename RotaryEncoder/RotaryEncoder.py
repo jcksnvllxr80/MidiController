@@ -117,9 +117,9 @@ class RgbKnob(object):
 	def set_rgb_duty_cycle(self, multiplier=1):
 		''' update the duty cycle for each component of RGB
 		'''
-		self._red.ChangeDutyCycle((100 - self.r)*multiplier)
-		self._green.ChangeDutyCycle((100 - self.g)*multiplier)
-		self._blue.ChangeDutyCycle((100 - self.b)*multiplier)
+		self._red.ChangeDutyCycle((100 - self.r*multiplier))
+		self._green.ChangeDutyCycle((100 - self.g*multiplier))
+		self._blue.ChangeDutyCycle((100 - self.b*multiplier))
 
 
 	def pulsate(self):
