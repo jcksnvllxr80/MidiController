@@ -13,6 +13,8 @@ import N_Tree
 from numpy import arange
 import logging
 import subprocess
+import threading
+
 
 '''   ############ USAGE ###############
 logger.info("info message")
@@ -49,6 +51,7 @@ class RgbKnob(object):
 		self.init_pwm() #initalize GPIO for PWM
 		self.set_color(col, val) #starting color
 		self.start_pwm() #start the PWM
+		self.displaying_current_songpart = True
 		
 	def init_pwm(self):
 		#set the mode for how the GPIO pins will be numbered
@@ -111,12 +114,25 @@ class RgbKnob(object):
 		#update the duty cycle since duty cycle is how brightness is realized
 		self.set_rgb_duty_cycle()
 		
-	def set_rgb_duty_cycle(self):
+	def set_rgb_duty_cycle(self, multiplier=1):
 		''' update the duty cycle for each component of RGB
 		'''
-		self._red.ChangeDutyCycle(100 - self.r)
-		self._green.ChangeDutyCycle(100 - self.g)
-		self._blue.ChangeDutyCycle(100 - self.b)
+		self._red.ChangeDutyCycle((100 - self.r)*multiplier)
+		self._green.ChangeDutyCycle((100 - self.g)*multiplier)
+		self._blue.ChangeDutyCycle((100 - self.b)*multiplier)
+
+
+	def pulsate(self):
+		''' pulsate the rgb know color
+		'''
+		x = range(0,31)
+		i = 0
+		while not self.displaying_current_songpart:
+			self.set_rgb_duty_cycle(abs(numpy.cos(x[i]/3.14)))
+			if i <= 20:
+				i += 1
+			else:
+				i = 0
 
 
 class Rotary_Encoder(RgbKnob):
@@ -656,10 +672,17 @@ class Rotary_Encoder(RgbKnob):
 				self.load_part()
 
 
+	def start_thread():
+		thread = PulsateRgbKnobThread(1, "Pulsate-Thread", self)
+		thread.start()
+
+
 	def prev_part(self):
 		logger.info("This is the \'previous part\' action.")
 		self.displayed_part = self.displayed_song.data.parts.index_to_node(self.displayed_part_index - 1)
 		if self.displayed_part and (self.displayed_part_index > 1):
+			self.displaying_current_songpart = False
+			self.start_thread()
 			self.displayed_part_index -= 1
 			self.set_song_info_message_by_value(self.displayed_song, self.displayed_part)
 			# TODO: set a timer so the menu changes back to current part after expiration
@@ -669,6 +692,8 @@ class Rotary_Encoder(RgbKnob):
 		logger.info("This is the \'next part\' action.")
 		self.displayed_part = self.displayed_song.data.parts.index_to_node(self.displayed_part_index + 1)
 		if self.displayed_part and (self.displayed_part_index < self.displayed_song.data.parts.length):
+			self.displaying_current_songpart = False
+			self.start_thread()
 			self.displayed_part_index += 1
 			self.set_song_info_message_by_value(self.displayed_song, self.displayed_part)
 			# TODO: set a timer so the menu changes back to current part after expiration
@@ -678,6 +703,8 @@ class Rotary_Encoder(RgbKnob):
 		logger.info("This is the \'previous song\' action.")
 		self.displayed_song = self.setlist.songs.index_to_node(self.displayed_song_index - 1)
 		if self.displayed_song and (self.displayed_song_index > 1):
+			self.displaying_current_songpart = False
+			self.start_thread()
 			self.displayed_song_index -= 1 
 			self.displayed_part_index = 1
 			self.displayed_part = self.displayed_song.data.parts.head
@@ -689,6 +716,8 @@ class Rotary_Encoder(RgbKnob):
 		logger.info("This is the \'next song\' action.")
 		self.displayed_song = self.setlist.songs.index_to_node(self.displayed_song_index + 1)
 		if self.displayed_song and (self.displayed_song_index < self.setlist.songs.length):
+			self.displaying_current_songpart = False
+			self.start_thread()
 			self.displayed_song_index += 1 
 			self.displayed_part_index = 1
 			self.displayed_part = self.displayed_song.data.parts.head
@@ -698,6 +727,7 @@ class Rotary_Encoder(RgbKnob):
 
 	def select_choice(self):
 		logger.info("This is the \'select\' action.")
+		self.displaying_current_songpart = True
 		if self.current_song is not self.displayed_song:
 			# self.current_song = self.displayed_song
 			self.load_song()
@@ -849,3 +879,16 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 					self.change_menu_nodes(self.menu.root)
 
 			self.is_pressed = False #was released
+
+
+class PulsateRgbKnobThread(threading.Thread):
+	def __init__(self, threadID, name, rgb_knob):
+		threading.Thread.__init__(self)
+		self.threadID = threadID
+		self.name = name
+		self.rgb_knob = rgb_knob
+	
+	def run(self):
+		logger.info("Starting " + self.name)
+		self.rgb_knob.pulsate(self.name, self.q)
+		logger.info("Exiting " + self.name)
