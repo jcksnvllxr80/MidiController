@@ -890,5 +890,5 @@ class PulsateRgbKnobThread(threading.Thread):
 	
 	def run(self):
 		logger.info("Starting " + self.name)
-		self.rgb_knob.pulsate(self.name, self.q)
+		self.rgb_knob.pulsate()
 		logger.info("Exiting " + self.name)
