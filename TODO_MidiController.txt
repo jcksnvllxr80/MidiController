@@ -1,2 +1,2 @@
 - use threading to make rotary knob change colors or pulsate when current song/part not equal to displayed song/part
-- display time on main screen when know turned from home screen. (currently knob turn does nothing at home screen)
+- display time on main screen when know turned from home screen. (currently knob turn does nothing at home screen) (maybe using date -R to get time and date)
