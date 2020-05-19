@@ -10,7 +10,7 @@ import EffectLoops
 import OledDisplay
 import PartSongSet
 import N_Tree
-from numpy import arange
+from numpy import arange, cos
 import logging
 import subprocess
 import threading
@@ -128,7 +128,7 @@ class RgbKnob(object):
 		x = range(0,31)
 		i = 0
 		while not self.displaying_current_songpart:
-			self.set_rgb_duty_cycle(abs(numpy.cos(x[i]/3.14)))
+			self.set_rgb_duty_cycle(abs(cos(x[i]/3.14)))
 			if i <= 20:
 				i += 1
 			else:
