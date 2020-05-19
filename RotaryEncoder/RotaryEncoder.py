@@ -133,6 +133,7 @@ class RgbKnob(object):
 				i += 1
 			else:
 				i = 0
+			time.sleep(0.1)
 
 
 class Rotary_Encoder(RgbKnob):
