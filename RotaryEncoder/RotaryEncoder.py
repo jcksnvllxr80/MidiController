@@ -672,7 +672,7 @@ class Rotary_Encoder(RgbKnob):
 				self.load_part()
 
 
-	def start_thread():
+	def start_thread(self):
 		thread = PulsateRgbKnobThread(1, "Pulsate-Thread", self)
 		thread.start()
 
