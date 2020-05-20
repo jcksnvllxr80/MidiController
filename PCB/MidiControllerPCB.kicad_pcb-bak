@@ -86,7 +86,7 @@
       (mirror false)
       (drillshape 0)
       (scaleselection 1)
-      (outputdirectory "FabOut/Rev2/"))
+      (outputdirectory "FabOut/Rev3/"))
   )
 
   (net 0 "")
@@ -28520,7 +28520,7 @@
   (segment (start 150.2 109.05) (end 150.25 109.05) (width 0.25) (layer F.Cu) (net 351) (status 30))
   (segment (start 150.25 109.05) (end 151.1 109.9) (width 0.25) (layer F.Cu) (net 351) (status 10))
 
-  (zone (net 1) (net_name GND) (layer F.Cu) (tstamp 5D5A0436) (hatch edge 0.508)
+  (zone (net 1) (net_name GND) (layer F.Cu) (tstamp 5D6ADCBC) (hatch edge 0.508)
     (connect_pads (clearance 0.508))
     (min_thickness 0.254)
     (fill yes (arc_segments 32) (thermal_gap 0.508) (thermal_bridge_width 0.508))
@@ -32681,7 +32681,7 @@
       )
     )
   )
-  (zone (net 1) (net_name GND) (layer B.Cu) (tstamp 5D5A0433) (hatch edge 0.508)
+  (zone (net 1) (net_name GND) (layer B.Cu) (tstamp 5D6ADCB9) (hatch edge 0.508)
     (connect_pads (clearance 0.508))
     (min_thickness 0.254)
     (fill yes (arc_segments 32) (thermal_gap 0.508) (thermal_bridge_width 0.508))
