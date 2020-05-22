@@ -1878,7 +1878,7 @@ U 1 1 630B5254
 P 18350 10500
 F 0 "J1" H 18350 10050 50  0000 C CNN
 F 1 "OLED_Display" V 18500 10500 50  0000 C CNN
-F 2 "Pin_Headers:Pin_Header_Straight_1x07_Pitch1.00mm" H 18350 10500 50  0001 C CNN
+F 2 "Pin_Headers:Pin_Header_Straight_1x07_Pitch1.27mm" H 18350 10500 50  0001 C CNN
 F 3 "" H 18350 10500 50  0001 C CNN
 	1    18350 10500
 	-1   0    0    1   

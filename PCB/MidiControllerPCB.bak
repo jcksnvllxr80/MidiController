@@ -1940,4 +1940,5 @@ ChipSelectEnable
 Text GLabel 18550 6950 2    60   Output ~ 0
 Reset
 NoConn ~ 16750 7650
+NoConn ~ 17550 8250
 $EndSCHEMATC
