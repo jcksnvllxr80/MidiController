@@ -468,24 +468,24 @@ $EndComp
 $Comp
 L Device:R_Small R68
 U 1 1 5992FFE6
-P 22500 8700
-F 0 "R68" V 22450 8700 50  0000 L CNN
-F 1 "470" V 22550 8650 50  0000 L CNN
-F 2 "Resistors_SMD:R_1206_HandSoldering" H 22500 8700 50  0001 C CNN
-F 3 "" H 22500 8700 50  0001 C CNN
-	1    22500 8700
-	0    -1   -1   0   
+P 22750 8550
+F 0 "R68" V 22650 8500 50  0000 L CNN
+F 1 "470" V 22850 8500 50  0000 L CNN
+F 2 "Resistors_SMD:R_1206_HandSoldering" H 22750 8550 50  0001 C CNN
+F 3 "" H 22750 8550 50  0001 C CNN
+	1    22750 8550
+	1    0    0    -1  
 $EndComp
 $Comp
 L Device:R_Small R69
 U 1 1 59931B2A
-P 22750 8550
-F 0 "R69" V 22650 8500 50  0000 L CNN
-F 1 "10k" V 22800 8500 50  0000 L CNN
-F 2 "Resistors_SMD:R_1206_HandSoldering" H 22750 8550 50  0001 C CNN
-F 3 "" H 22750 8550 50  0001 C CNN
-	1    22750 8550
-	-1   0    0    1   
+P 22500 8700
+F 0 "R69" V 22400 8650 50  0000 L CNN
+F 1 "10k" V 22550 8650 50  0000 L CNN
+F 2 "Resistors_SMD:R_1206_HandSoldering" H 22500 8700 50  0001 C CNN
+F 3 "" H 22500 8700 50  0001 C CNN
+	1    22500 8700
+	0    -1   -1   0   
 $EndComp
 $Comp
 L Device:C_Small C14
@@ -563,7 +563,6 @@ NoConn ~ 20350 9000
 NoConn ~ 17550 8450
 NoConn ~ 17750 8450
 NoConn ~ 23300 8800
-NoConn ~ 16750 7250
 NoConn ~ 16750 7150
 NoConn ~ 16750 6450
 NoConn ~ 16750 6350
@@ -1935,10 +1934,10 @@ Text GLabel 16750 6950 0    60   Output ~ 0
 SCLK
 Text GLabel 16750 7050 0    60   Output ~ 0
 MOSI
-Text GLabel 16750 7350 0    60   Output ~ 0
+Text GLabel 16750 7250 0    60   Output ~ 0
 ChipSelectEnable
 Text GLabel 18550 6950 2    60   Output ~ 0
 Reset
 NoConn ~ 16750 7650
-NoConn ~ 17550 8250
+NoConn ~ 16750 7350
 $EndSCHEMATC
