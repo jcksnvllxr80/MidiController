@@ -134,6 +134,7 @@ class RgbKnob(object):
 			else:
 				i = 0
 			time.sleep(0.1)
+		self.set_rgb_duty_cycle() # restore the brightness multiplier of 1
 
 
 class Rotary_Encoder(RgbKnob):
@@ -673,8 +674,8 @@ class Rotary_Encoder(RgbKnob):
 				self.load_part()
 
 
-	def start_thread(self):
-		thread = PulsateRgbKnobThread(1, "Pulsate-Thread", self)
+	def start_thread(self, func_thread):
+		thread = func_thread
 		thread.start()
 
 
@@ -683,7 +684,7 @@ class Rotary_Encoder(RgbKnob):
 		self.displayed_part = self.displayed_song.data.parts.index_to_node(self.displayed_part_index - 1)
 		if self.displayed_part and (self.displayed_part_index > 1):
 			self.displaying_current_songpart = False
-			self.start_thread()
+			self.start_thread(PulsateRgbKnobThread(1, "Pulsate-Thread", self))
 			self.displayed_part_index -= 1
 			self.set_song_info_message_by_value(self.displayed_song, self.displayed_part)
 			# TODO: set a timer so the menu changes back to current part after expiration
@@ -694,7 +695,7 @@ class Rotary_Encoder(RgbKnob):
 		self.displayed_part = self.displayed_song.data.parts.index_to_node(self.displayed_part_index + 1)
 		if self.displayed_part and (self.displayed_part_index < self.displayed_song.data.parts.length):
 			self.displaying_current_songpart = False
-			self.start_thread()
+			self.start_thread(PulsateRgbKnobThread(1, "Pulsate-Thread", self))
 			self.displayed_part_index += 1
 			self.set_song_info_message_by_value(self.displayed_song, self.displayed_part)
 			# TODO: set a timer so the menu changes back to current part after expiration
@@ -705,7 +706,7 @@ class Rotary_Encoder(RgbKnob):
 		self.displayed_song = self.setlist.songs.index_to_node(self.displayed_song_index - 1)
 		if self.displayed_song and (self.displayed_song_index > 1):
 			self.displaying_current_songpart = False
-			self.start_thread()
+			self.start_thread(PulsateRgbKnobThread(1, "Pulsate-Thread", self))
 			self.displayed_song_index -= 1 
 			self.displayed_part_index = 1
 			self.displayed_part = self.displayed_song.data.parts.head
@@ -718,7 +719,7 @@ class Rotary_Encoder(RgbKnob):
 		self.displayed_song = self.setlist.songs.index_to_node(self.displayed_song_index + 1)
 		if self.displayed_song and (self.displayed_song_index < self.setlist.songs.length):
 			self.displaying_current_songpart = False
-			self.start_thread()
+			self.start_thread(PulsateRgbKnobThread(1, "Pulsate-Thread", self))
 			self.displayed_song_index += 1 
 			self.displayed_part_index = 1
 			self.displayed_part = self.displayed_song.data.parts.head
@@ -883,6 +884,7 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 
 
 class PulsateRgbKnobThread(threading.Thread):
+
 	def __init__(self, threadID, name, rgb_knob):
 		threading.Thread.__init__(self)
 		self.threadID = threadID
