@@ -125,15 +125,15 @@ class RgbKnob(object):
 	def pulsate(self):
 		''' pulsate the rgb know color
 		'''
-		x = range(0,31)
+		x = range(0,62)
 		i = 0
 		while not self.displaying_current_songpart:
-			self.set_rgb_duty_cycle(abs(cos(x[i]/3.14)))
-			if i <= 20:
+			self.set_rgb_duty_cycle(abs(cos(x[i]/(2*3.14))))
+			if i <= 40:
 				i += 1
 			else:
 				i = 0
-			time.sleep(0.1)
+			time.sleep(0.5)
 		self.set_rgb_duty_cycle() # restore the brightness multiplier of 1
 
 
