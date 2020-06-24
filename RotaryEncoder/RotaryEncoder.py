@@ -133,7 +133,7 @@ class RgbKnob(object):
 				i += 1
 			else:
 				i = 0
-			time.sleep(0.5)
+			time.sleep(0.05)
 		self.set_rgb_duty_cycle() # restore the brightness multiplier of 1
 
 
