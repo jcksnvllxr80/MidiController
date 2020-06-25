@@ -685,7 +685,7 @@ class Rotary_Encoder(RgbKnob):
 		self.displayed_part = self.displayed_song.data.parts.index_to_node(self.displayed_part_index - 1)
 		if self.displayed_part and (self.displayed_part_index > 1):
 			self.displaying_current_songpart = False
-			start_new_thread()
+			self.start_new_thread()
 			self.displayed_part_index -= 1
 			self.set_song_info_message_by_value(self.displayed_song, self.displayed_part)
 			# TODO: set a timer so the menu changes back to current part after expiration
