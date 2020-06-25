@@ -123,7 +123,7 @@ class RgbKnob(object):
 
 
 	def pulsate(self):
-		''' pulsate the rgb know color
+		''' pulsate the rgb knob color
 		'''
 		x = range(0,62)
 		i = 0
@@ -150,6 +150,7 @@ class Rotary_Encoder(RgbKnob):
 	menu = N_Tree.N_Tree("MidiController")
 	setup_menu = menu.root.add_child("Setup:")
 	global_menu = menu.root.add_child("Global:")
+	rotary_threads = []
 	
 	def __init__(self, **kwargs):		
 		knob_col = kwargs["kc"]
@@ -684,7 +685,7 @@ class Rotary_Encoder(RgbKnob):
 		self.displayed_part = self.displayed_song.data.parts.index_to_node(self.displayed_part_index - 1)
 		if self.displayed_part and (self.displayed_part_index > 1):
 			self.displaying_current_songpart = False
-			self.start_thread(PulsateRgbKnobThread(1, "Pulsate-Thread", self))
+			start_new_thread()
 			self.displayed_part_index -= 1
 			self.set_song_info_message_by_value(self.displayed_song, self.displayed_part)
 			# TODO: set a timer so the menu changes back to current part after expiration
@@ -695,7 +696,7 @@ class Rotary_Encoder(RgbKnob):
 		self.displayed_part = self.displayed_song.data.parts.index_to_node(self.displayed_part_index + 1)
 		if self.displayed_part and (self.displayed_part_index < self.displayed_song.data.parts.length):
 			self.displaying_current_songpart = False
-			self.start_thread(PulsateRgbKnobThread(1, "Pulsate-Thread", self))
+			self.start_new_thread()
 			self.displayed_part_index += 1
 			self.set_song_info_message_by_value(self.displayed_song, self.displayed_part)
 			# TODO: set a timer so the menu changes back to current part after expiration
@@ -706,7 +707,7 @@ class Rotary_Encoder(RgbKnob):
 		self.displayed_song = self.setlist.songs.index_to_node(self.displayed_song_index - 1)
 		if self.displayed_song and (self.displayed_song_index > 1):
 			self.displaying_current_songpart = False
-			self.start_thread(PulsateRgbKnobThread(1, "Pulsate-Thread", self))
+			self.start_new_thread()
 			self.displayed_song_index -= 1 
 			self.displayed_part_index = 1
 			self.displayed_part = self.displayed_song.data.parts.head
@@ -714,12 +715,25 @@ class Rotary_Encoder(RgbKnob):
 			# TODO: set a timer so the menu changes back to current song after expiration
 
 
+	def start_new_thread(self):
+		if not self.check_for_running_threads():
+			new_thread = PulsateRgbKnobThread(1, "Pulsate-Thread", self)
+			self.start_thread(new_thread)
+			self.rotary_threads.append(new_thread)
+
+
+	def check_for_running_threads(self):
+		running_rotary_threads = [thread for thread in self.rotary_threads if thread.isAlive()]
+		self.rotary_threads = running_rotary_threads
+		return True if len(self.rotary_threads) > 0 else False
+
+
 	def next_song(self):
 		logger.info("This is the \'next song\' action.")
 		self.displayed_song = self.setlist.songs.index_to_node(self.displayed_song_index + 1)
 		if self.displayed_song and (self.displayed_song_index < self.setlist.songs.length):
 			self.displaying_current_songpart = False
-			self.start_thread(PulsateRgbKnobThread(1, "Pulsate-Thread", self))
+			self.start_new_thread()
 			self.displayed_song_index += 1 
 			self.displayed_part_index = 1
 			self.displayed_part = self.displayed_song.data.parts.head
