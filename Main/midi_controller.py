@@ -174,7 +174,7 @@ def my_button_callback(interrupt_pin):
 			#like bank up, bank down, next song, etc.
 			if int_button.partner and int_button.partner.is_pressed:
 				if interrupt_value:
-					# logger.info("partner func")
+					logger.info("partner func of " + int_button.partner.name + " was activated.")
 					option_type = None
 					#do the 2-button function for the btn that called it
 					f = int_button.partner.get_partner_function()
