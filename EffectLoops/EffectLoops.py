@@ -72,7 +72,7 @@ class ButtonOnPedalBoard(object):
 				if delta_t < 0.5:
 					output = self.name
 				else:
-					output = self.secondaryFunction
+					output = self.secondaryFunction()
 			else:
 				output = "partner func"
 				self.partner.PedalConfigChanged = False
