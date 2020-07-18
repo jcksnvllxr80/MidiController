@@ -797,7 +797,7 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 		name = "RotaryPB"
 		Rotary_Encoder.__init__(self, **kwargs) #initialize parent class rotary encoder
 		#initialize parent class ButtonOnPedalBoard
-		super(RotaryPushButton, self).__init__(name, None, button)
+		super(RotaryPushButton, self).__init__(name, None, None, button)
 		
 		
 	def switch_modes(self, mode=None):
