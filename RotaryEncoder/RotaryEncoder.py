@@ -252,7 +252,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def get_ip(self):
-		cmd = "hostname -I | cut -d\' \' -f1"
+		cmd = "hostname -I | grep -Eo \"([0-9]{1,3}[\.]){3}[0-9]{1,3}\"" #"hostname -I | cut -d\' \' -f1"
 		IP = subprocess.check_output(cmd, shell = True )
 		return "IP: " + str(IP)
 
