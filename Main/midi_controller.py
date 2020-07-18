@@ -185,10 +185,10 @@ def my_button_callback(interrupt_pin):
 				if interrupt_value:
 					if rotary_push_button.mode == "standard":
 						if time.time() - int_button.last_action_time <= 0.5:
-							logger.info("running statndard button function")
+							logger.info("running statndard button function: " + str(action))
 							rotary_push_button.button_executor(action)
 						else:
-							logger.info("running longpress button function")
+							logger.info("running longpress button function: " + str(action))
 							rotary_push_button.change_and_select(action)
 					else:
 						logger.info("in favorite mode, this action (" + str(action) + ") is not permitted")
