@@ -188,8 +188,8 @@ def my_button_callback(interrupt_pin):
 							rotary_push_button.button_executor(action)
 						else:
 							rotary_push_button.change_and_select(action)
-				else:
-					logger.info("in favorite mode, this action (" + action + ") is not permitted")
+					else:
+						logger.info("in favorite mode, this action (" + str(action) + ") is not permitted")
 			int_button.last_action_time = time.time()
 		else:
 			# logger.info("rotary func")
