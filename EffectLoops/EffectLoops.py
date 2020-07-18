@@ -68,12 +68,11 @@ class ButtonOnPedalBoard(object):
 		else:
 			self.end = time.time()
 			delta_t = self.end - self.start
-			if not self.partner or not self.partner.PedalConfigChanged:
-				if time.time() - self.partner.last_action_time > 0.25:
-					if delta_t < 0.5:
-						output = self.name
-					else:
-						output = self.secondaryFunction
+			if (self.partner and (not self.partner.PedalConfigChanged or time.time() - self.partner.last_action_time > 0.25)) or not self.partner:
+				if delta_t < 0.5:
+					output = self.name
+				else:
+					output = self.secondaryFunction
 			else:
 				output = "partner func"
 				self.partner.PedalConfigChanged = False
