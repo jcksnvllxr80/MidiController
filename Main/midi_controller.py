@@ -93,7 +93,7 @@ def setup():
 	footswitch_dict[str(rotary_push_button.getPin())] = rotary_push_button #assign this button to the dictionary
 
 	for ftsw_btn in button_setup.keys():
-		ft_sw_obj = EffectLoops.ButtonOnPedalBoard(button_setup[ftsw_btn]['function'], button_setup[ftsw_btn].get('partner_func', None), ftsw_btn)
+		ft_sw_obj = EffectLoops.ButtonOnPedalBoard(button_setup[ftsw_btn]['function'], button_setup[ftsw_btn].get('partner_func', button_setup[ftsw_btn].get('long_press_func',None), ftsw_btn)
 		footswitch_dict.update({
 			str(ft_sw_obj.getPin()): ft_sw_obj
 		}) 
@@ -183,8 +183,13 @@ def my_button_callback(interrupt_pin):
 				action = int_button.button_state(interrupt_value, rotary_push_button.mode)
 				# logger.info("interrupt button's action: " + str(action))
 				if interrupt_value:
-					if rotary_push_button.mode == "standard" and time.time() - int_button.last_action_time <= 0.5:
-						rotary_push_button.button_executor(action)
+					if rotary_push_button.mode == "standard":
+						if time.time() - int_button.last_action_time <= 0.5:
+							rotary_push_button.button_executor(action)
+						else:
+							change_and_select(action)
+				else:
+					logger.info("in favorite mode, this action (" + action + ") is not permitted")
 			int_button.last_action_time = time.time()
 		else:
 			# logger.info("rotary func")

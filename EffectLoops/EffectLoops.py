@@ -47,7 +47,7 @@ class Pedal(object):
 
 class ButtonOnPedalBoard(object):
 
-	def __init__(self, name, partner_function, button, **kwargs):
+	def __init__(self, name, partner_function, long_press_func, button, **kwargs):
 		self.name = name
 		self.button = button
 		self.start = time.time()
@@ -55,6 +55,7 @@ class ButtonOnPedalBoard(object):
 		self.is_pressed = False
 		self.partner = None
 		self.partner_function = partner_function
+		self.long_press_func = long_press_func
 		self.last_action_time = self.start
 		self.PedalConfigChanged = False
 
@@ -69,13 +70,10 @@ class ButtonOnPedalBoard(object):
 			delta_t = self.end - self.start
 			if not self.partner.PedalConfigChanged:
 				if time.time() - self.partner.last_action_time > 0.25:
-					# if mode == "favorite":
-					# 	self.secondaryFunction()
-					# else:
 					if delta_t < 0.5:
 						output = self.name
 					else:
-						output = "secondary func"
+						output = self.secondaryFunction
 			else:
 				output = "partner func"
 				self.partner.PedalConfigChanged = False
@@ -95,39 +93,12 @@ class ButtonOnPedalBoard(object):
 
 
 	def get_partner_button(self):
-		partner_dict = {1: 4, 3: 5, 4: 1, 5: 3}
+		partner_dict = {} # {1: 4, 3: 5, 4: 1, 5: 3}
 		return partner_dict.get(self.button, None)
 
 
-
 	def secondaryFunction(self):
-		portPin = self.getPortPin()
-		if self.func_two_type == "Momentary":
-			# Routing.changeOutputPinState(portPin)
-			time.sleep(0.1)
-			# Routing.changeOutputPinState(portPin)
-		elif self.func_two_type == "Latching":
-			pass
-			# Routing.changeOutputPinState(portPin)
-		elif self.func_two_type == "Settings":
-			logger.info("Settings")
-		else:	
-			logger.info("None " + str(self.button))
-			
-
-	def getPortPin(self):
-		func_dict = {
-			"FUNC_1": self.FUNC_1, 
-			"FUNC_2": self.FUNC_2,
-			"FUNC_3": self.FUNC_3, 
-			"FUNC_4": self.FUNC_4
-		}
-		return func_dict.get(self.func_two_port, None)
-
-
-	def setSecondaryFunction(self, func_two_type, func_two_port):
-		self.func_two_port = func_two_port
-		self.func_two_type = func_two_type
+		return self.long_press_func
 
 
 	def turn_on(self):

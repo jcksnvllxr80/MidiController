@@ -408,6 +408,8 @@ class Rotary_Encoder(RgbKnob):
 
 	def change_and_select(self, func_name):
 		func_dict = {
+			"Select Song Dn": self.prev_song,
+			"Select Song Up": self.next_song,
 			"Select Part Dn": self.prev_part,
 			"Select Part Up": self.next_part,
 		}

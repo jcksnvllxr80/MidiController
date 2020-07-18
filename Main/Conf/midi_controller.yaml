@@ -1,18 +1,22 @@
 button_setup:
   1:
     function: Part Dn
-    partner_func: Select Part Dn
+    # partner_func: Select Part Dn
+    long_press_func: Select Part Dn
   2:
     function: Select
   3:
     function: Part Up
-    partner_func: Select Part Up
+    # partner_func: Select Part Up
+    long_press_func: Select Part Up
   4:
     function: Song Dn
-    partner_func: Select Part Dn
+    # partner_func: Select Part Dn
+    long_press_func: Select Song Dn
   5:
     function: Song Up
-    partner_func: Select Part Up
+    # partner_func: Select Part Up
+    long_press_func: Select Song Up
 current_settings:
   mode: standard
   preset:
