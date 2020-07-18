@@ -68,7 +68,7 @@ class ButtonOnPedalBoard(object):
 		else:
 			self.end = time.time()
 			delta_t = self.end - self.start
-			if not self.partner.PedalConfigChanged:
+			if not self.partner or not self.partner.PedalConfigChanged:
 				if time.time() - self.partner.last_action_time > 0.25:
 					if delta_t < 0.5:
 						output = self.name
