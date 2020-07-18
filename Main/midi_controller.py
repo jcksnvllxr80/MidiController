@@ -93,7 +93,7 @@ def setup():
 	footswitch_dict[str(rotary_push_button.getPin())] = rotary_push_button #assign this button to the dictionary
 
 	for ftsw_btn in button_setup.keys():
-		ft_sw_obj = EffectLoops.ButtonOnPedalBoard(button_setup[ftsw_btn]['function'], ftsw_btn)
+		ft_sw_obj = EffectLoops.ButtonOnPedalBoard(button_setup[ftsw_btn]['function'], button_setup[ftsw_btn].get('partner_func', None), ftsw_btn)
 		footswitch_dict.update({
 			str(ft_sw_obj.getPin()): ft_sw_obj
 		}) 
@@ -174,23 +174,10 @@ def my_button_callback(interrupt_pin):
 			#like bank up, bank down, next song, etc.
 			if int_button.partner and int_button.partner.is_pressed:
 				if interrupt_value:
-					logger.info("partner func of " + int_button.partner.name + " was activated.")
-					option_type = None
-					#do the 2-button function for the btn that called it
-					f = int_button.partner.get_partner_function()
-					# if f == 1:
-					# 	option_type = option_one
-					# elif f == 2:
-					# 	option_type = option_two
-					# elif f == 3:
-					# 	option_type = option_three
-					# elif f == 4:
-					# 	option_type = option_four
-					# elif f == 5:
-					# 	option_type = option_five
-					# rotary_push_button.change_pedal_configuration(option_type)
-					# int_button.PedalConfigChanged = True
-					# logger.info( "double footswitch function: " + option_type)
+					logger.info("partner func activated.")
+					func_name = int_button.get_partner_function()
+					if func_name:
+						rotary_push_button.change_and_select(func_name)
 			else:
 				#button state determines which function of the btn whose footswitch was pressed to use
 				action = int_button.button_state(interrupt_value, rotary_push_button.mode)

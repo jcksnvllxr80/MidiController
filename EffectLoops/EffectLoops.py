@@ -47,13 +47,14 @@ class Pedal(object):
 
 class ButtonOnPedalBoard(object):
 
-	def __init__(self, name, button, **kwargs):
+	def __init__(self, name, partner_function, button, **kwargs):
 		self.name = name
 		self.button = button
 		self.start = time.time()
 		self.pin = self.from_button_to_pin(self.button)
 		self.is_pressed = False
 		self.partner = None
+		self.partner_function = partner_function
 		self.last_action_time = self.start
 		self.PedalConfigChanged = False
 
@@ -94,7 +95,7 @@ class ButtonOnPedalBoard(object):
 
 
 	def get_partner_button(self):
-		partner_dict = {1: 4, 2:15, 3: 5, 4: 1, 5: 3, 15:2}
+		partner_dict = {1: 4, 3: 5, 4: 1, 5: 3}
 		return partner_dict.get(self.button, None)
 
 
@@ -150,10 +151,7 @@ class ButtonOnPedalBoard(object):
 
 
 	def get_partner_function(self):
-		if self.pin > 5:
-			return self.partner.button
-		else:
-			return self.button
+		return self.partner_function
 
 
 class MidiPedal(Pedal):

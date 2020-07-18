@@ -403,32 +403,18 @@ class Rotary_Encoder(RgbKnob):
 		for midi_pedal_obj in self.all_midi_pedals:
 			if midi_pedal_obj.name is "TapTempo":
 				midi_pedal_obj.setTempo(float(self.current_song.data.bpm))
-
 		self.change_menu_nodes(self.menu.current_node.parent)
 
 
-	def change_button_configuration(self, option):
-		if option == "Song Down":
-			if self.current_song.prev is not None: 
-				self.current_song = self.current_song.prev
-				self.load_song()
-		elif option == "Part Down":
-			if self.current_part.prev is not None: 
-				self.current_part = self.current_part.prev
-				self.load_part()
-		elif option == "Part Up":
-			if self.current_part.next is not None: 
-				self.current_part = self.current_part.next
-				self.load_part()
-		elif option == "Song Up":
-			if self.current_song.next is not None: 
-				self.current_song = self.current_song.next
-				self.load_song()
-		elif option == "Switch Mode":
-			for midi_pedal_obj in self.all_midi_pedals:
-				if midi_pedal_obj.name == "RotaryPB":
-					midi_pedal_obj.switch_modes()
-					break
+	def change_and_select(self, func_name):
+		func_dict = {
+			"Select Part Dn": self.prev_part,
+			"Select Part Up": self.next_part,
+		}
+		func = func_dict.get(func_name, None)
+		if func:
+			func()
+			self.select_choice()
 
 
 	def load_part(self):
