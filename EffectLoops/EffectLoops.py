@@ -116,7 +116,6 @@ class ButtonOnPedalBoard(object):
 		
 
 	def set_setting(self, setting):
-		pass
 		logger.info("setting " + str(setting))
 
 
@@ -169,7 +168,7 @@ class MidiPedal(Pedal):
 
 
 	def set_setting(self, setting):
-		pass
+		logger.info("setting " + str(setting))
 
 
 	def determine_action_method(self, action_dict, value=None):
