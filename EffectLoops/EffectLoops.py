@@ -161,14 +161,47 @@ class MidiPedal(Pedal):
 		self.preset = preset
 		set_preset_dict = self.midi_command_dict.get("Set Preset", None)
 		if set_preset_dict:
-			self.determine_action_method(set_preset_dict, preset)
-			logger.info(self.name + " preset was set to " + str(preset) + ".")
+			self.determine_action_method(set_preset_dict, self.preset)
+			logger.info(self.name + " preset was set to " + str(self.preset) + ".")
 		else:
 			logger.info(self.name + " has no \'Set Preset\' option defined in the pedal config.")
 
 
 	def set_setting(self, setting):
-		logger.info("setting " + str(setting))
+		setting_dict = self.midi_command_dict.get(setting, None)
+		if setting_dict:
+			self.determine_action_method(setting_dict, setting)
+			logger.info(self.name + " setting " + str(setting) + " set.")
+		else:
+			logger.info(self.name + " setting " + str(setting) + " was not found in the pedal config.")
+
+
+	def set_params(self, param, value):
+		params_dict = self.midi_command_dict.get("Parameters", None)
+		if params_dict:
+			self.determine_parameter_method(params_dict, param, value)
+			logger.info(self.name + " parameter " + str(param) + " set.")
+		else:
+			logger.info(self.name + " parameters dictionary was not found in the pedal config.")
+
+
+	def determine_parameter_method(self, action_dict, parameter, value=None):
+		if value is None:
+			value = action_dict.get('value', None)
+		if action_dict.get('cc', None):
+			value = self.check_for_func(action_dict, value)
+			value = self.convert_to_int(action_dict, value)
+			self.midi.midi_cc_tx(chr(action_dict['cc']), chr(value))
+		# elif action_dict.get('program change', None):
+		# 	value = self.check_for_func(action_dict['program change'], value)
+		# 	self.midi.midi_pc_tx(chr(value))
+		# elif action_dict.get('control change', None):
+		# 	# logger.info(self.name + " has a value of " + str(value) + " before going through lambda func.")
+		# 	value = self.check_for_func(action_dict['control change'], value)
+		# 	# logger.info(self.name + " has a value of " + str(value) + " after going through lambda func.")
+		# 	self.midi.midi_cc_tx(chr(value))
+		# elif action_dict.get('multi', None):
+		# 	self.handle_multi_functions(action_dict, value)
 
 
 	def determine_action_method(self, action_dict, value=None):
@@ -187,6 +220,14 @@ class MidiPedal(Pedal):
 			self.midi.midi_cc_tx(chr(value))
 		elif action_dict.get('multi', None):
 			self.handle_multi_functions(action_dict, value)
+
+
+	def convert_to_int(self, dict, v):
+		new_v = v
+		test_v = dict.get(v, None)
+		if test_v:
+			new_v = test_v
+		return new_v
 
 
 	def check_for_func(self, change_dict, v):
