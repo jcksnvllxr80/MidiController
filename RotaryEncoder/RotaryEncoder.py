@@ -432,7 +432,7 @@ class Rotary_Encoder(RgbKnob):
 					midi_pedal_obj.turn_on()
 				else:
 					midi_pedal_obj.turn_off()
-				if setting:
+				if preset:
 					midi_pedal_obj.set_preset(preset)
 				# TODO: settings
 				# if setting:
