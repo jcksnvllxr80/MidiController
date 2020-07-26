@@ -6,42 +6,34 @@ Set Preset:
     max: 127
 Parameters:
   Loop 1:
-    name: MorningGlory
     cc: 102
     off: 0
     on: 127
   Loop 2:
-    name: AngryCharlie
     cc: 103
     off: 0
     on: 127
   Loop 3:
-    name: SuperBolt
     cc: 104
     off: 0
     on: 127
   Loop 4:
-    name: XoticWah
     cc: 105
     off: 0
     on: 127
   Loop 5:
-    name: 
     cc: 106
     off: 0
     on: 127
   Loop 6:
-    name: Pog
     cc: 107
     off: 0
     on: 127
   Loop 7:
-    name: ElCapistan
     cc: 109
     off: 0
     on: 127
   Loop 8:
-    name: SuperPulsar
     cc: 108
     off: 0
     on: 127
@@ -54,12 +46,10 @@ Parameters:
     off: 0
     on: 127
   Control 1:
-    name: SuperBolt Heavy
     cc: 112
     off: 0
     on: 127
   Control 2:
-    name: ElCapistan Fave
     cc: 113
     off: 0
     on: 127

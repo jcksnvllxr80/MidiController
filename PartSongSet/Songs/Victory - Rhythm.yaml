@@ -21,27 +21,27 @@ parts:
                 preset: 1
             SuperSwitcher:
                 preset: 1
-                loops:
-                    Morning Glory:
-                        loop: 1
+                params:
+                    Loop 1:
+                        name: Morning Glory
                         engaged: True
-                    Angry Charlie:
-                        loop: 2
+                    Loop 2:
+                        name: Angry Charlie
                         engaged: True
-                    Superbolt:
-                        loop: 3
+                    Loop 3:
+                        name: Superbolt
                         engaged: True
-                    Xotic Wah:
-                        loop: 4
+                    Loop 4:
+                        name: Xotic Wah
                         engaged: True
-                    POG:
-                        loop: 6
+                    Loop 6:
+                        name: POG
                         engaged: False
-                    El Capistan:
-                        loop: 7
+                    Loop 7:
+                        name: El Capistan
                         engaged: False
-                    Super Pulsar:
-                        loop: 8
+                    Loop 8:
+                        name: Super Pulsar
                         engaged: False
     Bridge:
         position: 2
@@ -63,25 +63,25 @@ parts:
                 preset: 1
             SuperSwitcher:
                 preset: 1
-                loops:
-                    Morning Glory:
-                        loop: 1
+                params:
+                    Loop 1:
+                        name: Morning Glory
                         engaged: True
-                    Angry Charlie:
-                        loop: 2
+                    Loop 2:
+                        name: Angry Charlie
                         engaged: True
-                    Superbolt:
-                        loop: 3
+                    Loop 3:
+                        name: Superbolt
                         engaged: True
-                    Xotic Wah:
-                        loop: 4
+                    Loop 4:
+                        name: Xotic Wah
                         engaged: True
-                    POG:
-                        loop: 6
+                    Loop 6:
+                        name: POG
                         engaged: False
-                    El Capistan:
-                        loop: 7
+                    Loop 7:
+                        name: El Capistan
                         engaged: False
-                    Super Pulsar:
-                        loop: 8
+                    Loop 8:
+                        name: Super Pulsar
                         engaged: False
