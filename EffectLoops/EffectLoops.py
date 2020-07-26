@@ -183,8 +183,10 @@ class MidiPedal(Pedal):
 				param_info = params_dict.get(param, None)
 				if param_info:
 					param_was_set = self.determine_parameter_method(param_info, param, value)
-				if param_was_set:
-					logger.info(self.name + " parameter " + str(param) + " set.")
+					if param_was_set:
+						logger.info(self.name + " parameter " + str(param) + " set.")
+					else:
+						logger.info(self.name + " parameter " + str(param) + " not set.")
 				else:
 					logger.info("Parameter: " + str(param) + ", not found in " + self.name + " param dict -> " + str(params_dict))
 		else:
@@ -238,9 +240,13 @@ class MidiPedal(Pedal):
 	def convert_to_int(self, change_dict, v):
 		converted_to_int = None
 		try:
-			converted_to_int = int(change_dict.get(v, v))
+			dict_val = change_dict.get(v, None)
+			if dict_val:
+				converted_to_int = int(dict_val)
+			else:
+				logger.info("Key: " + str(v) + ", not found in dict -> " + str(change_dict))
 		except ValueError:
-			logger.error("Value \'" + str(v) + "\' cannot be converted tyo an int.")
+			logger.error("Value \'" + str(v) + "\' cannot be converted to an int.")
 		return converted_to_int
 
 
