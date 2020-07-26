@@ -196,7 +196,9 @@ class MidiPedal(Pedal):
 		if action_dict.get('cc', None):
 			value = self.check_for_func(action_dict, value)
 			value = self.check_value_for_engaged(action_dict, value)
+			logger.info("Value is " + str(value) + " check_value_for_engaged function.")
 			value = self.convert_to_int(action_dict, value)
+			logger.info("Value is " + str(value) + " convert_to_int function.")
 			self.midi.midi_cc_tx(chr(action_dict['cc']), chr(value))
 		# elif action_dict.get('program change', None):
 		# 	value = self.check_for_func(action_dict['program change'], value)
@@ -228,12 +230,8 @@ class MidiPedal(Pedal):
 			self.handle_multi_functions(action_dict, value)
 
 
-	def convert_to_int(self, dict, v):
-		new_v = v
-		test_v = dict.get(v, None)
-		if test_v:
-			new_v = test_v
-		return new_v
+	def convert_to_int(self, change_dict, v):
+		return change_dict.get(v, v)
 
 
 	def check_for_func(self, change_dict, v):
