@@ -244,7 +244,7 @@ class MidiPedal(Pedal):
 			if dict_val:
 				converted_to_int = int(dict_val)
 			else:
-				logger.info("Key: " + str(v) + ", not found in dict -> " + str(change_dict))
+				logger.info("Key: " + str(v) + " not found in dict -> " + str(change_dict))
 		except ValueError:
 			logger.error("Value \'" + str(v) + "\' cannot be converted to an int.")
 		return converted_to_int
@@ -263,7 +263,7 @@ class MidiPedal(Pedal):
 		if isinstance(v, dict):
 			engaged = v.get('engaged', None)
 			if engaged is not None:
-				return engaged
+				return str(engaged)
 		return new_v
 
 
