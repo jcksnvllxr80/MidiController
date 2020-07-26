@@ -182,7 +182,8 @@ class MidiPedal(Pedal):
 			for param, value in params.iteritems():
 				param_info = params_dict.get(param, None)
 				if param_info:
-					self.determine_parameter_method(param_info, param, value)
+					param_was_set = self.determine_parameter_method(param_info, param, value)
+				if param_was_set:
 					logger.info(self.name + " parameter " + str(param) + " set.")
 				else:
 					logger.info("Parameter: " + str(param) + ", not found in " + self.name + " param dict -> " + str(params_dict))
@@ -191,15 +192,19 @@ class MidiPedal(Pedal):
 
 
 	def determine_parameter_method(self, action_dict, parameter, value=None):
+		param_set = False
 		if value is None:
 			value = action_dict.get('value', None)
 		if action_dict.get('cc', None):
 			value = self.check_for_func(action_dict, value)
-			value = self.check_value_for_engaged(action_dict, value)
-			logger.info("Value is " + str(value) + " check_value_for_engaged function.")
+			value = self.check_value_for_engaged(value)
+			logger.info("Value is \'" + str(value) + "\' after check_value_for_engaged function.")
 			value = self.convert_to_int(action_dict, value)
-			logger.info("Value is " + str(value) + " convert_to_int function.")
-			self.midi.midi_cc_tx(chr(action_dict['cc']), chr(value))
+			logger.info("Value is \'" + str(value) + "\' after convert_to_int function.")
+			if value:
+				self.midi.midi_cc_tx(chr(action_dict['cc']), chr(value))
+				param_set = True
+		return param_set
 		# elif action_dict.get('program change', None):
 		# 	value = self.check_for_func(action_dict['program change'], value)
 		# 	self.midi.midi_pc_tx(chr(value))
@@ -231,7 +236,12 @@ class MidiPedal(Pedal):
 
 
 	def convert_to_int(self, change_dict, v):
-		return change_dict.get(v, v)
+		converted_to_int = None
+		try
+			converted_to_int = int(change_dict.get(v, v))
+		except (ValueError as e)
+			logger.error("Value \'" + str(value) + "\' cannot be converted tyo an int.")
+		return converted_to_int
 
 
 	def check_for_func(self, change_dict, v):
@@ -242,7 +252,7 @@ class MidiPedal(Pedal):
 		return new_v
 
 
-	def check_value_for_engaged(self, change_dict, v):
+	def check_value_for_engaged(self, v):
 		new_v = v
 		if isinstance(v, dict):
 			engaged = v.get('engaged', None)
