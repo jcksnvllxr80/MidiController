@@ -182,7 +182,7 @@ class MidiPedal(Pedal):
 			for param, value in params.iteritems():
 				param_info = params_dict.get(param, None)
 				if param_info:
-					self.determine_parameter_method(params_dict, param, value)
+					self.determine_parameter_method(param_info, param, value)
 					logger.info(self.name + " parameter " + str(param) + " set.")
 				else:
 					logger.info("Parameter: " + str(param) + ", not found in " + self.name + " param dict -> " + str(params_dict))
