@@ -237,10 +237,10 @@ class MidiPedal(Pedal):
 
 	def convert_to_int(self, change_dict, v):
 		converted_to_int = None
-		try
+		try:
 			converted_to_int = int(change_dict.get(v, v))
-		except (ValueError as e)
-			logger.error("Value \'" + str(value) + "\' cannot be converted tyo an int.")
+		except ValueError:
+			logger.error("Value \'" + str(v) + "\' cannot be converted tyo an int.")
 		return converted_to_int
 
 
