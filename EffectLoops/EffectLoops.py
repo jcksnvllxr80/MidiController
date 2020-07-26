@@ -263,7 +263,7 @@ class MidiPedal(Pedal):
 		if isinstance(v, dict):
 			engaged = v.get('engaged', None)
 			if engaged is not None:
-				return str(engaged)
+				return engaged
 		return new_v
 
 
