@@ -43,6 +43,12 @@ parts:
                     Loop 8:
                         name: Super Pulsar
                         engaged: False
+                    Control 1:
+                        name: Superbolt Heavy
+                        engaged: False
+                    Control 2:
+                        name: El Capistan Favorite
+                        engaged: False
     Verse:
         position: 2
         pedals: 
@@ -84,6 +90,12 @@ parts:
                         engaged: False
                     Loop 8:
                         name: Super Pulsar
+                        engaged: False
+                    Control 1:
+                        name: Superbolt Heavy
+                        engaged: False
+                    Control 2:
+                        name: El Capistan Favorite
                         engaged: False
     Chorus:
         position: 3
@@ -127,6 +139,12 @@ parts:
                     Loop 8:
                         name: Super Pulsar
                         engaged: False
+                    Control 1:
+                        name: Superbolt Heavy
+                        engaged: False
+                    Control 2:
+                        name: El Capistan Favorite
+                        engaged: False
     Bridge:
         position: 4
         pedals: 
@@ -168,4 +186,10 @@ parts:
                         engaged: False
                     Loop 8:
                         name: Super Pulsar
+                        engaged: False
+                    Control 1:
+                        name: Superbolt Heavy
+                        engaged: False
+                    Control 2:
+                        name: El Capistan Favorite
                         engaged: False

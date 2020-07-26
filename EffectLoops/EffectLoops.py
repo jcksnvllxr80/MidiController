@@ -195,6 +195,7 @@ class MidiPedal(Pedal):
 			value = action_dict.get('value', None)
 		if action_dict.get('cc', None):
 			value = self.check_for_func(action_dict, value)
+			value = self.check_value_for_engaged(action_dict, value)
 			value = self.convert_to_int(action_dict, value)
 			self.midi.midi_cc_tx(chr(action_dict['cc']), chr(value))
 		# elif action_dict.get('program change', None):
@@ -240,6 +241,15 @@ class MidiPedal(Pedal):
 		if change_dict.get('func', None):
 			f = eval('lambda x: ' + change_dict['func'])
 			new_v = f(v)
+		return new_v
+
+
+	def check_value_for_engaged(self, change_dict, v):
+		new_v = v
+		if isinstance(v, dict):
+			engaged = v.get('engaged', None)
+			if engaged is not None:
+				return 'on' if engaged else 'off'
 		return new_v
 
 
