@@ -188,7 +188,7 @@ class MidiPedal(Pedal):
 					else:
 						logger.info(self.name + " parameter " + str(param) + " not set.")
 				else:
-					logger.info("Parameter: " + str(param) + ", not found in " + self.name + " param dict -> " + str(params_dict))
+					logger.info("Parameter, " + str(param) + ", not found in " + self.name + " param dict -> " + str(params_dict))
 		else:
 			logger.info(self.name + " parameters dictionary was not found in the pedal config.")
 
@@ -241,10 +241,10 @@ class MidiPedal(Pedal):
 		converted_to_int = None
 		try:
 			dict_val = change_dict.get(v, None)
-			if dict_val:
+			if dict_val is not None:
 				converted_to_int = int(dict_val)
 			else:
-				logger.info("Key: " + str(v) + " not found in dict -> " + str(change_dict))
+				logger.info("Key, " + str(v) + ", not found in dict -> " + str(change_dict))
 		except ValueError:
 			logger.error("Value \'" + str(v) + "\' cannot be converted to an int.")
 		return converted_to_int
