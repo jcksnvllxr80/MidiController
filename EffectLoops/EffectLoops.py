@@ -203,7 +203,7 @@ class MidiPedal(Pedal):
 			logger.info("Value is \'" + str(value) + "\' after check_value_for_engaged function.")
 			value = self.convert_to_int(action_dict, value)
 			logger.info("Value is \'" + str(value) + "\' after convert_to_int function.")
-			if value:
+			if value is not None:
 				self.midi.midi_cc_tx(chr(action_dict['cc']), chr(value))
 				param_set = True
 		return param_set
