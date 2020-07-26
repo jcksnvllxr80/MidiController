@@ -183,7 +183,7 @@ class MidiPedal(Pedal):
 				param_info = params_dict.get(param, None)
 				if param_info:
 					param_was_set = self.determine_parameter_method(param_info, param, value)
-					if param_was_set:
+					if param_was_set is not None:
 						logger.info(self.name + " parameter " + str(param) + " set.")
 					else:
 						logger.info(self.name + " parameter " + str(param) + " not set.")
