@@ -21,7 +21,7 @@ parts:
                 preset: 1
             SuperSwitcher:
                 preset: 1
-                loops:
+                params:
                     Morning Glory:
                         loop: 1
                         engaged: True
@@ -63,7 +63,7 @@ parts:
                 preset: 1
             SuperSwitcher:
                 preset: 1
-                loops:
+                params:
                     Morning Glory:
                         loop: 1
                         engaged: True
@@ -105,7 +105,7 @@ parts:
                 preset: 1
             SuperSwitcher:
                 preset: 1
-                loops:
+                params:
                     Morning Glory:
                         loop: 1
                         engaged: True
@@ -147,7 +147,7 @@ parts:
                 preset: 1
             SuperSwitcher:
                 preset: 1
-                loops:
+                params:
                     Morning Glory:
                         loop: 1
                         engaged: True

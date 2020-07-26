@@ -92,7 +92,9 @@ class Setlist(object):
 				pedal = pedals[pedal_name]
 				engaged = bool(pedal.get('engaged', False)) #and if it has a setting associated with it 
 				preset = pedal.get('preset', '')
-				new_part.add_pedal(pedal_name, engaged, preset) #add each pedal to a dictionary of pedals       
+				params = pedal.get('params', '')
+				settings = pedal.get('settings', '')
+				new_part.add_pedal(pedal_name, engaged, preset, params, settings) #add each pedal to a dictionary of pedals       
 			new_song.add_part(new_part) #add part to the "parts" doublyLinkedList in Song   
 		self.songs.append(new_song) #add song to the "songs" doublyLinkedList in Setlist
 
@@ -129,7 +131,7 @@ class Part(object):
 		self.part_name = part_name
 		self.pedal_dictionary = {}
 
-	def add_pedal(self, pedal_name, engaged, setting):
+	def add_pedal(self, pedal_name, engaged, preset, params, settings):
 		'''adds a pedal to the dict
 		'''
-		self.pedal_dictionary[pedal_name] = (engaged, setting)
+		self.pedal_dictionary[pedal_name] = (engaged, preset, params, settings)

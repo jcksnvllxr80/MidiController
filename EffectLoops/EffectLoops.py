@@ -176,11 +176,16 @@ class MidiPedal(Pedal):
 			logger.info(self.name + " setting " + str(setting) + " was not found in the pedal config.")
 
 
-	def set_params(self, param, value):
+	def set_params(self, params):
 		params_dict = self.midi_command_dict.get("Parameters", None)
 		if params_dict:
-			self.determine_parameter_method(params_dict, param, value)
-			logger.info(self.name + " parameter " + str(param) + " set.")
+			for param, value in params.items:
+				param_info = params_dict.get(param, None)
+				if param_info:
+					self.determine_parameter_method(params_dict, param, value)
+					logger.info(self.name + " parameter " + str(param) + " set.")
+				else:
+					logger.info("Parameter: " + str(param) + ", not found in " + self.name + " param dict -> " + str(params_dict))
 		else:
 			logger.info(self.name + " parameters dictionary was not found in the pedal config.")
 
