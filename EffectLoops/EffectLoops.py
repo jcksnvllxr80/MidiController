@@ -179,7 +179,7 @@ class MidiPedal(Pedal):
 	def set_params(self, params):
 		params_dict = self.midi_command_dict.get("Parameters", None)
 		if params_dict:
-			for param, value in params.items:
+			for param, value in params.iteritems():
 				param_info = params_dict.get(param, None)
 				if param_info:
 					self.determine_parameter_method(params_dict, param, value)
