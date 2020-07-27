@@ -5,7 +5,7 @@ parts:
         position: 1
         pedals: 
             ScarlettLove:
-                # engaged: True
+                engaged: True
                 preset: TS808
             TimeLine:
                 engaged: False
