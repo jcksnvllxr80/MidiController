@@ -41,7 +41,6 @@ class MIDI(object):
 			message = self.cc_channel + change_num + value
 		else:
 			message = self.cc_channel + change_num + chr(127)
-
 		self.write(message)
 
 	def midi_pc_tx(self, change_num, value=None):
