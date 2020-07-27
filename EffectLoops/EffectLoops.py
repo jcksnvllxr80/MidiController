@@ -200,9 +200,9 @@ class MidiPedal(Pedal):
 		if action_dict.get('cc', None):
 			value = self.check_for_func(action_dict, value)
 			value = self.check_value_for_engaged(value)
-			logger.info("Value is \'" + str(value) + "\' after check_value_for_engaged function.")
+			logger.debug("Value is \'" + str(value) + "\' after check_value_for_engaged function.")
 			value = self.convert_to_int(action_dict, value)
-			logger.info("Value is \'" + str(value) + "\' after convert_to_int function.")
+			logger.debug("Value is \'" + str(value) + "\' after convert_to_int function.")
 			if value is not None:
 				self.midi.midi_cc_tx(chr(action_dict['cc']), chr(value))
 				param_set = True
@@ -229,9 +229,9 @@ class MidiPedal(Pedal):
 			value = self.check_for_func(action_dict['program change'], value)
 			self.midi.midi_pc_tx(chr(value))
 		elif action_dict.get('control change', None):
-			# logger.info(self.name + " has a value of " + str(value) + " before going through lambda func.")
+			logger.debug(self.name + " has a value of " + str(value) + " before going through lambda func.")
 			value = self.check_for_func(action_dict['control change'], value)
-			# logger.info(self.name + " has a value of " + str(value) + " after going through lambda func.")
+			logger.debug(self.name + " has a value of " + str(value) + " after going through lambda func.")
 			self.midi.midi_cc_tx(chr(value))
 		elif action_dict.get('multi', None):
 			self.handle_multi_functions(action_dict, value)
