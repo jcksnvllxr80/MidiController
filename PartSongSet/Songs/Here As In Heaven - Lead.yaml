@@ -18,7 +18,7 @@ parts:
                 preset: 1
             Iridium:
                 engaged: True
-                preset: 1
+                # preset: 1
                 params:
                     Amp: 2
             SuperSwitcher:
@@ -26,16 +26,16 @@ parts:
                 params:
                     Loop 1:
                         name: Morning Glory
-                        engaged: True
+                        engaged: False
                     Loop 2:
                         name: Angry Charlie
-                        engaged: True
+                        engaged: False
                     Loop 3:
                         name: Superbolt
-                        engaged: True
+                        engaged: False
                     Loop 4:
                         name: Xotic Wah
-                        engaged: True
+                        engaged: False
                     Loop 6:
                         name: POG
                         engaged: False
@@ -68,7 +68,7 @@ parts:
                 preset: 1
             Iridium:
                 engaged: True
-                preset: 1
+                # preset: 1
                 params:
                     Amp: 1
             SuperSwitcher:
@@ -76,16 +76,16 @@ parts:
                 params:
                     Loop 1:
                         name: Morning Glory
-                        engaged: True
+                        engaged: False
                     Loop 2:
                         name: Angry Charlie
-                        engaged: True
+                        engaged: False
                     Loop 3:
                         name: Superbolt
-                        engaged: True
+                        engaged: False
                     Loop 4:
                         name: Xotic Wah
-                        engaged: True
+                        engaged: False
                     Loop 6:
                         name: POG
                         engaged: False
@@ -118,7 +118,7 @@ parts:
                 preset: 1
             Iridium:
                 engaged: True
-                preset: 1
+                # preset: 1
                 params:
                     Amp: 3
             SuperSwitcher:
@@ -126,16 +126,16 @@ parts:
                 params:
                     Loop 1:
                         name: Morning Glory
-                        engaged: True
+                        engaged: False
                     Loop 2:
                         name: Angry Charlie
-                        engaged: True
+                        engaged: False
                     Loop 3:
                         name: Superbolt
-                        engaged: True
+                        engaged: False
                     Loop 4:
                         name: Xotic Wah
-                        engaged: True
+                        engaged: False
                     Loop 6:
                         name: POG
                         engaged: False
@@ -168,7 +168,7 @@ parts:
                 preset: 1
             Iridium:
                 engaged: True
-                preset: 1
+                # preset: 1
                 params:
                     Amp: 2
             SuperSwitcher:
@@ -176,16 +176,16 @@ parts:
                 params:
                     Loop 1:
                         name: Morning Glory
-                        engaged: True
+                        engaged: False
                     Loop 2:
                         name: Angry Charlie
-                        engaged: True
+                        engaged: False
                     Loop 3:
                         name: Superbolt
-                        engaged: True
+                        engaged: False
                     Loop 4:
                         name: Xotic Wah
-                        engaged: True
+                        engaged: False
                     Loop 6:
                         name: POG
                         engaged: False
