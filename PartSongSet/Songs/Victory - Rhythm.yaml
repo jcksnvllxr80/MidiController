@@ -20,7 +20,9 @@ parts:
                 engaged: True
                 # preset: 1
                 params:
-                    Amp: 1
+                    # Amp: 1
+                    Cab: 0
+                    Room Size: 1
             SuperSwitcher:
                 preset: 1
                 params:
@@ -70,7 +72,9 @@ parts:
                 engaged: True
                 # preset: 1
                 params:
-                    Amp: 2
+                    # Amp: 1
+                    Cab: 1
+                    Room Size: 2
             SuperSwitcher:
                 preset: 1
                 params:
