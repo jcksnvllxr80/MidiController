@@ -1,4 +1,4 @@
-Knobs:
+Knobs/Switches:
   Type: 
     cc: 19 
     min: 0
@@ -29,6 +29,56 @@ Knobs:
     max: 127
   Depth: 
     cc: 18 
+    min: 0
+    max: 127
+  Footswitch A:
+    cc: 80
+    off: 127
+    on: 0 
+  Footswitch B:
+    cc: 82
+    off: 127
+    on: 0 
+  Tap footswitch:
+    cc: 81
+    off: 0 
+    on: 127
+  Remote Tap: 
+    cc: 93
+    val: 1 # doesnt matter what value
+  Expression Pedal:
+    cc: 100
+    min: 0
+    max: 127
+  Phase Reset: 
+    cc: 125
+    val: 1 # doesnt matter what value
+  Looper Record: 
+    cc: 87
+    val: 1 # doesnt matter what value
+  Looper Play: 
+    cc: 86
+    val: 1 # doesnt matter what value
+  Looper Stop: 
+    cc: 85
+    val: 1 # doesnt matter what value
+  Lpr Reverse (Toggle): 
+    cc: 94
+    val: 1 # doesnt matter what value
+  Lpr Half Spd (Toggle): 
+    cc: 95
+    val: 1 # doesnt matter what value
+  Lpr Pre/Post (Toggle): 
+    cc: 96
+    val: 1 # doesnt matter what value
+  Looper Undo: 
+    cc: 89
+    val: 1 # doesnt matter what value
+  Looper Redo: 
+    cc: 90
+    val: 1 # doesnt matter what value
+  Looper Level: 
+    cc: 98
     min: 0
     max: 127
 Parameters:
@@ -187,35 +237,6 @@ Parameters:
       cc: 54
       min: 0
       max: 1
-LOOPER:
-  Record: 
-    cc: 87
-    val: 1 # doesnt matter what value
-  Play: 
-    cc: 86
-    val: 1 # doesnt matter what value
-  Stop: 
-    cc: 85
-    val: 1 # doesnt matter what value
-  Reverse (Toggle): 
-    cc: 94
-    val: 1 # doesnt matter what value
-  Half Speed (Toggle): 
-    cc: 95
-    val: 1 # doesnt matter what value
-  Pre/Post (Toggle): 
-    cc: 96
-    val: 1 # doesnt matter what value
-  Undo: 
-    cc: 89
-    val: 1 # doesnt matter what value
-  Redo: 
-    cc: 90
-    val: 1 # doesnt matter what value
-  Looper Level: 
-    cc: 98
-    min: 0
-    max: 127
 Set Preset:
   multi:
     1: bank
@@ -228,31 +249,9 @@ Set Preset:
       func: "x % 128"
   min: 0
   max: 199
-Footswitch A:
-  cc: 80
-  off: 127
-  on: 0 
-Footswitch B:
-  cc: 82
-  off: 127
-  on: 0 
-Tap footswitch:
-  cc: 81
-  off: 0 
-  on: 127
-Remote Tap: 
-  cc: 93
-  val: 1 # doesnt matter what value
-Expression Pedal:
-  cc: 100
-  min: 0
-  max: 127
 Engage:
   cc: 102
   value: 127 # turns pedal on
 Bypass:
   cc: 102
   value: 0 # turns pedal off
-Phase Reset: 
-  cc: 125
-  val: 1 # doesnt matter what value

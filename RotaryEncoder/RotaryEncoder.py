@@ -32,6 +32,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 SET_FOLDER = "/home/pi/MidiController/PartSongSet/Sets/"
+MIDI_PEDAL_CONFIG_FOLDER = "/home/pi/MidiController/Main/Conf/"
 CONFIG_FILE = "/home/pi/MidiController/Main/Conf/midi_controller.yaml"
 
 #define class for the PWM driver for the colors part of the rotary knob
@@ -184,11 +185,15 @@ class Rotary_Encoder(RgbKnob):
 		self.setlist_menu = self.setup_menu.add_child("Sets", self.show_setlists, self.load_set_func)
 		self.songs_menu = self.setup_menu.add_child("Songs", self.show_songs, self.load_song_func)
 		self.parts_menu = self.setup_menu.add_child("Parts", self.show_parts, self.load_part_func)
-		self.midi_pedal_menu = self.setup_menu.add_child("Midi Pedals", self.show_midi_pedals, self.load_midi_pedal_func)
+		self.midi_pedal_menu = self.setup_menu.add_child("Midi Pedals", self.show_midi_pedals, self.load_midi_pedal_config_menu)
 		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm, self.load_bpm_func)
 		# dont let the tempo go below 40 or above 500
 		self.tempo_range = arange(40,500,0.5).tolist()
 		self.set_song_info_message()
+
+		self.midi_pedal_config_menu = {}
+		for midi_pedal in self.all_midi_pedals:
+			self.midi_pedal_config_menu[midi_pedal.name] = self.midi_pedal_menu.add_child(midi_pedal.name, self.show_midi_pedal_configuration_opts, self.execute_midi_pedal_opt)
 
 		# define power menu
 		self.power_menu = self.menu.root.add_child("Power", self.set_menu_data_message)
@@ -218,15 +223,11 @@ class Rotary_Encoder(RgbKnob):
 
 	def clean_up_display(self):
 		self.oled.clear_display()
-		# self.lcd.clear()
-		# self.lcd.set_backlight(0)
 
 
 	def power_off(self):
 		self.set_message("Goodbye.")
 		self.oled._delay_microseconds(1000000)
-		# self.lcd._delay_microseconds(1000000)
-		# self.lcd.set_backlight(0)
 		os.system('sudo shutdown now -h')
 
 
@@ -348,6 +349,22 @@ class Rotary_Encoder(RgbKnob):
 		self.test_point_node_printer(self.midi_pedal_menu)
 
 
+	def show_midi_pedal_configuration_opts(self):
+		# read pedal config files from folder where they belong
+		# display the first item in the list
+		midi_pedal_config_files = os.listdir(MIDI_PEDAL_CONFIG_FOLDER)
+		for midi_pedal in self.all_midi_pedals:
+			self.midi_pedal_config_menu[midi_pedal.name].menu_data_items = []
+			self.midi_pedal_config_menu[midi_pedal.name].menu_data_prompt = self.midi_pedal_config_menu[midi_pedal.name].name + ":"
+			midi_pedal_config_file = midi_pedal_config_files[midi_pedal.name + ".yaml"]
+			midi_pedal_config = self.read_config(midi_pedal_config_file)
+			for menu_item in ["Set Preset", "Parameters", "Knobs/Switches", "Bank Select", "Engage", "Bypass", "Toggle Bypass"]:
+				pedal_config_tpye = midi_pedal_config.get(menu_item, None)
+				if pedal_config_tpye:
+					self.midi_pedal_config_menu[midi_pedal.name].menu_data_items.append(pedal_config_tpye)
+		self.test_point_node_printer(self.setlist_menu)
+
+
 	def show_bpm(self):
 		self.bpm_menu.menu_data_prompt = self.bpm_menu.name + ":"
 		self.bpm_menu.menu_data_items = self.tempo_range
@@ -389,13 +406,15 @@ class Rotary_Encoder(RgbKnob):
 		self.change_menu_nodes()
 
 
-	def load_midi_pedal_func(self):
-		midi_pedal = self.midi_pedal_menu.menu_data_items[self.midi_pedal_menu.menu_data_position]
-		if midi_pedal.is_engaged:
-			midi_pedal.turn_off()
-		else:
-			midi_pedal.turn_on()
-		self.set_message(midi_pedal.name + "\n" + str(midi_pedal.getState()))
+
+	def load_midi_pedal_config_menu(self):
+		midi_pedal_config = self.midi_pedal_config_menu.menu_data_items[self.midi_pedal_config_menu.menu_data_position]
+		self.set_message(midi_pedal_config)
+
+
+	def execute_midi_pedal_opt(self):
+		logger.info("Executing " + self.midi_pedal_config_menu.menu_data_items[self.midi_pedal_config_menu.menu_data_position] 
+			+ " function for " + self.midi_pedal_menu.menu_data_items[self.midi_pedal_menu.menu_data_position] + ".")
 
 
 	def load_bpm_func(self):

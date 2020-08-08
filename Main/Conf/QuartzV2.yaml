@@ -1,6 +1,3 @@
-Tap Tempo:
-  cc: 93
-  val: 1 # any value can be used
 Set Tempo: #Type = Control, Channel = 3, Message = 94, Value = 001
   multi:
     1: hundreds
@@ -13,42 +10,46 @@ Set Tempo: #Type = Control, Channel = 3, Message = 94, Value = 001
     func: "x % 100"
   min: 40
   max: 3000
-Next Preset:
-  cc: 95
-  val: 1 # any value can be used
-Prev Preset:
-  cc: 96
-  val: 1 # any value can be used
 Set Preset:
   cc: 97
   min: 0
   max: 127
-Global Tempo:
-  cc: 98
-  off: 0
-  on: 127
-Set Div 1:
-  notes: "0=1/4, 1=1/4trp, 2=dot1/4 - 3=1/8, 4=1/8trp, 5=dot1/8 - 6=1/2, 7=1/2trp, 8=1/16 - 9=2/2, 10=3/2, 11=4/2"
-  cc: 99
-  min: 0
-  max: 11
-Set Div 2:
-  notes: "0=1/4, 1=1/4trp, 2=dot1/4 - 3=1/8, 4=1/8trp, 5=dot1/8 - 6=1/2, 7=1/2trp, 8=1/16 - 9=2/2, 10=3/2, 11=4/2"
-  cc: 100
-  min: 0
-  max: 11
-Set Div 3:
-  notes: "0=1/4, 1=1/4trp, 2=dot1/4 - 3=1/8, 4=1/8trp, 5=dot1/8 - 6=1/2, 7=1/2trp, 8=1/16 - 9=2/2, 10=3/2, 11=4/2"
-  cc: 101
-  min: 0
-  max: 11
-Set Div 4:
-  notes: "0=1/4, 1=1/4trp, 2=dot1/4 - 3=1/8, 4=1/8trp, 5=dot1/8 - 6=1/2, 7=1/2trp, 8=1/16 - 9=2/2, 10=3/2, 11=4/2"
-  cc: 102
-  min: 0
-  max: 11
-Set Midi Div:
-  notes: "0=1/4, 1=1/4trp, 2=dot1/4 - 3=1/8, 4=1/8trp, 5=dot1/8 - 6=1/2, 7=1/2trp, 8=1/16 - 9=2/2, 10=3/2, 11=4/2"
-  cc: 103
-  min: 0
-  max: 11
+Parameters:
+  Global Tempo:
+    cc: 98
+    off: 0
+    on: 127
+  Tap Tempo:
+    cc: 93
+    val: 1 # any value can be used
+  Next Preset:
+    cc: 95
+    val: 1 # any value can be used
+  Prev Preset:
+    cc: 96
+    val: 1 # any value can be used
+  Set Div 1:
+    notes: "0=1/4, 1=1/4trp, 2=dot1/4 - 3=1/8, 4=1/8trp, 5=dot1/8 - 6=1/2, 7=1/2trp, 8=1/16 - 9=2/2, 10=3/2, 11=4/2"
+    cc: 99
+    min: 0
+    max: 11
+  Set Div 2:
+    notes: "0=1/4, 1=1/4trp, 2=dot1/4 - 3=1/8, 4=1/8trp, 5=dot1/8 - 6=1/2, 7=1/2trp, 8=1/16 - 9=2/2, 10=3/2, 11=4/2"
+    cc: 100
+    min: 0
+    max: 11
+  Set Div 3:
+    notes: "0=1/4, 1=1/4trp, 2=dot1/4 - 3=1/8, 4=1/8trp, 5=dot1/8 - 6=1/2, 7=1/2trp, 8=1/16 - 9=2/2, 10=3/2, 11=4/2"
+    cc: 101
+    min: 0
+    max: 11
+  Set Div 4:
+    notes: "0=1/4, 1=1/4trp, 2=dot1/4 - 3=1/8, 4=1/8trp, 5=dot1/8 - 6=1/2, 7=1/2trp, 8=1/16 - 9=2/2, 10=3/2, 11=4/2"
+    cc: 102
+    min: 0
+    max: 11
+  Set Midi Div:
+    notes: "0=1/4, 1=1/4trp, 2=dot1/4 - 3=1/8, 4=1/8trp, 5=dot1/8 - 6=1/2, 7=1/2trp, 8=1/16 - 9=2/2, 10=3/2, 11=4/2"
+    cc: 103
+    min: 0
+    max: 11
