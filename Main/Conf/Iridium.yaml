@@ -10,7 +10,7 @@ Set Preset:
       func: "x % 128"
   min: 0
   max: 299
-Bank Select:
+Bank Select:
   notes: "bank1 = 0 - bank2 = 1 - bank3 = 2"
   cc: 0
   min: 0
@@ -52,12 +52,12 @@ Parameters:
     cc: 16
     min: 0
     max: 127
-  Room Level:
+  Room Level:
     notes: "min room level 0 - max room level 127"
     cc: 17
     min: 0
     max: 127
-  Room Size:
+  Room Size:
     notes: "1 = small - 2 = medium - 3 = large"
     cc: 18
     min: 1
@@ -72,22 +72,22 @@ Parameters:
     cc: 20
     min: 0
     max: 8
-  Footswitch Fav:
+  Footswitch Fav:
     notes: "0 = release - 1 thru 127 = press"
     cc: 27
     min: 0
     max: 127
-  Footswitch On:
+  Footswitch On:
     notes: "0 = release - 1 thru 127 = press"
     cc: 28
     min: 0
     max: 127
-  MIDI Expression:
+  MIDI Expression:
     notes: "0 = off - 1 thru 127 = on"
     cc: 60
     min: 0
     max: 127
-  Expression Pedal:
+  Expression Pedal:
     notes: "min exp pedal 0 - max exp pedal 127"
     cc: 100
     min: 0
