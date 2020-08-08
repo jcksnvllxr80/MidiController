@@ -142,7 +142,7 @@ class Rotary_Encoder(RgbKnob):
 	'''
 
 	# NOTE: Need to always display song info (main menu / root of menu tree)
-	# on 1 short click go to song/set/part/bpm/button menun
+	# on 1 short click go to song/set/part/bpm/midi_pedal menun
 	# on 2 second click got to global menu
 	# on 5 second click go to power off menu
 
@@ -180,11 +180,11 @@ class Rotary_Encoder(RgbKnob):
 		self.displayed_part_index = self.current_song.data.parts.node_to_index(self.displayed_part)
 		logger.info("{displayed song index: " + str(self.displayed_song_index) + ", displayed part index: " + str(self.displayed_part_index) + "}")
 
-		# set up the MidiController setup menus (set, seong, part, button, bpm)
+		# set up the MidiController setup menus (set, seong, part, midi_pedal, bpm)
 		self.setlist_menu = self.setup_menu.add_child("Sets", self.show_setlists, self.load_set_func)
 		self.songs_menu = self.setup_menu.add_child("Songs", self.show_songs, self.load_song_func)
 		self.parts_menu = self.setup_menu.add_child("Parts", self.show_parts, self.load_part_func)
-		self.button_menu = self.setup_menu.add_child("buttons", self.show_buttons, self.load_button_func)
+		self.midi_pedal_menu = self.setup_menu.add_child("Midi Pedals", self.show_midi_pedals, self.load_midi_pedal_func)
 		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm, self.load_bpm_func)
 		# dont let the tempo go below 40 or above 500
 		self.tempo_range = arange(40,500,0.5).tolist()
@@ -341,11 +341,11 @@ class Rotary_Encoder(RgbKnob):
 		self.test_point_node_printer(self.parts_menu)
 
 
-	def show_buttons(self):
-		self.button_menu.menu_data_prompt = self.button_menu.name + ":"
-		self.button_menu.menu_data_items = self.all_midi_pedals
-		self.button_menu.menu_data_position = 0
-		self.test_point_node_printer(self.button_menu)
+	def show_midi_pedals(self):
+		self.midi_pedal_menu.menu_data_prompt = self.midi_pedal_menu.name + ":"
+		self.midi_pedal_menu.menu_data_items = self.all_midi_pedals
+		self.midi_pedal_menu.menu_data_position = 0
+		self.test_point_node_printer(self.midi_pedal_menu)
 
 
 	def show_bpm(self):
@@ -389,13 +389,13 @@ class Rotary_Encoder(RgbKnob):
 		self.change_menu_nodes()
 
 
-	def load_button_func(self):
-		button = self.button_menu.menu_data_items[self.button_menu.menu_data_position]
-		if button.is_engaged:
-			button.turn_off()
+	def load_midi_pedal_func(self):
+		midi_pedal = self.midi_pedal_menu.menu_data_items[self.midi_pedal_menu.menu_data_position]
+		if midi_pedal.is_engaged:
+			midi_pedal.turn_off()
 		else:
-			button.turn_on()
-		self.set_message(button.name + "\n" + str(button.getState()))
+			midi_pedal.turn_on()
+		self.set_message(midi_pedal.name + "\n" + str(midi_pedal.getState()))
 
 
 	def load_bpm_func(self):
@@ -441,7 +441,7 @@ class Rotary_Encoder(RgbKnob):
 
 				# if midi_pedal_obj.name == "TimeLine":
 				# 	midi_pedal_obj.setTempo(float(self.current_song.data.bpm))
-				#need to get all the buttons to their correct state before messsing with tempo
+				#need to get all the midi_pedals to their correct state before messsing with tempo
 		#now that we are out of the for loop, set the tempo
 		self.rebuild_menu()
 		self.set_song_info_message()
@@ -612,7 +612,7 @@ class Rotary_Encoder(RgbKnob):
 		self.switch_modes(mode)
 
 		
-	def get_buttons_list(self):
+	def get_midi_pedals_list(self):
 		'''returns the midi_pedal list for the current midi_pedal layout
 		'''
 		return self.all_midi_pedals
