@@ -19,6 +19,8 @@ parts:
             Iridium:
                 engaged: True
                 preset: 1
+                params:
+                    Amp: 1
             SuperSwitcher:
                 preset: 1
                 params:
@@ -67,6 +69,8 @@ parts:
             Iridium:
                 engaged: True
                 preset: 1
+                params:
+                    Amp: 2
             SuperSwitcher:
                 preset: 1
                 params:
