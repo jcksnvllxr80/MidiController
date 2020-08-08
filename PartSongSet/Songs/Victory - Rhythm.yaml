@@ -23,6 +23,7 @@ parts:
                     # Amp: 1
                     Cab: 0
                     Room Size: 1
+                    Room Level: 127
             SuperSwitcher:
                 preset: 1
                 params:
@@ -75,6 +76,7 @@ parts:
                     # Amp: 1
                     Cab: 1
                     Room Size: 2
+                    Room Level: 127
             SuperSwitcher:
                 preset: 1
                 params:
