@@ -161,8 +161,11 @@ class MidiPedal(Pedal):
 		self.preset = preset
 		set_preset_dict = self.midi_command_dict.get("Set Preset", None)
 		if set_preset_dict:
-			self.determine_action_method(set_preset_dict, self.preset)
-			logger.info(self.name + " preset was set to " + str(self.preset) + ".")
+			if self.preset == '':
+				logger.info(self.name + " has no preset for this part.")
+			else:
+				self.determine_action_method(set_preset_dict, self.preset)
+				logger.info(self.name + " preset was set to " + str(self.preset) + ".")
 		else:
 			logger.info(self.name + " has no \'Set Preset\' option defined in the pedal config.")
 
