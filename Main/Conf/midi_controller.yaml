@@ -45,7 +45,7 @@ midi:
       name: Iridium
       preset:
         name: null
-        number: 
+        number: 1
       state: true
     4:
       name: BigSky
