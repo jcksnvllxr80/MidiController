@@ -250,7 +250,7 @@ class MidiPedal(Pedal):
 				logger.info("Key, " + str(v) + ", not found in dict -> " + str(change_dict))
 				min = change_dict.get('min', None)
 				max = change_dict.get('max', None)
-				if min and max:
+				if min is not None and max is not None:
 					val = int(v)
 					if min <= val <= max:
 						converted_to_int = val

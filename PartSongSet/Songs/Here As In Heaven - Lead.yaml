@@ -74,7 +74,7 @@ parts:
                 params:
                     # Amp: 1
                     Cab: 3
-                    Room Size: 1
+                    "Room Size": 1
             SuperSwitcher:
                 preset: 1
                 params:
