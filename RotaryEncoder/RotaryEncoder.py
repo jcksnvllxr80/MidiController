@@ -421,13 +421,13 @@ class Rotary_Encoder(RgbKnob):
 
 
 	# def load_midi_pedal_config_menu(self):
-	# 	midi_pedal_name = self.midi_pedal_menu.menu_data_items[self.midi_pedal_menu.menu_data_position]
+	# 	midi_pedal_name = self.midi_pedal_menu.children[self.midi_pedal_menu.current_child].name
 	# 	midi_pedal_config = self.midi_pedal_config_menu[midi_pedal_name].menu_data_items[self.midi_pedal_config_menu[midi_pedal_name].menu_data_position]
 	# 	self.set_message(midi_pedal_config)
 
 
 	def execute_midi_pedal_opt(self):
-		midi_pedal_name = self.midi_pedal_menu.menu_data_items[self.midi_pedal_menu.menu_data_position] 
+		midi_pedal_name = self.midi_pedal_menu.children[self.midi_pedal_menu.current_child].name
 		logger.info("Executing " + self.midi_pedal_config_menu[midi_pedal_name].menu_data_items[self.midi_pedal_config_menu[midi_pedal_name].menu_data_position] 
 			+ " function for " + midi_pedal_name + ".")
 
