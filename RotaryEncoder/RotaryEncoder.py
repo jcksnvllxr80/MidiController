@@ -376,8 +376,7 @@ class Rotary_Encoder(RgbKnob):
 				self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Bank Select")
 			if midi_pedal_conf.toggle_bypass_dict:
 				self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Toggle Bypass")
-		self.test_point_node_printer(self.setlist_menu)
-
+		self.test_point_node_printer(self.midi_pedal_config_menu[midi_pedal_name])
 
 	def show_bpm(self):
 		self.bpm_menu.menu_data_prompt = self.bpm_menu.name + ":"
