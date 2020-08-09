@@ -363,21 +363,39 @@ class Rotary_Encoder(RgbKnob):
 		self.midi_pedal_config_menu[midi_pedal_name].menu_data_position = 0
 		midi_pedal_conf = self.midi_pedal_dict.get(midi_pedal_name, None)
 		if midi_pedal_conf:
-			if midi_pedal_conf.params_dict:
-				self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Parameters")
-			if midi_pedal_conf.engage_dict:
-				self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Engage")
-			if midi_pedal_conf.bypass_dict:
-				self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Bypass")
-			if midi_pedal_conf.set_preset_dict:
-				self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Set Preset")
-			if midi_pedal_conf.knobs_switches_dict:
-				self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Knobs/Switches")
-			if midi_pedal_conf.bank_select_dict:
-				self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Bank Select")
-			if midi_pedal_conf.toggle_bypass_dict:
-				self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Toggle Bypass")
+			midi_pedal_conf_dict = {
+				"Parameters": midi_pedal_conf.params_dict,
+				"Engage": midi_pedal_conf.engage_dict,
+				"Bypass": midi_pedal_conf.bypass_dict,
+				"Set Preset": midi_pedal_conf.set_preset_dict,
+				"Knobs/Switches": midi_pedal_conf.knobs_switches_dict,
+				"Bank Select": midi_pedal_conf.bank_select_dict,
+				"Toggle Bypass": midi_pedal_conf.toggle_bypass_dict
+			}
+			for midi_pedal_conf_key, midi_pedal_conf_value in midi_pedal_conf_dict.iteritems():
+				if midi_pedal_conf_value:
+					self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append(midi_pedal_conf_key)
+					self.midi_pedal_config_menu[midi_pedal_name].menu_data_dict.update({midi_pedal_conf_key: midi_pedal_conf_value})
+				# if midi_pedal_conf.engage_dict:
+				# 	self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Engage")
+				# 	self.midi_pedal_config_menu[midi_pedal_name].menu_data_dict.update({"Engage": midi_pedal_conf.engage_dict})
+				# if midi_pedal_conf.bypass_dict:
+				# 	self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Bypass")
+				# 	self.midi_pedal_config_menu[midi_pedal_name].menu_data_dict.update({"Bypass": midi_pedal_conf.bypass_dict})
+				# if midi_pedal_conf.set_preset_dict:
+				# 	self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Set Preset")
+				# 	self.midi_pedal_config_menu[midi_pedal_name].menu_data_dict.update({"Set Preset": midi_pedal_conf.set_preset_dict})
+				# if midi_pedal_conf.knobs_switches_dict:
+				# 	self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Knobs/Switches")
+				# 	self.midi_pedal_config_menu[midi_pedal_name].menu_data_dict.update({"Knobs/Switches": midi_pedal_conf.knobs_switches_dict})
+				# if midi_pedal_conf.bank_select_dict:
+				# 	self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Bank Select")
+				# 	self.midi_pedal_config_menu[midi_pedal_name].menu_data_dict.update({"Bank Select": midi_pedal_conf.bank_select_dict})
+				# if midi_pedal_conf.toggle_bypass_dict:
+				# 	self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Toggle Bypass")
+				# 	self.midi_pedal_config_menu[midi_pedal_name].menu_data_dict.update({"Toggle Bypass": midi_pedal_conf.toggle_bypass_dict})
 		self.test_point_node_printer(self.midi_pedal_config_menu[midi_pedal_name])
+
 
 	def show_bpm(self):
 		self.bpm_menu.menu_data_prompt = self.bpm_menu.name + ":"
