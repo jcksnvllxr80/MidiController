@@ -185,7 +185,7 @@ class Rotary_Encoder(RgbKnob):
 		self.setlist_menu = self.setup_menu.add_child("Sets", self.show_setlists, self.load_set_func)
 		self.songs_menu = self.setup_menu.add_child("Songs", self.show_songs, self.load_song_func)
 		self.parts_menu = self.setup_menu.add_child("Parts", self.show_parts, self.load_part_func)
-		self.midi_pedal_menu = self.setup_menu.add_child("Midi Pedals", self.show_midi_pedals, self.load_midi_pedal_config_menu)
+		self.midi_pedal_menu = self.setup_menu.add_child("Midi Pedals", self.show_midi_pedals) #, self.load_midi_pedal_config_menu)
 		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm, self.load_bpm_func)
 		# dont let the tempo go below 40 or above 500
 		self.tempo_range = arange(40,500,0.5).tolist()
@@ -218,8 +218,7 @@ class Rotary_Encoder(RgbKnob):
 		for midi_pedal_conf in os.listdir(MIDI_PEDAL_CONF_FOLDER):
 			if midi_pedal_conf[-5:] == ".yaml":
 				midi_pedal_name = midi_pedal_conf[:-5]
-				self.midi_pedal_config_menu[midi_pedal_name] = self.midi_pedal_menu.add_child(midi_pedal_name, \
-					self.show_midi_pedal_configuration_opts, self.execute_midi_pedal_opt)
+				self.midi_pedal_config_menu[midi_pedal_name] = self.midi_pedal_menu.add_child(midi_pedal_name, self.show_midi_pedal_configuration_opts, self.execute_midi_pedal_opt)
 
 
 	# TODO: this is broken. it should be a way to set the contents of the menu. 
@@ -357,7 +356,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def show_midi_pedal_configuration_opts(self):
-		midi_pedal_name = self.midi_pedal_menu.parent.name
+		midi_pedal_name = self.midi_pedal_menu.children[self.menu.current_node.current_child].name
 		self.midi_pedal_config_menu[midi_pedal_name].menu_data_items = []
 		self.midi_pedal_config_menu[midi_pedal_name].menu_data_prompt = self.midi_pedal_config_menu[midi_pedal_name].name + ":"
 		self.midi_pedal_menu.menu_data_position = 0
@@ -422,10 +421,10 @@ class Rotary_Encoder(RgbKnob):
 
 
 
-	def load_midi_pedal_config_menu(self):
-		midi_pedal_name = self.midi_pedal_menu.menu_data_items[self.midi_pedal_menu.menu_data_position]
-		midi_pedal_config = self.midi_pedal_config_menu[midi_pedal_name].menu_data_items[self.midi_pedal_config_menu[midi_pedal_name].menu_data_position]
-		self.set_message(midi_pedal_config)
+	# def load_midi_pedal_config_menu(self):
+	# 	midi_pedal_name = self.midi_pedal_menu.menu_data_items[self.midi_pedal_menu.menu_data_position]
+	# 	midi_pedal_config = self.midi_pedal_config_menu[midi_pedal_name].menu_data_items[self.midi_pedal_config_menu[midi_pedal_name].menu_data_position]
+	# 	self.set_message(midi_pedal_config)
 
 
 	def execute_midi_pedal_opt(self):
