@@ -217,8 +217,8 @@ class Rotary_Encoder(RgbKnob):
 	def set_midi_pedal_conf_menu(self):
 		for midi_pedal_conf in os.listdir(MIDI_PEDAL_CONF_FOLDER):
 			if midi_pedal_conf[-5:] == ".yaml":
-				midi_pedal_conf_name = midi_pedal_conf[:-5]
-				self.midi_pedal_config_menu[midi_pedal_conf_name] = self.midi_pedal_menu.add_child(midi_pedal_conf_name, \
+				midi_pedal_name = midi_pedal_conf[:-5]
+				self.midi_pedal_config_menu[midi_pedal_name] = self.midi_pedal_menu.add_child(midi_pedal_name, \
 					self.show_midi_pedal_configuration_opts, self.execute_midi_pedal_opt)
 
 
@@ -357,18 +357,26 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def show_midi_pedal_configuration_opts(self):
-		# read pedal config files from folder where they belong
-		# display the first item in the list
-		midi_pedal_config_files = os.listdir(MIDI_PEDAL_CONF_FOLDER)
-		for midi_pedal in self.all_midi_pedals:
-			self.midi_pedal_config_menu[midi_pedal.name].menu_data_items = []
-			self.midi_pedal_config_menu[midi_pedal.name].menu_data_prompt = self.midi_pedal_config_menu[midi_pedal.name].name + ":"
-			midi_pedal_config_file = midi_pedal_config_files[midi_pedal.name + ".yaml"]
-			midi_pedal_config = self.read_config(midi_pedal_config_file)
-			for menu_item in ["Set Preset", "Parameters", "Knobs/Switches", "Bank Select", "Engage", "Bypass", "Toggle Bypass"]:
-				pedal_config_tpye = midi_pedal_config.get(menu_item, None)
-				if pedal_config_tpye:
-					self.midi_pedal_config_menu[midi_pedal.name].menu_data_items.append(pedal_config_tpye)
+		midi_pedal_name = self.midi_pedal_menu.menu_data_items[self.midi_pedal_menu.menu_data_position]
+		self.midi_pedal_config_menu[midi_pedal_name].menu_data_items = []
+		self.midi_pedal_config_menu[midi_pedal_name].menu_data_prompt = self.midi_pedal_config_menu[midi_pedal_name].name + ":"
+		self.midi_pedal_menu.menu_data_position = 0
+		midi_pedal_conf = self.all_midi_pedals.get(midi_pedal_name, None)
+		if midi_pedal_conf:
+			if midi_pedal_conf.params_dict:
+				self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Parameters")
+			if midi_pedal_conf.engage_dict:
+				self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Engage")
+			if midi_pedal_conf.bypass_dict:
+				self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Bypass")
+			if midi_pedal_conf.set_preset_dict:
+				self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Set Preset")
+			if midi_pedal_conf.knobs_switches_dict:
+				self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Knobs/Switches")
+			if midi_pedal_conf.bank_select_dict:
+				self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Bank Select")
+			if midi_pedal_conf.toggle_bypass_dict:
+				self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Toggle Bypass")
 		self.test_point_node_printer(self.setlist_menu)
 
 
@@ -379,7 +387,7 @@ class Rotary_Encoder(RgbKnob):
 		logger.info("bpm: " + self.current_song.data.bpm)
 		logger.info("position in list: " + str(self.bpm_menu.menu_data_position))
 		self.bpm_menu.menu_data_position = int(2 * (float(self.current_song.data.bpm) - 40))
-		self.test_point_node_printer(self.bpm_menu)
+		self.test_point_node_printer(self.midi_pedal_config_menu)
 
 
 	def load_set_func(self):
@@ -415,13 +423,15 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def load_midi_pedal_config_menu(self):
-		midi_pedal_config = self.midi_pedal_config_menu.menu_data_items[self.midi_pedal_config_menu.menu_data_position]
+		midi_pedal_name = self.midi_pedal_menu.menu_data_items[self.midi_pedal_menu.menu_data_position]
+		midi_pedal_config = self.midi_pedal_config_menu[midi_pedal_name].menu_data_items[self.midi_pedal_config_menu[midi_pedal_name].menu_data_position]
 		self.set_message(midi_pedal_config)
 
 
 	def execute_midi_pedal_opt(self):
-		logger.info("Executing " + self.midi_pedal_config_menu.menu_data_items[self.midi_pedal_config_menu.menu_data_position] 
-			+ " function for " + self.midi_pedal_menu.menu_data_items[self.midi_pedal_menu.menu_data_position] + ".")
+		midi_pedal_name = self.midi_pedal_menu.menu_data_items[self.midi_pedal_menu.menu_data_position] 
+		logger.info("Executing " + self.midi_pedal_config_menu[midi_pedal_name].menu_data_items[self.midi_pedal_config_menu[midi_pedal_name].menu_data_position] 
+			+ " function for " + midi_pedal_name + ".")
 
 
 	def load_bpm_func(self):
