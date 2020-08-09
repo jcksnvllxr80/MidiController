@@ -32,7 +32,7 @@ handler.setFormatter(formatter)
 logger.addHandler(handler)
 
 SET_FOLDER = "/home/pi/MidiController/PartSongSet/Sets/"
-MIDI_PEDAL_CONFIG_FOLDER = "/home/pi/MidiController/Main/Conf/"
+MIDI_PEDAL_CONF_FOLDER = "/home/pi/MidiController/Main/Conf/MidiPedals/"
 CONFIG_FILE = "/home/pi/MidiController/Main/Conf/midi_controller.yaml"
 
 #define class for the PWM driver for the colors part of the rotary knob
@@ -192,8 +192,7 @@ class Rotary_Encoder(RgbKnob):
 		self.set_song_info_message()
 
 		self.midi_pedal_config_menu = {}
-		for midi_pedal in self.all_midi_pedals:
-			self.midi_pedal_config_menu[midi_pedal.name] = self.midi_pedal_menu.add_child(midi_pedal.name, self.show_midi_pedal_configuration_opts, self.execute_midi_pedal_opt)
+		self.set_midi_pedal_conf_menu()
 
 		# define power menu
 		self.power_menu = self.menu.root.add_child("Power", self.set_menu_data_message)
@@ -213,6 +212,14 @@ class Rotary_Encoder(RgbKnob):
 		#keeps time for last rotary turn in seconds
 		self.last_rotary_turn = 0
 		self.menu.current_node.current_child = 0
+
+
+	def set_midi_pedal_conf_menu(self):
+		for midi_pedal_conf in os.listdir(MIDI_PEDAL_CONF_FOLDER):
+			if midi_pedal_conf[-5:] == ".yaml":
+				midi_pedal_conf_name = midi_pedal_conf[:-5]
+				self.midi_pedal_config_menu[midi_pedal_conf_name] = self.midi_pedal_menu.add_child(midi_pedal_conf_name, \
+					self.show_midi_pedal_configuration_opts, self.execute_midi_pedal_opt)
 
 
 	# TODO: this is broken. it should be a way to set the contents of the menu. 
@@ -352,7 +359,7 @@ class Rotary_Encoder(RgbKnob):
 	def show_midi_pedal_configuration_opts(self):
 		# read pedal config files from folder where they belong
 		# display the first item in the list
-		midi_pedal_config_files = os.listdir(MIDI_PEDAL_CONFIG_FOLDER)
+		midi_pedal_config_files = os.listdir(MIDI_PEDAL_CONF_FOLDER)
 		for midi_pedal in self.all_midi_pedals:
 			self.midi_pedal_config_menu[midi_pedal.name].menu_data_items = []
 			self.midi_pedal_config_menu[midi_pedal.name].menu_data_prompt = self.midi_pedal_config_menu[midi_pedal.name].name + ":"

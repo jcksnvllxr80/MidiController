@@ -129,6 +129,13 @@ class MidiPedal(Pedal):
 		self.midi_channel = midi_channel
 		self.midi = MIDI.MIDI(self.midi_channel)
 		self.midi_command_dict = commands
+		self.params_dict = self.midi_command_dict.get("Parameters", None)
+		self.engage_dict = self.midi_command_dict.get("Engage", None)
+		self.bypass_dict = self.midi_command_dict.get("Bypass", None)
+		self.set_preset_dict = self.midi_command_dict.get("Set Preset", None)
+		self.knobs_switches_dict = self.midi_command_dict.get("Knobs/Switches", None)
+		self.bank_select_dict = self.midi_command_dict.get("Bank Select", None)
+		self.toggle_bypass_dict = self.midi_command_dict.get("Toggle Bypass", None)
 		Pedal.__init__(self, name, state)
 		try:
 			preset = int(preset)
@@ -138,9 +145,8 @@ class MidiPedal(Pedal):
 
 
 	def turn_on(self):
-		engage_dict = self.midi_command_dict.get("Engage", None)
-		if engage_dict:
-			self.determine_action_method(engage_dict)
+		if self.engage_dict:
+			self.determine_action_method(self.engage_dict)
 			self.is_engaged = True
 			logger.info(self.name + " on.")
 		else:
@@ -148,24 +154,31 @@ class MidiPedal(Pedal):
 
 
 	def turn_off(self):
-		bypass_dict = self.midi_command_dict.get("Bypass", None)
-		if bypass_dict:
-			self.determine_action_method(bypass_dict)
+		if self.bypass_dict:
+			self.determine_action_method(self.bypass_dict)
 			self.is_engaged = False
 			logger.info(self.name + " off.")
 		else:
 			logger.info(self.name + " has no \'Bypass\' option defined in the pedal config.")
 
 
+	def toggle_engaged(self):
+		if self.toggle_bypass_dict:
+			self.determine_action_method(self.toggle_bypass_dict)
+			self.is_engaged ^= True
+			logger.info(self.name + " on." if self.is_engaged else " off.")
+		else:
+			logger.info(self.name + " has no \'Toggle Bypass\' option defined in the pedal config.")
+
+
 	def set_preset(self, preset):
-		self.preset = preset
-		set_preset_dict = self.midi_command_dict.get("Set Preset", None)
-		if set_preset_dict:
-			if self.preset == '':
+		if self.set_preset_dict:
+			if preset == '':
 				logger.info(self.name + " has no preset for this part.")
 			else:
-				self.determine_action_method(set_preset_dict, self.preset)
-				logger.info(self.name + " preset was set to " + str(self.preset) + ".")
+				self.determine_action_method(self.set_preset_dict, preset)
+				logger.info(self.name + " preset was set to " + str(preset) + ".")
+				self.preset = preset
 		else:
 			logger.info(self.name + " has no \'Set Preset\' option defined in the pedal config.")
 
@@ -180,10 +193,9 @@ class MidiPedal(Pedal):
 
 
 	def set_params(self, params):
-		params_dict = self.midi_command_dict.get("Parameters", None)
-		if params_dict:
+		if self.params_dict:
 			for param, value in params.iteritems():
-				param_info = params_dict.get(param, None)
+				param_info = self.params_dict.get(param, None)
 				if param_info:
 					param_was_set = self.determine_parameter_method(param_info, param, value)
 					if param_was_set:
@@ -191,7 +203,7 @@ class MidiPedal(Pedal):
 					else:
 						logger.info(self.name + " parameter " + str(param) + " not set.")
 				else:
-					logger.info("Parameter, " + str(param) + ", not found in " + self.name + " param dict -> " + str(params_dict))
+					logger.info("Parameter, " + str(param) + ", not found in " + self.name + " param dict -> " + str(self.params_dict))
 		else:
 			logger.info(self.name + " parameters dictionary was not found in the pedal config.")
 

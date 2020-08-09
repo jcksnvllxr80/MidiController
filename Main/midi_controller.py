@@ -25,6 +25,7 @@ BANKB_INTPIN = 17
 #these are input pins on the MCP23017 for the tap button and the rotary encoders push button
 ROTARY_PUSHBUTTON_PINNUMBER = 15
 CONFIG_FOLDER = "/home/pi/MidiController/Main/Conf/"
+MIDI_PEDAL_CONF_FOLDER = CONFIG_FOLDER + "MidiPedals/"
 CONFIG_FILE = CONFIG_FOLDER + "midi_controller.yaml"
 rotary_push_button = None
 footswitch_dict = {}
@@ -74,7 +75,7 @@ def setup():
 		if isinstance(channel_dict, dict):
 			channel_name = channels[channel].get('name', '')
 			if channel_name:
-				pedal_conf = CONFIG_FOLDER + channel_name + '.yaml'
+				pedal_conf = MIDI_PEDAL_CONF_FOLDER + channel_name + '.yaml'
 				if path.exists(pedal_conf):
 					# read midi config yaml file into dictionaries
 					with open(pedal_conf, 'r') as ymlfile:
@@ -84,7 +85,7 @@ def setup():
 							int(channel), midi_conf, channels[channel]['preset'].get('number', channels[channel]['preset'].get('name')))
 					})
 				else:
-					logger.error('Cant add ' + channel_name + ' to the dicitonary because it doesnt have a config file in ' + CONFIG_FOLDER + '.')
+					logger.error('Cant add ' + channel_name + ' to the dicitonary because it doesnt have a config file in ' + MIDI_PEDAL_CONF_FOLDER + '.')
 
 	# make a dictionary of {ftsw_btn: footswitch_obj}
 	footswitch_dict = {}
