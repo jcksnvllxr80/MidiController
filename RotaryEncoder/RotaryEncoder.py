@@ -186,7 +186,8 @@ class Rotary_Encoder(RgbKnob):
 		self.songs_menu = self.setup_menu.add_child("Songs", self.show_songs, self.load_song_func)
 		self.parts_menu = self.setup_menu.add_child("Parts", self.show_parts, self.load_part_func)
 		self.midi_pedal_menu = self.setup_menu.add_child("Midi Pedals", self.show_midi_pedals) #, self.load_midi_pedal_config_menu)
-		self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm, self.load_bpm_func)
+		#TODO: add this back if I even need BPM again. prob will.
+		# self.bpm_menu = self.setup_menu.add_child("BPM", self.show_bpm, self.load_bpm_func)
 		# dont let the tempo go below 40 or above 500
 		self.tempo_range = arange(40,500,0.5).tolist()
 		self.set_song_info_message()
