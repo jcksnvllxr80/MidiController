@@ -360,7 +360,7 @@ class Rotary_Encoder(RgbKnob):
 		self.midi_pedal_config_menu[midi_pedal_name].menu_data_items = []
 		self.midi_pedal_config_menu[midi_pedal_name].menu_data_prompt = self.midi_pedal_config_menu[midi_pedal_name].name + ":"
 		self.midi_pedal_menu.menu_data_position = 0
-		midi_pedal_conf = self.all_midi_pedals.get(midi_pedal_name, None)
+		midi_pedal_conf = self.midi_pedal_dict.get(midi_pedal_name, None)
 		if midi_pedal_conf:
 			if midi_pedal_conf.params_dict:
 				self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append("Parameters")
@@ -636,11 +636,11 @@ class Rotary_Encoder(RgbKnob):
 		of the objects from the midi_pedals dictionary but stripped 
 		of their respective channel numbers.
 		'''
-		# self.midi_pedal_dict = {}
+		self.midi_pedal_dict = {}
 		self.all_midi_pedals = midi_pedals.values()
-		# for midi_pedal_obj in self.all_midi_pedals:
-		# 	if isinstance(midi_pedal_obj, EffectLoops.MidiPedal):
-		# 		self.midi_pedal_dict[midi_pedal_obj.name] = midi_pedal_obj
+		for midi_pedal_obj in self.all_midi_pedals:
+			if isinstance(midi_pedal_obj, EffectLoops.MidiPedal):
+				self.midi_pedal_dict[midi_pedal_obj.name] = midi_pedal_obj
 		if mode == "favorite":
 			self.change_to_footswitch_item()
 			self.load_part()
