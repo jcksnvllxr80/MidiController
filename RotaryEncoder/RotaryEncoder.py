@@ -451,9 +451,12 @@ class Rotary_Encoder(RgbKnob):
 	def execute_midi_pedal_opt(self):
 		midi_pedal_name = self.midi_pedal_menu.children[self.midi_pedal_menu.current_child].name
 		midi_pedal_conf_group_name = self.midi_pedal_config_menu[midi_pedal_name].children[self.midi_pedal_config_menu[midi_pedal_name].current_child].name
-		current_midi_pedal_group_menu = self.midi_pedal_config_menu[midi_pedal_name][midi_pedal_conf_group_name]
-		logger.info("Executing " + current_midi_pedal_group_menu.menu_data_items[current_midi_pedal_group_menu.menu_data_position] 
-			+ " function for " + midi_pedal_name + ".")
+		current_midi_pedal_group_menu = self.midi_pedal_config_menu[midi_pedal_name].menu_data_dict.get(midi_pedal_conf_group_name, None)
+		if current_midi_pedal_group_menu:
+			logger.info("Executing " + current_midi_pedal_group_menu.menu_data_items[current_midi_pedal_group_menu.menu_data_position] \
+				+ " function for " + midi_pedal_name + ".")
+		else:
+			logger.warn("NOT executing " + midi_pedal_conf_group_name + " function for " + midi_pedal_name + " as there are no execution parameters given.")
 
 
 	def load_bpm_func(self):
