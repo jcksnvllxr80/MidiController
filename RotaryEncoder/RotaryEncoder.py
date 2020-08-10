@@ -372,17 +372,16 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def set_midi_pedal_conf_opts_menu(self, midi_pedal_conf_grp_key, midi_pedal_conf_menu):
-		midi_pedal_conf_menu[midi_pedal_conf_grp_key] = midi_pedal_conf_menu.add_child(midi_pedal_conf_grp_key,\
-			self.show_midi_pedal_config_group_opts, self.execute_midi_pedal_opt)
+		midi_pedal_conf_menu.add_child(midi_pedal_conf_grp_key, self.show_midi_pedal_config_group_opts, self.execute_midi_pedal_opt)
 
 
 	def show_midi_pedal_config_group_opts(self):
 		midi_pedal_name = self.midi_pedal_menu.children[self.midi_pedal_menu.current_child].name
-		config_option_group_name = self.midi_pedal_config_menu[midi_pedal_name]\
-			.children[self.midi_pedal_config_menu[midi_pedal_name].current_child].name
-		config_option_name = self.midi_pedal_config_menu[midi_pedal_name][config_option_group_name]\
-			.children[self.midi_pedal_config_menu[midi_pedal_name][config_option_group_name].current_child].name
-		current_midi_pedal_config_opt_menu = self.midi_pedal_config_menu[midi_pedal_name][config_option_group_name] 
+		current_pedal_config = self.midi_pedal_config_menu[midi_pedal_name]
+		config_option_group_name = current_pedal_config.children[current_pedal_config.current_child].name
+		midi_pedal_current_config_grp = self.midi_pedal_config_menu[midi_pedal_name].children[self.midi_pedal_config_menu[midi_pedal_name].current_child]
+		config_option_name = midi_pedal_current_config_grp.children[midi_pedal_current_config_grp.current_child].name
+		current_midi_pedal_config_opt_menu = midi_pedal_current_config_grp.children[midi_pedal_current_config_grp.current_child]
 		current_midi_pedal_config_opt_menu.menu_data_items = []
 		current_midi_pedal_config_opt_menu.menu_data_prompt = current_midi_pedal_config_opt_menu.name + ":"
 		current_midi_pedal_config_opt_menu.menu_data_position = 0
