@@ -387,16 +387,20 @@ class Rotary_Encoder(RgbKnob):
 		current_midi_pedal_config_opt_menu.menu_data_items = []
 		current_midi_pedal_config_opt_menu.menu_data_prompt = current_midi_pedal_config_opt_menu.name + ":"
 		current_midi_pedal_config_opt_menu.menu_data_position = 0
-		midi_pedal_conf_opt = self.midi_pedal_dict[midi_pedal_name].midi_pedal_conf_dict[config_option_group_name]
-		if midi_pedal_conf_opt and (config_option_group_name in ["Knobs/Switches", "Parameters"]):
-			for midi_pedal_conf_opt_key, midi_pedal_conf_opt_value in midi_pedal_conf_opt.iteritems():
-				if midi_pedal_conf_opt_value:
-					current_midi_pedal_config_opt_menu.menu_data_items.append(midi_pedal_conf_opt_key)
-					current_midi_pedal_config_opt_menu.menu_data_dict.update({midi_pedal_conf_opt_key: midi_pedal_conf_opt_value})
-					self.set_midi_pedal_conf_opts_menu(midi_pedal_conf_opt_key, current_midi_pedal_config_opt_menu)
-			self.test_point_node_printer(current_midi_pedal_config_opt_menu)
+		midi_pedal_conf_opt = self.midi_pedal_dict[midi_pedal_name].midi_pedal_conf_dict.get(config_option_group_name, None)
+		if midi_pedal_conf_opt:
+			if config_option_group_name in ["Knobs/Switches", "Parameters"]:
+				for midi_pedal_conf_opt_key, midi_pedal_conf_opt_value in midi_pedal_conf_opt.iteritems():
+					if midi_pedal_conf_opt_value:
+						current_midi_pedal_config_opt_menu.menu_data_items.append(midi_pedal_conf_opt_key)
+						current_midi_pedal_config_opt_menu.menu_data_dict.update({midi_pedal_conf_opt_key: midi_pedal_conf_opt_value})
+						self.set_midi_pedal_conf_opts_menu(midi_pedal_conf_opt_key, current_midi_pedal_config_opt_menu)
+				self.test_point_node_printer(current_midi_pedal_config_opt_menu)
+			elif config_option_group_name in ["Engage", "Bypass", "Toggle Bypass", "Bank Select", "Set Preset"]:
+				current_midi_pedal_config_opt_menu.menu_data_dict.update(midi_pedal_conf_opt)
+				self.execute_midi_pedal_opt()
 		else:
-			self.execute_midi_pedal_opt()
+			logger.warn("No dictionary found for this group: " + config_option_group_name)
 		
 
 
