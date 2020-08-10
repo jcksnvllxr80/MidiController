@@ -367,11 +367,11 @@ class Rotary_Encoder(RgbKnob):
 				if midi_pedal_conf_grp_value:
 					self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append(midi_pedal_conf_grp_key)
 					self.midi_pedal_config_menu[midi_pedal_name].menu_data_dict.update({midi_pedal_conf_grp_key: midi_pedal_conf_grp_value})
-					self.set_midi_pedal_conf_opts_menu(midi_pedal_conf_grp_key, self.midi_pedal_config_menu[midi_pedal_name])
+					self.set_midi_pedal_conf_grp_menu(midi_pedal_conf_grp_key, self.midi_pedal_config_menu[midi_pedal_name])
 		self.test_point_node_printer(self.midi_pedal_config_menu[midi_pedal_name])
 
 
-	def set_midi_pedal_conf_opts_menu(self, midi_pedal_conf_grp_key, midi_pedal_conf_menu):
+	def set_midi_pedal_conf_grp_menu(self, midi_pedal_conf_grp_key, midi_pedal_conf_menu):
 		midi_pedal_conf_menu.add_child(midi_pedal_conf_grp_key, self.show_midi_pedal_config_group_opts, self.execute_midi_pedal_opt)
 
 
@@ -383,13 +383,18 @@ class Rotary_Encoder(RgbKnob):
 		current_midi_pedal_config_opt_menu.menu_data_items = []
 		current_midi_pedal_config_opt_menu.menu_data_prompt = current_midi_pedal_config_opt_menu.name + ":"
 		current_midi_pedal_config_opt_menu.menu_data_position = 0
-		midi_pedal_conf_opt = self.midi_pedal_dict[config_option_group_name].get(config_option_name, None)
-		if midi_pedal_conf_opt:
+		midi_pedal_conf_opt = self.midi_pedal_dict[midi_pedal_name][config_option_group_name]
+		if midi_pedal_conf_opt and (midi_pedal_conf_opt in ["Knobs/Switches", "Parameters"]):
 			for midi_pedal_conf_opt_key, midi_pedal_conf_opt_value in midi_pedal_conf_opt.iteritems():
 				if midi_pedal_conf_opt_value:
 					current_midi_pedal_config_opt_menu.menu_data_items.append(midi_pedal_conf_opt_key)
 					current_midi_pedal_config_opt_menu.menu_data_dict.update({midi_pedal_conf_opt_key: midi_pedal_conf_opt_value})
+					self.set_midi_pedal_conf_opts_menu(midi_pedal_conf_opt_key, current_midi_pedal_config_opt_menu)
 		self.test_point_node_printer(current_midi_pedal_config_opt_menu)
+
+
+	def set_midi_pedal_conf_opts_menu(self, midi_pedal_conf_opt_key, midi_pedal_opt_menu):
+		midi_pedal_opt_menu.add_child(midi_pedal_conf_opt_key, None, self.execute_midi_pedal_opt)
 
 
 	def show_bpm(self):
