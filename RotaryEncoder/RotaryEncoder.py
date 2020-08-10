@@ -193,7 +193,7 @@ class Rotary_Encoder(RgbKnob):
 		self.set_song_info_message()
 
 		self.midi_pedal_config_menu = {}
-		self.set_midi_pedal_conf_menu()
+		self.set_midi_pedal_conf_grps_menu()
 
 		# define power menu
 		self.power_menu = self.menu.root.add_child("Power", self.set_menu_data_message)
@@ -215,14 +215,11 @@ class Rotary_Encoder(RgbKnob):
 		self.menu.current_node.current_child = 0
 
 
-	def set_midi_pedal_conf_menu(self):
+	def set_midi_pedal_conf_grps_menu(self):
 		for midi_pedal_conf in os.listdir(MIDI_PEDAL_CONF_FOLDER):
 			if midi_pedal_conf[-5:] == ".yaml":
 				midi_pedal_name = midi_pedal_conf[:-5]
 				self.midi_pedal_config_menu[midi_pedal_name] = self.midi_pedal_menu.add_child(midi_pedal_name, self.show_midi_pedal_configuration_groups)
-				for config_option_group_name in self.midi_pedal_config_menu[midi_pedal_name]:
-					self.midi_pedal_config_menu[midi_pedal_name][config_option_group_name] = self.midi_pedal_config_menu[midi_pedal_name]\
-						.add_child(config_option_group_name, self.show_midi_pedal_config_group_opts, self.execute_midi_pedal_opt)
 
 
 	# TODO: this is broken. it should be a way to set the contents of the menu. 
@@ -366,11 +363,17 @@ class Rotary_Encoder(RgbKnob):
 		self.midi_pedal_config_menu[midi_pedal_name].menu_data_position = 0
 		midi_pedal_conf = self.midi_pedal_dict.get(midi_pedal_name, None)
 		if midi_pedal_conf:
-			for midi_pedal_conf_key, midi_pedal_conf_value in midi_pedal_conf.midi_pedal_conf_dict.iteritems():
-				if midi_pedal_conf_value:
-					self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append(midi_pedal_conf_key)
-					self.midi_pedal_config_menu[midi_pedal_name].menu_data_dict.update({midi_pedal_conf_key: midi_pedal_conf_value})
+			for midi_pedal_conf_grp_key, midi_pedal_conf_grp_value in midi_pedal_conf.midi_pedal_conf_dict.iteritems():
+				if midi_pedal_conf_grp_value:
+					self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append(midi_pedal_conf_grp_key)
+					self.midi_pedal_config_menu[midi_pedal_name].menu_data_dict.update({midi_pedal_conf_grp_key: midi_pedal_conf_grp_value})
+					self.set_midi_pedal_conf_opts_menu(midi_pedal_conf_grp_key, self.midi_pedal_config_menu[midi_pedal_name])
 		self.test_point_node_printer(self.midi_pedal_config_menu[midi_pedal_name])
+
+
+	def set_midi_pedal_conf_opts_menu(self, midi_pedal_conf_grp_key, midi_pedal_conf_menu):
+		midi_pedal_conf_menu[midi_pedal_conf_grp_key] = midi_pedal_conf_menu.add_child(midi_pedal_conf_grp_key,\
+			self.show_midi_pedal_config_group_opts, self.execute_midi_pedal_opt)
 
 
 	def show_midi_pedal_config_group_opts(self):
@@ -442,7 +445,9 @@ class Rotary_Encoder(RgbKnob):
 
 	def execute_midi_pedal_opt(self):
 		midi_pedal_name = self.midi_pedal_menu.children[self.midi_pedal_menu.current_child].name
-		logger.info("Executing " + self.midi_pedal_config_menu[midi_pedal_name].menu_data_items[self.midi_pedal_config_menu[midi_pedal_name].menu_data_position] 
+		midi_pedal_conf_group_name = self.midi_pedal_config_menu[midi_pedal_name].children[self.midi_pedal_config_menu[midi_pedal_name].current_child].name
+		current_midi_pedal_group_menu = self.midi_pedal_config_menu[midi_pedal_name][midi_pedal_conf_group_name]
+		logger.info("Executing " + current_midi_pedal_group_menu.menu_data_items[current_midi_pedal_group_menu.menu_data_position] 
 			+ " function for " + midi_pedal_name + ".")
 
 
