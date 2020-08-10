@@ -219,7 +219,10 @@ class Rotary_Encoder(RgbKnob):
 		for midi_pedal_conf in os.listdir(MIDI_PEDAL_CONF_FOLDER):
 			if midi_pedal_conf[-5:] == ".yaml":
 				midi_pedal_name = midi_pedal_conf[:-5]
-				self.midi_pedal_config_menu[midi_pedal_name] = self.midi_pedal_menu.add_child(midi_pedal_name, self.show_midi_pedal_configuration_opts, self.execute_midi_pedal_opt)
+				self.midi_pedal_config_menu[midi_pedal_name] = self.midi_pedal_menu.add_child(midi_pedal_name, self.show_midi_pedal_configuration_groups)
+				for config_option_group_name in self.midi_pedal_config_menu[midi_pedal_name]:
+					self.midi_pedal_config_menu[midi_pedal_name][config_option_group_name] = self.midi_pedal_config_menu[midi_pedal_name]\
+						.add_child(config_option_group_name, self.show_midi_pedal_config_group_opts, self.execute_midi_pedal_opt)
 
 
 	# TODO: this is broken. it should be a way to set the contents of the menu. 
@@ -356,7 +359,7 @@ class Rotary_Encoder(RgbKnob):
 		self.test_point_node_printer(self.midi_pedal_menu)
 
 
-	def show_midi_pedal_configuration_opts(self):
+	def show_midi_pedal_configuration_groups(self):
 		midi_pedal_name = self.midi_pedal_menu.children[self.midi_pedal_menu.current_child].name
 		self.midi_pedal_config_menu[midi_pedal_name].menu_data_items = []
 		self.midi_pedal_config_menu[midi_pedal_name].menu_data_prompt = self.midi_pedal_config_menu[midi_pedal_name].name + ":"
@@ -368,6 +371,25 @@ class Rotary_Encoder(RgbKnob):
 					self.midi_pedal_config_menu[midi_pedal_name].menu_data_items.append(midi_pedal_conf_key)
 					self.midi_pedal_config_menu[midi_pedal_name].menu_data_dict.update({midi_pedal_conf_key: midi_pedal_conf_value})
 		self.test_point_node_printer(self.midi_pedal_config_menu[midi_pedal_name])
+
+
+	def show_midi_pedal_config_group_opts(self):
+		midi_pedal_name = self.midi_pedal_menu.children[self.midi_pedal_menu.current_child].name
+		config_option_group_name = self.midi_pedal_config_menu[midi_pedal_name]\
+			.children[self.midi_pedal_config_menu[midi_pedal_name].current_child].name
+		config_option_name = self.midi_pedal_config_menu[midi_pedal_name][config_option_group_name]\
+			.children[self.midi_pedal_config_menu[midi_pedal_name][config_option_group_name].current_child].name
+		current_midi_pedal_config_opt_menu = self.midi_pedal_config_menu[midi_pedal_name][config_option_group_name] 
+		current_midi_pedal_config_opt_menu.menu_data_items = []
+		current_midi_pedal_config_opt_menu.menu_data_prompt = current_midi_pedal_config_opt_menu.name + ":"
+		current_midi_pedal_config_opt_menu.menu_data_position = 0
+		midi_pedal_conf_opt = self.midi_pedal_dict[config_option_group_name].get(config_option_name, None)
+		if midi_pedal_conf_opt:
+			for midi_pedal_conf_opt_key, midi_pedal_conf_opt_value in midi_pedal_conf_opt.iteritems():
+				if midi_pedal_conf_opt_value:
+					current_midi_pedal_config_opt_menu.menu_data_items.append(midi_pedal_conf_opt_key)
+					current_midi_pedal_config_opt_menu.menu_data_dict.update({midi_pedal_conf_opt_key: midi_pedal_conf_opt_value})
+		self.test_point_node_printer(current_midi_pedal_config_opt_menu)
 
 
 	def show_bpm(self):
