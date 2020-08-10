@@ -312,8 +312,12 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def test_point_node_printer(self, the_node):
+		if the_node.menu_data_items:
+			this_data_item = str(the_node.menu_data_items[the_node.menu_data_position])
+		else:
+			this_data_item = Str(None)
 		logger.info("\nnode: " + str(the_node) + "prompt: " + the_node.menu_data_prompt + 
-			"\nitems: " + str(the_node.menu_data_items) + "\ncurrent item: " + str(the_node.menu_data_items[the_node.menu_data_position]) + 
+			"\nitems: " + str(the_node.menu_data_items) + "\ncurrent item: " + this_data_item + 
 			"\nposition: " + str(the_node.menu_data_position))
 
 
