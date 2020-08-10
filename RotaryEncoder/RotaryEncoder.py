@@ -390,7 +390,10 @@ class Rotary_Encoder(RgbKnob):
 					current_midi_pedal_config_opt_menu.menu_data_items.append(midi_pedal_conf_opt_key)
 					current_midi_pedal_config_opt_menu.menu_data_dict.update({midi_pedal_conf_opt_key: midi_pedal_conf_opt_value})
 					self.set_midi_pedal_conf_opts_menu(midi_pedal_conf_opt_key, current_midi_pedal_config_opt_menu)
-		self.test_point_node_printer(current_midi_pedal_config_opt_menu)
+			self.test_point_node_printer(current_midi_pedal_config_opt_menu)
+		else:
+			self.execute_midi_pedal_opt()
+		
 
 
 	def set_midi_pedal_conf_opts_menu(self, midi_pedal_conf_opt_key, midi_pedal_opt_menu):
