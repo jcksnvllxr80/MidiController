@@ -72,13 +72,26 @@ class OledDisplay(object):
 		if self.display_image is not None:
 			image = Image.open(IMG_FOLDER + self.display_image + '.ppm').convert('1') #for testing. comment when not testing
 		else:
-			for str in msg.split(" - "):
-				xMax, yMax = draw.textsize(str, font=self.font_type)
-				x = (self.width - xMax)/2
-				draw.text((x, y), str, font=self.font_type, fill=textColor) 
-				y += yMax + 2
+			self.draw_left_justified(msg, draw, y, textColor)
+			# self.draw_centered(msg, draw, y, textColor)
 		self.spi_disp.image(image)
 		self.spi_disp.display()
+
+
+	def draw_centered(self, msg, draw, y, textColor):
+		for str in msg.split(" - "):
+			xMax, yMax = draw.textsize(str, font=self.font_type)
+			x = (self.width - xMax)/2
+			draw.text((x, y), str, font=self.font_type, fill=textColor) 
+			y += yMax + 2
+
+
+	def draw_left_justified(self, msg, draw, y, textColor):
+		for str in msg.split(" - "):
+			xMax, yMax = draw.textsize(str, font=self.font_type)
+			x = 0
+			draw.text((x, y), str, font=self.font_type, fill=textColor) 
+			y += yMax + 2
 
 
 	def set_font(self, font_type=None, font_size=None):
