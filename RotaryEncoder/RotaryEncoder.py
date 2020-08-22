@@ -978,8 +978,8 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 				elif self.menu.current_node.children:
 					logger.info(self.menu.current_node.name + ": deeper menu")
 					self.change_menu_nodes(self.menu.current_node.children[self.menu.current_node.current_child])
-					# if self.menu.current_node.current_child is None:
-					self.menu.current_node.current_child = 0
+					if self.menu.current_node.current_child is None:
+						self.menu.current_node.current_child = 0
 				elif self.menu.current_node.menu_data_items:
 					if self.menu.current_node.menu_data_func:
 						logger.info(self.menu.current_node.name + ": data_func")
