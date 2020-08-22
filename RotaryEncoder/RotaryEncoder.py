@@ -404,21 +404,25 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def set_midi_pedal_conf_opts_menu(self, midi_pedal_conf_opt_key, midi_pedal_opt_menu):
-		midi_pedal_opt_menu.add_child(midi_pedal_conf_opt_key, self.execute_midi_pedal_group_opt)
-		# midi_pedal_opt_menu.add_child(midi_pedal_conf_opt_key, self.show_midi_pedal_config_group_opt_details, self.execute_midi_pedal_group_opt)
+		midi_pedal_opt_menu.add_child(midi_pedal_conf_opt_key, self.show_midi_pedal_config_group_opt_details, self.execute_midi_pedal_group_opt)
 
 
 	def show_midi_pedal_config_group_opt_details(self):
-		pass
 		# midi_pedal_name = self.midi_pedal_menu.children[self.midi_pedal_menu.current_child].name
 		# current_pedal_config = self.midi_pedal_config_menu[midi_pedal_name]
 		# config_option_group_name = current_pedal_config.children[current_pedal_config.current_child].name
+		self.menu.current_node.menu_data_items = []
+		self.menu.current_node.menu_data_items.menu_data_prompt = self.menu.current_node.name + ":"
+		self.menu.current_node.menu_data_position = 0
+		midi_pedal_conf_group_opt_dict = self.menu.current_node.parent.menu_data_dict.get(self.menu.current_node.name, None)
+		
+		
 		# current_midi_pedal_config_opt_menu = self.midi_pedal_config_menu[midi_pedal_name].children[self.midi_pedal_config_menu[midi_pedal_name].current_child]
 		# current_midi_pedal_config_opt_menu.menu_data_items = []
 		# current_midi_pedal_config_opt_menu.menu_data_prompt = current_midi_pedal_config_opt_menu.name + ":"
 		# current_midi_pedal_config_opt_menu.menu_data_position = 0
 		# midi_pedal_conf_opt = self.midi_pedal_dict[midi_pedal_name].midi_pedal_conf_dict.get(config_option_group_name, None)
-		# if midi_pedal_conf_opt:
+		if midi_pedal_conf_group_opt_dict:
 		# 	if config_option_group_name in ["Knobs/Switches", "Parameters"]:
 		# 		for midi_pedal_conf_opt_key, midi_pedal_conf_opt_value in midi_pedal_conf_opt.iteritems():
 		# 			if midi_pedal_conf_opt_value:
@@ -428,9 +432,12 @@ class Rotary_Encoder(RgbKnob):
 		# 		self.test_point_node_printer(current_midi_pedal_config_opt_menu)
 		# 	elif config_option_group_name in ["Engage", "Bypass", "Toggle Bypass", "Bank Select", "Set Preset"]:
 		# 		current_midi_pedal_config_opt_menu.menu_data_dict.update(midi_pedal_conf_opt)
-		# 		self.execute_midi_pedal_opt()
-		# else:
-		# 	logger.warn("No dictionary found for this group: " + config_option_group_name)
+			min = midi_pedal_conf_group_opt_dict.get("min", None)
+			max = midi_pedal_conf_group_opt_dict.get("max", None)
+			if min is None and max is None:
+				self.execute_midi_pedal_opt()
+			else:
+				logger.warn("Display min and max so used can choose value: (" + str(min) + ", " + str(max) + ").")
 
 
 	def show_bpm(self):
@@ -494,7 +501,6 @@ class Rotary_Encoder(RgbKnob):
 
 	def execute_midi_pedal_group_opt(self):
 		midi_pedal_name = self.midi_pedal_menu.children[self.midi_pedal_menu.current_child].name
-		midi_pedal_conf_group_name = self.midi_pedal_config_menu[midi_pedal_name].children[self.midi_pedal_config_menu[midi_pedal_name].current_child].name
 		midi_pedal_conf_group_opt_menu = self.midi_pedal_config_menu[midi_pedal_name].children[self.midi_pedal_config_menu[midi_pedal_name].current_child]
 		midi_pedal_conf_group_opt_name = midi_pedal_conf_group_opt_menu.children[midi_pedal_conf_group_opt_menu.current_child].name
 		current_midi_pedal_group_option_dict = midi_pedal_conf_group_opt_menu.menu_data_dict.get(midi_pedal_conf_group_opt_name, None)
@@ -970,7 +976,8 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
 				elif self.menu.current_node.children:
 					logger.info(self.menu.current_node.name + ": deeper menu")
 					self.change_menu_nodes(self.menu.current_node.children[self.menu.current_node.current_child])
-					self.menu.current_node.current_child = 0
+					if self.menu.current_node.current_child == None:
+						self.menu.current_node.current_child = 0
 				elif self.menu.current_node.menu_data_items:
 					if self.menu.current_node.menu_data_func:
 						logger.info(self.menu.current_node.name + ": data_func")
