@@ -439,6 +439,7 @@ class Rotary_Encoder(RgbKnob):
 				self.execute_midi_pedal_opt()
 			else:
 				logger.warn("Display min and max so used can choose value: (" + str(min) + ", " + str(max) + ").")
+				current_midi_pedal_config_opt_menu.menu_data_items = range(min, max + 1)
 
 
 	def show_bpm(self):
