@@ -149,8 +149,8 @@ class Rotary_Encoder(RgbKnob):
 
 	# build menu with N_Tree
 	menu = N_Tree.N_Tree("MidiController")
-	setup_menu = menu.root.add_child("Setup:")
-	global_menu = menu.root.add_child("Global:")
+	setup_menu = menu.root.add_child("Setup")
+	global_menu = menu.root.add_child("Global")
 	rotary_threads = []
 	
 	def __init__(self, **kwargs):		
