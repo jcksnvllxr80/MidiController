@@ -875,7 +875,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def set_children_message(self):
-		if self.menu.current_node.parent not in [None, self.mennu.root]:
+		if self.menu.current_node.parent not in [None, self.menu.root]:
 			display_message = self.menu.current_node.parent.name + ":\n" + self.menu.current_node.name + ":\n" \
 				+ self.menu.current_node.children[self.menu.current_node.current_child].name
 		else:
