@@ -875,7 +875,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def set_children_message(self):
-		self.set_message(self.menu.current_node.name + "\n" + 
+		self.set_message(self.menu.parent.name + ":\n" +self.menu.current_node.name + ":\n" + 
 			self.menu.current_node.children[self.menu.current_node.current_child].name)
 
 
