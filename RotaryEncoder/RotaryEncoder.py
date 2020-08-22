@@ -401,11 +401,35 @@ class Rotary_Encoder(RgbKnob):
 				self.execute_midi_pedal_opt()
 		else:
 			logger.warn("No dictionary found for this group: " + config_option_group_name)
-		
 
 
 	def set_midi_pedal_conf_opts_menu(self, midi_pedal_conf_opt_key, midi_pedal_opt_menu):
-		midi_pedal_opt_menu.add_child(midi_pedal_conf_opt_key, self.execute_midi_pedal_opt)
+		midi_pedal_opt_menu.add_child(midi_pedal_conf_opt_key, self.show_midi_pedal_config_group_opt_details, self.execute_midi_pedal_group_opt)
+
+
+	def show_midi_pedal_config_group_opt_details(self):
+		pass
+		# midi_pedal_name = self.midi_pedal_menu.children[self.midi_pedal_menu.current_child].name
+		# current_pedal_config = self.midi_pedal_config_menu[midi_pedal_name]
+		# config_option_group_name = current_pedal_config.children[current_pedal_config.current_child].name
+		# current_midi_pedal_config_opt_menu = self.midi_pedal_config_menu[midi_pedal_name].children[self.midi_pedal_config_menu[midi_pedal_name].current_child]
+		# current_midi_pedal_config_opt_menu.menu_data_items = []
+		# current_midi_pedal_config_opt_menu.menu_data_prompt = current_midi_pedal_config_opt_menu.name + ":"
+		# current_midi_pedal_config_opt_menu.menu_data_position = 0
+		# midi_pedal_conf_opt = self.midi_pedal_dict[midi_pedal_name].midi_pedal_conf_dict.get(config_option_group_name, None)
+		# if midi_pedal_conf_opt:
+		# 	if config_option_group_name in ["Knobs/Switches", "Parameters"]:
+		# 		for midi_pedal_conf_opt_key, midi_pedal_conf_opt_value in midi_pedal_conf_opt.iteritems():
+		# 			if midi_pedal_conf_opt_value:
+		# 				current_midi_pedal_config_opt_menu.menu_data_items.append(midi_pedal_conf_opt_key)
+		# 				current_midi_pedal_config_opt_menu.menu_data_dict.update({midi_pedal_conf_opt_key: midi_pedal_conf_opt_value})
+		# 				self.set_midi_pedal_conf_opts_menu(midi_pedal_conf_opt_key, current_midi_pedal_config_opt_menu)
+		# 		self.test_point_node_printer(current_midi_pedal_config_opt_menu)
+		# 	elif config_option_group_name in ["Engage", "Bypass", "Toggle Bypass", "Bank Select", "Set Preset"]:
+		# 		current_midi_pedal_config_opt_menu.menu_data_dict.update(midi_pedal_conf_opt)
+		# 		self.execute_midi_pedal_opt()
+		# else:
+		# 	logger.warn("No dictionary found for this group: " + config_option_group_name)
 
 
 	def show_bpm(self):
@@ -464,6 +488,20 @@ class Rotary_Encoder(RgbKnob):
 			logger.info("Executing " + midi_pedal_conf_group_name + " function for " + midi_pedal_name + ".")
 		else:
 			logger.warn("NOT executing " + midi_pedal_conf_group_name + " function for " + midi_pedal_name + " as there are no execution parameters given.")
+		self.change_menu_nodes(self.menu.current_node.parent)
+
+
+	def execute_midi_pedal_group_opt(self):
+		midi_pedal_name = self.midi_pedal_menu.children[self.midi_pedal_menu.current_child].name
+		midi_pedal_conf_group_name = self.midi_pedal_config_menu[midi_pedal_name].children[self.midi_pedal_config_menu[midi_pedal_name].current_child].name
+		midi_pedal_conf_group_opt_menu = self.midi_pedal_config_menu[midi_pedal_name].children[self.midi_pedal_config_menu[midi_pedal_name].current_child]
+		midi_pedal_conf_group_opt_name = midi_pedal_conf_group_opt_menu.children[midi_pedal_conf_group_opt_menu.current_child].name
+		current_midi_pedal_group_option_dict = midi_pedal_conf_group_opt_menu.menu_data_dict.get(midi_pedal_conf_group_opt_name, None)
+		if current_midi_pedal_group_option_dict:
+			logger.info("Executing " + midi_pedal_conf_group_opt_name + " function for " + midi_pedal_name + ".")
+		else:
+			logger.warn("NOT executing " + midi_pedal_conf_group_opt_name + " function for " + midi_pedal_name + " as there are no execution parameters given.")
+		self.change_menu_nodes(self.menu.current_node.parent)
 
 
 	def load_bpm_func(self):
