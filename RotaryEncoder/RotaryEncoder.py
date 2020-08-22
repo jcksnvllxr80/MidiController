@@ -404,7 +404,8 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def set_midi_pedal_conf_opts_menu(self, midi_pedal_conf_opt_key, midi_pedal_opt_menu):
-		midi_pedal_opt_menu.add_child(midi_pedal_conf_opt_key, self.show_midi_pedal_config_group_opt_details, self.execute_midi_pedal_group_opt)
+		midi_pedal_opt_menu.add_child(midi_pedal_conf_opt_key, self.execute_midi_pedal_group_opt)
+		# midi_pedal_opt_menu.add_child(midi_pedal_conf_opt_key, self.show_midi_pedal_config_group_opt_details, self.execute_midi_pedal_group_opt)
 
 
 	def show_midi_pedal_config_group_opt_details(self):
