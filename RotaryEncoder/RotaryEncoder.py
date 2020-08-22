@@ -412,7 +412,7 @@ class Rotary_Encoder(RgbKnob):
 		# current_pedal_config = self.midi_pedal_config_menu[midi_pedal_name]
 		# config_option_group_name = current_pedal_config.children[current_pedal_config.current_child].name
 		self.menu.current_node.menu_data_items = []
-		self.menu.current_node.menu_data_items.menu_data_prompt = self.menu.current_node.name + ":"
+		self.menu.current_node.menu_data_prompt = self.menu.current_node.name + ":"
 		if self.menu.current_node.menu_data_position == None:
 			self.menu.current_node.menu_data_position = 0
 		midi_pedal_conf_group_opt_dict = self.menu.current_node.parent.menu_data_dict.get(self.menu.current_node.name, None)
