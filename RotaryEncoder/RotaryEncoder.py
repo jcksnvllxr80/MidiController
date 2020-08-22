@@ -896,14 +896,17 @@ class Rotary_Encoder(RgbKnob):
 		
 		self.menu.current_node = menu_node
 		
-		if menu_node is self.menu.root:
+		if self.menu.current_node is self.menu.root:
 			self.set_song_info_message()
 		elif self.menu.current_node.children:
 			self.set_children_message()
 		elif self.menu.current_node.func: 
 			logger.info(self.menu.current_node.name + ": menu_func")
 			self.menu.current_node.func()
-			self.set_menu_data_message()
+			if self.menu.current_node.children:
+				self.set_children_message()
+			else:
+				self.set_menu_data_message()
 			self.menu.current_node.menu_data_loaded = True
 		else:
 			logger.error("Error!!")
