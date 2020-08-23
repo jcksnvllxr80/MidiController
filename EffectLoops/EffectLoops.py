@@ -195,11 +195,7 @@ class MidiPedal(Pedal):
         param_info = self.midi_pedal_conf_dict[param_type].get(param, None)
         if param_info:
             config_found = self.check_for_param_then_set(config_found, param_info, param, value)
-            if not config_found:
-                dict_param_info = self.midi_pedal_conf_dict[param_type].get('dict', None)
-                if dict_param_info:
-                    config_found = self.check_for_param_then_set(config_found, param_info, param, value)
-        if not config_found:
+        else:
             logger.info("Configuration option, " + str(param) + ", not found in " + self.name + " \'" + param_type +
                         "\' configuration dict -> " + str(self.midi_pedal_conf_dict[param_type]))
         return config_found
@@ -226,6 +222,8 @@ class MidiPedal(Pedal):
             if value is not None:
                 self.midi.midi_cc_tx(chr(action_dict['cc']), chr(value))
                 param_set = True
+        if param_set:
+            logger.debug("Uh oh! Could not set param to \'{0}\' for some reason.".format(str(value)))
         return param_set
 
     # elif action_dict.get('program change', None):
