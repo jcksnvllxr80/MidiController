@@ -91,12 +91,12 @@ def setup():
 	footswitch_dict = {}
 	rotary_push_button = RotaryEncoder.RotaryPushButton(ROTARY_PUSHBUTTON_PINNUMBER, mode, 
 		kc=knob_color, kb=knob_brightness, sl=setList, s=song, p=part) #initialize the rotaryencoder object
-	footswitch_dict[str(rotary_push_button.getPin())] = rotary_push_button #assign this button to the dictionary
+	footswitch_dict[str(rotary_push_button.get_pin())] = rotary_push_button #assign this button to the dictionary
 
 	for ftsw_btn in button_setup.keys():
 		ft_sw_obj = EffectLoops.ButtonOnPedalBoard(button_setup[ftsw_btn]['function'], button_setup[ftsw_btn].get('partner_func', None), button_setup[ftsw_btn].get('long_press_func', None), ftsw_btn)
 		footswitch_dict.update({
-			str(ft_sw_obj.getPin()): ft_sw_obj
+			str(ft_sw_obj.get_pin()): ft_sw_obj
 		}) 
 
 	#pass a list of midi_pedal objects to the rotary encoder

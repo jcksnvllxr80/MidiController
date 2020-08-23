@@ -139,7 +139,7 @@ class RgbKnob(object):
         self.set_rgb_duty_cycle()  # restore the brightness multiplier of 1
 
 
-class Rotary_Encoder(RgbKnob):
+class RotaryEncoder(RgbKnob):
     """ class for everything to do with the rotary encoder. its parent is RgbKnob """
 
     # NOTE: Need to always display song info (main menu / root of menu tree)
@@ -152,7 +152,7 @@ class Rotary_Encoder(RgbKnob):
     setup_menu = menu.root.add_child("Setup")
     global_menu = menu.root.add_child("Global")
     midi_change_keys = ['cc', 'pc', 'program change']
-    leaf_keys = ['min', 'max', 'on', 'off', 'value', 'dict', 'press', 'release'];
+    leaf_keys = ['min', 'max', 'on', 'off', 'value', 'dict', 'press', 'release']
     leaf_keys.extend(midi_change_keys)
     rotary_threads = []
 
@@ -164,7 +164,7 @@ class Rotary_Encoder(RgbKnob):
         previously_loaded_song = kwargs["s"]
         previously_loaded_part = kwargs["p"]
         # initialize parent class
-        super(Rotary_Encoder, self).__init__(knob_color)
+        super(RotaryEncoder, self).__init__(knob_color)
         self.oled = OledDisplay.OledDisplay()
         # self.lcd = Adafruit_CharLCD.Adafruit_CharLCDPlate() #Rotary_Encoder "has-a" lcd
         self.setlist = PartSongSet.Setlist()  # Rotary_Encoder "has-a" Setlist
@@ -173,10 +173,10 @@ class Rotary_Encoder(RgbKnob):
         # load the set, song, and part that was last used that was saved to the default file
         self.setlist.load_setlist(SET_FOLDER + previously_loaded_set)
         self.current_song = self.setlist.songs.head
-        while self.current_song.next is not None and previously_loaded_song <> self.current_song.data.name:
+        while self.current_song.next is not None and previously_loaded_song != self.current_song.data.name:
             self.current_song = self.current_song.next
         self.current_part = self.current_song.data.parts.head
-        while self.current_part.next is not None and previously_loaded_part <> self.current_part.data.part_name:
+        while self.current_part.next is not None and previously_loaded_part != self.current_part.data.part_name:
             self.current_part = self.current_part.next
         self.displayed_song = self.current_song
         self.displayed_part = self.current_part
@@ -258,12 +258,14 @@ class Rotary_Encoder(RgbKnob):
         self.about_menu.menu_data_position = self.about_menu.menu_data_items.index('IP')
         self.test_point_node_printer(self.about_menu)
 
-    def get_ip(self):
+    @staticmethod
+    def get_ip():
         cmd = "hostname -I | grep -Eo \"([0-9]{1,3}[\.]){3}[0-9]{1,3}\""  # "hostname -I | cut -d\' \' -f1"
         ip_addresses = subprocess.check_output(cmd, shell=True)
         return "IP: - " + str(ip_addresses)
 
-    def get_stats(self):
+    @staticmethod
+    def get_stats():
         cmd = "top -bn1 | grep load | awk '{printf \"CPU Load: %.2f\", $(NF-2)}'"
         cpu_usage = subprocess.check_output(cmd, shell=True)
         cmd = "free -m | awk 'NR==2{printf \"Mem: %s/%sMB %.2f%%\", $3,$2,$3*100/$2 }'"
@@ -519,7 +521,7 @@ class Rotary_Encoder(RgbKnob):
             midi_pedal_conf_group_name, None)
         if current_midi_pedal_option_dict:
             logger.info("Executing " + midi_pedal_conf_group_name + " function for " + midi_pedal_name + ".")
-            self.make_midi_pedal_parameter_change(current_midi_pedal_option_dict)
+            # self.make_midi_pedal_parameter_change(current_midi_pedal_option_dict)
         else:
             logger.warn(
                 "NOT executing " + midi_pedal_conf_group_name + " function for " + midi_pedal_name +
@@ -536,13 +538,16 @@ class Rotary_Encoder(RgbKnob):
             midi_pedal_conf_group_opt_name, None)
         if current_midi_pedal_group_option_dict:
             logger.info("Executing " + midi_pedal_conf_group_opt_name + " function for " + midi_pedal_name + ".")
+            self.make_midi_pedal_parameter_change(current_midi_pedal_group_option_dict,
+                                                  self.menu.current_node.menu_data_items[
+                                                      self.menu.current_node.menu_data_position])
         else:
             logger.warn(
                 "NOT executing " + midi_pedal_conf_group_opt_name + " function for " + midi_pedal_name +
                 " as there are no execution parameters given.")
         self.change_menu_nodes(self.menu.current_node.parent)
 
-    def make_midi_pedal_parameter_change(self, params):
+    def make_midi_pedal_parameter_change(self, params, value):
         midi_pedal_name = self.midi_pedal_menu.children[self.midi_pedal_menu.current_child].name
         self.midi_pedal_dict[midi_pedal_name].set_params(params)
 
@@ -788,7 +793,7 @@ class Rotary_Encoder(RgbKnob):
         if button:
             if button <= self.current_song.data.parts.getLength() and \
                     not self.current_part == self.current_song.data.parts.index_to_node(
-                    button):
+                        button):
                 self.current_part = self.current_song.data.parts.index_to_node(button)
                 self.load_part()
 
@@ -913,7 +918,7 @@ class Rotary_Encoder(RgbKnob):
             self.set_message("Error!!")
 
 
-class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
+class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, RotaryEncoder):
     """ class to handle button pushes on the rotary encoder knob. its parents are 'ButtonOnPedalBoard' from the
     'EffectLoops' package and 'Rotary_Encoder' """
 
@@ -923,7 +928,7 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
         # func_two_port = "None"
         self.mode = mode
         name = "RotaryPB"
-        Rotary_Encoder.__init__(self, **kwargs)  # initialize parent class rotary encoder
+        RotaryEncoder.__init__(self, **kwargs)  # initialize parent class rotary encoder
         # initialize parent class ButtonOnPedalBoard
         super(RotaryPushButton, self).__init__(name, None, None, button)
 
@@ -946,8 +951,8 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
     @staticmethod
     def write_config(config_dict):
         # write to config yaml file from dictionaries
-        with open(CONFIG_FILE, 'w') as file:
-            yaml.dump(config_dict, file)
+        with open(CONFIG_FILE, 'w') as ymlfile:
+            yaml.dump(config_dict, ymlfile)
 
     @staticmethod
     def read_config():
@@ -998,7 +1003,7 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
                     self.change_menu_nodes(self.menu.current_node.parent)
             else:
                 if delta_t > 5:  # if button held for more than 5 seconds
-                    if not self.menu.current_node is self.power_menu:
+                    if self.menu.current_node is not self.power_menu:
                         logger.info(self.menu.current_node.name + ": ? -> power menu")
                         self.change_menu_nodes(self.power_menu)
                 elif self.menu.current_node is self.menu.root:  # if the button was pressed between 2 and 5 secs
