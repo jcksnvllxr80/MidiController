@@ -306,15 +306,17 @@ class Rotary_Encoder(RgbKnob):
 
     # self.change_menu_nodes(self.about_menu.parent)
 
-    def test_point_node_printer(self, the_node):
+    @staticmethod
+    def test_point_node_printer(the_node):
+        this_data_item = str(None)
         try:
-            this_data_item = str(None)
             if the_node.menu_data_items:
                 this_data_item = str(the_node.menu_data_items[the_node.menu_data_position])
             logger.info("\nnode: " + str(the_node) + "prompt: " + the_node.menu_data_prompt +
                         "\nitems: " + str(the_node.menu_data_items) + "\ncurrent item: " + this_data_item +
                         "\nposition: " + str(the_node.menu_data_position))
-        except:
+        except Exception as e:
+            logger.exception(e)
             logger.error("Ran into an error trying to print using stuff using the following data:" +
                          "\nnode: " + str(the_node) +
                          "\nprompt: " + str(the_node.menu_data_prompt) +
@@ -420,8 +422,8 @@ class Rotary_Encoder(RgbKnob):
                                                                                           None)
         if midi_pedal_conf_group_opt_dict:
             if any([k in midi_pedal_conf_group_opt_dict for k in self.leaf_keys]):
-                min = midi_pedal_conf_group_opt_dict.get("min", None)
-                max = midi_pedal_conf_group_opt_dict.get("max", None)
+                min_val = midi_pedal_conf_group_opt_dict.get("min", None)
+                max_val = midi_pedal_conf_group_opt_dict.get("max", None)
                 cc = midi_pedal_conf_group_opt_dict.get("cc", None)
                 pc = midi_pedal_conf_group_opt_dict.get("pc", None)
                 program_change = midi_pedal_conf_group_opt_dict.get("program change", None)
@@ -435,7 +437,7 @@ class Rotary_Encoder(RgbKnob):
                     if min is not None and max is not None:
                         logger.warn(
                             "Display min and max so user can choose value: (" + str(min) + ", " + str(max) + ").")
-                        self.menu.current_node.menu_data_items = range(min, max + 1)
+                        self.menu.current_node.menu_data_items = range(min_val, max_val + 1)
                     elif on is not None and off is not None:
                         logger.warn("Display off and on so user can choose value: (off: " + str(off) + ", on: " + str(
                             on) + ").")
@@ -461,7 +463,8 @@ class Rotary_Encoder(RgbKnob):
                         self.set_midi_pedal_conf_opts_menu(midi_pedal_deeper_conf_opt_key, self.menu.current_node)
                 self.test_point_node_printer(self.menu.current_node)
 
-    def menu_data_item_position_init(self, current_value):
+    @staticmethod
+    def menu_data_item_position_init(current_value):
         return 0 if current_value is None else current_value
 
     # def show_bpm(self):
@@ -515,6 +518,7 @@ class Rotary_Encoder(RgbKnob):
             midi_pedal_conf_group_name, None)
         if current_midi_pedal_option_dict:
             logger.info("Executing " + midi_pedal_conf_group_name + " function for " + midi_pedal_name + ".")
+            self.make_midi_pedal_parameter_change(current_midi_pedal_option_dict)
         else:
             logger.warn(
                 "NOT executing " + midi_pedal_conf_group_name + " function for " + midi_pedal_name + " as there are no execution parameters given.")
@@ -635,8 +639,9 @@ class Rotary_Encoder(RgbKnob):
                         "current node name: " + self.menu.current_node.name + ",\nnumber of children in node: " +
                         str(len(self.menu.current_node.children)) + ",\ncurrent child in node: " +
                         str(self.menu.current_node.current_child))
-                except:
-                    logger.info(sys.exc_info()[0])
+                except Exception as e:
+                    logger.exception(e)
+                    # logger.info(sys.exc_info()[0])
                     logger.info("current node name: " + self.menu.current_node.name + ",\ncurrent child in node: " +
                                 str(self.menu.current_node.current_child))
             else:
@@ -650,7 +655,7 @@ class Rotary_Encoder(RgbKnob):
                                 str(self.menu.current_node.menu_data_position))
                 except Exception as e:
                     logger.exception(e)
-                    logger.info(sys.exc_info()[0])
+                    # logger.info(sys.exc_info()[0])
                     logger.info("current node name: " + self.menu.current_node.name + ",\ncurrent elem in list: " +
                                 str(self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]))
 
@@ -855,13 +860,13 @@ class Rotary_Encoder(RgbKnob):
     def next_menu_list_item(self):
         if self.menu.current_node.menu_data_position < len(self.menu.current_node.menu_data_items) - 1:
             self.menu.current_node.menu_data_position += 1
-            self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]
+            # self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]
             self.set_menu_data_message()
 
     def prev_menu_list_item(self):
         if self.menu.current_node.menu_data_position > 0:
             self.menu.current_node.menu_data_position -= 1
-            self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]
+            # self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]
             self.set_menu_data_message()
 
     def set_children_message(self):
@@ -934,12 +939,14 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
             logger.info("Mode switched to " + self.mode + " mode.")
         self.save_mode_to_default()
 
-    def write_config(self, config_dict):
+    @staticmethod
+    def write_config(config_dict):
         # write to config yaml file from dictionaries
         with open(CONFIG_FILE, 'w') as file:
             yaml.dump(config_dict, file)
 
-    def read_config(self):
+    @staticmethod
+    def read_config():
         # read config yaml file into dictionaries
         with open(CONFIG_FILE, 'r') as ymlfile:
             config_file = yaml.full_load(ymlfile)
@@ -990,7 +997,7 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, Rotary_Encoder):
                     if not self.menu.current_node is self.power_menu:
                         logger.info(self.menu.current_node.name + ": ? -> power menu")
                         self.change_menu_nodes(self.power_menu)
-                elif self.menu.current_node is self.menu.root:  # if the button was pressed btwn 2 and 5 secs
+                elif self.menu.current_node is self.menu.root:  # if the button was pressed between 2 and 5 secs
                     logger.info(self.menu.current_node.name + ": ? -> global menu")
                     self.change_menu_nodes(self.global_menu)  # if the currentmenu is mainmenu swap to 'Global'
                 else:
