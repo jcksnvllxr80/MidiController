@@ -8,7 +8,7 @@ from PIL import ImageFont
 from PIL import ImageDraw
 
 
-DISPLAY_X_START = 3
+DISPLAY_X_START = 4
 RST = 25
 DC = 12
 SPI_PORT = 0
