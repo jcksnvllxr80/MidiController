@@ -75,15 +75,15 @@ Parameters:
     notes: "0-2 (round a, b, c) - 3-5 (chime a, b, c) - 6-8 (punch a, b, c)" 
     cc: 20
     dict:
-      round a: 0
-      round b: 1
-      round c: 2
-      chime a: 3
-      chime b: 4
-      chime c: 5
-      punch a: 6
-      punch b: 7
-      punch c: 8
+      round 1x12 Fender - Deluxe Reverb: 0
+      round 1x12 Fender - Blues Junior: 1
+      round 2x10 Fender - Vibrolux: 2
+      chime 2x12 Vox - AC30-6 open back fawn: 3
+      chime 1x12 Custom cab - Celestion Blue AlNiCo: 4
+      chime 4x12 Mesa/Boogie - Half-Back: 5
+      punch 4x12 Marshall - Celestion G12M-25s: 6
+      punch 2x12 Custom cab - Celestion Vintage 30s: 7
+      punch 8x12 Marshall - Celestion T652s: 8
   Footswitch Fav:
     notes: "0 = release - 1 thru 127 = press"
     cc: 27
