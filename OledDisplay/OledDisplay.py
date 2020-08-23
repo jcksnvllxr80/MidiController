@@ -8,6 +8,7 @@ from PIL import ImageFont
 from PIL import ImageDraw
 
 
+DISPLAY_X_START = 3
 RST = 25
 DC = 12
 SPI_PORT = 0
@@ -89,8 +90,8 @@ class OledDisplay(object):
 	def draw_left_justified(self, msg, draw, y, textColor):
 		for str in msg.split(" - "):
 			xMax, yMax = draw.textsize(str, font=self.font_type)
-			x = 1
-			draw.text((x, y), str, font=self.font_type, fill=textColor) 
+			DISPLAY_X_START = 1
+			draw.text((DISPLAY_X_START, y), str, font=self.font_type, fill=textColor) 
 			y += yMax + 2
 
 
