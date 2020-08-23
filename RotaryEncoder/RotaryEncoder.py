@@ -442,7 +442,7 @@ class Rotary_Encoder(RgbKnob):
 				self.test_point_node_printer(self.menu.current_node)
 
 
-	def self.menu_data_item_position_init(self, current_value):
+	def menu_data_item_position_init(self, current_value):
 		return current_value is None if 0 else current_value
 
 
