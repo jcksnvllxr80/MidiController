@@ -258,7 +258,7 @@ class MidiPedal(Pedal):
     def convert_to_int(change_dict, v):
         converted_to_int = None
         try:
-            dict_val = change_dict.get(v, None)
+            dict_val = change_dict.get(v, change_dict.get('dict', {}).get(v, None))
             if dict_val is not None:
                 converted_to_int = int(dict_val)
             else:
