@@ -88,8 +88,10 @@ class OledDisplay(object):
 
 	def draw_left_justified(self, msg, draw, y, textColor):
 		for str in msg.split(" - "):
+			xMax, yMax = draw.textsize(str, font=self.font_type)
 			x = 1
 			draw.text((x, y), str, font=self.font_type, fill=textColor) 
+			y += yMax + 2
 
 
 	def set_font(self, font_type=None, font_size=None):
