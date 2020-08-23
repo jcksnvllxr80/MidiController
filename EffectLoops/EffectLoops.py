@@ -117,6 +117,7 @@ class ButtonOnPedalBoard(object):
 
 
 class MidiPedal(Pedal):
+    params_types = ['Knobs/Switches', 'Parameters']
 
     def __init__(self, name, state, midi_channel, commands, preset):
         self.preset = preset
@@ -183,14 +184,10 @@ class MidiPedal(Pedal):
             logger.info(self.name + " setting " + str(setting) + " was not found in the pedal config.")
 
     def set_params(self, params):
-        if self.midi_pedal_conf_dict["Parameters"]:
-            for param, value in params.iteritems():
-                self.set_param(param, value, "Parameters")
-        elif self.midi_pedal_conf_dict["Knobs/Switches"]:
-            for param, value in params.iteritems():
-                self.set_param(param, value, "Knobs/Switches")
-        else:
-            logger.info(self.name + " pedal configuration dictionary doesn't have the option we are looking for.")
+        for param_type in self.params_types:
+            if self.midi_pedal_conf_dict[param_type]:
+                for param, value in params.iteritems():
+                    self.set_param(param, value, param_type)
 
     def set_param(self, param, value, param_type):
         param_info = self.midi_pedal_conf_dict[param_type].get(param, None)
@@ -201,7 +198,7 @@ class MidiPedal(Pedal):
             else:
                 logger.info(self.name + " parameter " + str(param) + " not set.")
         else:
-            logger.info("Configuration option, " + str(param) + ", not found in " + self.name +
+            logger.info("Configuration option, " + str(param) + ", not found in " + self.name + " " + param_type +
                         " configuration dict -> " + str(self.midi_pedal_conf_dict[param_type]))
 
     def determine_parameter_method(self, action_dict, parameter, value=None):
