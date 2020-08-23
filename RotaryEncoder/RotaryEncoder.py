@@ -427,7 +427,7 @@ class Rotary_Encoder(RgbKnob):
 				cc = midi_pedal_conf_group_opt_dict.get("cc", None)
 				pc = midi_pedal_conf_group_opt_dict.get("pc", None)
 				program_change = midi_pedal_conf_group_opt_dict.get("program change", None)
-				val = midi_pedal_conf_group_opt_dict.get("val", None)
+				val = midi_pedal_conf_group_opt_dict.get("value", None)
 				on = midi_pedal_conf_group_opt_dict.get("on", None)
 				off = midi_pedal_conf_group_opt_dict.get("off", None)
 				if cc is not None or pc is not None or program_change is not None:
