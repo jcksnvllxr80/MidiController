@@ -1,16 +1,16 @@
 Knobs/Switches:
   Footswitch A:
     cc: 80
-    off: 127
-    on: 0 
+    'off': 127
+    'on': 0 
   Footswitch B:
     cc: 82
-    off: 127
-    on: 0 
+    'off': 127
+    'on': 0 
   Footswitch C:
     cc: 81
-    off: 127
-    on: 0
+    'off': 127
+    'on': 0
   Remote Tap: 
     cc: 93
     value: 1 # doesnt matter what value
@@ -20,8 +20,8 @@ Knobs/Switches:
     max: 127
   Hold Switch:
     cc: 97
-    off: 0
-    on: 127
+    'off': 0
+    'on': 127
   Type: 
     cc: 19 
     min: 0
@@ -64,20 +64,20 @@ Parameters:
     max: 60
   Persist: 
     cc: 22
-    off: 0
-    on: 1
+    'off': 0
+    'on': 1
   Freeze Infinite:
     cc: 70
-    off: 0
-    on: 1
+    'off': 0
+    'on': 1
   Expression:
     cc: 60
-    off: 0
-    on: 1
+    'off': 0
+    'on': 1
   MIDI Clock: 
     cc: 71
-    off: 0
-    on: 1
+    'off': 0
+    'on': 1
   Room:
     Low End:
       cc: 61

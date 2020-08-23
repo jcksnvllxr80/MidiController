@@ -17,8 +17,8 @@ Set Preset:
 Parameters:
   Global Tempo:
     cc: 98
-    off: 0
-    on: 127
+    'off': 0
+    'on': 127
   Tap Tempo:
     cc: 93
     value: 1 # any value can be used
