@@ -549,7 +549,7 @@ class RotaryEncoder(RgbKnob):
 
     def make_midi_pedal_parameter_change(self, option, value):
         midi_pedal_name = self.midi_pedal_menu.children[self.midi_pedal_menu.current_child].name
-        self.midi_pedal_dict[midi_pedal_name].set_params({option, value})
+        self.midi_pedal_dict[midi_pedal_name].set_params(dict({option, value}))
 
     # def load_bpm_func(self):
     #     self.current_song.data.bpm = str(self.bpm_menu.menu_data_items[self.bpm_menu.menu_data_position])
