@@ -151,7 +151,8 @@ class Rotary_Encoder(RgbKnob):
 	menu = N_Tree.N_Tree("MidiController")
 	setup_menu = menu.root.add_child("Setup")
 	global_menu = menu.root.add_child("Global")
-	leaf_keys = ['cc', 'pc', 'min', 'max', 'on', 'off', 'val']
+	midi_change_keys = ['cc', 'pc', 'program change']
+	leaf_keys = ['min', 'max', 'on', 'off', 'value']; leaf_keys.extend(midi_change_keys)
 	rotary_threads = []
 	
 	def __init__(self, **kwargs):		
@@ -425,10 +426,11 @@ class Rotary_Encoder(RgbKnob):
 				max = midi_pedal_conf_group_opt_dict.get("max", None)
 				cc = midi_pedal_conf_group_opt_dict.get("cc", None)
 				pc = midi_pedal_conf_group_opt_dict.get("pc", None)
+				program_change = midi_pedal_conf_group_opt_dict.get("program change", None)
 				val = midi_pedal_conf_group_opt_dict.get("val", None)
 				on = midi_pedal_conf_group_opt_dict.get("on", None)
 				off = midi_pedal_conf_group_opt_dict.get("off", None)
-				if cc is not None or pc is not None :
+				if cc is not None or pc is not None or program_change is not None:
 					if min is not None and max is not None:
 						logger.warn("Display min and max so user can choose value: (" + str(min) + ", " + str(max) + ").")
 						self.menu.current_node.menu_data_items = range(min, max + 1)
