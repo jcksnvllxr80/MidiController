@@ -22,11 +22,16 @@ Bypass:
   cc: 102
   value: 0 # turns pedal off
 Parameters:
-  Volume:
+  Volume Pedal:
     notes: "min volume 0 - max volume 127"
     cc: 7
     min: 0
     max: 127
+  Volume Pedal Pre/Post:
+    cc: 9
+    dict:
+      pre: 0
+      post: 127
   Level:
     notes: "min level 0 - max level 127"
     cc: 12
