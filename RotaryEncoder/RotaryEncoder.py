@@ -443,7 +443,7 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def menu_data_item_position_init(self, current_value):
-		return current_value is None if 0 else current_value
+		return 0 if current_value is None else current_value
 
 
 	def show_bpm(self):
