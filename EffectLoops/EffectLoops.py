@@ -222,7 +222,7 @@ class MidiPedal(Pedal):
             if value is not None:
                 self.midi.midi_cc_tx(chr(action_dict['cc']), chr(value))
                 param_set = True
-        if param_set:
+        if not param_set:
             logger.debug("Uh oh! Could not set param to \'{0}\' for some reason.".format(str(value)))
         return param_set
 
