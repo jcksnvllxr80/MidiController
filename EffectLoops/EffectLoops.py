@@ -184,22 +184,32 @@ class MidiPedal(Pedal):
             logger.info(self.name + " setting " + str(setting) + " was not found in the pedal config.")
 
     def set_params(self, params):
-        for param_type in self.params_types:
-            if self.midi_pedal_conf_dict[param_type]:
-                for param, value in params.iteritems():
-                    self.set_param(param, value, param_type)
+        for param, value in params.iteritems():
+            for param_type in self.params_types:
+                if self.midi_pedal_conf_dict[param_type]:
+                    if self.set_param(param, value, param_type):
+                        break  # break for the inner for loop and then find the next (param, value) pair
 
     def set_param(self, param, value, param_type):
         param_info = self.midi_pedal_conf_dict[param_type].get(param, None)
+        config_found = False
         if param_info:
-            param_was_set = self.determine_parameter_method(param_info, param, value)
-            if param_was_set:
-                logger.info(self.name + " parameter " + str(param) + " set to " + str(value) + ".")
-            else:
-                logger.info(self.name + " parameter " + str(param) + " not set.")
+            config_found = self.check_for_param_then_set(config_found, param_info, param, value)
+        elif param_info['dict']:
+            config_found = self.check_for_param_then_set(config_found, param_info['dict'], param, value)
         else:
-            logger.info("Configuration option, " + str(param) + ", not found in " + self.name + " " + param_type +
-                        " configuration dict -> " + str(self.midi_pedal_conf_dict[param_type]))
+            logger.info("Configuration option, " + str(param) + ", not found in " + self.name + " \'" + param_type +
+                        "\' configuration dict -> " + str(self.midi_pedal_conf_dict[param_type]))
+        return config_found
+
+    def check_for_param_then_set(self, config_found, param_info, param, value):
+        param_was_set = self.determine_parameter_method(param_info, param, value)
+        if param_was_set:
+            logger.info(self.name + " parameter \'" + str(param) + "\' set to " + str(value) + ".")
+            config_found = True
+        else:
+            logger.info(self.name + " parameter \'" + str(param) + "\' not set.")
+        return config_found
 
     def determine_parameter_method(self, action_dict, parameter, value=None):
         param_set = False
