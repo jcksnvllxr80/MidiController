@@ -313,14 +313,21 @@ class Rotary_Encoder(RgbKnob):
 
 
 	def test_point_node_printer(self, the_node):
-		if the_node.menu_data_items:
-			this_data_item = str(the_node.menu_data_items[the_node.menu_data_position])
-		else:
-			this_data_item = str(None)
-		logger.info("\nnode: " + str(the_node) + "prompt: " + the_node.menu_data_prompt + 
-			"\nitems: " + str(the_node.menu_data_items) + "\ncurrent item: " + this_data_item + 
-			"\nposition: " + str(the_node.menu_data_position))
-
+		try:
+			if the_node.menu_data_items:
+				this_data_item = str(the_node.menu_data_items[the_node.menu_data_position])
+			else:
+				this_data_item = str(None)
+			logger.info("\nnode: " + str(the_node) + "prompt: " + the_node.menu_data_prompt + 
+				"\nitems: " + str(the_node.menu_data_items) + "\ncurrent item: " + this_data_item + 
+				"\nposition: " + str(the_node.menu_data_position))
+		except:
+			logger.error("Ran into an error trying to print using stuff using the following data:" + 
+				"\nnode: " + str(the_node) + 
+				"\nprompt: " + str(the_node.menu_data_prompt) + 
+				"\ninserting this data position: " + str(the_node.menu_data_position) + 
+				" into these items: " + str(the_node.menu_data_items) + 
+				" produced this current item: " + this_data_item + ".")
 
 	def show_setlists(self):
 		# read setlist files from folder where they belong
