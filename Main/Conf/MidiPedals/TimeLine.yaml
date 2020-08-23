@@ -1,8 +1,19 @@
 Knobs/Switches:
   Type: 
     cc: 19 
-    min: 0
-    max: 11
+    dict:
+      dTape: 0
+      dBucket: 1
+      Digital: 2
+      Dual: 3
+      Pattern: 4
+      Reverse: 5
+      Ice: 6
+      Duck: 7
+      Swell: 8
+      Trim: 9
+      Filter: 10
+      Lo-Fi: 11
   Time: 
     cc: 3 
     min: 0

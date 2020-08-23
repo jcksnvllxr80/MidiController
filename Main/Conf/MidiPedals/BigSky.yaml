@@ -24,8 +24,19 @@ Knobs/Switches:
     'on': 127
   Type: 
     cc: 19 
-    min: 0
-    max: 11
+    dict:
+      Room: 0
+      Hall: 1
+      Plate: 2
+      Spring: 3
+      Swell: 4
+      Bloom: 5
+      Cloud: 6
+      Chorale: 7
+      Shimmer: 8
+      Magneto: 9
+      Non-linear: 10
+      Reflections: 11
   Value: 
     cc: 20 
     min: 0

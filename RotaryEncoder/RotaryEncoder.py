@@ -152,7 +152,7 @@ class Rotary_Encoder(RgbKnob):
 	setup_menu = menu.root.add_child("Setup")
 	global_menu = menu.root.add_child("Global")
 	midi_change_keys = ['cc', 'pc', 'program change']
-	leaf_keys = ['min', 'max', 'on', 'off', 'value']; leaf_keys.extend(midi_change_keys)
+	leaf_keys = ['min', 'max', 'on', 'off', 'value', 'dict', 'press', 'release']; leaf_keys.extend(midi_change_keys)
 	rotary_threads = []
 	
 	def __init__(self, **kwargs):		
@@ -430,6 +430,9 @@ class Rotary_Encoder(RgbKnob):
 				val = midi_pedal_conf_group_opt_dict.get("value", None)
 				on = midi_pedal_conf_group_opt_dict.get("on", None)
 				off = midi_pedal_conf_group_opt_dict.get("off", None)
+				opt_dict = midi_pedal_conf_group_opt_dict.get("dict", None)
+				press = midi_pedal_conf_group_opt_dict.get("press", None)
+				release = midi_pedal_conf_group_opt_dict.get("release", None)
 				if cc is not None or pc is not None or program_change is not None:
 					if min is not None and max is not None:
 						logger.warn("Display min and max so user can choose value: (" + str(min) + ", " + str(max) + ").")
@@ -437,6 +440,12 @@ class Rotary_Encoder(RgbKnob):
 					elif on is not None and off is not None:
 						logger.warn("Display off and on so user can choose value: (off: " + str(off) + ", on: " + str(on) + ").")
 						self.menu.current_node.menu_data_items = ['off', 'on']
+					elif press is not None and release is not None:
+						logger.warn("Display press and release so user can choose value: (press: " + str(press) + ", release: " + str(release) + ").")
+						self.menu.current_node.menu_data_items = ['press', 'release']
+					elif opt_dict:
+						logger.warn("Display press and release so user can choose value: (press: " + str(press) + ", release: " + str(release) + ").")
+						self.menu.current_node.menu_data_items = opt_dict.keys()
 					elif val is not None:
 						self.execute_midi_pedal_opt()
 				else:

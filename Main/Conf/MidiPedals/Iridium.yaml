@@ -60,33 +60,45 @@ Parameters:
   Room Size:
     notes: "1 = small - 2 = medium - 3 = large"
     cc: 18
-    min: 1
-    max: 3
+    dict:
+      small: 1
+      medium: 2
+      large: 3
   Amp:
     notes: "1 = round - 2 = chime - 3 = punch"
     cc: 19
-    min: 1
-    max: 3
+    dict:
+      round: 1
+      chime: 2
+      punch: 3
   Cab:
     notes: "0-2 (round a, b, c) - 3-5 (chime a, b, c) - 6-8 (punch a, b, c)" 
     cc: 20
-    min: 0
-    max: 8
+    dict:
+      round a: 0
+      round b: 1
+      round c: 2
+      chime a: 3
+      chime b: 4
+      chime c: 5
+      punch a: 6
+      punch b: 7
+      punch c: 8
   Footswitch Fav:
     notes: "0 = release - 1 thru 127 = press"
     cc: 27
-    min: 0
-    max: 127
+    press: 127
+    release: 0
   Footswitch On:
     notes: "0 = release - 1 thru 127 = press"
     cc: 28
-    min: 0
-    max: 127
+    press: 127
+    release: 0
   MIDI Expression:
     notes: "0 = off - 1 thru 127 = on"
     cc: 60
-    min: 0
-    max: 127
+    'off': 0
+    'on': 127
   Expression Pedal:
     notes: "min exp pedal 0 - max exp pedal 127"
     cc: 100
