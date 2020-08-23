@@ -191,12 +191,15 @@ class MidiPedal(Pedal):
                         break  # break for the inner for loop and then find the next (param, value) pair
 
     def set_param(self, param, value, param_type):
-        param_info = self.midi_pedal_conf_dict[param_type]\
-            .get(param, self.midi_pedal_conf_dict[param_type].get('dict', {}).get(param, None))
         config_found = False
+        param_info = self.midi_pedal_conf_dict[param_type].get(param, None)
         if param_info:
             config_found = self.check_for_param_then_set(config_found, param_info, param, value)
-        else:
+            if not config_found:
+                dict_param_info = self.midi_pedal_conf_dict[param_type].get('dict', None)
+                if dict_param_info:
+                    config_found = self.check_for_param_then_set(config_found, param_info, param, value)
+        if not config_found:
             logger.info("Configuration option, " + str(param) + ", not found in " + self.name + " \'" + param_type +
                         "\' configuration dict -> " + str(self.midi_pedal_conf_dict[param_type]))
         return config_found
