@@ -434,9 +434,9 @@ class Rotary_Encoder(RgbKnob):
                 press = midi_pedal_conf_group_opt_dict.get("press", None)
                 release = midi_pedal_conf_group_opt_dict.get("release", None)
                 if cc is not None or pc is not None or program_change is not None:
-                    if min is not None and max is not None:
+                    if min_val is not None and max_val is not None:
                         logger.warn(
-                            "Display min and max so user can choose value: (" + str(min) + ", " + str(max) + ").")
+                            "Display min and max so user can choose value: (" + str(min_val) + ", " + str(max_val) + ").")
                         self.menu.current_node.menu_data_items = range(min_val, max_val + 1)
                     elif on is not None and off is not None:
                         logger.warn("Display off and on so user can choose value: (off: " + str(off) + ", on: " + str(
