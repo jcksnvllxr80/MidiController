@@ -414,7 +414,7 @@ class Rotary_Encoder(RgbKnob):
 		self.menu.current_node.menu_data_position = 0
 		midi_pedal_conf_group_opt_dict = self.menu.current_node.parent.menu_data_dict.get(self.menu.current_node.name, None)
 		if midi_pedal_conf_group_opt_dict:
-			if any([k in midi_pedal_conf_group_opt_dict for k in leaf_keys]):
+			if any([k in midi_pedal_conf_group_opt_dict for k in self.leaf_keys]):
 				min = midi_pedal_conf_group_opt_dict.get("min", None)
 				max = midi_pedal_conf_group_opt_dict.get("max", None)
 				cc = midi_pedal_conf_group_opt_dict.get("cc", None)
@@ -431,7 +431,7 @@ class Rotary_Encoder(RgbKnob):
 					if midi_pedal_deeper_conf_opt_value:
 						self.menu.current_node.menu_data_items.append(midi_pedal_deeper_conf_opt_key)
 						self.menu.current_node.menu_data_dict.update({midi_pedal_deeper_conf_opt_key: midi_pedal_deeper_conf_opt_value})
-						self.set_midi_pedal_conf_opts_menu(midi_pedal_conf_opt_key, self.menu.current_node)
+						self.set_midi_pedal_conf_opts_menu(midi_pedal_deeper_conf_opt_key, self.menu.current_node)
 				self.test_point_node_printer(self.menu.current_node)
 
 
