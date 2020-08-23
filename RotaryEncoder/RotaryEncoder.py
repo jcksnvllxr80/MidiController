@@ -538,18 +538,18 @@ class RotaryEncoder(RgbKnob):
             midi_pedal_conf_group_opt_name, None)
         if current_midi_pedal_group_option_dict:
             logger.info("Executing " + midi_pedal_conf_group_opt_name + " function for " + midi_pedal_name + ".")
-            self.make_midi_pedal_parameter_change(current_midi_pedal_group_option_dict,
-                                                  self.menu.current_node.menu_data_items[
-                                                      self.menu.current_node.menu_data_position])
+            selected_value = self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]
+            selected_value = current_midi_pedal_group_option_dict.get(selected_value, selected_value)
+            self.make_midi_pedal_parameter_change(midi_pedal_conf_group_opt_name, selected_value)
         else:
             logger.warn(
                 "NOT executing " + midi_pedal_conf_group_opt_name + " function for " + midi_pedal_name +
                 " as there are no execution parameters given.")
         self.change_menu_nodes(self.menu.current_node.parent)
 
-    def make_midi_pedal_parameter_change(self, params, value):
+    def make_midi_pedal_parameter_change(self, option, value):
         midi_pedal_name = self.midi_pedal_menu.children[self.midi_pedal_menu.current_child].name
-        self.midi_pedal_dict[midi_pedal_name].set_params(params)
+        self.midi_pedal_dict[midi_pedal_name].set_params({option, value})
 
     # def load_bpm_func(self):
     #     self.current_song.data.bpm = str(self.bpm_menu.menu_data_items[self.bpm_menu.menu_data_position])
