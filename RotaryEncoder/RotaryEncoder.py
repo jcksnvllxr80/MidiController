@@ -1,19 +1,18 @@
 # import python packages
-import sys
-import time
-import RPi.GPIO as GPIO
-import os
-import yaml
-# import custom packages
-import EffectLoops
-# import Adafruit_CharLCD
-import OledDisplay
-import PartSongSet
-import N_Tree
-from numpy import arange, cos
 import logging
+import os
 import subprocess
 import threading
+import time
+
+import RPi.GPIO as GPIO
+import yaml
+from numpy import arange, cos
+
+import EffectLoops
+import N_Tree
+import OledDisplay
+import PartSongSet
 
 """   ############ USAGE ###############
 logger.info("info message")
@@ -225,8 +224,8 @@ class Rotary_Encoder(RgbKnob):
         for midi_pedal_conf in os.listdir(MIDI_PEDAL_CONF_FOLDER):
             if midi_pedal_conf[-5:] == ".yaml":
                 midi_pedal_name = midi_pedal_conf[:-5]
-                self.midi_pedal_config_menu[midi_pedal_name] = self.midi_pedal_menu.add_child(midi_pedal_name,
-                                                                                              self.show_midi_pedal_configuration_groups)
+                self.midi_pedal_config_menu[midi_pedal_name] = \
+                    self.midi_pedal_menu.add_child(midi_pedal_name, self.show_midi_pedal_configuration_groups)
 
     # TODO: this is broken. it should be a way to set the contents of the menu.
     def rebuild_menu(self):
@@ -271,7 +270,8 @@ class Rotary_Encoder(RgbKnob):
         memory_usage = subprocess.check_output(cmd, shell=True)
         cmd = "df -h | awk '$NF==\"/\"{printf \"Disk: %d/%dGB %s\", $3,$2,$5}'"
         disk_usage = subprocess.check_output(cmd, shell=True)
-        cmd = "/opt/vc/bin/vcgencmd measure_temp | egrep -o '[0-9]*\.[0-9]*' | awk '{printf \"Temp: %.1f\xB0F/%.1f\xB0C\", ($1 * 9/5) + 32, $1}'"
+        cmd = "/opt/vc/bin/vcgencmd measure_temp | egrep -o '[0-9]*\.[0-9]*' " \
+              "| awk '{printf \"Temp: %.1f\xB0F/%.1f\xB0C\", ($1 * 9/5) + 32, $1}'"
         temperature = subprocess.check_output(cmd, shell=True)
         return str(cpu_usage) + " - " + str(memory_usage) + " - " + str(disk_usage) + " - " + str(temperature)
 
@@ -435,8 +435,8 @@ class Rotary_Encoder(RgbKnob):
                 release = midi_pedal_conf_group_opt_dict.get("release", None)
                 if cc is not None or pc is not None or program_change is not None:
                     if min_val is not None and max_val is not None:
-                        logger.warn(
-                            "Display min and max so user can choose value: (" + str(min_val) + ", " + str(max_val) + ").")
+                        logger.warn("Display min and max so user can choose value: \
+                            (" + str(min_val) + ", " + str(max_val) + ").")
                         self.menu.current_node.menu_data_items = range(min_val, max_val + 1)
                     elif on is not None and off is not None:
                         logger.warn("Display off and on so user can choose value: (off: " + str(off) + ", on: " + str(
@@ -455,7 +455,8 @@ class Rotary_Encoder(RgbKnob):
                 else:
                     logger.warn("Can't execute a midi command without a cc or pc number.")
             else:
-                for midi_pedal_deeper_conf_opt_key, midi_pedal_deeper_conf_opt_value in midi_pedal_conf_group_opt_dict.iteritems():
+                for midi_pedal_deeper_conf_opt_key, midi_pedal_deeper_conf_opt_value in \
+                        midi_pedal_conf_group_opt_dict.iteritems():
                     if midi_pedal_deeper_conf_opt_value:
                         self.menu.current_node.menu_data_items.append(midi_pedal_deeper_conf_opt_key)
                         self.menu.current_node.menu_data_dict.update(
@@ -521,7 +522,8 @@ class Rotary_Encoder(RgbKnob):
             self.make_midi_pedal_parameter_change(current_midi_pedal_option_dict)
         else:
             logger.warn(
-                "NOT executing " + midi_pedal_conf_group_name + " function for " + midi_pedal_name + " as there are no execution parameters given.")
+                "NOT executing " + midi_pedal_conf_group_name + " function for " + midi_pedal_name +
+                " as there are no execution parameters given.")
         self.change_menu_nodes(self.menu.current_node.parent)
 
     def execute_midi_pedal_group_opt(self):
@@ -536,7 +538,8 @@ class Rotary_Encoder(RgbKnob):
             logger.info("Executing " + midi_pedal_conf_group_opt_name + " function for " + midi_pedal_name + ".")
         else:
             logger.warn(
-                "NOT executing " + midi_pedal_conf_group_opt_name + " function for " + midi_pedal_name + " as there are no execution parameters given.")
+                "NOT executing " + midi_pedal_conf_group_opt_name + " function for " + midi_pedal_name +
+                " as there are no execution parameters given.")
         self.change_menu_nodes(self.menu.current_node.parent)
 
     def make_midi_pedal_parameter_change(self, params):
@@ -783,7 +786,8 @@ class Rotary_Encoder(RgbKnob):
 
     def change_to_footswitch_item(self, button=None):
         if button:
-            if button <= self.current_song.data.parts.getLength() and not self.current_part == self.current_song.data.parts.index_to_node(
+            if button <= self.current_song.data.parts.getLength() and \
+                    not self.current_part == self.current_song.data.parts.index_to_node(
                     button):
                 self.current_part = self.current_song.data.parts.index_to_node(button)
                 self.load_part()
