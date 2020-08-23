@@ -192,7 +192,7 @@ class MidiPedal(Pedal):
 
     def set_param(self, param, value, param_type):
         param_info = self.midi_pedal_conf_dict[param_type]\
-            .get(param, self.midi_pedal_conf_dict[param_type]['dict'].get(param, None))
+            .get(param, self.midi_pedal_conf_dict[param_type].get('dict', {}).get(param, None))
         config_found = False
         if param_info:
             config_found = self.check_for_param_then_set(config_found, param_info, param, value)
