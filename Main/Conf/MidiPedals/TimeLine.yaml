@@ -45,38 +45,38 @@ Knobs/Switches:
     on: 127
   Remote Tap: 
     cc: 93
-    val: 1 # doesnt matter what value
+    value: 1 # doesnt matter what value
   Expression Pedal:
     cc: 100
     min: 0
     max: 127
   Phase Reset: 
     cc: 125
-    val: 1 # doesnt matter what value
+    value: 1 # doesnt matter what value
   Looper Record: 
     cc: 87
-    val: 1 # doesnt matter what value
+    value: 1 # doesnt matter what value
   Looper Play: 
     cc: 86
-    val: 1 # doesnt matter what value
+    value: 1 # doesnt matter what value
   Looper Stop: 
     cc: 85
-    val: 1 # doesnt matter what value
+    value: 1 # doesnt matter what value
   Lpr Reverse (Toggle): 
     cc: 94
-    val: 1 # doesnt matter what value
+    value: 1 # doesnt matter what value
   Lpr Half Spd (Toggle): 
     cc: 95
-    val: 1 # doesnt matter what value
+    value: 1 # doesnt matter what value
   Lpr Pre/Post (Toggle): 
     cc: 96
-    val: 1 # doesnt matter what value
+    value: 1 # doesnt matter what value
   Looper Undo: 
     cc: 89
-    val: 1 # doesnt matter what value
+    value: 1 # doesnt matter what value
   Looper Redo: 
     cc: 90
-    val: 1 # doesnt matter what value
+    value: 1 # doesnt matter what value
   Looper Level: 
     cc: 98
     min: 0

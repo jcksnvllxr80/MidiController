@@ -21,13 +21,13 @@ Parameters:
     on: 127
   Tap Tempo:
     cc: 93
-    val: 1 # any value can be used
+    value: 1 # any value can be used
   Next Preset:
     cc: 95
-    val: 1 # any value can be used
+    value: 1 # any value can be used
   Prev Preset:
     cc: 96
-    val: 1 # any value can be used
+    value: 1 # any value can be used
   Set Div 1:
     notes: "0=1/4, 1=1/4trp, 2=dot1/4 - 3=1/8, 4=1/8trp, 5=dot1/8 - 6=1/2, 7=1/2trp, 8=1/16 - 9=2/2, 10=3/2, 11=4/2"
     cc: 99
