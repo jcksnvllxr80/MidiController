@@ -185,18 +185,24 @@ class MidiPedal(Pedal):
     def set_params(self, params):
         if self.midi_pedal_conf_dict["Parameters"]:
             for param, value in params.iteritems():
-                param_info = self.midi_pedal_conf_dict["Parameters"].get(param, None)
-                if param_info:
-                    param_was_set = self.determine_parameter_method(param_info, param, value)
-                    if param_was_set:
-                        logger.info(self.name + " parameter " + str(param) + " set to " + str(value) + ".")
-                    else:
-                        logger.info(self.name + " parameter " + str(param) + " not set.")
-                else:
-                    logger.info("Parameter, " + str(param) + ", not found in " + self.name +
-                                " param dict -> " + str(self.midi_pedal_conf_dict["Parameters"]))
+                self.set_param(param, value, "Parameters")
+        elif self.midi_pedal_conf_dict["Knobs/Switches"]:
+            for param, value in params.iteritems():
+                self.set_param(param, value, "Knobs/Switches")
         else:
-            logger.info(self.name + " parameters dictionary was not found in the pedal config.")
+            logger.info(self.name + " pedal configuration dictionary doesn't have the option we are looking for.")
+
+    def set_param(self, param, value, param_type):
+        param_info = self.midi_pedal_conf_dict[param_type].get(param, None)
+        if param_info:
+            param_was_set = self.determine_parameter_method(param_info, param, value)
+            if param_was_set:
+                logger.info(self.name + " parameter " + str(param) + " set to " + str(value) + ".")
+            else:
+                logger.info(self.name + " parameter " + str(param) + " not set.")
+        else:
+            logger.info("Configuration option, " + str(param) + ", not found in " + self.name +
+                        " configuration dict -> " + str(self.midi_pedal_conf_dict[param_type]))
 
     def determine_parameter_method(self, action_dict, parameter, value=None):
         param_set = False
