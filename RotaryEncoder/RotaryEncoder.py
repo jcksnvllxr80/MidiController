@@ -539,7 +539,7 @@ class RotaryEncoder(RgbKnob):
         if current_midi_pedal_group_option_dict:
             logger.info("Executing " + midi_pedal_conf_group_opt_name + " function for " + midi_pedal_name + ".")
             selected_value = self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]
-            selected_value = current_midi_pedal_group_option_dict.get(selected_value, selected_value)
+            # selected_value = current_midi_pedal_group_option_dict.get(selected_value, selected_value)
             self.make_midi_pedal_parameter_change(midi_pedal_conf_group_opt_name, selected_value)
         else:
             logger.warn(
