@@ -262,6 +262,9 @@ class MidiPedal(Pedal):
             dict_val = change_dict.get(v, change_dict.get('dict', {}).get(v, None))
             if dict_val is not None:
                 converted_to_int = int(dict_val)
+            elif change_dict.get('value', None) == v:
+                logger.info("This param uses key \'value\' and the value is " + str(v) + ". ")
+                converted_to_int = int(v)
             else:
                 logger.info("Key, " + str(v) + ", not found in dict -> " + str(change_dict))
                 min_val = change_dict.get('min', None)
