@@ -96,8 +96,9 @@ Parameters:
       max: 20
     Size:
       cc: 59
-      min: 0
-      max: 1
+      dict:
+        Studio: 0
+        Club: 1
     Diffusion:
       cc: 58
       min: 0
@@ -109,8 +110,9 @@ Parameters:
       max: 20
     Size:
       cc: 40
-      min: 0
-      max: 1
+      dict:
+        Concert: 0
+        Arena: 1
     Mid:
       cc: 42
       min: 0
@@ -122,8 +124,9 @@ Parameters:
       max: 20
     Size:
       cc: 68
-      min: 0
-      max: 1
+      dict:
+        Small: 0
+        Large: 1
   Spring:
     Low End:
       cc: 64
@@ -131,12 +134,17 @@ Parameters:
       max: 20
     Dwell:
       cc: 63
-      min: 0
-      max: 3
+      dict:
+        Clean: 0
+        Combo: 1
+        Tube: 0
+        Overdrive: 1
     Springs:
       cc: 62
-      min: 0
-      max: 2
+      dict:
+        1 spring: 0
+        2 springs: 1
+        3 springs: 2
   Swell:
     Low End:
       cc: 65
@@ -144,12 +152,35 @@ Parameters:
       max: 20
     Rise:
       cc: 66
-      min: 0
-      max: 22
+      dict:
+        '0.08': 0
+        '0.10': 1
+        '0.12': 2
+        '0.14': 3
+        '0.17': 4
+        '0.20': 5
+        '0.25': 6
+        '0.30': 7
+        '0.35': 8
+        '0.40': 9
+        '0.50': 10
+        '0.60': 11
+        '0.70': 12
+        '0.80': 13
+        '0.90': 14
+        '1.00': 15
+        '1.20': 16
+        '1.40': 17
+        '1.70': 18
+        '2.00': 19
+        '2.50': 10
+        '3.00': 21
+        '4.00': 22
     Mode:
       cc: 67
-      min: 0
-      max: 1
+      dict:
+        Wet: 0
+        Dry: 1
   Bloom:
     Low End:
       cc: 31
@@ -175,29 +206,94 @@ Parameters:
   Chorale:
     Vowel:
       cc: 33
-      min: 0
-      max: 6
+      dict:
+        AAHHOO: 0
+        AAHH: 1
+        AAHHOH: 2
+        OH: 3
+        OOOHOH: 4
+        OOOO: 5
+        RANDOM: 6
     Reso:
       cc: 34
-      min: 0
-      max: 2
+      dict:
+        Mild: 0
+        Medium: 1
+        High: 2
   Shimmer:
     Shift 1:
       cc: 25
-      min: 0
-      max: 27
+      dict:
+        '-Octave': 0
+        '-Major 7th': 1
+        '-minor 7th': 2
+        '-Major 6th': 3
+        '-minor 6th': 4
+        '-Perfect 5th': 5
+        '-Tritone': 6
+        '-Perfect 4th': 7
+        '-Major 3rd': 8
+        '-minor 3rd': 9
+        '-Major 2nd': 10
+        '-minor 2nd': 11
+        '-10 cents': 12
+        '+10 cents': 13
+        '+minor 2nd': 14
+        '+Major 2nd': 15
+        '+minor 3rd': 16
+        '+Major 3rd': 17
+        '+Perfect 4th': 18
+        '+Tritone': 19
+        '+Perfect 5th': 20
+        '+minor 6th': 21
+        '+Major 6th': 22
+        '+minor 7th': 23
+        '+Major 7th': 24
+        '+Octave': 25
+        '+Octave & 5th': 26
+        '+2 Octaves': 27
     Shift 2:
       cc: 26
-      min: 0
-      max: 28
+      dict:
+        No Shift: 0
+        '-Octave': 1
+        '-Major 7th': 2
+        '-minor 7th': 3
+        '-Major 6th': 4
+        '-minor 6th': 5
+        '-Perfect 5th': 6
+        '-Tritone': 7
+        '-Perfect 4th': 8
+        '-Major 3rd': 9
+        '-minor 3rd': 10
+        '-Major 2nd': 11
+        '-minor 2nd': 12
+        '-10 cents': 13
+        '+10 cents': 14
+        '+minor 2nd': 15
+        '+Major 2nd': 16
+        '+minor 3rd': 17
+        '+Major 3rd': 18
+        '+Perfect 4th': 19
+        '+Tritone': 20
+        '+Perfect 5th': 21
+        '+minor 6th': 22
+        '+Major 6th': 23
+        '+minor 7th': 24
+        '+Major 7th': 25
+        '+Octave': 26
+        '+Octave & 5th': 27
+        '+2 Octaves': 28
     Amount:
       cc: 27
       min: 0
       max: 18
     Mode:
       cc: 28
-      min: 0
-      max: 2
+      duct:
+        Input: 0
+        Regen: 1
+        Input + Regen: 2
     Low End:
       cc: 24
       min: 0
@@ -213,12 +309,15 @@ Parameters:
       max: 20
     Heads:
       cc: 57
-      min: 0
-      max: 2
+      dict:
+        3 heads: 0
+        4 heads: 1
+        6 heads: 2
     Spacing:
       cc: 54
-      min: 0
-      max: 1
+      dict:
+        Even: 0
+        Uneven: 1
   Non-linear:
     Low End:
       cc: 44
@@ -226,8 +325,13 @@ Parameters:
       max: 20
     Shape:
       cc: 46
-      min: 0
-      max: 5
+      dict:
+        Swoosh: 0
+        Reverse: 1
+        Ramp: 2
+        Gate: 3
+        Gaussian: 4
+        Bounce: 5
     Diffusion:
       cc: 45
       min: 0
@@ -251,16 +355,30 @@ Parameters:
       max: 20
     Loc Y:
       cc: 50
-      min: 0
-      max: 6
+      dict:
+        Front 1 (closest): 0
+        Front 2: 1
+        Front 3: 2
+        Middle: 3
+        Back 1: 4
+        Back 2: 5
+        Back 3 (farthest): 6
     Loc X:
       cc: 49
-      min: 0
-      max: 6
+      dict:
+        Left 3: 0
+        Left 2: 1
+        Left 1: 2
+        Middle: 3
+        Right 1: 4
+        Right 2: 5
+        Right 3: 6
     Shape:
       cc: 51
-      min: 0
-      max: 2
+      dict:
+        Square: 0
+        Rectangle: 1
+        Oblong: 2
 Set Preset:
   multi:
     1: bank
