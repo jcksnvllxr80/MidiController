@@ -49,6 +49,8 @@ class ButtonOnPedalBoard(object):
 
     def __init__(self, name, partner_function, long_press_func, button, **kwargs):
         self.name = name
+        self.is_engaged = None
+        self.end = None
         self.button = button
         self.start = time.time()
         self.pin = self.from_button_to_pin(self.button)
