@@ -893,26 +893,37 @@ class RotaryEncoder(RgbKnob):
 
     def set_menu_data_message(self):
         if self.menu.current_node.parent not in [None, self.menu.root]:
-            self.set_parent_child_grandchild_menu_data_message()
+            if self.menu.current_node.parent.parent not in [None, self.menu.root]:
+                self.set_grandparent_parent_child_grandchild_menu_data_message()
+            else:
+                self.set_parent_child_grandchild_menu_data_message()
         else:
             self.set_child_grandchild_menu_data_message()
 
     def set_child_grandchild_menu_data_message(self):
         if self.menu.current_node.menu_data_items:
-            self.menu.current_node.menu_data_position = self.menu_data_item_position_init(
-                self.menu.current_node.menu_data_position)
-            self.test_point_node_printer(self.menu.current_node)
+            self.prepare_for_displaying_message()
             self.set_message(self.menu.current_node.menu_data_prompt + "\n" + str(
                 self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]))
 
     def set_parent_child_grandchild_menu_data_message(self):
         if self.menu.current_node.menu_data_items:
-            self.menu.current_node.menu_data_position = self.menu_data_item_position_init(
-                self.menu.current_node.menu_data_position)
-            self.test_point_node_printer(self.menu.current_node)
+            self.prepare_for_displaying_message()
             self.set_message(
-                self.menu.current_node.parent.name + "\n" + self.menu.current_node.menu_data_prompt + "\n" +
+                self.menu.current_node.parent.name + ":\n" + self.menu.current_node.menu_data_prompt + "\n" +
                 str(self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]))
+
+    def set_grandparent_parent_child_grandchild_menu_data_message(self):
+        if self.menu.current_node.menu_data_items:
+            self.prepare_for_displaying_message()
+            self.set_message(self.menu.current_node.parent.parent.name + ":\n" + self.menu.current_node.parent.name +
+                             ":\n" + self.menu.current_node.menu_data_prompt + "\n" +
+                             str(self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]))
+
+    def prepare_for_displaying_message(self):
+        self.menu.current_node.menu_data_position = self.menu_data_item_position_init(
+            self.menu.current_node.menu_data_position)
+        self.test_point_node_printer(self.menu.current_node)
 
     def change_menu_nodes(self, menu_node=None):
         if menu_node is None:
