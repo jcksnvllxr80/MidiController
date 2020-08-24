@@ -307,7 +307,7 @@ class MCP230xxBase(GPIO.BaseGPIO):
 		specified the current buffered value will be written.
 		"""
 		if gppu_a is not None:
-			self.gppuA = gppuA
+			self.gppu_a = gppu_a
 		self._device.writeList(self.GPPUA, self.gppu_a)
 
 	def writegppub(self, gppu_b=None):

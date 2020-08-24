@@ -40,6 +40,7 @@ class OledDisplay(object):
 			rst=RST, dc=DC, spi=SPI.SpiDev(SPI_PORT, SPI_DEVICE, max_speed_hz=8000000)
 		)
 		if ft is None and fs is None:
+			self.message = ''
 			self.set_font()
 			self.invert_display_colors = False
 			self.spi_disp.begin()
@@ -50,49 +51,45 @@ class OledDisplay(object):
 		else:
 			self.set_font(ft, fs)
 
-
-	def _delay_microseconds(self, microseconds):
+	@staticmethod
+	def _delay_microseconds(microseconds):
 		end = time.time() + (microseconds/1000000.0)
 		while time.time() < end:
 			pass
 
-
 	def set_display_message(self, msg):
 		self.message = msg
-		backgroundColor = 0
-		textColor = 255
+		background_color = 0
+		text_color = 255
 		image = Image.new('1', (self.width, self.height))
 		draw = ImageDraw.Draw(image)
 		# Clear image buffer by drawing a black filled box.
 		if self.invert_display_colors:
-			backgroundColor = 255
-			textColor = 0
+			background_color = 255
+			text_color = 0
 			
-		draw.rectangle((0,0,self.width,self.height), outline=backgroundColor, fill=backgroundColor)
+		draw.rectangle((0, 0, self.width, self.height), outline=background_color, fill=background_color)
 		y = 0
 		if self.display_image is not None:
-			image = Image.open(IMG_FOLDER + self.display_image + '.ppm').convert('1') #for testing. comment when not testing
+			image = Image.open(IMG_FOLDER + self.display_image + '.ppm').convert('1')  # for testing. comment when not testing
 		else:
-			self.draw_left_justified(msg, draw, y, textColor)
+			self.draw_left_justified(msg, draw, y, text_color)
 			# self.draw_centered(msg, draw, y, textColor)
 		self.spi_disp.image(image)
 		self.spi_disp.display()
 
+	def draw_centered(self, msg, draw, y, text_color):
+		for msg_str in msg.split(" - "):
+			x_max, y_max = draw.textsize(msg_str, font=self.font_type)
+			x = (self.width - x_max)/2
+			draw.text((x, y), msg_str, font=self.font_type, fill=text_color)
+			y += y_max + 2
 
-	def draw_centered(self, msg, draw, y, textColor):
-		for str in msg.split(" - "):
-			xMax, yMax = draw.textsize(str, font=self.font_type)
-			x = (self.width - xMax)/2
-			draw.text((x, y), str, font=self.font_type, fill=textColor) 
-			y += yMax + 2
-
-
-	def draw_left_justified(self, msg, draw, y, textColor):
-		for str in msg.split(" - "):
-			xMax, yMax = draw.textsize(str, font=self.font_type)
-			draw.text((DISPLAY_X_START, y), str, font=self.font_type, fill=textColor) 
-			y += yMax + 2
-
+	def draw_left_justified(self, msg, draw, y, text_color):
+		for msg_str in msg.split(" - "):
+			x_max, y_max = draw.textsize(msg_str, font=self.font_type)
+			draw.text((DISPLAY_X_START, y), msg_str, font=self.font_type, fill=text_color)
+			y += y_max + 2
 
 	def set_font(self, font_type=None, font_size=None):
 		if font_size:
@@ -105,11 +102,9 @@ class OledDisplay(object):
 		else:
 			self.font_type = ImageFont.load_default()
 
-
 	def set_display_image(self, filename):
 		self.display_image = filename
 		logger.info("Image set.")
-
 
 	def clear_display(self):
 		self.spi_disp.clear()

@@ -437,19 +437,19 @@ class RotaryEncoder(RgbKnob):
                 release = midi_pedal_conf_group_opt_dict.get("release", None)
                 if cc is not None or pc is not None or program_change is not None:
                     if min_val is not None and max_val is not None:
-                        logger.warn("Display min and max so user can choose value: \
+                        logger.info("Display min and max so user can choose value: \
                             (" + str(min_val) + ", " + str(max_val) + ").")
                         self.menu.current_node.menu_data_items = range(min_val, max_val + 1)
                     elif on is not None and off is not None:
-                        logger.warn("Display off and on so user can choose value: (off: " + str(off) + ", on: " + str(
+                        logger.info("Display off and on so user can choose value: (off: " + str(off) + ", on: " + str(
                             on) + ").")
                         self.menu.current_node.menu_data_items = ['off', 'on']
                     elif press is not None and release is not None:
-                        logger.warn("Display press and release so user can choose value: (press: " + str(
+                        logger.info("Display press and release so user can choose value: (press: " + str(
                             press) + ", release: " + str(release) + ").")
                         self.menu.current_node.menu_data_items = ['press', 'release']
                     elif opt_dict:
-                        logger.warn("Display press and release so user can choose value: (press: " + str(
+                        logger.info("Display press and release so user can choose value: (press: " + str(
                             press) + ", release: " + str(release) + ").")
                         self.menu.current_node.menu_data_items = opt_dict.keys()
                     elif val is not None:
@@ -632,7 +632,7 @@ class RotaryEncoder(RgbKnob):
         """ change the current position of the menu and display the new menu item unless the end or the beginning of
         the list has been reached """
         logger.info("direction: " + direction)
-        if not self.menu.current_node is self.menu.root:
+        if self.menu.current_node is not self.menu.root:
             if self.menu.current_node.children:
                 if direction == "CW":
                     if self.menu.current_node.current_child < len(self.menu.current_node.children) - 1:
@@ -786,18 +786,20 @@ class RotaryEncoder(RgbKnob):
             }
             actions.get(action, self.action_missing)()
 
-    def action_missing(self):
+    @staticmethod
+    def action_missing():
         logger.info("This buttons action does not exist in the actions dictionary.")
 
     def change_to_footswitch_item(self, button=None):
         if button:
-            if button <= self.current_song.data.parts.getLength() and \
+            if button <= self.current_song.data.parts.get_length() and \
                     not self.current_part == self.current_song.data.parts.index_to_node(
                         button):
                 self.current_part = self.current_song.data.parts.index_to_node(button)
                 self.load_part()
 
-    def start_thread(self, func_thread):
+    @staticmethod
+    def start_thread(func_thread):
         thread = func_thread
         thread.start()
 

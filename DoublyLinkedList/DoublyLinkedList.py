@@ -13,7 +13,6 @@ class DoublyLinkedList(object):
 		self.head = None
 		self.tail = None
 
-
 	def append(self, data):
 		new_node = Node(data, None, None)
 		if self.head is None:
@@ -25,12 +24,10 @@ class DoublyLinkedList(object):
 			self.tail = new_node
 		self.length += 1
 
-
 	def prepend(self, data):
-		newHead = Node(data).next
-		newHead.next = self.head
-		self.head = newHead
-
+		new_head = Node(data).next
+		new_head.next = self.head
+		self.head = new_head
 
 	def insert(self, data, position):
 		if position == 0 or not self.head:
@@ -44,7 +41,6 @@ class DoublyLinkedList(object):
 				pos -= 1
 			node_to_insert.next = iter_node.next
 			iter_node.next = node_to_insert
-
 
 	def remove(self, node_value):
 		current_node = self.head
@@ -61,7 +57,6 @@ class DoublyLinkedList(object):
 			current_node = current_node.next
 		self.length -= 1
 
-
 	def show(self):
 		print("Show list data:")
 		current_node = self.head
@@ -69,7 +64,6 @@ class DoublyLinkedList(object):
 			print (current_node.data)
 			current_node = current_node.next
 		print("*"*50)
-
 
 	def to_list(self):
 		data_list = []
@@ -79,7 +73,6 @@ class DoublyLinkedList(object):
 			current_node = current_node.next
 		return data_list
 
-
 	def index_to_node(self, index):
 		node = self.head
 		for i in range(1, index):
@@ -87,28 +80,23 @@ class DoublyLinkedList(object):
 				node = node.next
 		return node
 
-
 	def node_to_index(self, node):
-		tempNode = self.head
+		temp_node = self.head
 		index = None
 		for i in range(1, self.length + 1):
-			if node is not tempNode:	
-				if tempNode.next is not None:
-					tempNode = tempNode.next
+			if node is not temp_node:
+				if temp_node.next is not None:
+					temp_node = temp_node.next
 			else:
 				index = i
 				break
 		return index
 
-
-	def getLength(self):
+	def get_length(self):
 		return self.length
 
-
-	def getHead(self):
+	def get_head(self):
 		return self.head
 
-
-	def getTail(self):
+	def get_tail(self):
 		return self.tail
-

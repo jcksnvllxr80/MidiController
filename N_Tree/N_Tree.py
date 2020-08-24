@@ -12,7 +12,6 @@ class Node(object):
         self.menu_data_position = None
         self.menu_data_func = menu_data_func
         self.menu_data_loaded = False
- 
 
     def add_child(self, name, func=None, menu_data_func=None):
         # adds a child to the list of children for a given Node
@@ -22,7 +21,6 @@ class Node(object):
         self.children.append(child)
         return child
 
-    
     def remove_child(self, child):
         # pass the child object to be removed from the list
         self.children.remove(child)

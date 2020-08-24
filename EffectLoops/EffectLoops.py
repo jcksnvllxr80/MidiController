@@ -102,14 +102,15 @@ class ButtonOnPedalBoard(object):
         logger.info(self)
 
     def turn_off(self):
-        if self.name <> "Empty":
+        if self.name != "Empty":
             self.is_engaged = False
         logger.info(self)
 
     def get_pin(self):
         return self.pin
 
-    def set_setting(self, setting):
+    @staticmethod
+    def set_setting(setting):
         logger.info("setting " + str(setting))
 
     def get_partner_function(self):

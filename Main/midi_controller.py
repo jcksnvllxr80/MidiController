@@ -58,7 +58,7 @@ def setup():
     midi = {k: v for k, v in config_file['midi'].iteritems()}
 
     # read config objects into variables
-    tempo = float(current_settings['tempo'])
+    # tempo = float(current_settings['tempo'])
     knob_color = knob['color']
     knob_brightness = int(knob['brightness'])
     mode = current_settings['mode']
@@ -88,13 +88,14 @@ def setup():
                     })
                 else:
                     logger.error(
-                        'Cant add ' + channel_name + ' to the dicitonary because it doesnt have a config file in ' + MIDI_PEDAL_CONF_FOLDER + '.')
+                        'Cant add ' + channel_name + ' to the dictionary because it doesnt have a config file in '
+                        + MIDI_PEDAL_CONF_FOLDER + '.')
 
     # make a dictionary of {ftsw_btn: footswitch_obj}
     footswitch_dict = {}
     rotary_push_button = RotaryEncoder.RotaryPushButton(ROTARY_PUSHBUTTON_PINNUMBER, mode,
                                                         kc=knob_color, kb=knob_brightness, sl=set_list, s=song,
-                                                        p=part)  # initialize the rotaryencoder object
+                                                        p=part)  # initialize the rotary encoder object
     footswitch_dict[str(rotary_push_button.get_pin())] = rotary_push_button  # assign this button to the dictionary
 
     for ftsw_btn in button_setup.keys():
@@ -146,7 +147,7 @@ def init_logging():
     return logging_logger
 
 
-def my_encoder_callback(EncoderInterruptPin):
+def my_encoder_callback(encoder_interrupt_pin):
     direction = rotary_push_button.get_rotary_movement(GPIO.input(ENCODE_A), GPIO.input(ENCODE_B))
     if direction is not None:
         rotary_push_button.change_menu_pos(direction)
@@ -157,7 +158,7 @@ def my_button_callback(interrupt_pin):
     # Which bank sent the interrupt; bank A (pin 4) mod 2 is 0; bank B (pin 17) mod 2 is 1
     interrupt_bank = interrupt_pin % 2
     # read the interrupt register; find which pin and bank that caused the interrupt
-    pin_caused_int = switch_pins.IntrptFlagRegister(interrupt_bank)
+    pin_caused_int = switch_pins.interrupt_flag_register(interrupt_bank)
     # if the pin is equal to zero, interrupt should not happen
     if pin_caused_int != 0:
         # doing a read on the interrupt register returns an 8 bit binary number
@@ -171,9 +172,9 @@ def my_button_callback(interrupt_pin):
         time.sleep(.005)
         # disable the interrupts for that particular pin until the read of the value of that pin at the time of
         # the interrupt is complete other wise the interrupt would be reset on read.
-        switch_pins.disableInterruptPin(int_flag_pin)
+        switch_pins.disable_interrupt_pin(int_flag_pin)
         # read value of the pin that caused the interrupt at the time of the interrupt
-        interrupt_value = switch_pins.readIntrptCapPin(int_flag_pin)
+        interrupt_value = switch_pins.read_interrupt_cap_pin(int_flag_pin)
         # logger.info(int_button.name + "\'s interrupt pin's value: " + str(interrupt_value))
         # rotary push button does not have a "partner" so no need to check that one
         if int_button.name != "RotaryPB":
@@ -193,7 +194,7 @@ def my_button_callback(interrupt_pin):
                 if interrupt_value:
                     if rotary_push_button.mode == "standard":
                         if time.time() - int_button.last_action_time <= 0.5:
-                            logger.info("running statndard button function: " + str(action))
+                            logger.info("running standard button function: " + str(action))
                             rotary_push_button.button_executor(action)
                         else:
                             logger.info("running longpress button function: " + str(action))
@@ -206,7 +207,7 @@ def my_button_callback(interrupt_pin):
             # button state determines which function of the btn whose footswitch was pressed to use
             int_button.button_state(interrupt_value)
         # enable the interrupts on the pin of the footswitch that was pressed
-        switch_pins.enableInterruptPin(int_flag_pin)
+        switch_pins.enable_interrupt_pin(int_flag_pin)
 
 
 def clean_break():
