@@ -902,7 +902,6 @@ class RotaryEncoder(RgbKnob):
             menu_node = self.menu.root
 
         self.menu.current_node = menu_node
-
         if self.menu.current_node is self.menu.root:
             self.set_song_info_message()
         elif self.menu.current_node.children:
