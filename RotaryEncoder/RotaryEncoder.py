@@ -892,12 +892,26 @@ class RotaryEncoder(RgbKnob):
         self.set_message(display_message)
 
     def set_menu_data_message(self):
-        if self.menu.current_node.menu_data_items:
-            self.menu.current_node.menu_data_position = self.menu_data_item_position_init(
-                self.menu.current_node.menu_data_position)
-            self.test_point_node_printer(self.menu.current_node)
-            self.set_message(self.menu.current_node.menu_data_prompt + "\n"
-                             + str(self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]))
+        if self.menu.current_node.parent not in [None, self.menu.root]:
+            if self.menu.current_node.menu_data_items:
+                self.set_parent_child_grandchild_menu_data_message()
+            else:
+                self.set_child_grandchild_menu_data_message()
+
+    def set_child_grandchild_menu_data_message(self):
+        self.menu.current_node.menu_data_position = self.menu_data_item_position_init(
+            self.menu.current_node.menu_data_position)
+        self.test_point_node_printer(self.menu.current_node)
+        self.set_message(
+            self.menu.current_node.parent.name + "\n" + self.menu.current_node.menu_data_prompt + "\n" +
+            str(self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]))
+
+    def set_parent_child_grandchild_menu_data_message(self):
+        self.menu.current_node.menu_data_position = self.menu_data_item_position_init(
+            self.menu.current_node.menu_data_position)
+        self.test_point_node_printer(self.menu.current_node)
+        self.set_message(self.menu.current_node.menu_data_prompt + "\n" + str(
+            self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]))
 
     def change_menu_nodes(self, menu_node=None):
         if menu_node is None:
