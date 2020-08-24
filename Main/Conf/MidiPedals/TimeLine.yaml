@@ -94,9 +94,13 @@ Knobs/Switches:
     max: 127
 Parameters:
   Tap Division: 
-    cc: 21 
-    min: 0
-    max: 4
+    cc: 21
+    dict:
+      '1/4': 0
+      'dotted 1/8': 1
+      '1/8': 2
+      triplets: 3
+      '1/16': 4
   Boost: 
     cc: 23 
     min: 0
@@ -110,9 +114,29 @@ Parameters:
     min: 0
     max: 18
   High Pass: 
-    cc: 47 
-    min: 0
-    max: 20
+    cc: 47
+    dict:
+      No High Pass: 0
+      20Hz: 1
+      40Hz: 2
+      60Hz: 3
+      80Hz: 4
+      100Hz: 5
+      120Hz: 6
+      140Hz: 7
+      160Hz: 8
+      180Hz: 9
+      200Hz: 10
+      230Hz: 11
+      260Hz: 12
+      300Hz: 13
+      350Hz: 14
+      400Hz: 15
+      500Hz: 16
+      600Hz: 17
+      700Hz: 18
+      800Hz: 19
+      900Hz: 20
   Expression: 
     cc: 60 
     'off': 0
@@ -128,23 +152,51 @@ Parameters:
       max: 20
     Tape Speed:
       cc: 58
-      min: 0
-      max: 1
+      dict:
+        Fast: 0
+        Normal: 1
   dBucket:
     Range:
       cc: 45
-      min: 0
-      max: 1
+      dict:
+        Single: 0
+        Doucle: 1
   Digital:
     Repeat Dynamics:
       cc: 56
-      min: 0
-      max: 1
+      'off': 0
+      'on': 1
   Dual:
     Time 2:
       cc: 32
-      min: 0
-      max: 26
+      dict:
+        '1/8': 0
+        '1/7': 1
+        '1/6': 2
+        '1/5': 3
+        '1/4': 4
+        '1/3': 5
+        '2/5': 6
+        '1/2': 7
+        '2/3': 8
+        '3/4': 9
+        '4/5': 10
+        '5/6': 11
+        '7/8': 12
+        '1/1': 13
+        '5/4': 14
+        '4/3': 15
+        '3/2': 16
+        '5/3': 17
+        '2/1': 18
+        '5/2': 19
+        '3/1': 20
+        '7/2': 21
+        '4/1': 22
+        '5/1': 23
+        '6/1': 24
+        '7/1': 25
+        '8/1': 26
     Repeats 2:
       cc: 34
       min: 0
@@ -155,8 +207,9 @@ Parameters:
       max: 18
     Config:
       cc: 36
-      min: 0
-      max: 1
+      dict:
+        series: 0
+        parallel: 1
   Pattern:
     Pattern:
       cc: 39
@@ -165,42 +218,163 @@ Parameters:
   Swell:
     Rise Time:
       cc: 44
-      min: 0
-      max: 27
+      dict:
+        '0.10': 0
+        '0.15': 0
+        '0.20': 0
+        '0.25': 0
+        '0.30': 0
+        '0.40': 0
+        '0.50': 0
+        '0.60': 0
+        '0.70': 0
+        '0.80': 0
+        '0.90': 0
+        '1.00': 0
+        '1.10': 0
+        '1.20': 0
+        '1.30': 0
+        '1.40': 0
+        '1.50': 0
+        '1.60': 0
+        '1.70': 0
+        '1.80': 0
+        '1.90': 0
+        '2.00': 0
+        '2.20': 0
+        '2.40': 0
+        '2.60': 0
+        '2.80': 0
+        '3.00': 0
+        '4.00': 0
   Trem:
     Speed:
       cc: 61
-      min: 0
-      max: 34
+      dict:
+        '1/32': 0
+        '1/24': 1
+        '1/18': 2
+        '1/16': 3
+        '1/12': 4
+        '1/10': 5
+        '1/9': 6
+        '1/8': 7
+        '1/7': 8
+        '1/6': 9
+        '1/5': 10
+        '1/4': 11
+        '1/3': 12
+        '1/2': 13
+        '2/3': 14
+        '3/4': 15
+        '1/1': 16
+        '4/3': 17
+        '3/2': 18
+        '2/1': 19
+        '5/2': 20
+        '3/1': 21
+        '7/2': 22
+        '4/1': 23
+        '5/1': 24
+        '6/1': 25
+        '7/1': 26
+        '8/1': 27
+        '9/1': 28
+        '10/1': 29
+        '12/1': 30
+        '16/1': 31
+        '18/1': 32
+        '24/1': 33
+        '32/1': 34
     Depth:
       cc: 57
       min: 0
       max: 18
     LFO:
       cc: 29
-      min: 0
-      max: 4
+      dict:
+        Triangle: 0
+        Square: 1
+        Sine: 2
+        Ramp: 3
+        Saw: 4
   Filter:
-    Q:
+    Filter Q:
       cc: 40
-      min: 0
-      max: 11
+      dict:
+        '0.5': 0
+        '0.7': 0
+        '1.0': 0
+        '1.2': 0
+        '1.5': 0
+        '2.0': 0
+        '2.5': 0
+        '3.0': 0
+        '4.0': 0
+        '5.0': 0
+        '7.0': 0
+        '10.0': 0
     LFO:
       cc: 28
-      min: 0
-      max: 10
+      dict:
+        '+Triangle': 0
+        '-Triangle': 0
+        '-Square': 0
+        '+Square': 0
+        '+Sine': 0
+        '-Sine': 0
+        'Ramp': 0
+        'Saw': 0
+        'Random': 0
+        'Down': 0
+        'Up': 0
     Depth:
       cc: 41
       min: 0
       max: 18
     Speed:
       cc: 42
-      min: 0
-      max: 34
+      dict:
+        '1/32': 0
+        '1/24': 1
+        '1/18': 2
+        '1/16': 3
+        '1/12': 4
+        '1/10': 5
+        '1/9': 6
+        '1/8': 7
+        '1/7': 8
+        '1/6': 9
+        '1/5': 10
+        '1/4': 11
+        '1/3': 12
+        '1/2': 13
+        '2/3': 14
+        '3/4': 15
+        '1/1': 16
+        '4/3': 17
+        '3/2': 18
+        '2/1': 19
+        '5/2': 20
+        '3/1': 21
+        '7/2': 22
+        '4/1': 23
+        '5/1': 24
+        '6/1': 25
+        '7/1': 26
+        '8/1': 27
+        '9/1': 28
+        '10/1': 29
+        '12/1': 30
+        '16/1': 31
+        '18/1': 32
+        '24/1': 33
+        '32/1': 34
     Location:
       cc: 43
-      min: 0
-      max: 1
+      dict:
+        Pre: 0
+        Post: 1
   Lo-Fi:
     Mix:
       cc: 51
@@ -212,25 +386,104 @@ Parameters:
       max: 18
     Sample Rate:
       cc: 49
-      min: 0
-      max: 20
+      dict:
+        '750Hz': 0
+        '1kHz': 1
+        '1.5kHz': 2
+        '2kHz': 3
+        '3kHz': 4
+        '4kHz': 5
+        '5kHz': 6
+        '6kHz': 7
+        '7kHz': 8
+        '8kHz': 9
+        '9kHz': 10
+        '10kHz': 11
+        '11kHz': 12
+        '12kHz': 13
+        '14kHz': 14
+        '16kHz': 15
+        '19kHz': 16
+        '24kHz': 17
+        '32kHz': 18
+        '48kHz': 19
+        '96kHz': 20
     Bit Depth:
       cc: 50
-      min: 0
-      max: 20
+      dict:
+        '4 Bit': 0
+        '4.5 Bit': 1
+        '5 Bit': 2
+        '5.5 Bit': 3
+        '6 Bit': 4
+        '6.5 Bit': 5
+        '7 Bit': 6
+        '7.5 Bit': 7
+        '8 Bit': 8
+        '9 Bit': 9
+        '10 Bit': 10
+        '11 Bit': 11
+        '12 Bit': 12
+        '13 Bit': 13
+        '14 Bit': 14
+        '15 Bit': 15
+        '16 Bit': 16
+        '18 Bit': 17
+        '20 Bit': 18
+        '24 Bit': 19
+        '32 Bit': 20
     Filter:
       cc: 53
-      min: 0
-      max: 8
+      dict:
+        No Filter: 0
+        Portable Vintage Amp: 0
+        Victoria Phonograph: 0
+        70s Clock Radio: 0
+        Bullhorn Megaphone: 0
+        Cheerleader Megaphone: 0
+        Antique Telephone: 0
+        Cell Phone: 0
+        Apartment Intercom: 0
   Ice:
     Interval:
       cc: 30
-      min: 0
-      max: 29
+      dict:
+        '-Octave': 0
+        '-Major 7th': 1
+        '-minor 7th': 2
+        '-Major 6th': 3
+        '-minor 6th': 4
+        '-Perfect 5th': 5
+        '-Tritone': 6
+        '-Perfect 4th': 7
+        '-Major 3rd': 8
+        '-minor 3rd': 9
+        '-Major 2nd': 10
+        '-minor 2nd': 11
+        '-50 cents': 12
+        '-25 cents': 13
+        '+25 cents': 14
+        '+50 cents': 15
+        '+minor 2nd': 16
+        '+Major 2nd': 17
+        '+minor 3rd': 18
+        '+Major 3rd': 19
+        '+Perfect 4th': 20
+        '+Tritone': 21
+        '+Perfect 5th': 22
+        '+minor 6th': 23
+        '+Major 6th': 24
+        '+minor 7th': 25
+        '+Major 7th': 26
+        '+Octave': 27
+        '+Octave & 5th': 28
+        '+2 Octaves': 29
     Slice:
       cc: 46
-      min: 0
-      max: 2
+      dict:
+        short: 0
+        medium: 1
+        long: 2
     Blend:
       cc: 25
       min: 0
@@ -242,12 +495,33 @@ Parameters:
       max: 17
     Release:
       cc: 55
-      min: 0
-      max: 20
+      dict:
+        '0.01': 0
+        '0.05': 1
+        '0.10': 2
+        '0.15': 3
+        '0.20': 4
+        '0.25': 5
+        '0.30': 6
+        '0.35': 7
+        '0.40': 8
+        '0.45': 9
+        '0.50': 10
+        '0.55': 11
+        '0.60': 12
+        '0.65': 13
+        '0.70': 14
+        '0.75': 15
+        '0.80': 16
+        '0.85': 17
+        '0.90': 18
+        '0.95': 19
+        '1.00': 20
     Feedback:
       cc: 54
-      min: 0
-      max: 1
+      dict:
+        normal: 0
+        gate: 1
 Set Preset:
   multi:
     1: bank
