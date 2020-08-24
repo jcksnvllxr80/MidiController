@@ -453,7 +453,7 @@ class RotaryEncoder(RgbKnob):
                             press) + ", release: " + str(release) + ").")
                         self.menu.current_node.menu_data_items = opt_dict.keys()
                     elif val is not None:
-                        self.execute_midi_pedal_opt()
+                        self.execute_midi_pedal_group_opt()
                 else:
                     logger.warn("Can't execute a midi command without a cc or pc number.")
             else:
