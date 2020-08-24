@@ -420,8 +420,8 @@ class RotaryEncoder(RgbKnob):
         self.menu.current_node.menu_data_prompt = self.menu.current_node.name + ":"
         self.menu.current_node.menu_data_position = self.menu_data_item_position_init(
             self.menu.current_node.menu_data_position)
-        midi_pedal_conf_group_opt_dict = self.menu.current_node.parent.menu_data_dict.get(self.menu.current_node.name,
-                                                                                          None)
+        midi_pedal_conf_group_opt_dict = self.menu.current_node.parent.menu_data_dict.get(
+            self.menu.current_node.name, None)
         if midi_pedal_conf_group_opt_dict:
             if any([k in midi_pedal_conf_group_opt_dict for k in self.leaf_keys]):
                 min_val = midi_pedal_conf_group_opt_dict.get("min", None)
@@ -451,7 +451,8 @@ class RotaryEncoder(RgbKnob):
                     elif opt_dict:
                         logger.info("Display press and release so user can choose value: (press: " + str(
                             press) + ", release: " + str(release) + ").")
-                        self.menu.current_node.menu_data_items = opt_dict.keys()
+                        self.menu.current_node.menu_data_items = \
+                            [k for k, v in sorted(opt_dict.items(), key=lambda item: item[1])]
                     elif val is not None:
                         self.execute_midi_pedal_group_opt()
                 else:
