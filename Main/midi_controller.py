@@ -8,7 +8,6 @@ from traceback import format_exception
 
 import RPi.GPIO as GPIO  # for interfacing with raspberrypi GPIO
 import yaml
-
 import EffectLoops  # package for controlling the midi devices
 import Footswitches  # package for the footswitch inputs
 import RotaryEncoder  # package for the rotary encoder inputs

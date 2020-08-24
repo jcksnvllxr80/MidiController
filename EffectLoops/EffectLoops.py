@@ -15,7 +15,7 @@ logger.setLevel(logging.DEBUG)
 logger.propagate = False
 # create console handler and set level to info
 handler = logging.StreamHandler()
-handler.setLevel(logging.INFO)
+handler.setLevel(logging.DEBUG)
 formatter = logging.Formatter("%(asctime)s [EffectLoops.py] [%(levelname)-5.5s]  %(message)s")
 handler.setFormatter(formatter)
 logger.addHandler(handler)
@@ -202,7 +202,7 @@ class MidiPedal(Pedal):
         return config_found
 
     def check_for_param_then_set(self, config_found, param_info, param, value):
-        param_was_set = self.determine_parameter_method(param_info, param, value)
+        param_was_set = self.determine_parameter_method(param_info, value)
         if param_was_set:
             logger.info(self.name + " parameter \'" + str(param) + "\' set to " + str(value) + ".")
             config_found = True
@@ -210,7 +210,7 @@ class MidiPedal(Pedal):
             logger.info(self.name + " parameter \'" + str(param) + "\' not set.")
         return config_found
 
-    def determine_parameter_method(self, action_dict, parameter, value=None):
+    def determine_parameter_method(self, action_dict, value=None):
         param_set = False
         if value is None:
             value = action_dict.get('value', None)
