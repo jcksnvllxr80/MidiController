@@ -166,8 +166,8 @@ class RotaryEncoder(RgbKnob):
         # initialize parent class
         super(RotaryEncoder, self).__init__(knob_color)
         self.oled = OledDisplay.OledDisplay()
-        # self.lcd = Adafruit_CharLCD.Adafruit_CharLCDPlate() #Rotary_Encoder "has-a" lcd
-        self.setlist = PartSongSet.Setlist()  # Rotary_Encoder "has-a" Setlist
+        # self.lcd = Adafruit_CharLCD.Adafruit_CharLCDPlate() #: " "has-a" lcd
+        self.setlist = PartSongSet.Setlist()  # : " "has-a" Setlist
         self.displayed_msg = ""
         self.setlist_name = previously_loaded_set
         # load the set, song, and part that was last used that was saved to the default file
@@ -207,9 +207,9 @@ class RotaryEncoder(RgbKnob):
         self.power_menu.menu_data_dict = {"NO yes": self.change_menu_nodes, "no YES": self.power_off}
 
         # build global menu
-        self.knobcolor_menu = self.global_menu.add_child("Knob Color", self.show_knob_colors, self.load_color_func)
-        self.knobbrightness_menu = self.global_menu.add_child("Knob Brightness", self.show_brightness,
-                                                              self.load_brightness_func)
+        self.knob_color_menu = self.global_menu.add_child("Knob Color", self.show_knob_colors, self.load_color_func)
+        self.knob_brightness_menu = self.global_menu.add_child("Knob Brightness", self.show_brightness,
+                                                               self.load_brightness_func)
         self.about_menu = self.global_menu.add_child("About", self.show_about, self.load_about_func)
 
         # variables for the rotary movement interpretation loop
@@ -241,16 +241,16 @@ class RotaryEncoder(RgbKnob):
         os.system('sudo shutdown now -h')
 
     def show_knob_colors(self):
-        self.knobcolor_menu.menu_data_items = RgbKnob.COLORS
-        self.knobcolor_menu.menu_data_prompt = self.knobcolor_menu.name + ":"
-        self.knobcolor_menu.menu_data_position = RgbKnob.COLORS.index(self.color)
-        self.test_point_node_printer(self.knobcolor_menu)
+        self.knob_color_menu.menu_data_items = RgbKnob.COLORS
+        self.knob_color_menu.menu_data_prompt = self.knob_color_menu.name + ":"
+        self.knob_color_menu.menu_data_position = RgbKnob.COLORS.index(self.color)
+        self.test_point_node_printer(self.knob_color_menu)
 
     def show_brightness(self):
-        self.knobbrightness_menu.menu_data_items = range(0, 101, 10)
-        self.knobbrightness_menu.menu_data_prompt = self.knobbrightness_menu.name + ":"
-        self.knobbrightness_menu.menu_data_position = self.knobbrightness_menu.menu_data_items.index(self.brightness)
-        self.test_point_node_printer(self.knobbrightness_menu)
+        self.knob_brightness_menu.menu_data_items = range(0, 101, 10)
+        self.knob_brightness_menu.menu_data_prompt = self.knob_brightness_menu.name + ":"
+        self.knob_brightness_menu.menu_data_position = self.knob_brightness_menu.menu_data_items.index(self.brightness)
+        self.test_point_node_printer(self.knob_brightness_menu)
 
     def show_about(self):
         self.about_menu.menu_data_items = RgbKnob.STATS
@@ -288,14 +288,14 @@ class RotaryEncoder(RgbKnob):
     # self.oled._delay_microseconds(5000000)
 
     def load_color_func(self):
-        self.set_color(self.knobcolor_menu.menu_data_items[self.knobcolor_menu.menu_data_position])
+        self.set_color(self.knob_color_menu.menu_data_items[self.knob_color_menu.menu_data_position])
         self.save_color_as_default()
-        self.change_menu_nodes(self.knobcolor_menu.parent)
+        self.change_menu_nodes(self.knob_color_menu.parent)
 
     def load_brightness_func(self):
-        self.set_brightness(self.knobbrightness_menu.menu_data_items[self.knobbrightness_menu.menu_data_position])
+        self.set_brightness(self.knob_brightness_menu.menu_data_items[self.knob_brightness_menu.menu_data_position])
         self.save_color_as_default()
-        self.change_menu_nodes(self.knobbrightness_menu.parent)
+        self.change_menu_nodes(self.knob_brightness_menu.parent)
 
     def set_about(self, menu_item):
         if menu_item == "IP":
@@ -593,7 +593,7 @@ class RotaryEncoder(RgbKnob):
 
             # if midi_pedal_obj.name == "TimeLine":
             # 	midi_pedal_obj.setTempo(float(self.current_song.data.bpm))
-            # need to get all the midi_pedals to their correct state before messsing with tempo
+            # need to get all the midi_pedals to their correct state before messing with tempo
         # now that we are out of the for loop, set the tempo
         self.rebuild_menu()
         self.set_song_info_message()
@@ -921,7 +921,7 @@ class RotaryEncoder(RgbKnob):
 
 class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, RotaryEncoder):
     """ class to handle button pushes on the rotary encoder knob. its parents are 'ButtonOnPedalBoard' from the
-    'EffectLoops' package and 'Rotary_Encoder' """
+    'EffectLoops' package and ': "' """
 
     def __init__(self, button, mode, **kwargs):
         # type = "RotaryPushButton"
