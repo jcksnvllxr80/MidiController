@@ -712,18 +712,18 @@ class RotaryEncoder(RgbKnob):
     def display_word_wrap(self, text):
         if len(text) > 16:
             overflow = len(text) - 16
-            self.set_message(text[:-overflow] + "\n" + text[-overflow:])
+            self.set_message(text[:-overflow] + " - " + text[-overflow:])
         else:
             self.set_message(text)
 
     def set_song_info_message(self):
-        self.set_message(self.current_song.data.name + "\n"
+        self.set_message(self.current_song.data.name + " - "
                          + self.current_song.data.bpm + "BPM - " + self.current_part.data.part_name)
         logger.info("Now displaying indices song: " + str(self.displayed_song_index) + "; part: " + str(
             self.displayed_part_index))
 
     def set_song_info_message_by_value(self, song, part):
-        self.set_message(song.data.name + "\n" + song.data.bpm + "BPM - " + part.data.part_name)
+        self.set_message(song.data.name + " - " + song.data.bpm + "BPM - " + part.data.part_name)
         logger.info("Now displaying indices song: " + str(self.displayed_song_index) + "; part: " + str(
             self.displayed_part_index))
 
@@ -884,10 +884,10 @@ class RotaryEncoder(RgbKnob):
 
     def set_children_message(self):
         if self.menu.current_node.parent not in [None, self.menu.root]:
-            display_message = self.menu.current_node.parent.name + ":\n" + self.menu.current_node.name + ":\n" \
+            display_message = self.menu.current_node.parent.name + ": - " + self.menu.current_node.name + ": - " \
                               + self.menu.current_node.children[self.menu.current_node.current_child].name
         else:
-            display_message = self.menu.current_node.name + ":\n" \
+            display_message = self.menu.current_node.name + ": - " \
                               + self.menu.current_node.children[self.menu.current_node.current_child].name
         self.set_message(display_message)
 
@@ -903,21 +903,21 @@ class RotaryEncoder(RgbKnob):
     def set_child_grandchild_menu_data_message(self):
         if self.menu.current_node.menu_data_items:
             self.prepare_for_displaying_message()
-            self.set_message(self.menu.current_node.menu_data_prompt + "\n" + str(
+            self.set_message(self.menu.current_node.menu_data_prompt + " - " + str(
                 self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]))
 
     def set_parent_child_grandchild_menu_data_message(self):
         if self.menu.current_node.menu_data_items:
             self.prepare_for_displaying_message()
             self.set_message(
-                self.menu.current_node.parent.name + ":\n" + self.menu.current_node.menu_data_prompt + "\n" +
+                self.menu.current_node.parent.name + ": - " + self.menu.current_node.menu_data_prompt + " - " +
                 str(self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]))
 
     def set_grandparent_parent_child_grandchild_menu_data_message(self):
         if self.menu.current_node.menu_data_items:
             self.prepare_for_displaying_message()
-            self.set_message(self.menu.current_node.parent.parent.name + ":\n" + self.menu.current_node.parent.name +
-                             ":\n" + self.menu.current_node.menu_data_prompt + "\n" +
+            self.set_message(self.menu.current_node.parent.parent.name + ": - " + self.menu.current_node.parent.name +
+                             ": - " + self.menu.current_node.menu_data_prompt + " - " +
                              str(self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]))
 
     def prepare_for_displaying_message(self):

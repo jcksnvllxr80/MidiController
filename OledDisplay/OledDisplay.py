@@ -79,7 +79,7 @@ class OledDisplay(object):
 		self.spi_disp.display()
 
 	def draw_centered(self, msg, draw, y, text_color):
-		for msg_str in re.split(' - |\n', msg):
+		for msg_str in re.split(' - ', msg):
 			x_max, y_max = draw.textsize(msg_str, font=self.font_type)
 			x = (self.width - x_max)/2
 			draw.text((x, y), msg_str, font=self.font_type, fill=text_color)
