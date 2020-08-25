@@ -1,12 +1,12 @@
-import time
 import logging
+import time
+import re
 import Adafruit_GPIO.SPI as SPI
-import SSD1306
-import RPi.GPIO as GPIO
 from PIL import Image
-from PIL import ImageFont
 from PIL import ImageDraw
+from PIL import ImageFont
 
+import SSD1306
 
 DISPLAY_X_START = 2
 RST = 25
@@ -79,7 +79,7 @@ class OledDisplay(object):
 		self.spi_disp.display()
 
 	def draw_centered(self, msg, draw, y, text_color):
-		for msg_str in msg.split(" - "):
+		for msg_str in re.split(' - |\n', msg):
 			x_max, y_max = draw.textsize(msg_str, font=self.font_type)
 			x = (self.width - x_max)/2
 			draw.text((x, y), msg_str, font=self.font_type, fill=text_color)
@@ -89,7 +89,7 @@ class OledDisplay(object):
 		for msg_str in msg.split(" - "):
 			x_max, y_max = draw.textsize(msg_str, font=self.font_type)
 			draw.text((DISPLAY_X_START, y), msg_str, font=self.font_type, fill=text_color)
-			y += y_max
+			y += y_max + 1
 
 	def set_font(self, font_type=None, font_size=None):
 		if font_size:
