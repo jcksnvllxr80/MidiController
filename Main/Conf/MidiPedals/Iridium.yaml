@@ -14,9 +14,9 @@ Bank Select:
   notes: "bank1 = 0 - bank2 = 1 - bank3 = 2"
   cc: 0
   dict:
-    Bank 1: 0
-    Bank 2: 1
-    Bank 3: 2
+    bank 1: 0
+    bank 2: 1
+    bank 3: 2
 Engage:
   cc: 102
   value: 127 # turns pedal on
@@ -82,15 +82,15 @@ Parameters:
     notes: "0-2 (round a, b, c) - 3-5 (chime a, b, c) - 6-8 (punch a, b, c)" 
     cc: 20
     dict:
-      round 1x12 Fender - Deluxe Reverb: 0
-      round 1x12 Fender - Blues Junior: 1
-      round 2x10 Fender - Vibrolux: 2
-      chime 2x12 Vox - AC30-6 open back fawn: 3
-      chime 1x12 Custom cab - Celestion Blue AlNiCo: 4
-      chime 4x12 Mesa/Boogie - Half-Back: 5
-      punch 4x12 Marshall - Celestion G12M-25s: 6
-      punch 2x12 Custom cab - Celestion Vintage 30s: 7
-      punch 8x12 Marshall - Celestion T652s: 8
+      Round 1x12 Fender - Deluxe Reverb: 0
+      Round 1x12 Fender - Blues Junior: 1
+      Round 2x10 Fender - Vibrolux: 2
+      Chime 2x12 Vox - AC30-6 Open Back Fawn: 3
+      Chime 1x12 Custom cab - Celestion Blue AlNiCo: 4
+      Chime 4x12 MesaBoogie - Half-Back: 5
+      Punch 4x12 Marshall - Celestion G12M-25s: 6
+      Punch 2x12 Custom cab - Celestion Vintage 30s: 7
+      Punch 8x12 Marshall - Celestion T652s: 8
   Footswitch Fav:
     notes: "0 = release - 1 thru 127 = press"
     cc: 27
