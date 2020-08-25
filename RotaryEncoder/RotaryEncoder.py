@@ -522,7 +522,9 @@ class RotaryEncoder(RgbKnob):
             midi_pedal_conf_group_name, None)
         if current_midi_pedal_option_dict:
             logger.info("Executing " + midi_pedal_conf_group_name + " function for " + midi_pedal_name + ".")
-            # self.make_midi_pedal_parameter_change(current_midi_pedal_option_dict)
+            action_dict = self.midi_pedal_dict[midi_pedal_name].get(midi_pedal_conf_group_name, {})
+            if action_dict:
+                self.midi_pedal_dict[midi_pedal_name].determine_action_method(action_dict)
         else:
             logger.warn(
                 "NOT executing " + midi_pedal_conf_group_name + " function for " + midi_pedal_name +
@@ -549,7 +551,7 @@ class RotaryEncoder(RgbKnob):
                 " as there are no execution parameters given.")
         self.change_menu_nodes(self.menu.current_node.parent)
 
-    def make_midi_pedal_parameter_change(self, option, value):
+    def make_midi_pedal_parameter_change(self, option, value=None):
         midi_pedal_name = self.midi_pedal_menu.children[self.midi_pedal_menu.current_child].name
         self.midi_pedal_dict[midi_pedal_name].set_params({option: value})
 
