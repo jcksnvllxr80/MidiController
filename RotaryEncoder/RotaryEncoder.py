@@ -522,9 +522,10 @@ class RotaryEncoder(RgbKnob):
             midi_pedal_conf_group_name, None)
         if current_midi_pedal_option_dict:
             logger.info("Executing " + midi_pedal_conf_group_name + " function for " + midi_pedal_name + ".")
-            action_dict = self.midi_pedal_dict[midi_pedal_name].get(midi_pedal_conf_group_name, {})
+            midi_pedal = self.midi_pedal_dict[midi_pedal_name]
+            action_dict = midi_pedal.midi_pedal_conf_dict.get(midi_pedal_conf_group_name, {})
             if action_dict:
-                self.midi_pedal_dict[midi_pedal_name].determine_action_method(action_dict)
+                midi_pedal.determine_action_method(action_dict)
         else:
             logger.warn(
                 "NOT executing " + midi_pedal_conf_group_name + " function for " + midi_pedal_name +
