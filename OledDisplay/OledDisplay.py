@@ -89,7 +89,7 @@ class OledDisplay(object):
 		for msg_str in msg.split(" - "):
 			x_max, y_max = draw.textsize(msg_str, font=self.font_type)
 			draw.text((DISPLAY_X_START, y), msg_str, font=self.font_type, fill=text_color)
-			y += y_max + 2
+			y += y_max + 1
 
 	def set_font(self, font_type=None, font_size=None):
 		if font_size:

@@ -13,8 +13,10 @@ Set Preset:
 Bank Select:
   notes: "bank1 = 0 - bank2 = 1 - bank3 = 2"
   cc: 0
-  min: 0
-  max: 2
+  dict:
+    Bank 1: 0
+    Bank 2: 1
+    Bank 3: 2
 Engage:
   cc: 102
   value: 127 # turns pedal on
