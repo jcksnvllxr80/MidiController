@@ -18,11 +18,11 @@ parts:
                 preset: 1
             Iridium:
                 engaged: True
-                # preset: 1
+                preset: 1
                 params:
-                    # Amp: 1
-                    Cab: 2
-                    Room Size: 3
+#                    Amp: 1
+#                    Cab: 2
+#                    Room Size: 3
             SuperSwitcher:
                 preset: 1
                 params:
@@ -70,11 +70,11 @@ parts:
                 preset: 1
             Iridium:
                 engaged: True
-                # preset: 1
+                preset: 1
                 params:
-                    # Amp: 1
-                    Cab: 3
-                    Room Size: 1
+#                    Amp: 1
+#                    Cab: 3
+#                    Room Size: 1
             SuperSwitcher:
                 preset: 1
                 params:
@@ -122,11 +122,11 @@ parts:
                 preset: 1
             Iridium:
                 engaged: True
-                # preset: 1
+                preset: 1
                 params:
-                    # Amp: 1
-                    Cab: 4
-                    Room Size: 2
+#                    Amp: 1
+#                    Cab: 4
+#                    Room Size: 2
             SuperSwitcher:
                 preset: 1
                 params:
@@ -174,11 +174,11 @@ parts:
                 preset: 1
             Iridium:
                 engaged: True
-                # preset: 1
+                preset: 1
                 params:
-                    # Amp: 1
-                    Cab: 5
-                    Room Size: 3
+#                    Amp: 1
+#                    Cab: 5
+#                    Room Size: 3
             SuperSwitcher:
                 preset: 1
                 params:
