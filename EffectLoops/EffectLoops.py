@@ -240,7 +240,7 @@ class MidiPedal(Pedal):
     # elif action_dict.get('multi', None):
     # 	self.handle_multi_functions(action_dict, value)
 
-    def determine_action_method(self, action_dict, value=None):
+    def determine_action_method(self, action_dict, value):
         if value is None:
             value = action_dict.get('value', None)
         if action_dict.get('cc', None):
