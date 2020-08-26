@@ -151,7 +151,7 @@ class RotaryEncoder(RgbKnob):
     menu = N_Tree.N_Tree("MidiController")
     setup_menu = menu.root.add_child("Setup")
     global_menu = menu.root.add_child("Global")
-    midi_change_keys = ['cc', 'pc', 'program change']
+    midi_change_keys = ['cc', 'pc', 'program change', 'control change', 'multi']
     leaf_keys = ['min', 'max', 'on', 'off', 'value', 'dict', 'press', 'release']
     leaf_keys.extend(midi_change_keys)
     rotary_threads = []
@@ -429,22 +429,24 @@ class RotaryEncoder(RgbKnob):
                 cc = midi_pedal_conf_group_opt_dict.get("cc", None)
                 pc = midi_pedal_conf_group_opt_dict.get("pc", None)
                 program_change = midi_pedal_conf_group_opt_dict.get("program change", None)
+                control_change = midi_pedal_conf_group_opt_dict.get("control change", None)
+                multi = midi_pedal_conf_group_opt_dict.get("multi", None)
                 val = midi_pedal_conf_group_opt_dict.get("value", None)
                 on = midi_pedal_conf_group_opt_dict.get("on", None)
                 off = midi_pedal_conf_group_opt_dict.get("off", None)
                 opt_dict = midi_pedal_conf_group_opt_dict.get("dict", None)
                 press = midi_pedal_conf_group_opt_dict.get("press", None)
                 release = midi_pedal_conf_group_opt_dict.get("release", None)
-                if cc is not None or pc is not None or program_change is not None:
-                    if min_val is not None and max_val is not None:
+                if any([cc, pc, program_change, control_change, multi]):
+                    if None not in [min_val, max_val]:
                         logger.info("Display min and max so user can choose value: \
                             (" + str(min_val) + ", " + str(max_val) + ").")
                         self.menu.current_node.menu_data_items = range(min_val, max_val + 1)
-                    elif on is not None and off is not None:
+                    elif None not in [on, off]:
                         logger.info("Display off and on so user can choose value: (off: " + str(off) + ", on: " + str(
                             on) + ").")
                         self.menu.current_node.menu_data_items = ['off', 'on']
-                    elif press is not None and release is not None:
+                    elif None not in [press, release]:
                         logger.info("Display press and release so user can choose value: (press: " + str(
                             press) + ", release: " + str(release) + ").")
                         self.menu.current_node.menu_data_items = ['press', 'release']
@@ -456,7 +458,7 @@ class RotaryEncoder(RgbKnob):
                     elif val is not None:
                         self.execute_midi_pedal_group_opt()
                 else:
-                    logger.warn("Can't execute a midi command without a cc or pc number.")
+                    logger.warn("Can't execute a midi command without instructions.")
             else:
                 for midi_pedal_deeper_conf_opt_key, midi_pedal_deeper_conf_opt_value in \
                         midi_pedal_conf_group_opt_dict.iteritems():
