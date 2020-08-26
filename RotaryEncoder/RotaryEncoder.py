@@ -405,9 +405,11 @@ class RotaryEncoder(RgbKnob):
                             {midi_pedal_conf_opt_key: midi_pedal_conf_opt_value})
                         self.set_midi_pedal_conf_opts_menu(midi_pedal_conf_opt_key, current_midi_pedal_config_opt_menu)
                 self.test_point_node_printer(current_midi_pedal_config_opt_menu)
-            elif config_option_group_name in ["Engage", "Bypass", "Toggle Bypass", "Bank Select", "Set Preset"]:
+            elif config_option_group_name in ["Engage", "Bypass", "Toggle Bypass"]:
                 current_midi_pedal_config_opt_menu.menu_data_dict.update(midi_pedal_conf_opt)
                 self.execute_midi_pedal_opt()
+            elif config_option_group_name in ["Bank Select", "Set Preset"]:
+                self.parse_option_dict(midi_pedal_conf_opt)
         else:
             logger.warn("No dictionary found for this group: " + config_option_group_name)
 
@@ -423,51 +425,54 @@ class RotaryEncoder(RgbKnob):
         midi_pedal_conf_group_opt_dict = self.menu.current_node.parent.menu_data_dict.get(
             self.menu.current_node.name, None)
         if midi_pedal_conf_group_opt_dict:
-            if any([k in midi_pedal_conf_group_opt_dict for k in self.leaf_keys]):
-                min_val = midi_pedal_conf_group_opt_dict.get("min", None)
-                max_val = midi_pedal_conf_group_opt_dict.get("max", None)
-                cc = midi_pedal_conf_group_opt_dict.get("cc", None)
-                pc = midi_pedal_conf_group_opt_dict.get("pc", None)
-                program_change = midi_pedal_conf_group_opt_dict.get("program change", None)
-                control_change = midi_pedal_conf_group_opt_dict.get("control change", None)
-                multi = midi_pedal_conf_group_opt_dict.get("multi", None)
-                val = midi_pedal_conf_group_opt_dict.get("value", None)
-                on = midi_pedal_conf_group_opt_dict.get("on", None)
-                off = midi_pedal_conf_group_opt_dict.get("off", None)
-                opt_dict = midi_pedal_conf_group_opt_dict.get("dict", None)
-                press = midi_pedal_conf_group_opt_dict.get("press", None)
-                release = midi_pedal_conf_group_opt_dict.get("release", None)
-                if any([cc, pc, program_change, control_change, multi]):
-                    if None not in [min_val, max_val]:
-                        logger.info("Display min and max so user can choose value: \
+            self.parse_option_dict(midi_pedal_conf_group_opt_dict)
+
+    def parse_option_dict(self, midi_pedal_opt_dict):
+        if any([k in midi_pedal_opt_dict for k in self.leaf_keys]):
+            min_val = midi_pedal_opt_dict.get("min", None)
+            max_val = midi_pedal_opt_dict.get("max", None)
+            cc = midi_pedal_opt_dict.get("cc", None)
+            pc = midi_pedal_opt_dict.get("pc", None)
+            program_change = midi_pedal_opt_dict.get("program change", None)
+            control_change = midi_pedal_opt_dict.get("control change", None)
+            multi = midi_pedal_opt_dict.get("multi", None)
+            val = midi_pedal_opt_dict.get("value", None)
+            on = midi_pedal_opt_dict.get("on", None)
+            off = midi_pedal_opt_dict.get("off", None)
+            opt_dict = midi_pedal_opt_dict.get("dict", None)
+            press = midi_pedal_opt_dict.get("press", None)
+            release = midi_pedal_opt_dict.get("release", None)
+            if any([cc, pc, program_change, control_change, multi]):
+                if None not in [min_val, max_val]:
+                    logger.info("Display min and max so user can choose value: \
                             (" + str(min_val) + ", " + str(max_val) + ").")
-                        self.menu.current_node.menu_data_items = range(min_val, max_val + 1)
-                    elif None not in [on, off]:
-                        logger.info("Display off and on so user can choose value: (off: " + str(off) + ", on: " + str(
-                            on) + ").")
-                        self.menu.current_node.menu_data_items = ['off', 'on']
-                    elif None not in [press, release]:
-                        logger.info("Display press and release so user can choose value: (press: " + str(
-                            press) + ", release: " + str(release) + ").")
-                        self.menu.current_node.menu_data_items = ['press', 'release']
-                    elif opt_dict:
-                        logger.info("Display press and release so user can choose value: (press: " + str(
-                            press) + ", release: " + str(release) + ").")
-                        self.menu.current_node.menu_data_items = \
-                            [k for k, v in sorted(opt_dict.items(), key=lambda item: item[1])]
-                    elif val is not None:
-                        self.execute_midi_pedal_group_opt()
-                else:
-                    logger.warn("Can't execute a midi command without instructions.")
+                    self.menu.current_node.menu_data_items = range(min_val, max_val + 1)
+                elif None not in [on, off]:
+                    logger.info("Display off and on so user can choose value: (off: " + str(off) + ", on: " + str(
+                        on) + ").")
+                    self.menu.current_node.menu_data_items = ['off', 'on']
+                elif None not in [press, release]:
+                    logger.info("Display press and release so user can choose value: (press: " + str(
+                        press) + ", release: " + str(release) + ").")
+                    self.menu.current_node.menu_data_items = ['press', 'release']
+                elif opt_dict:
+                    logger.info("Display press and release so user can choose value: (press: " + str(
+                        press) + ", release: " + str(release) + ").")
+                    self.menu.current_node.menu_data_items = \
+                        [k for k, v in sorted(opt_dict.items(), key=lambda item: item[1])]
+                elif val is not None:
+                    self.execute_midi_pedal_group_opt()
             else:
-                for midi_pedal_deeper_conf_opt_key, midi_pedal_deeper_conf_opt_value in \
-                        midi_pedal_conf_group_opt_dict.iteritems():
-                    if midi_pedal_deeper_conf_opt_value:
-                        self.menu.current_node.menu_data_items.append(midi_pedal_deeper_conf_opt_key)
-                        self.menu.current_node.menu_data_dict.update(
-                            {midi_pedal_deeper_conf_opt_key: midi_pedal_deeper_conf_opt_value})
-                        self.set_midi_pedal_conf_opts_menu(midi_pedal_deeper_conf_opt_key, self.menu.current_node)
-                self.test_point_node_printer(self.menu.current_node)
+                logger.warn("Can't execute a midi command without instructions.")
+        else:
+            for midi_pedal_deeper_conf_opt_key, midi_pedal_deeper_conf_opt_value in \
+                    midi_pedal_opt_dict.iteritems():
+                if midi_pedal_deeper_conf_opt_value:
+                    self.menu.current_node.menu_data_items.append(midi_pedal_deeper_conf_opt_key)
+                    self.menu.current_node.menu_data_dict.update(
+                        {midi_pedal_deeper_conf_opt_key: midi_pedal_deeper_conf_opt_value})
+                    self.set_midi_pedal_conf_opts_menu(midi_pedal_deeper_conf_opt_key, self.menu.current_node)
+            self.test_point_node_printer(self.menu.current_node)
 
     @staticmethod
     def menu_data_item_position_init(current_value):
