@@ -103,9 +103,9 @@ Parameters:
     notes: "bank1 = 0 - bank2 = 1 - bank3 = 2"
     cc: 0
     dict:
-      bank 1: 0
-      bank 2: 1
-      bank 3: 2
+      'bank 1': 0
+      'bank 2': 1
+      'bank 3': 2
   Expression Pedal:
     notes: "min exp pedal 0 - max exp pedal 127"
     cc: 100
