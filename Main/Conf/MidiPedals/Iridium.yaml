@@ -10,13 +10,6 @@ Set Preset:
       func: "x % 128"
   min: 0
   max: 299
-Bank Select:
-  notes: "bank1 = 0 - bank2 = 1 - bank3 = 2"
-  cc: 0
-  dict:
-    bank 1: 0
-    bank 2: 1
-    bank 3: 2
 Engage:
   cc: 102
   value: 127 # turns pedal on
@@ -111,3 +104,10 @@ Parameters:
     cc: 100
     min: 0
     max: 127
+  Bank Select:
+    notes: "bank1 = 0 - bank2 = 1 - bank3 = 2"
+    cc: 0
+    dict:
+      bank 1: 0
+      bank 2: 1
+      bank 3: 2

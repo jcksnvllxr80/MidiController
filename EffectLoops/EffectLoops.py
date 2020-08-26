@@ -132,8 +132,8 @@ class MidiPedal(Pedal):
             "Engage": self.midi_command_dict.get("Engage", None),
             "Bypass": self.midi_command_dict.get("Bypass", None),
             "Set Preset": self.midi_command_dict.get("Set Preset", None),
+            "Set Tempo": self.midi_command_dict.get("Set Tempo", None),
             "Knobs/Switches": self.midi_command_dict.get("Knobs/Switches", None),
-            "Bank Select": self.midi_command_dict.get("Bank Select", None),
             "Toggle Bypass": self.midi_command_dict.get("Toggle Bypass", None)
         }
         Pedal.__init__(self, name, state)
@@ -177,6 +177,16 @@ class MidiPedal(Pedal):
                 self.preset = preset
         else:
             logger.info(self.name + " has no \'Set Preset\' option defined in the pedal config.")
+
+    def set_tempo(self, tempo):
+        if self.midi_pedal_conf_dict["Set Tempo"]:
+            if tempo == '':
+                logger.info(self.name + " has no tempo for this part.")
+            else:
+                self.determine_action_method(self.midi_pedal_conf_dict["Set Tempo"], tempo)
+                logger.info(self.name + " tempo was set to " + str(tempo) + ".")
+        else:
+            logger.info(self.name + " has no \'Set Tempo\' option defined in the pedal config.")
 
     def set_setting(self, setting):
         setting_dict = self.midi_command_dict.get(setting, None)

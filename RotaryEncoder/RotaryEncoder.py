@@ -408,7 +408,7 @@ class RotaryEncoder(RgbKnob):
             elif config_option_group_name in ["Engage", "Bypass", "Toggle Bypass"]:
                 current_midi_pedal_config_opt_menu.menu_data_dict.update(midi_pedal_conf_opt)
                 self.execute_midi_pedal_opt()
-            elif config_option_group_name in ["Bank Select", "Set Preset"]:
+            elif config_option_group_name in ["Set Preset", "Set Tempo"]:
                 self.parse_option_dict(midi_pedal_conf_opt)
         else:
             logger.warn("No dictionary found for this group: " + config_option_group_name)
