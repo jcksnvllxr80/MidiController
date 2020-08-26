@@ -442,7 +442,7 @@ class RotaryEncoder(RgbKnob):
             opt_dict = midi_pedal_opt_dict.get("dict", None)
             press = midi_pedal_opt_dict.get("press", None)
             release = midi_pedal_opt_dict.get("release", None)
-            if any([cc, pc, program_change, control_change, multi]):
+            if any(x is not None for x in [cc, pc, program_change, control_change, multi]):
                 if None not in [min_val, max_val]:
                     logger.info("Display min and max so user can choose value: \
                             (" + str(min_val) + ", " + str(max_val) + ").")
