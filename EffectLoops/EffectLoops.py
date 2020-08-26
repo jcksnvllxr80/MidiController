@@ -277,6 +277,8 @@ class MidiPedal(Pedal):
             elif change_dict.get('value', None) == v:
                 logger.info("This param uses key \'value\' and the value is " + str(v) + ". ")
                 converted_to_int = int(v)
+            elif isinstance(v, bool):
+                v = 'on' if v else 'off'
             else:
                 logger.info("Key, " + str(v) + ", not found in dict -> " + str(change_dict))
                 min_val = change_dict.get('min', None)
