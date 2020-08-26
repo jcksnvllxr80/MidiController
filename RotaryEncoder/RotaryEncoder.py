@@ -143,7 +143,7 @@ class RotaryEncoder(RgbKnob):
     """ class for everything to do with the rotary encoder. its parent is RgbKnob """
 
     # NOTE: Need to always display song info (main menu / root of menu tree)
-    # on 1 short click go to song/set/part/bpm/midi_pedal menun
+    # on 1 short click go to song/set/part/bpm/midi_pedal menu
     # on 2 second click got to global menu
     # on 5 second click go to power off menu
 
@@ -462,6 +462,8 @@ class RotaryEncoder(RgbKnob):
                         [k for k, v in sorted(opt_dict.items(), key=lambda item: item[1])]
                 elif val is not None:
                     self.execute_midi_pedal_group_opt()
+                else:
+                    logger.warn("Cant parse option dictionary.")
             else:
                 logger.warn("Can't execute a midi command without instructions.")
         else:
