@@ -262,7 +262,7 @@ class RotaryEncoder(RgbKnob):
     def get_ip():
         cmd = "hostname -I | grep -Eo \"([0-9]{1,3}[\.]){3}[0-9]{1,3}\""  # "hostname -I | cut -d\' \' -f1"
         ip_addresses = subprocess.check_output(cmd, shell=True)
-        return "IP: - " + str(ip_addresses)
+        return "IP: - " + str(ip_addresses.replace("\n", ' - '))
 
     @staticmethod
     def get_stats():
