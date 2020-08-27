@@ -10,6 +10,10 @@ Bypass:
 Set Preset:
   control change:
     func: '{"TS808":20, "Plexi":21, "Klone":22}.get(x, None)'
+    options:
+      - TS808
+      - Plexi
+      - Klone
 Parameters:
   Cycle Clipping:
     cc: 25

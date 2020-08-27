@@ -442,7 +442,7 @@ class RotaryEncoder(RgbKnob):
             opt_dict = midi_pedal_opt_dict.get("dict", None)
             press = midi_pedal_opt_dict.get("press", None)
             release = midi_pedal_opt_dict.get("release", None)
-            if any(x is not None for x in [cc, pc, program_change, control_change, multi]):
+            if any(x is not None for x in [cc, pc, program_change, multi]):
                 if None not in [min_val, max_val]:
                     logger.info("Display min and max so user can choose value: \
                             (" + str(min_val) + ", " + str(max_val) + ").")
@@ -464,6 +464,11 @@ class RotaryEncoder(RgbKnob):
                     self.execute_midi_pedal_group_opt()
                 else:
                     logger.warn("Cant parse option dictionary.")
+            elif control_change is not None:
+                control_change_func_dict = control_change.get("func", None)
+                if control_change_func_dict is not None:
+                    self.menu.current_node.menu_data_items = control_change.get("options", [])
+                    # self.execute_midi_pedal_group_opt()
             else:
                 logger.warn("Can't execute a midi command without instructions.")
         else:
