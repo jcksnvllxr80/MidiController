@@ -258,7 +258,7 @@ Parameters:
       cc: 45
       dict:
         Single: 0
-        Doucle: 1
+        Double: 1
   Digital:
     Repeat Dynamics:
       cc: 56
