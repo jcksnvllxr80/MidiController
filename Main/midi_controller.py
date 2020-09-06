@@ -55,10 +55,7 @@ def setup():
     global button_setup
     global controller_api
 
-    # read config yaml file into dictionaries
-    with open(CONFIG_FILE, 'r') as ymlfile:
-        config_file = yaml.full_load(ymlfile)
-
+    config_file = read_config_file()
     # read config dict's into more specific variables
     button_setup = {k: v for k, v in config_file['button_setup'].iteritems()}
     knob = {k: v for k, v in config_file['knob'].iteritems()}
@@ -140,6 +137,16 @@ def setup():
     init_web_app()
 
 
+def read_config_file(node=None):
+    # read config yaml file into dictionaries
+    with open(CONFIG_FILE, 'r') as ymlfile:
+        config_file = yaml.full_load(ymlfile)
+    if node:
+        return config_file.get(node, None)
+    else:
+        return config_file
+
+
 def init_web_app():
     CORS(app)
     app.config["DEBUG"] = True
@@ -150,7 +157,8 @@ def init_web_app():
 
 
 def buttons_are_locked():
-    return True if controller_api.get("buttons_locked", None) else False
+    controller_current_config = read_config_file("controller_api")
+    return True if controller_current_config.get("buttons_locked", None) else False
 
 
 def init_logging():
