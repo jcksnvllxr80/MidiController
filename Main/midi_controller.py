@@ -218,13 +218,6 @@ def page_not_found(e):
     return jsonify(display_message="Error.")
 
 
-@app.route('/*', methods=['GET', 'PUT', 'POST'])
-def page_not_found(e):
-    message = "This is the default message."
-    logger.warn(message)
-    return jsonify(display_message=message)
-
-
 def handle_button_action(button, bttn_func, execution_func):
     if not buttons_are_locked():
         logger.info("running button function: " + str(bttn_func))
