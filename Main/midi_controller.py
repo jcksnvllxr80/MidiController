@@ -172,8 +172,7 @@ def init_logging():
 
 
 def get_button_function_dict(button):
-    button_funcs = button_setup.get(button, None)
-    return button_funcs if button_funcs else "Invalid Button."
+    return button_setup.get(int(button), None)
 
 
 @app.route('/', methods=['GET'])
