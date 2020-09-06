@@ -194,6 +194,7 @@ def page_not_found(e):
 
 def handle_button_action(button, press_length, bttn_func_dict):
     if not buttons_are_locked():
+        bttn_func = None
         if press_length is "short":
             bttn_func = bttn_func_dict.get("function")
             logger.info("running standard button function: " + str(bttn_func))
