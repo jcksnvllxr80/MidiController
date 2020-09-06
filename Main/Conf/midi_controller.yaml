@@ -29,7 +29,7 @@ knob:
   color: Magenta
 controller_api:
   port: 8090
-  buttons_locked: true
+  buttons_locked: False
 midi:
   channels:
     1:

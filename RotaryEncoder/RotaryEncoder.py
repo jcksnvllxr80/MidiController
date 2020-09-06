@@ -207,10 +207,12 @@ class RotaryEncoder(RgbKnob):
         self.power_menu.menu_data_dict = {"NO yes": self.change_menu_nodes, "no YES": self.power_off}
 
         # build global menu
+        self.buttons_locked = kwargs["buttons_locked"]
         self.knob_color_menu = self.global_menu.add_child("Knob Color", self.show_knob_colors, self.load_color_func)
         self.knob_brightness_menu = self.global_menu.add_child("Knob Brightness", self.show_brightness,
                                                                self.load_brightness_func)
         self.about_menu = self.global_menu.add_child("About", self.show_about, self.load_about_func)
+        self.button_lock_menu = self.global_menu.add_child("Button Lock", self.show_lock, self.lock_unlock_func)
 
         # variables for the rotary movement interpretation loop
         self.last_good_seq = 0
@@ -257,6 +259,12 @@ class RotaryEncoder(RgbKnob):
         self.about_menu.menu_data_prompt = self.about_menu.name + ":"
         self.about_menu.menu_data_position = self.about_menu.menu_data_items.index('IP')
         self.test_point_node_printer(self.about_menu)
+
+    def show_lock(self):
+        self.button_lock_menu.menu_data_items = [True, False]
+        self.button_lock_menu.menu_data_prompt = self.button_lock_menu.name + ":"
+        self.button_lock_menu.menu_data_position = self.button_lock_menu.menu_data_items.index(self.buttons_locked)
+        self.test_point_node_printer(self.button_lock_menu)
 
     @staticmethod
     def get_ip():
@@ -305,6 +313,13 @@ class RotaryEncoder(RgbKnob):
 
     def load_about_func(self):
         self.set_about(self.about_menu.menu_data_items[self.about_menu.menu_data_position])
+
+    def set_lock(self, lock_state):
+        if lock_state != self.buttons_locked:
+            self.save_button_lock_as_default(lock_state)
+
+    def lock_unlock_func(self):
+        self.set_lock(self.button_lock_menu.menu_data_items[self.button_lock_menu.menu_data_position])
 
     # self.change_menu_nodes(self.about_menu.parent)
 
@@ -796,6 +811,12 @@ class RotaryEncoder(RgbKnob):
             'song': self.current_song.data.name,
             'part': self.current_part.data.part_name
         })
+        self.write_config(defaults)
+
+    def save_button_lock_as_default(self, state):
+        self.buttons_locked = state
+        defaults = self.read_config()
+        defaults['controller_api'].update({'buttons_locked': state})
         self.write_config(defaults)
 
     def button_executor(self, action):
