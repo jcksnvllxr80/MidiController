@@ -320,6 +320,7 @@ class RotaryEncoder(RgbKnob):
 
     def lock_unlock_func(self):
         self.set_lock(self.button_lock_menu.menu_data_items[self.button_lock_menu.menu_data_position])
+        self.change_menu_nodes(self.button_lock_menu.parent)
 
     # self.change_menu_nodes(self.about_menu.parent)
 
