@@ -213,7 +213,7 @@ def handle_button_request(bttn_func_dict, button, config_button_press_type, func
 
 
 @app.route('/help', methods=['GET'])
-def page_not_found(e):
+def help_request():
     message = "This is the help message."
     logger.info(message)
     return jsonify(display_message=message)
