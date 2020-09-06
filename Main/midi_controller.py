@@ -185,7 +185,7 @@ def home():
 @app.route('/midi_controller/short/<button>', methods=['GET'])
 def short_button_press(button):
     bttn_func_dict = get_button_function_dict(button)
-    handle_button_request(bttn_func_dict, button, "function", rotary_push_button.button_Executor)
+    handle_button_request(bttn_func_dict, button, "function", rotary_push_button.button_executor)
     return jsonify(display_message=rotary_push_button.get_message(), controller_locked=buttons_are_locked())
 
 
