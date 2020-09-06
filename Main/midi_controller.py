@@ -143,8 +143,8 @@ def init_web_app():
     app.config["DEBUG"] = True
     web_app_port = controller_api.get('port', None)
     if not web_app_port:
-        port = 8090
-    app.run(host='0.0.0.0', port=int(port), use_reloader=False)
+        web_app_port = 8090
+    app.run(host='0.0.0.0', port=int(web_app_port), use_reloader=False)
 
 
 def buttons_are_locked():
