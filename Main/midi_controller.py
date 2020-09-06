@@ -5,12 +5,15 @@ import sys
 import time
 from os import path
 from traceback import format_exception
+from flask import request, jsonify
+from flask_cors import CORS
 
 import RPi.GPIO as GPIO  # for interfacing with raspberrypi GPIO
 import yaml
 import EffectLoops  # package for controlling the midi devices
 import Footswitches  # package for the footswitch inputs
 import RotaryEncoder  # package for the rotary encoder inputs
+import flask  # package for the webapp
 
 switch_pins = Footswitches.Looper_Switches()  # class for dealing with footswitch presses
 # set up rpi pins
@@ -27,6 +30,9 @@ MIDI_PEDAL_CONF_FOLDER = CONFIG_FOLDER + "MidiPedals/"
 CONFIG_FILE = CONFIG_FOLDER + "midi_controller.yaml"
 rotary_push_button = None
 footswitch_dict = {}
+button_setup = {}
+controller_api = {}
+app = flask.Flask(__name__)
 
 
 def main():
@@ -45,6 +51,8 @@ def main():
 def setup():
     global rotary_push_button
     global footswitch_dict
+    global button_setup
+    global controller_api
 
     # read config yaml file into dictionaries
     with open(CONFIG_FILE, 'r') as ymlfile:
@@ -55,6 +63,7 @@ def setup():
     knob = {k: v for k, v in config_file['knob'].iteritems()}
     current_settings = {k: v for k, v in config_file['current_settings'].iteritems()}
     midi = {k: v for k, v in config_file['midi'].iteritems()}
+    controller_api = {k: v for k, v in config_file['controller_api'].iteritems()}
 
     # read config objects into variables
     # tempo = float(current_settings['tempo'])
@@ -126,6 +135,20 @@ def setup():
     # define the interrupt for the MCP23017 encode pin A and B for the rotary encoder
     GPIO.add_event_detect(ENCODE_A, GPIO.BOTH, callback=my_encoder_callback)
     GPIO.add_event_detect(ENCODE_B, GPIO.BOTH, callback=my_encoder_callback)
+    init_web_app()
+
+
+def init_web_app():
+    CORS(app)
+    app.config["DEBUG"] = True
+    web_app_port = controller_api.get('port', None)
+    if not web_app_port:
+        port = 8090
+    app.run(host='0.0.0.0', port=int(port), use_reloader=False)
+
+
+def buttons_are_locked():
+    return True if controller_api.get("buttons_locked", None) else False
 
 
 def init_logging():
@@ -144,6 +167,45 @@ def init_logging():
     handler.setFormatter(formatter)
     logging_logger.addHandler(handler)
     return logging_logger
+
+
+def get_button_function(button):
+    button_funcs = button_setup.get(button, None)
+    return button_funcs if button_funcs else "Invalid Button."
+
+
+@app.route('/midi_controller/<press_length>/<button>', methods=['GET'])
+def api_button_press(press_length, button):
+    bttn_func_dict = get_button_function(button)
+    if bttn_func_dict:
+        handle_button_action(button, press_length, bttn_func_dict)
+    else:
+        logger.error("A " + str(press_length) + " press button request was made on the \""
+                    + str(button) + "\" button using the controller API. A function does not exist in the config file.")
+    return jsonify(display_message=rotary_push_button.get_message(), controller_locked=buttons_are_locked())
+
+
+@app.errorhandler(404)
+def page_not_found(e):
+    logger.error("404: The resource could not be found.")
+    return jsonify(display_message="Error.")
+
+
+def handle_button_action(button, press_length, bttn_func_dict):
+    if not buttons_are_locked():
+        if press_length is "short":
+            bttn_func = bttn_func_dict.get("function")
+            logger.info("running standard button function: " + str(bttn_func))
+            rotary_push_button.button_executor(bttn_func)
+        elif press_length is "long":
+            bttn_func = bttn_func_dict.get("long_press_func")
+            logger.info("running longpress button function: " + str(bttn_func))
+            rotary_push_button.change_and_select(bttn_func)
+        logger.info("A " + str(press_length) + " press button request was made on the \"" + str(
+            button) + "\" button using the controller API. Function = " + str(bttn_func))
+    else:
+        logger.warn("Failed! BUTTONS ARE LOCKED! A " + str(press_length) + " press button request was made on the \""
+                    + str(button) + "\" button using the controller API.")
 
 
 def my_encoder_callback(encoder_interrupt_pin):

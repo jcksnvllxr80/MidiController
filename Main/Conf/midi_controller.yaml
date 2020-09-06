@@ -27,6 +27,9 @@ current_settings:
 knob:
   brightness: 100
   color: Magenta
+controller_api:
+  port: 8090
+  buttons_locked: true
 midi:
   channels:
     1:
