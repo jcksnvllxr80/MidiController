@@ -32,6 +32,7 @@ rotary_push_button = None
 footswitch_dict = {}
 button_setup = {}
 controller_api = {}
+description_str = "Make button presses and return display text using python flask (CORS supported)."
 app = flask.Flask(__name__)
 
 
@@ -170,20 +171,45 @@ def init_logging():
     return logging_logger
 
 
-def get_button_function(button):
+def get_button_function_dict(button):
     button_funcs = button_setup.get(button, None)
     return button_funcs if button_funcs else "Invalid Button."
 
 
-@app.route('/midi_controller/<press_length>/<button>', methods=['GET'])
-def api_button_press(press_length, button):
-    bttn_func_dict = get_button_function(button)
-    if bttn_func_dict:
-        handle_button_action(button, press_length, bttn_func_dict)
-    else:
-        logger.error("A " + str(press_length) + " press button request was made on the \""
-                    + str(button) + "\" button using the controller API. A function does not exist in the config file.")
+@app.route('/', methods=['GET'])
+def home():
+    logger.info("controller_api: " + description_str)
+    return jsonify(controller_api=description_str)
+
+
+@app.route('/midi_controller/short/<button>', methods=['GET'])
+def short_button_press(button):
+    bttn_func_dict = get_button_function_dict(button)
+    handle_button_request(bttn_func_dict, button, "function", rotary_push_button.button_Executor)
     return jsonify(display_message=rotary_push_button.get_message(), controller_locked=buttons_are_locked())
+
+
+@app.route('/midi_controller/long/<button>', methods=['GET'])
+def long_button_press(button):
+    bttn_func_dict = get_button_function_dict(button)
+    handle_button_request(bttn_func_dict, button, "long_press_func", rotary_push_button.change_and_select)
+    return jsonify(display_message=rotary_push_button.get_message(), controller_locked=buttons_are_locked())
+
+
+def handle_button_request(bttn_func_dict, button, config_button_press_type, func_to_execute):
+    if bttn_func_dict:
+        bttn_func = bttn_func_dict.get(config_button_press_type, None)
+        handle_button_action(button, bttn_func, func_to_execute)
+    else:
+        logger.error("A " + str(press_length) + " press button request was made on the \"" + str(button)
+                     + "\" button using the controller API. A function does not exist in the config file.")
+
+
+@app.route('/help', methods=['GET'])
+def page_not_found(e):
+    message = "This is the help message."
+    logger.info(message)
+    return jsonify(display_message=message)
 
 
 @app.errorhandler(404)
@@ -192,19 +218,19 @@ def page_not_found(e):
     return jsonify(display_message="Error.")
 
 
-def handle_button_action(button, press_length, bttn_func_dict):
+@app.route('/*', methods=['GET', 'PUT', 'POST'])
+def page_not_found(e):
+    message = "This is the default message."
+    logger.warn(message)
+    return jsonify(display_message=message)
+
+
+def handle_button_action(button, bttn_func, execution_func):
     if not buttons_are_locked():
-        bttn_func = None
-        if press_length is "short":
-            bttn_func = bttn_func_dict.get("function")
-            logger.info("running standard button function: " + str(bttn_func))
-            rotary_push_button.button_executor(bttn_func)
-        elif press_length is "long":
-            bttn_func = bttn_func_dict.get("long_press_func")
-            logger.info("running longpress button function: " + str(bttn_func))
-            rotary_push_button.change_and_select(bttn_func)
-        logger.info("A " + str(press_length) + " press button request was made on the \"" + str(
-            button) + "\" button using the controller API. Function = " + str(bttn_func))
+        logger.info("running button function: " + str(bttn_func))
+        execution_func(bttn_func)
+        logger.info("A button press request was made on the \"" + str(button)
+                    + "\" button using the controller API. Function = " + str(bttn_func))
     else:
         logger.warn("Failed! BUTTONS ARE LOCKED! A " + str(press_length) + " press button request was made on the \""
                     + str(button) + "\" button using the controller API.")
