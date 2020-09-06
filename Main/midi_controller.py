@@ -232,8 +232,8 @@ def handle_button_action(button, bttn_func, execution_func):
         logger.info("A button press request was made on the \"" + str(button)
                     + "\" button using the controller API. Function = " + str(bttn_func))
     else:
-        logger.warn("Failed! BUTTONS ARE LOCKED! A " + str(press_length) + " press button request was made on the \""
-                    + str(button) + "\" button using the controller API.")
+        logger.warn("Failed! BUTTONS ARE LOCKED! A button press request was made on the \"" + str(button)
+                    + "\" button using the controller API.")
 
 
 def my_encoder_callback(encoder_interrupt_pin):
