@@ -203,13 +203,10 @@ def long_button_press(button):
     return jsonify(display_message=rotary_push_button.get_message(), controller_locked=buttons_are_locked())
 
 
-def handle_button_request(bttn_func_dict, button, config_button_press_type, func_to_execute):
-    if bttn_func_dict:
-        bttn_func = bttn_func_dict.get(config_button_press_type, None)
-        handle_button_action(button, bttn_func, func_to_execute)
-    else:
-        logger.error("A " + str(press_length) + " press button request was made on the \"" + str(button)
-                     + "\" button using the controller API. A function does not exist in the config file.")
+@app.route('/midi_controller/dpad/<direction>', methods=['GET'])
+def dpad_button_press(direction):
+    handle_dpad_request(direction)
+    return jsonify(display_message=rotary_push_button.get_message(), controller_locked=buttons_are_locked())
 
 
 @app.route('/help', methods=['GET'])
@@ -223,6 +220,26 @@ def help_request():
 def page_not_found(e):
     logger.error("404: The resource could not be found.")
     return jsonify(display_message="Error.")
+
+
+def handle_button_request(bttn_func_dict, button, config_button_press_type, func_to_execute):
+    if bttn_func_dict:
+        bttn_func = bttn_func_dict.get(config_button_press_type, None)
+        handle_button_action(button, bttn_func, func_to_execute)
+    else:
+        logger.error("A " + str(press_length) + " press button request was made on the \"" + str(button)
+                     + "\" button using the controller API. A function does not exist in the config file.")
+
+
+def handle_dpad_request(direction):
+    if direction in ['CW', 'CCW']:
+        rotary_push_button.change_menu_pos(direction)
+    elif direction is 'up':
+        rotary_push_button.handle_short_press()
+    elif direction is 'down':
+        rotary_push_button.handle_short_press()
+    else:
+        logger.warn("No action taken for invalid direction: " + direction)
 
 
 def handle_button_action(button, bttn_func, execution_func):

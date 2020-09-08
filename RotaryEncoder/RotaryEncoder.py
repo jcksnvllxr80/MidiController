@@ -1049,30 +1049,11 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, RotaryEncoder):
         else:  # on button release
             self.end = time.time()
             delta_t = self.end - self.start
-
             if delta_t < 0.5:  # if the press was shorter than half a second
                 # select the item or go into the menu currently on the display
-                if self.menu.current_node is self.menu.root:
-                    logger.info(self.menu.current_node.name + ": main -> setup")
-                    self.change_menu_nodes(self.setup_menu)
-                elif self.menu.current_node.children:
-                    logger.info(self.menu.current_node.name + ": deeper menu")
-                    self.change_menu_nodes(self.menu.current_node.children[self.menu.current_node.current_child])
-                    if self.menu.current_node.current_child is None:
-                        self.menu.current_node.current_child = 0
-                elif self.menu.current_node.menu_data_items:
-                    if self.menu.current_node.menu_data_func:
-                        logger.info(self.menu.current_node.name + ": data_func")
-                        self.menu.current_node.menu_data_func()
-                        self.menu.current_node.menu_data_loaded = False
-                    else:
-                        logger.info(self.menu.current_node.name + ": data_items")
-                        self.menu.current_node.menu_data_dict[
-                            self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]]()
+                self.handle_short_press()
             elif delta_t < 2:  # longer than half a second but shorter than 2 seconds
-                if self.menu.current_node.parent:
-                    logger.info(self.menu.current_node.name + ": child menu -> parent")
-                    self.change_menu_nodes(self.menu.current_node.parent)
+                self.handle_long_press()
             else:
                 if delta_t > 5:  # if button held for more than 5 seconds
                     if self.menu.current_node is not self.power_menu:
@@ -1084,8 +1065,31 @@ class RotaryPushButton(EffectLoops.ButtonOnPedalBoard, RotaryEncoder):
                 else:
                     logger.info(self.menu.current_node.name + ": ? -> MidiController main menu")
                     self.change_menu_nodes(self.menu.root)
-
             self.is_pressed = False  # was released
+
+    def handle_short_press(self):
+        if self.menu.current_node is self.menu.root:
+            logger.info(self.menu.current_node.name + ": main -> setup")
+            self.change_menu_nodes(self.setup_menu)
+        elif self.menu.current_node.children:
+            logger.info(self.menu.current_node.name + ": deeper menu")
+            self.change_menu_nodes(self.menu.current_node.children[self.menu.current_node.current_child])
+            if self.menu.current_node.current_child is None:
+                self.menu.current_node.current_child = 0
+        elif self.menu.current_node.menu_data_items:
+            if self.menu.current_node.menu_data_func:
+                logger.info(self.menu.current_node.name + ": data_func")
+                self.menu.current_node.menu_data_func()
+                self.menu.current_node.menu_data_loaded = False
+            else:
+                logger.info(self.menu.current_node.name + ": data_items")
+                self.menu.current_node.menu_data_dict[
+                    self.menu.current_node.menu_data_items[self.menu.current_node.menu_data_position]]()
+
+    def handle_long_press(self):
+        if self.menu.current_node.parent:
+            logger.info(self.menu.current_node.name + ": child menu -> parent")
+            self.change_menu_nodes(self.menu.current_node.parent)
 
 
 class PulsateRgbKnobThread(threading.Thread):
