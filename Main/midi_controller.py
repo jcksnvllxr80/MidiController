@@ -235,7 +235,7 @@ def handle_dpad_request(direction):
     if direction in ['CW', 'CCW']:
         rotary_push_button.change_menu_pos(direction)
     elif direction == 'up':
-        rotary_push_button.handle_short_press()
+        rotary_push_button.handle_long_press()
     elif direction == 'down':
         rotary_push_button.handle_short_press()
     else:
