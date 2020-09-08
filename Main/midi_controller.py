@@ -234,9 +234,9 @@ def handle_button_request(bttn_func_dict, button, config_button_press_type, func
 def handle_dpad_request(direction):
     if direction in ['CW', 'CCW']:
         rotary_push_button.change_menu_pos(direction)
-    elif direction is 'up':
+    elif direction == 'up':
         rotary_push_button.handle_short_press()
-    elif direction is 'down':
+    elif direction == 'down':
         rotary_push_button.handle_short_press()
     else:
         logger.warn("No action taken for invalid direction: " + direction)
