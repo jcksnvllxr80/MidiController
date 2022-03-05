@@ -1,35 +1,31 @@
 button_setup:
   1:
     function: Part Dn
-    # partner_func: Select Part Dn
     long_press_func: Select Part Dn
   2:
     function: Select
   3:
     function: Part Up
-    # partner_func: Select Part Up
     long_press_func: Select Part Up
   4:
     function: Song Dn
-    # partner_func: Select Part Dn
     long_press_func: Select Song Dn
   5:
     function: Song Up
-    # partner_func: Select Part Up
     long_press_func: Select Song Up
+controller_api:
+  buttons_locked: false
+  port: 8090
 current_settings:
   mode: standard
   preset:
-    part: Intro
-    setList: 2016-09-16 Set
-    song: Here As In Heaven - Lead
+    part: Chorus
+    setList: 2017-05-22 Set
+    song: Victory - Rhythm
   tempo: 106
 knob:
-  brightness: 100
-  color: Magenta
-controller_api:
-  port: 8090
-  buttons_locked: False
+  brightness: '100'
+  color: Yellow
 midi:
   channels:
     1:
@@ -56,7 +52,7 @@ midi:
         name: null
         number: 2
       state: true
-    5: 
+    5:
       name: SuperSwitcher
       preset:
         name: null
