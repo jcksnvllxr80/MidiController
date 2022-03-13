@@ -769,9 +769,8 @@ Parameters:
         gate: 1
 Set Preset:
   display:
-    preset:
-      page_start_num: 0
-      page_width: 2
+    first_page: 0
+    page_width: 2
   multi:
     1: bank
     2: preset
