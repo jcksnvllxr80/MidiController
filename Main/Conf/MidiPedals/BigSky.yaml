@@ -865,6 +865,10 @@ Parameters:
         Rectangle: 1
         Oblong: 2
 Set Preset:
+  display:
+    preset:
+      page_start_num: 0
+      page_width: 3
   multi:
     1: bank
     2: preset
